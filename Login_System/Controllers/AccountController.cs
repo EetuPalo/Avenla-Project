@@ -56,7 +56,7 @@ namespace Login_System.Controllers
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
-            }
+            }           
 
             //Default is to return the view with the same name as the the action method which calls it
             return View();
