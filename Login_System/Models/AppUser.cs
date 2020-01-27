@@ -10,5 +10,6 @@ namespace Login_System.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        //Comment
     }
 }
