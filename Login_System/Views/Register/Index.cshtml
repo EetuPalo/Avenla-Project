@@ -1,9 +1,54 @@
 ﻿@addTagHelper "*, Microsoft.AspNetCore.Mvc.TagHelpers"
-@Model Login_S
+@using Login_System.ViewModels
+@model Login_System.ViewModels.RegisterVM
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Sign up</h1>
+<fieldset>
+    <form asp-action="Register" asp-controller="Account">
+        <div asp-validation-summary="All" class="input-validation-error"></div>
+        <p>
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control" placeholder="Username" />
+            <span asp-validation-for="UserName"></span>
+        </p>
+
+        <p>
+            <label asp-for="EMail"></label>
+            <input asp-for="EMail" class="form-control" placeholder="E-Mail" />
+            <span asp-validation-for="EMail"></span>
+        </p>
+
+        <p>
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+            <span asp-validation-for="FirstName"></span>
+        </p>
+
+        <p>
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+            <span asp-validation-for="LastName"></span>
+        </p>
+
+        <p>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" placeholder="Password" />
+            <span asp-validation-for="Password"></span>
+        </p>
+        <p>
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </p>
+        <p>
+            <button type="submit">Register</button>
+        </p>
+
+    </form>
+
+</fieldset>
 
