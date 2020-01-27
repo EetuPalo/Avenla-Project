@@ -8,22 +8,23 @@
 
 <h1>Login</h1>
 
-<form asp-action="Login" asp-controller="Account">
-    <div asp-validation-summary="All" class="input-validation-error"></div>
-    <p>
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" class="form-control" placeholder="Username" />
-        <span asp-validation-for="UserName"></span>
-    </p>
+<fieldset>
+    <form asp-action="Login" asp-controller="Account">
+        <div asp-validation-summary="All" class="input-validation-error"></div>
+        <p>
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control" placeholder="Username" />
+            <span asp-validation-for="UserName"></span>
+        </p>
 
-    <p>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" placeholder="Password" />
-        <span asp-validation-for="Password"></span>
-    </p>
-    <p>
-        <button type="submit">Login</button>
-    </p>
+        <p>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" placeholder="Password" />
+            <span asp-validation-for="Password"></span>
+        </p>
+        <p>
+            <button type="submit">Login</button>
+        </p>
 
-</form>
-
+    </form>
+</fieldset>
