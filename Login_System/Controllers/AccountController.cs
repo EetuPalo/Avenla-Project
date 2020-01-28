@@ -38,9 +38,7 @@ namespace Login_System.Controllers
             {
                 AppUser user = await UserMgr.FindByNameAsync(newUser.UserName);
                 if (user == null)
-                {
-                    
-
+                {                    
                     user = new AppUser();
 
                     user.UserName = newUser.UserName;
@@ -50,7 +48,7 @@ namespace Login_System.Controllers
 
                     IdentityResult result;
                     result = await UserMgr.CreateAsync(user, newUser.Password);
-                    ViewBag.Message("User has been created!");
+                    ViewBag.Message = "User has been created!";
                     return View("Index");
                 }
                 else
