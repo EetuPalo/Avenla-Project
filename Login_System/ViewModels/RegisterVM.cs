@@ -31,8 +31,8 @@ namespace Login_System.ViewModels
        
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and password confirmation do not match!")]
+        //[Display(Name = "Confirm Password")]
+        //[Compare("Password", ErrorMessage = "Password and password confirmation do not match!")]
         public string ConfirmPassword { get; set; }
         
     }
