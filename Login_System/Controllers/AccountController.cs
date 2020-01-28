@@ -13,6 +13,12 @@ namespace Login_System.Controllers
         private UserManager<AppUser> UserMgr { get; }
         private SignInManager<AppUser> SignInMgr { get; }
 
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        {
+            UserMgr = userManager;
+            SignInMgr = signInManager;
+        }
+
         public IActionResult Index()
         {
             return View();

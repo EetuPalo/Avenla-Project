@@ -29,10 +29,12 @@ namespace Login_System.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        /*
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Password and password confirmation do not match!")]
         public string ConfirmPassword { get; set; }
+        */
     }
 }
