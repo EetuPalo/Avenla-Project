@@ -32,13 +32,15 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("UserName, EMail, FirstName, LastName, Password")] RegisterVM newUser)
+        public async Task<IActionResult> Register([Bind("UserName, EMail, FirstName, LastName, Password, ConfirmPassword")] RegisterVM newUser)
         {
             if (ModelState.IsValid)
             {
                 AppUser user = await UserMgr.FindByNameAsync(newUser.UserName);
                 if (user == null)
                 {
+                    
+
                     user = new AppUser();
 
                     user.UserName = newUser.UserName;
@@ -48,13 +50,13 @@ namespace Login_System.Controllers
 
                     IdentityResult result;
                     result = await UserMgr.CreateAsync(user, newUser.Password);
-                    ViewBag.Message("User created!");
-                    return RedirectToAction("index");
+                    ViewBag.Message("User has been created!");
+                    return View("Index");
                 }
                 else
                 {
                     ViewBag.Message = "Username taken!";
-                    return RedirectToAction("index");
+                    return View("Index");
                 }
             }
             return View(newUser);
@@ -62,52 +64,6 @@ namespace Login_System.Controllers
             
         }
 
-
-        //[HttpPost]
-        //public async Task<IActionResult> Register(User newUser)
-        //{
-        //    //ViewBag.Message = "User already registered";
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(newUser);
-        //    }
-        //    else
-        //    {
-        //        AppUser user = await UserMgr.FindByNameAsync(newUser.userName);
-
-        //        if (user == null)
-        //        {
-        //            user = new AppUser();
-
-        //            //These two are inherited from IdentityUser
-        //            user.UserName = newUser.userName;
-        //            user.Email = newUser.eMail;
-
-        //            //These two were created in AppUser
-        //            user.FirstName = newUser.firstName;
-        //            user.LastName = newUser.lastName;
-
-        //            IdentityResult result;
-
-        //            result = await UserMgr.CreateAsync(user, newUser.password);
-
-        //            /*
-        //            if (result.Succeeded)
-        //            {
-        //                ViewBag.Message = "User created!";
-        //            }
-        //            else
-        //            {
-        //                //Shows what went wrong
-        //                //ViewBag.Message = result.Errors;
-        //            }
-        //            */
-        //        }
-        //        //Default is to return the view with the same name as the the action method which calls it
-        //        return RedirectToAction("Index");
-        //    }
-        //}
         [HttpGet]
         public IActionResult Login()
         {

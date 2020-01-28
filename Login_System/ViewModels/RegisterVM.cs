@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Login_System.ViewModels
 {
@@ -32,7 +33,7 @@ namespace Login_System.ViewModels
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Password and password confirmation do not match!")]
+        [Compare("Password")]
         public string ConfirmPassword { get; set; }
         
     }
