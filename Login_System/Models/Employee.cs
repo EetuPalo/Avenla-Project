@@ -27,5 +27,16 @@ namespace Login_System.Models
             empCon.Close();
             return i;
         }
+
+        public int GetEmployee()
+        {
+            SqlConnection empCon = new SqlConnection(EmployeeConnection.ConString());
+            string query = "SELECT * from dbo.Employee";
+            SqlCommand cmd = new SqlCommand(query, empCon);
+            empCon.Open();
+            int i = cmd.ExecuteNonQuery();
+            empCon.Close();
+            return i;
+        }
     }
 }

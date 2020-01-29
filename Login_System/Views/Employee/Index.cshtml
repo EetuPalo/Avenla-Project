@@ -1,7 +1,7 @@
 ﻿@model Login_System.Models.Employee;
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
 }
 
 <h1>Employees</h1>
@@ -28,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+        @*<tr>
             <td>
                 @Html.DisplayFor(Model => Model.Active)
             </td>
@@ -44,6 +44,11 @@
             <td>
                 @Html.DisplayFor(Model => Model.Telephone)
             </td>
-        </tr>   
+        </tr>*@
+        <tr>
+            <td>
+                
+            </td>
+        </tr>
     </tbody>
 </table>
