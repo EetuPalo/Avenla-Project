@@ -34,8 +34,10 @@
             <input asp-for="Email" class="form-control" placeholder="Last Name" />
             <span asp-validation-for="Email"></span>
         </p>
-        <input type="radio" asp-for="Active" name="activity" value="true" checked/>Active <br>
-        <input type="radio" asp-for="Active" name="activity" value="false" />Inactive <br>
+        <p>
+            <input type="radio" asp-for="Active" name="activity" value="true" checked />Active <br>
+            <input type="radio" asp-for="Active" name="activity" value="false" />Inactive <br>
+        </p>        
         <p>
             <button type="submit">Add</button>
         </p>
