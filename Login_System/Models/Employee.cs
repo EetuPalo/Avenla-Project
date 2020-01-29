@@ -13,6 +13,7 @@ namespace Login_System.Models
 
         public string Telephone { get; set; }
 
-        //Comment
+        public string Email { get; set; }
+        public bool Active { get; set; }
     }
 }
