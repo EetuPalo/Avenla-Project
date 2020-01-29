@@ -13,12 +13,35 @@ namespace Login_System.Controllers
     {
         private SqlConnection empCon = new SqlConnection();
         private SqlConnection connection;
-        
-        public IActionResult Index(Employee emp)
+
+        public SqlDataReader GetEmployee()
         {
-            var empList = emp.GetEmployee();
+            SqlConnection empCon = new SqlConnection(EmployeeConnection.ConString());
+            string query = "SELECT * from dbo.Employee";
+            SqlCommand cmd = new SqlCommand(query, empCon);
+            empCon.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            empCon.Close();
+            return dr;
+        }
+
+        public IActionResult Index()
+        {
+            var empList = GetEmployee();
             //https://stackoverflow.com/questions/47796852/mvc-net-core-2-0-query-sql-server-database-and-return-results-in-grid-view
             //return View();
+
+            var empVM = new List<EmployeeVM>();
+
+            foreach (Employee emp in empList)
+            {
+                var personVM = new EmployeeVM()
+                {
+                    FirstName = emp.FirstName
+                };
+                empVM.Add(personVM);
+            }
+            return View(empVM);
         }
 
         [HttpGet]
