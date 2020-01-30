@@ -43,35 +43,43 @@
         </tr>
     </thead>
     <tbody>
-     
-    @foreach(var obj in Model)
-    {
-        <tr>
-            @if (obj.Active == "Active")
+
+        @try
+        {
+            foreach (var obj in Model)
             {
-                <td>
-                    <img class="status-img" src="~/img/active.png" />
-                </td>
+                <tr>
+                    @if (obj.Active == "Active")
+                    {
+                        <td>
+                            <img class="status-img" src="~/img/active.png" />
+                        </td>
+                    }
+                    @if (obj.Active == "Inactive")
+                    {
+                        <td>
+                            <img class="status-img" src="~/img/inactive.png" />
+                        </td>
+                    }
+                    <td>
+                        @obj.FirstName
+                    </td>
+                    <td>
+                        @obj.LastName
+                    </td>
+                    <td>
+                        @obj.Email
+                    </td>
+                    <td>
+                        @obj.Telephone
+                    </td>
+                </tr>
             }
-            @if (obj.Active == "Inactive")
-            {
-                <td>
-                    <img class="status-img" src="~/img/inactive.png" />
-                </td>
-            }
-            <td>
-                @obj.FirstName
-            </td>
-            <td>
-                @obj.LastName
-            </td>
-            <td>
-                @obj.Email
-            </td>
-            <td>
-                @obj.Telephone
-            </td>
-        </tr>
-    }       
+        }
+        catch (NullReferenceException)
+        {
+            
+        }
+
     </tbody>
 </table>
