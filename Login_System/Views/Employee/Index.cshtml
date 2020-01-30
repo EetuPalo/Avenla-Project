@@ -1,4 +1,4 @@
-﻿@*@model Login_System.Models.Employee;*@
+﻿@model List<Employee>;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";    
@@ -25,30 +25,44 @@
             <th>
                 @Html.DisplayNameFor(model => model.Telephone)
             </th>*@
+            <th>
+                Status
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Telephone
+            </th>
         </tr>
     </thead>
     <tbody>
-        @*<tr>
-            <td>
-                @Html.DisplayFor(Model => Model.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(Model => Model.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(Model => Model.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(Model => Model.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(Model => Model.Telephone)
-            </td>
-        </tr>*@
+     
+    @foreach(var obj in Model)
+    {
         <tr>
             <td>
-                
+                @obj.Active
+            </td>
+            <td>
+                @obj.FirstName
+            </td>
+            <td>
+                @obj.LastName
+            </td>
+            <td>
+                @obj.Email
+            </td>
+            <td>
+                @obj.Telephone
             </td>
         </tr>
+    }       
     </tbody>
 </table>

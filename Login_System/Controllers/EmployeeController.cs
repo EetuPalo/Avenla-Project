@@ -29,7 +29,9 @@ namespace Login_System.Controllers
                 {
                     Active = (bool)dr["Active"],
                     FirstName = dr["FirstName"] as string,
-                    LastName = dr["LastName"] as string
+                    LastName = dr["LastName"] as string,
+                    Email = dr["Email"] as string,
+                    Telephone = dr["Telephone"] as string
                 };
                 items.Add(result);
             }
@@ -39,24 +41,6 @@ namespace Login_System.Controllers
 
         public IActionResult Index()
         {
-            //var empList = GetEmployee();
-            ////https://stackoverflow.com/questions/47796852/mvc-net-core-2-0-query-sql-server-database-and-return-results-in-grid-view
-            ////return View();
-
-            //var empVM = new List<EmployeeVM>();
-
-            //foreach (Employee emp in empList)
-            //{
-            //    var personVM = new EmployeeVM()
-            //    {
-            //        LastName = emp.LastName,
-            //        FirstName = emp.FirstName,
-            //        Email = emp.Email,
-            //        Telephone = emp.Telephone
-            //    };
-            //    empVM.Add(personVM);
-            //}
-
             return View(GetEmployee());
         }
 
