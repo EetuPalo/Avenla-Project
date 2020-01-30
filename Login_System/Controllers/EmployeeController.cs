@@ -27,7 +27,7 @@ namespace Login_System.Controllers
             {
                 Employee result = new Employee()
                 {
-                    Active = (bool)dr["Active"],
+                    Active = dr["Active"] as string,
                     FirstName = dr["FirstName"] as string,
                     LastName = dr["LastName"] as string,
                     Email = dr["Email"] as string,

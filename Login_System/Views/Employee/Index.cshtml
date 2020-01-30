@@ -47,13 +47,13 @@
     @foreach(var obj in Model)
     {
         <tr>
-            @if (obj.Active)
+            @if (obj.Active == "Active")
             {
                 <td>
                     <img class="status-img" src="~/img/active.png" />
                 </td>
             }
-            @if (!obj.Active)
+            @if (obj.Active == "Inactive")
             {
                 <td>
                     <img class="status-img" src="~/img/inactive.png" />

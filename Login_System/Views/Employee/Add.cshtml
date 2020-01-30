@@ -35,8 +35,10 @@
             <span asp-validation-for="Email"></span>
         </p>
         <p>
-            <input type="radio" asp-for="Active" name="activity" value="1" checked />Active <br>
-            <input type="radio" asp-for="Active" name="activity" value="0" />Inactive <br>
+            Active
+            @Html.RadioButtonFor(Employee => Employee.Active, "Active")
+            Inctive
+            @Html.RadioButtonFor(Employee => Employee.Active, "Inactive")
         </p>        
         <p>
             <button type="submit">Add</button>
