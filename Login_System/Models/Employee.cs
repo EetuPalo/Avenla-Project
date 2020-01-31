@@ -41,5 +41,14 @@ namespace Login_System.Models
         }
 
         public int DeleteEmployee()
+        {
+            SqlConnection empCon = new SqlConnection(EmployeeConnection.ConString());
+            string query = "DELETE FROM dbo.Employee where Id="+Id;
+            SqlCommand cmd = new SqlCommand(query, empCon);
+            empCon.Open();
+            int i = cmd.ExecuteNonQuery();
+            empCon.Close();
+            return i;
+        }
     }
 }

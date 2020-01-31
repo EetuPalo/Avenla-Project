@@ -20,7 +20,7 @@ namespace Login_System.Controllers
             SqlCommand cmd = new SqlCommand(query, empCon);
             empCon.Open();
             SqlDataReader dr = cmd.ExecuteReader();
-            
+
             List<Employee> items = new List<Employee>();
             foreach (var entry in dr)
             {
@@ -49,14 +49,33 @@ namespace Login_System.Controllers
             return View();
         }
 
-        
+        public IActionResult Delete()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Add(Employee emp)
         {
             int result = emp.SaveEmployee();
-            if (result>0)
+            if (result > 0)
             {
                 ViewBag.Message = "New employee added!";
+            }
+            else
+            {
+                ViewBag.Message = "Something went wrong!";
+            }
+
+            return View("Index");
+        }
+
+        public IActionResult Delete(Employee emp)
+        {
+            int result = emp.DeleteEmployee();
+
+            if (result > 0)
+            {
+                ViewBag.Message = "Employee removed!";
             }
             else
             {
