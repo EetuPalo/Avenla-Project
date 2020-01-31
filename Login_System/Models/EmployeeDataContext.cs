@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Login_System.Models;
 
 namespace Login_System.Models
 {
@@ -10,8 +11,9 @@ namespace Login_System.Models
     {
         public EmployeeDataContext(DbContextOptions<EmployeeDataContext> options) : base(options)
         {
-            //This is needed to create the database automatically
             Database.EnsureCreated();
         }
+        public DbSet<Login_System.Models.EmployeeTwo> EmployeeTwo { get; set; }
+        public DbSet<Login_System.Models.Employee> Employee { get; set; }
     }
 }
