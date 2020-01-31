@@ -39,5 +39,7 @@ namespace Login_System.Models
             empCon.Close();
             return i;
         }
+
+        public int DeleteEmployee()
     }
 }
