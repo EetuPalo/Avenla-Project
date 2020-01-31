@@ -6,25 +6,13 @@
 
 <h1>Employees</h1>
 <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Add">Add new</a>
+<p>
+    @ViewBag.Message
+</p>
 
 <table class="table">
     <thead>
         <tr>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Active)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telephone)
-            </th>*@
             <th>
                 Status
             </th>
@@ -72,6 +60,10 @@
                     </td>
                     <td>
                         @obj.Telephone
+                    </td>
+                    <td>
+                        <button>Edit</button>
+                        <button>Delete</button>
                     </td>
                 </tr>
             }

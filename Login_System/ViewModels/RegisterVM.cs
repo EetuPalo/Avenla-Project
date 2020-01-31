@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace Login_System.ViewModels
 {
@@ -12,22 +13,27 @@ namespace Login_System.ViewModels
 
         [Required]
         [DataType(DataType.Text)]
+        [DisplayName("Username")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
+        [DisplayName("E-Mail")]
         public string EMail { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("Password")]
         public string Password { get; set; }
        
         [Required]
