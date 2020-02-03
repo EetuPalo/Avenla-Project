@@ -22,27 +22,29 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-         
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.TwoFactorEnabled)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LockoutEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LockoutEnabled)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccessFailedCount)
-            </th>*@
+            @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockoutEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockoutEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessFailedCount)
+        </th>*@
             <th></th>
         </tr>
     </thead>
@@ -58,34 +60,46 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
+            @if (item.Active == "Active")
+            {
+                <td>
+                    <img class="status-img" src="~/img/active.png" />
+                </td>
+            }
+            else
+            {
+                <td>
+                    <img class="status-img" src="~/img/inactive.png" />
+                </td>
+            }
             @*<td>
-                @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockoutEnabled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccessFailedCount)
-            </td>*@
+            @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessFailedCount)
+        </td>*@
             @*<td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>*@
         </tr>
 }
     </tbody>
