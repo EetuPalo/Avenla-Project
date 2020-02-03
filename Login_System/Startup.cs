@@ -31,7 +31,11 @@ namespace Login_System
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddDefaultIdentity<AppUser>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+                .AddRoles<AppRole>()
                 .AddEntityFrameworkStores<IdentityDataContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
