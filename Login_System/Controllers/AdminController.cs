@@ -11,7 +11,7 @@ namespace Login_System.Controllers
 {
     //Commented for ease of access
     //Add role "Admin" to test authorization
-    //[Authorize(Roles= "Admin")]
+    [Authorize(Roles= "Admin")]
     public class AdminController : Controller
     {
         private readonly RoleManager<AppRole> roleManager;
