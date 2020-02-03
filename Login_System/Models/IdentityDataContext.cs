@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Login_System.Models;
 
 namespace Login_System.Models
 {
@@ -14,5 +15,6 @@ namespace Login_System.Models
             //This is needed to create the database automatically
             Database.EnsureCreated();
         }
+        public DbSet<Login_System.Models.User> User { get; set; }
     }
 }

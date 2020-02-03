@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,25 +9,37 @@ namespace Login_System.Models
 {
     public class User
     {
-        [Required]
-        [Display(Name = "Username")]
-        public string userName { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        [Display(Name = "E-Mail")]
-        public string eMail { get; set; }
+        [DataType(DataType.Text)]
+        [DisplayName("Username")]
+        public string UserName { get; set; }
 
         [Required]
-        [Display(Name = "First Name")]
-        public string firstName { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [DisplayName("E-Mail")]
+        public string EMail { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
-        public string lastName { get; set; }
+        [DataType(DataType.Text)]
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
+        [DataType(DataType.Text)]
+        [DisplayName("Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
-        public string password { get; set; }
+        [DisplayName("Password")]
+        public string Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("UserName, EMail, FirstName, LastName, Password, ConfirmPassword")] RegisterVM newUser)
+        public async Task<IActionResult> Register([Bind("UserName, EMail, FirstName, LastName, Password, ConfirmPassword")] User newUser)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM user)
+        public async Task<IActionResult> Login(User user)
         {
             var result = await SignInMgr.PasswordSignInAsync(user.UserName, user.Password, false, false);
             if (result.Succeeded)
