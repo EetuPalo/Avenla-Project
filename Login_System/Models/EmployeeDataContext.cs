@@ -13,7 +13,6 @@ namespace Login_System.Models
         {
             Database.EnsureCreated();
         }
-        public DbSet<Login_System.Models.EmployeeTwo> EmployeeTwo { get; set; }
         public DbSet<Login_System.Models.Employee> Employee { get; set; }
     }
 }

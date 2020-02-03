@@ -38,7 +38,7 @@ namespace Login_System
 
             services.AddDbContext<IdentityDataContext>(options =>
             {
-                var connectionString = Configuration.GetConnectionString("IdentityConnection");
+                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
                 options.UseSqlServer(connectionString);
             });
 
