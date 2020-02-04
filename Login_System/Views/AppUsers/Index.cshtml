@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Login_System.Models.AppUser>
+@using System.Web
 
 @{
     ViewData["Title"] = "Index";
@@ -6,6 +7,7 @@
 }
 
 <h1>Index</h1>
+<h2>@ViewBag.Message</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -95,7 +97,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.AccessFailedCount)
         </td>*@
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") | User.Identity.IsAuthenticated)
             {
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

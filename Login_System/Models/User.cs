@@ -21,6 +21,8 @@ namespace Login_System.Models
         [DisplayName("E-Mail")]
         public string EMail { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
         [DisplayName("First Name")]
