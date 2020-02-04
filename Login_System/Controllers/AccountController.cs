@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -89,6 +90,24 @@ namespace Login_System.Controllers
                 ViewBag.Result = "result is: " + result.ToString();
             }
             return View();
+        }
+
+        //[HttpGet]
+        //public IActionResult Logout()
+        //{
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await SignInMgr.SignOutAsync();
+            var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == SignInMgr.UserManager.GetUserName(User));
+            appUser.Active = "Inactive";
+            _context.Users.Attach(appUser);
+            _context.Entry(appUser).Property(x => x.Active).IsModified = true;
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
