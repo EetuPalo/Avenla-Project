@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,11 +16,13 @@ namespace Login_System.Controllers
     {
         private readonly IdentityDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
+        private SignInManager<AppUser> SignInMgr { get; }
 
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager)
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _context = context;
             UserMgr = userManager;
+            SignInMgr = signInManager;
         }
 
         // GET: AppUsers
@@ -71,7 +74,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,23 +98,35 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, UserName, Email, PhoneNumber, Active")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
                 var user = await UserMgr.FindByIdAsync(id.ToString());
+                var compareUser = User.Identity.Name;
 
-                user.FirstName = appUser.FirstName;
-                user.LastName = appUser.LastName;
-                user.UserName = appUser.UserName;
-                user.Email = appUser.Email;
-                user.PhoneNumber = appUser.PhoneNumber;
-                user.Active = appUser.Active;
+                if (user.UserName == compareUser)
+                {
+                    user.FirstName = appUser.FirstName;
+                    user.LastName = appUser.LastName;
+                    user.UserName = appUser.UserName;
+                    user.Email = appUser.Email;
+                    user.PhoneNumber = appUser.PhoneNumber;
+                    user.Active = appUser.Active;
 
-                var result = await UserMgr.UpdateAsync(user);
+                    await SignInMgr.SignInAsync(user, false);
+                    var result = await UserMgr.UpdateAsync(user);
+                    
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Message = "You do not have the permission to edit this user!";
+                    Console.WriteLine("You do not have the permission to edit this user!");
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(appUser);
         }
