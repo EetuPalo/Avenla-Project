@@ -14,10 +14,13 @@ namespace Login_System.Controllers
         private UserManager<AppUser> UserMgr { get; }
         private SignInManager<AppUser> SignInMgr { get; }
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly IdentityDataContext _context;
+
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context)
         {
             UserMgr = userManager;
             SignInMgr = signInManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -74,6 +77,11 @@ namespace Login_System.Controllers
             var result = await SignInMgr.PasswordSignInAsync(user.UserName, user.Password, false, false);
             if (result.Succeeded)
             {
+                var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == user.UserName);
+                appUser.Active = "Active";
+                _context.Users.Attach(appUser);
+                _context.Entry(appUser).Property(x => x.Active).IsModified = true;
+                _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             else
