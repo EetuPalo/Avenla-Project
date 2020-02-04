@@ -51,7 +51,9 @@ namespace Login_System.Controllers
                     user.LastName = newUser.LastName;
 
                     IdentityResult result;
+                    IdentityResult roleResult;
                     result = await UserMgr.CreateAsync(user, newUser.Password);
+                    roleResult = await UserMgr.AddToRoleAsync(user, "User");
                     ViewBag.Message = "User has been created!";
                     return View("Index");
                 }
