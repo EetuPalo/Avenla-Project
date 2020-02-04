@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
     public class AppUsersController : Controller
     {
         private readonly IdentityDataContext _context;
+        private UserManager<AppUser> UserMgr { get; }
 
-        public AppUsersController(IdentityDataContext context)
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            UserMgr = userManager;
         }
 
         // GET: AppUsers
@@ -76,11 +79,14 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            var appUser = await _context.Users.FindAsync(id);
+            //var appUser = await _context.Users.FindAsync(id);
+            var appUser = await UserMgr.FindByIdAsync(id.ToString());
+            
             if (appUser == null)
             {
                 return NotFound();
             }
+            
             return View(appUser);
         }
 
@@ -90,31 +96,21 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AppUser appUser)
+        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, UserName, Email, PhoneNumber, Active")] AppUser appUser)
         {
-            if (id != appUser.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(appUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AppUserExists(appUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var user = await UserMgr.FindByIdAsync(id.ToString());
+
+                user.FirstName = appUser.FirstName;
+                user.LastName = appUser.LastName;
+                user.UserName = appUser.UserName;
+                user.Email = appUser.Email;
+                user.PhoneNumber = appUser.PhoneNumber;
+                user.Active = appUser.Active;
+
+                var result = await UserMgr.UpdateAsync(user);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(appUser);
