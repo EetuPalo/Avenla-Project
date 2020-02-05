@@ -28,6 +28,7 @@ namespace Login_System.Controllers
             return View();
         }
 
+        //Creates the new role, checks if there are any errors, and if successful, redirects the user to the home page.
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRole roleModel)
         {
@@ -48,7 +49,8 @@ namespace Login_System.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-            }          
+            }  
+            //If the result is not successful, the role creation view is returned with the errors shown.
             return View(roleModel);
         }
 
@@ -60,8 +62,10 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
+        //The id of a specific role is passed to this method.
         public async Task<IActionResult> EditRole(string id)
         {
+
             var role = await roleManager.FindByIdAsync(id);
 
             if(role==null)

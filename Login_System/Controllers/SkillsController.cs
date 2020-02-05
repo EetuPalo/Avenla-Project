@@ -21,12 +21,13 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        // GET: Skills
+        //This returns the view of the skills of the specific employee.
         public async Task<IActionResult> Index(int id)
         {
             var model = new List<Skills>();
             foreach (var skill in _context.Skills)
             {
+                //If the UserID of the skill is the same as the id that is passed from AppUser Index, the skill is added to the list.
                 if (skill.UserID == id)
                 {
                    model.Add(skill);
@@ -34,8 +35,6 @@ namespace Login_System.Controllers
             }
 
             return View(model);
-
-            //return View(await _context.Skills.ToListAsync());
         }
 
         // GET: Skills/Details/5
@@ -61,13 +60,12 @@ namespace Login_System.Controllers
             return View();
         }
 
-        // POST: Skills/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Skill and SkillLevel are set by the user. User ID is set automatically based on the Id of the current user. SkillId is set in the database
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Skill,SkillLevel")] Skills skills)
         {
+            //If the view is not valid, the user is just returned to the same view with error messages shown.
             if (ModelState.IsValid)
             {
                 skills.UserID = Convert.ToInt32(UserMgr.GetUserId(User));
@@ -80,6 +78,7 @@ namespace Login_System.Controllers
         }
 
         // GET: Skills/Edit/5
+        //This validates the ID that has been passed from the view, and if it's valid, it shows the edit view with the current user info already filled out.
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,8 +95,8 @@ namespace Login_System.Controllers
         }
 
         // POST: Skills/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //Binds all user info from database to the skills object. 
+        //TODO: Do not bind Id or UserId, those should not be edited.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Skill,SkillLevel,UserID")] Skills skills)
