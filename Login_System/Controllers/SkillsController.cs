@@ -22,9 +22,20 @@ namespace Login_System.Controllers
         }
 
         // GET: Skills
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            return View(await _context.Skills.ToListAsync());
+            var model = new List<Skills>();
+            foreach (var skill in _context.Skills)
+            {
+                if (skill.UserID == id)
+                {
+                   model.Add(skill);
+                }
+            }
+
+            return View(model);
+
+            //return View(await _context.Skills.ToListAsync());
         }
 
         // GET: Skills/Details/5
@@ -35,8 +46,7 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            var skills = await _context.Skills
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var skills = await _context.Skills.FirstOrDefaultAsync(m => m.Id == id);
             if (skills == null)
             {
                 return NotFound();
