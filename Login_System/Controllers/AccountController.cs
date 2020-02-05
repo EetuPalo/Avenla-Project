@@ -75,7 +75,7 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login(LoginVM user)
         {
             var result = await SignInMgr.PasswordSignInAsync(user.UserName, user.Password, false, false);
             if (result.Succeeded)

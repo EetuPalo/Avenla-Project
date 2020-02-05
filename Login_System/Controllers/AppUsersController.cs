@@ -82,7 +82,6 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            //var appUser = await _context.Users.FindAsync(id);
             var appUser = await UserMgr.FindByIdAsync(id.ToString());
             
             if (appUser == null)
@@ -92,7 +91,6 @@ namespace Login_System.Controllers
             
             return View(appUser);
         }
-
         // POST: AppUsers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -103,11 +101,11 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserMgr.FindByIdAsync(id.ToString());
                 var compareUser = User.Identity.Name;
+                var user = await UserMgr.FindByIdAsync(id.ToString());
 
-                if (user.UserName == compareUser)
-                {
+                if (user.UserName == compareUser || User.IsInRole("Admin"))
+                {                   
                     user.FirstName = appUser.FirstName;
                     user.LastName = appUser.LastName;
                     user.UserName = appUser.UserName;
@@ -115,9 +113,9 @@ namespace Login_System.Controllers
                     user.PhoneNumber = appUser.PhoneNumber;
                     user.Active = appUser.Active;
 
+                    //This signs in with the new username
                     await SignInMgr.SignInAsync(user, false);
                     var result = await UserMgr.UpdateAsync(user);
-                    
 
                     return RedirectToAction(nameof(Index));
                 }
