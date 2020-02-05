@@ -13,6 +13,6 @@ namespace Login_System.Data
             : base(options)
         {
         }
-        public DbSet<Login_System.Models.EmployeeTwo> EmployeeTwo { get; set; }
+        //public DbSet<Login_System.Models.EmployeeTwo> EmployeeTwo { get; set; }
     }
 }

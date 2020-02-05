@@ -46,12 +46,7 @@ namespace Login_System
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddDbContext<EmployeeDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
+            
             services.AddDbContext<SkillDataContext>(options =>
             {
                 var connectionString = Configuration.GetConnectionString("EmployeeConnection");

@@ -44,12 +44,12 @@ namespace Login_System.Controllers
                 if (user == null)
                 {                    
                     user = new AppUser();
-
+                    //we create a new user and set his credentials to the data received from the Register form.
                     user.UserName = newUser.UserName;
                     user.Email = newUser.EMail;
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
-
+                    //we then create a new user through usermanager
                     IdentityResult result;
                     IdentityResult roleResult;
                     result = await UserMgr.CreateAsync(user, newUser.Password);
@@ -80,11 +80,12 @@ namespace Login_System.Controllers
             var result = await SignInMgr.PasswordSignInAsync(user.UserName, user.Password, false, false);
             if (result.Succeeded)
             {
-                var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == user.UserName);
-                appUser.Active = "Active";
-                _context.Users.Attach(appUser);
-                _context.Entry(appUser).Property(x => x.Active).IsModified = true;
-                _context.SaveChanges();
+                /* After User logs in, that user's "Active" field's value is changed to 'Active' */
+                var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == user.UserName);//find the user in the db
+                appUser.Active = "Active";//set the value to active
+                _context.Users.Attach(appUser);//attach to the user object
+                _context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
+                _context.SaveChanges();//save changes to the DB
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -92,18 +93,13 @@ namespace Login_System.Controllers
                 ViewBag.Result = "result is: " + result.ToString();
             }
             return View();
-        }
-
-        //[HttpGet]
-        //public IActionResult Logout()
-        //{
-        //    return RedirectToAction("Index", "Home");
-        //}
+        }        
 
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await SignInMgr.SignOutAsync();
+            /* Basically the same as in the Login method but we find the current user that is logging out and set his status to 'Inactive'*/
             var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == SignInMgr.UserManager.GetUserName(User));
             appUser.Active = "Inactive";
             _context.Users.Attach(appUser);
