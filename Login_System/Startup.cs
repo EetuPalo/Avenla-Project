@@ -52,6 +52,12 @@ namespace Login_System
                 var connectionString = Configuration.GetConnectionString("EmployeeConnection");
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddDbContext<UserSkillsDataContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
+                options.UseSqlServer(connectionString);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

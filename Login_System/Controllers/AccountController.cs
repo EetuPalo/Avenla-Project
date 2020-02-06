@@ -100,12 +100,21 @@ namespace Login_System.Controllers
         {
             await SignInMgr.SignOutAsync();
             /* Basically the same as in the Login method but we find the current user that is logging out and set his status to 'Inactive'*/
-            var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == SignInMgr.UserManager.GetUserName(User));
-            appUser.Active = "Inactive";
-            _context.Users.Attach(appUser);
-            _context.Entry(appUser).Property(x => x.Active).IsModified = true;
-            _context.SaveChanges();
+
+            try
+            {
+                var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == SignInMgr.UserManager.GetUserName(User));
+                appUser.Active = "Inactive";
+                _context.Users.Attach(appUser);
+                _context.Entry(appUser).Property(x => x.Active).IsModified = true;
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             return RedirectToAction("Index", "Home");
+
         }
     }
 }

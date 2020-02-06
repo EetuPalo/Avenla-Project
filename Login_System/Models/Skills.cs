@@ -10,9 +10,5 @@ namespace Login_System.Models
         public int Id { get; set; }
 
         public string Skill { get; set; }
-
-        public int SkillLevel { get; set; }
-
-        public int UserID { get; set; }
     }
 }

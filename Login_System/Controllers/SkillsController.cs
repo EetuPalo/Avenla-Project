@@ -24,17 +24,7 @@ namespace Login_System.Controllers
         //This returns the view of the skills of the specific employee.
         public async Task<IActionResult> Index(int id)
         {
-            var model = new List<Skills>();
-            foreach (var skill in _context.Skills)
-            {
-                //If the UserID of the skill is the same as the id that is passed from AppUser Index, the skill is added to the list.
-                if (skill.UserID == id)
-                {
-                   model.Add(skill);
-                }
-            }
-
-            return View(model);
+            return View(await _context.Skills.ToListAsync());
         }
 
         // GET: Skills/Details/5
@@ -63,13 +53,11 @@ namespace Login_System.Controllers
         //Skill and SkillLevel are set by the user. User ID is set automatically based on the Id of the current user. SkillId is set in the database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Skill,SkillLevel")] Skills skills)
+        public async Task<IActionResult> Create([Bind("Skill")] Skills skills)
         {
             //If the view is not valid, the user is just returned to the same view with error messages shown.
             if (ModelState.IsValid)
             {
-                skills.UserID = Convert.ToInt32(UserMgr.GetUserId(User));
-
                 _context.Add(skills);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -99,7 +87,7 @@ namespace Login_System.Controllers
         //TODO: Do not bind Id or UserId, those should not be edited.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Skill,SkillLevel,UserID")] Skills skills)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Skill")] Skills skills)
         {
             if (id != skills.Id)
             {

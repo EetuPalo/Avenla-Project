@@ -17,7 +17,7 @@
                 Skill
             </th>
             <th>
-                UserID
+                Skill ID
             </th>
             <th></th>
         </tr>
@@ -28,12 +28,9 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => Model[i].Skill)
-                        @Html.DisplayFor(modelItem => Model[i].SkillLevel)
                     </td>
-
-
                     <td>
-                        @Html.DisplayFor(modelItem => Model[i].UserID)
+                        @Html.DisplayFor(modelItem => Model[i].Id)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |

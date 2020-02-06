@@ -113,8 +113,12 @@ namespace Login_System.Controllers
                     user.PhoneNumber = appUser.PhoneNumber;
                     user.Active = appUser.Active;
 
-                    //This signs in with the new username
-                    await SignInMgr.SignInAsync(user, false);
+                    //This signs in with the new username IF the user is editing their own account.
+                    //It is neccessary, because without this, the user would stay logged in with their old username, and that would break stuff.
+                    if (UserMgr.GetUserId(User) == id.ToString())
+                    {
+                        await SignInMgr.SignInAsync(user, false);
+                    }                    
                     var result = await UserMgr.UpdateAsync(user);
 
                     return RedirectToAction(nameof(Index));
