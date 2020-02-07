@@ -25,16 +25,37 @@ namespace Login_System.Controllers
         }
 
         // GET: UserSkills
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(int? id)
         {
             var model = new List<UserSkills>();
             foreach (var skill in _context.UserSkills)
             {
-                //If the UserID of the skill is the same as the id that is passed from AppUser Index (that is the index of the current user), the skill is added to the list.
-                if (skill.UserID == id || Convert.ToInt32(UserMgr.GetUserId(User)) == skill.UserID)
+                if (!User.IsInRole("Admin"))
                 {
-                    model.Add(skill);
+                    //Depending on where the Index is accessed, the ID may be null. If that's the case it is automatically set to be the same as the ID of the current user
+                    if (id == null)
+                    {
+                        id = Convert.ToInt32(UserMgr.GetUserId(User));
+                    }
+
+                    //If the UserID of the skill is the same as the id that is passed from AppUser Index (that is the index of the current user), the skill is added to the list.
+                    if (skill.UserID == id || Convert.ToInt32(UserMgr.GetUserId(User)) == skill.UserID)
+                    {
+                        model.Add(skill);
+                    }
                 }
+                //The index has different behavior for admins
+                else if (User.IsInRole("Admin"))
+                {
+                    if (id == null)
+                    {
+                        model.Add(skill);
+                    }
+                    else if (skill.UserID == id)
+                    {
+                        model.Add(skill);
+                    }
+                }                
             }
 
             return View(model);
