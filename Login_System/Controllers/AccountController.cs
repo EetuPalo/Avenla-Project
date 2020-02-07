@@ -89,6 +89,9 @@ namespace Login_System.Controllers
                 _context.Users.Attach(appUser);//attach to the user object
                 _context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
                 _context.SaveChanges();//save changes to the DB
+
+                //Sends the userID in viewbag to the view
+                ViewBag.UserID = appUser.Id;
                 return RedirectToAction("Index", "Home");
             }
             else

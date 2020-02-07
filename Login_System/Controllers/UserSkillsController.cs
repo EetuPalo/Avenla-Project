@@ -28,7 +28,8 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new List<UserSkillsVM>();
-            
+
+            ViewBag.UserId = id;
 
             var userName = UserMgr.GetUserName(User);
            
@@ -110,30 +111,47 @@ namespace Login_System.Controllers
         }
 
         // GET: UserSkills/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
             var Skill = skillContext.Skills.ToList();
-            var model = new UserSkills()
+            if (id != null)
             {
-                Skill = Skill.Select(x => new SelectListItem
+                var model = new UserSkills()
                 {
-                    Value = x.Skill,
-                    Text = x.Skill
-                })
-            };
+                    Skill = Skill.Select(x => new SelectListItem
+                    {
+                        Value = x.Skill,
+                        Text = x.Skill
+                    }),
+                    UserID = (int)id
+                };
+                return View(model);
+            }
+            else
+            {
+                var model = new UserSkills()
+                {
+                    Skill = Skill.Select(x => new SelectListItem
+                    {
+                        Value = x.Skill,
+                        Text = x.Skill
+                    })
+                };
+                return View(model);
+            }
 
-            return View(model);
+            
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SkillName, SkillLevel")] UserSkills userSkills)
+        public async Task<IActionResult> Create([Bind("UserID, SkillName, SkillLevel")] UserSkills userSkills)
         {
             if (ModelState.IsValid)
             {
                 userSkills.Date = DateTime.Now;
-                userSkills.UserID = Convert.ToInt32(UserMgr.GetUserId(User));
+                //userSkills.UserID = Convert.ToInt32(UserMgr.GetUserId(User));
 
                 _context.Add(userSkills);
                 await _context.SaveChangesAsync();
