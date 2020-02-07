@@ -18,6 +18,6 @@ namespace Login_System.ViewModels
 
         public int SkillLevel { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }

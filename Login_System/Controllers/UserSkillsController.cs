@@ -28,21 +28,16 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new List<UserSkillsVM>();
-            var usrSkill = new UserSkillsVM();
+            
+
+            var userName = UserMgr.GetUserName(User);
+           
             foreach (var skill in _context.UserSkills)
             {               
-                var userName = UserMgr.GetUserName(User);
-
-                usrSkill.Id = skill.Id;
-                usrSkill.UserID = skill.UserID;
-                usrSkill.UserName = userName;
-                usrSkill.SkillName = skill.SkillName;
-                usrSkill.SkillLevel = skill.SkillLevel;
-                usrSkill.Date = skill.Date;
-
+                
                 if (!User.IsInRole("Admin"))
                 {
-                    //Depending on where the Index is accessed, the ID may be null. If that's the case it is automatically set to be the same as the ID of the current user
+                    //Depending on where the Index is accessed from, the ID may be null. If that's the case it is automatically set to be the same as the ID of the current user
                     if (id == null)
                     {
                         id = Convert.ToInt32(UserMgr.GetUserId(User));
@@ -50,7 +45,18 @@ namespace Login_System.Controllers
                     //If the UserID of the skill is the same as the id that is passed from AppUser Index (that is the index of the current user), the skill is added to the list.
                     if (skill.UserID == id || Convert.ToInt32(UserMgr.GetUserId(User)) == skill.UserID)
                     {
+                        var usrSkill = new UserSkillsVM();
+
+                        usrSkill.Id = skill.Id;
+                        usrSkill.UserID = skill.UserID;
+                        usrSkill.UserName = userName;
+                        usrSkill.SkillName = skill.SkillName;
+                        usrSkill.SkillLevel = skill.SkillLevel;
+                        usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
+
                         model.Add(usrSkill);
+                        ViewBag.UserName = usrSkill.UserName;
+
                     }
                 }
                 //The index has different behavior for admins
@@ -58,19 +64,30 @@ namespace Login_System.Controllers
                 {
                     if (id == null)
                     {
+                        var usrSkill = new UserSkillsVM();
+                        ViewBag.UserName = "All users";
                         //This lists ALL entries to the userskills db. It's very messy and not really useful.
                         model.Add(usrSkill);
+                        ViewBag.UserName = usrSkill.UserName;
                     }
                     else if (skill.UserID == id)
                     {
+                        var usrSkill = new UserSkillsVM();
                         //This gets the info of the selected user and sets the username value to it.
                         AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+                        
+                        usrSkill.Id = skill.Id;
+                        usrSkill.UserID = skill.UserID;
                         usrSkill.UserName = tempUser.UserName;
+                        usrSkill.SkillName = skill.SkillName;
+                        usrSkill.SkillLevel = skill.SkillLevel;
+                        usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
 
                         model.Add(usrSkill);
+                        ViewBag.UserName = usrSkill.UserName;
                     }
                 }                
-            }
+            }            
             return View(model);
         }
 
