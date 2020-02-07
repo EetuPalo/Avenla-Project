@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
@@ -14,11 +15,13 @@ namespace Login_System.Controllers
     {
         private readonly UserSkillsDataContext _context;
         private readonly SkillDataContext skillContext;
+        private UserManager<AppUser> UserMgr { get; }
 
-        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext)
+        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager)
         {
             _context = context;
             skillContext = sContext;
+            UserMgr = userManager;
         }
 
         // GET: UserSkills
@@ -27,8 +30,8 @@ namespace Login_System.Controllers
             var model = new List<UserSkills>();
             foreach (var skill in _context.UserSkills)
             {
-                //If the UserID of the skill is the same as the id that is passed from AppUser Index, the skill is added to the list.
-                if (skill.UserID == id)
+                //If the UserID of the skill is the same as the id that is passed from AppUser Index (that is the index of the current user), the skill is added to the list.
+                if (skill.UserID == id || Convert.ToInt32(UserMgr.GetUserId(User)) == skill.UserID)
                 {
                     model.Add(skill);
                 }
@@ -63,7 +66,7 @@ namespace Login_System.Controllers
             {
                 Skill = Skill.Select(x => new SelectListItem
                 {
-                    Value = x.Id.ToString(),
+                    Value = x.Skill,
                     Text = x.Skill
                 })
             };
@@ -71,15 +74,16 @@ namespace Login_System.Controllers
             return View(model);
         }
 
-        // POST: UserSkills/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SkillLevel,Date")] UserSkills userSkills)
+        public async Task<IActionResult> Create([Bind("SkillName, SkillLevel")] UserSkills userSkills)
         {
             if (ModelState.IsValid)
             {
+                userSkills.Date = DateTime.Now;
+                userSkills.UserID = Convert.ToInt32(UserMgr.GetUserId(User));
+
                 _context.Add(userSkills);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

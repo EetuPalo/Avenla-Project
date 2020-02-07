@@ -13,7 +13,7 @@ namespace Login_System.Models
 
         public int UserID { get; set; }
 
-        public int SkillID { get; set; }
+        public string SkillName { get; set; }
 
         public int SkillLevel { get; set; }
 
