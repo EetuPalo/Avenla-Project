@@ -14,11 +14,8 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <input asp-for="UserID" class="form-control" />
-                <span asp-validation-for="UserID" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="UserID" class="form-control" />
+
             <div class="form-group">
                 <label asp-for="SkillName" class="control-label"></label>
                 <input asp-for="SkillName" class="form-control" />
@@ -30,9 +27,7 @@
                 <span asp-validation-for="SkillLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <input type="hidden" asp-for="Date" class="form-control" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -41,8 +36,8 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div style="display:none;">
+    <a asp-action="Index" asp-route-id="UserID">Back to List</a>
 </div>
 
 @section Scripts {

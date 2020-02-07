@@ -65,11 +65,27 @@ namespace Login_System.Controllers
                 {
                     if (id == null)
                     {
-                        var usrSkill = new UserSkillsVM();
-                        ViewBag.UserName = "All users";
-                        //This lists ALL entries to the userskills db. It's very messy and not really useful.
-                        model.Add(usrSkill);
-                        ViewBag.UserName = usrSkill.UserName;
+                        id = Convert.ToInt32(UserMgr.GetUserId(User));
+
+                        if (skill.UserID == id)
+                        {
+                            var usrSkill = new UserSkillsVM();
+
+                            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+
+                            usrSkill.Id = skill.Id;
+                            usrSkill.UserID = skill.UserID;
+                            usrSkill.UserName = tempUser.UserName;
+                            usrSkill.SkillName = skill.SkillName;
+                            usrSkill.SkillLevel = skill.SkillLevel;
+                            usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
+
+                            model.Add(usrSkill);
+                            ViewBag.UserName = usrSkill.UserName;
+                        }
+                        //var usrSkill = new UserSkillsVM();
+                        //ViewBag.UserName = "All users";
+                        //This lists ALL entries to the userskills db. It's very messy and not really useful.                        
                     }
                     else if (skill.UserID == id)
                     {
