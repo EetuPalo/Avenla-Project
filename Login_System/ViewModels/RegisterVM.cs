@@ -10,10 +10,10 @@ namespace Login_System.ViewModels
 {
     public class RegisterVM
     {
+        public int Id { get; set; }
 
-        [Required]
+        //This is not typed in anymore. Instead it's constructed in AccController from First and last name
         [DataType(DataType.Text)]
-        [DisplayName("Username")]
         public string UserName { get; set; }
 
         [Required]

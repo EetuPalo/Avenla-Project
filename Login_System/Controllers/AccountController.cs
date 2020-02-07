@@ -36,16 +36,19 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("UserName, EMail, FirstName, LastName, Password, ConfirmPassword")] User newUser)
+        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, Password, ConfirmPassword")] RegisterVM newUser)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await UserMgr.FindByNameAsync(newUser.UserName);
+                //This constructs the username from the users first and last names
+                string userName = newUser.FirstName + newUser.LastName;
+
+            AppUser user = await UserMgr.FindByNameAsync(userName);
                 if (user == null)
                 {                    
                     user = new AppUser();
                     //we create a new user and set his credentials to the data received from the Register form.
-                    user.UserName = newUser.UserName;
+                    user.UserName = userName;
                     user.Email = newUser.EMail;
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
