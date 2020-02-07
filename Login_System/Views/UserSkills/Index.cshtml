@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Login_System.Models.UserSkills>
+﻿@model IEnumerable<Login_System.ViewModels.UserSkillsVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserID)
+                Username
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SkillName)
@@ -32,7 +32,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserID)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SkillName)

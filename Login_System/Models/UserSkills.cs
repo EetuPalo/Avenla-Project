@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,46 @@ namespace Login_System.Models
 
         [NotMapped]
         public IEnumerable<SelectListItem> Skill { get; set; }
+
+        SqlDataReader dr;
+        public string GetUserName(int? id)
+        {
+            if (id != null)
+            {
+                string getUser = "SELECT UserName FROM [AspNetUsers] WHERE Id=" + id + ";";
+                SqlConnection con = new SqlConnection("EmployeeConnection");
+                string userName = null;
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand(getUser, con);
+                    dr = cmd.ExecuteReader();
+
+                    userName = dr["UserName"].ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+
+                if (userName != null)
+                {
+                    return userName;
+                }
+                else
+                {
+                    Console.WriteLine("No user found!");
+                    return userName;
+                }
+            }
+
+            return null;
+
+        }
 
     }
 }

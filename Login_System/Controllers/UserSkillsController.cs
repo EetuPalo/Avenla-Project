@@ -27,9 +27,19 @@ namespace Login_System.Controllers
         // GET: UserSkills
         public async Task<IActionResult> Index(int? id)
         {
-            var model = new List<UserSkills>();
+            var model = new List<UserSkillsVM>();
+            var usrSkill = new UserSkillsVM();
             foreach (var skill in _context.UserSkills)
-            {
+            {               
+                var userName = UserMgr.GetUserName(User);
+
+                usrSkill.Id = skill.Id;
+                usrSkill.UserID = skill.UserID;
+                usrSkill.UserName = userName;
+                usrSkill.SkillName = skill.SkillName;
+                usrSkill.SkillLevel = skill.SkillLevel;
+                usrSkill.Date = skill.Date;
+
                 if (!User.IsInRole("Admin"))
                 {
                     //Depending on where the Index is accessed, the ID may be null. If that's the case it is automatically set to be the same as the ID of the current user
@@ -37,11 +47,10 @@ namespace Login_System.Controllers
                     {
                         id = Convert.ToInt32(UserMgr.GetUserId(User));
                     }
-
                     //If the UserID of the skill is the same as the id that is passed from AppUser Index (that is the index of the current user), the skill is added to the list.
                     if (skill.UserID == id || Convert.ToInt32(UserMgr.GetUserId(User)) == skill.UserID)
                     {
-                        model.Add(skill);
+                        model.Add(usrSkill);
                     }
                 }
                 //The index has different behavior for admins
@@ -49,15 +58,19 @@ namespace Login_System.Controllers
                 {
                     if (id == null)
                     {
-                        model.Add(skill);
+                        //This lists ALL entries to the userskills db. It's very messy and not really useful.
+                        model.Add(usrSkill);
                     }
                     else if (skill.UserID == id)
                     {
-                        model.Add(skill);
+                        //This gets the info of the selected user and sets the username value to it.
+                        AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+                        usrSkill.UserName = tempUser.UserName;
+
+                        model.Add(usrSkill);
                     }
                 }                
             }
-
             return View(model);
         }
 
