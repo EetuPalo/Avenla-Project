@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewBag.UserName - Skills</h1>
+<h1>@TempData["UserName"] - Skills</h1>
 
 <p>
-    <a asp-action="Create" asp-route-id="@ViewBag.UserId">Create New</a>
+    <a asp-action="Create" asp-route-id="">Create New</a>
 </p>
 <table class="table">
     <thead>

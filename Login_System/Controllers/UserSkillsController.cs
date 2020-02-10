@@ -24,8 +24,41 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        // GET: UserSkills
         public async Task<IActionResult> Index(int? id)
+        {
+            var model = new List<UserSkillsVM>();
+            if (id == null)
+            {
+                Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+
+            foreach (var skill in _context.UserSkills)
+            {
+                if (skill.UserID == id)
+                {
+                    var usrSkill = new UserSkillsVM();
+
+                    usrSkill.Id = skill.Id;
+                    usrSkill.UserID = skill.UserID;
+                    usrSkill.UserName = tempUser.UserName;
+                    usrSkill.SkillName = skill.SkillName;
+                    usrSkill.SkillLevel = skill.SkillLevel;
+                    usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
+
+                    model.Add(usrSkill);
+                }
+            }
+            //Some information that we might want to use elsewhere
+            TempData["UserId"] = id;
+            TempData["UserName"] = tempUser.UserName;
+
+            return View(model);
+        }
+
+        /* OLD INDEX. REMOVE THIS AT SOME POINT
+        public async Task<IActionResult> OLD_Index(int? id)
         {
             var model = new List<UserSkillsVM>();
 
@@ -106,6 +139,7 @@ namespace Login_System.Controllers
             }            
             return View(model);
         }
+        */
 
         // GET: UserSkills/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -144,13 +178,15 @@ namespace Login_System.Controllers
             }
             else
             {
+                id = TempData["UserId"] as int?;
                 var model = new UserSkills()
                 {
                     Skill = Skill.Select(x => new SelectListItem
                     {
                         Value = x.Skill,
                         Text = x.Skill
-                    })
+                    }),
+                    UserID = (int)id
                 };
                 return View(model);
             }            
@@ -167,7 +203,7 @@ namespace Login_System.Controllers
 
                 _context.Add(userSkills);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "UserSkills", new { id = userSkills.UserID });
             }
             return View(userSkills);
         }
@@ -177,7 +213,7 @@ namespace Login_System.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                id = TempData["UserId"] as int?;
             }
 
             var userSkills = await _context.UserSkills.FindAsync(id);
@@ -185,12 +221,6 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-            /*
-            else if (userSkills.UserID != Convert.ToInt32(UserMgr.GetUserId(User)))
-            {
-
-            }
-            */
             return View(userSkills);
         }
 
@@ -201,7 +231,7 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,SkillName,SkillLevel,Date")] UserSkills userSkills)
         {
-            int redirectId = userSkills.UserID;
+            //int redirectId = userSkills.UserID;
 
             if (id != userSkills.Id)
             {
@@ -226,7 +256,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), redirectId);
+                return RedirectToAction("Index", "UserSkills", new { id = userSkills.UserID });
             }
             return View(userSkills);
         }
