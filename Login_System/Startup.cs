@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Login_System.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Login_System
 {
@@ -57,6 +58,11 @@ namespace Login_System
             {
                 var connectionString = Configuration.GetConnectionString("EmployeeConnection");
                 options.UseSqlServer(connectionString);
+            });
+
+            services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
+            {
+                opt.LoginPath = "/Account/Login";
             });
         }
 
