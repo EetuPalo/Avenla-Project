@@ -9,8 +9,13 @@
 - //Admins should be able to add new accounts from their account. The View exists already, but nothing has been implemented.
 - When trying to access stuff youre not authorized for, the wrong (microsoft template) login page is show.
 - Authorization
+- User Groups
+	- Creating, editing, setting user groups for admins
+	- Specific SkillLevel goals for each user group. Need to be displayed somehow to the users who are part of that group.
+- Possibly a way to separate the user's self-assesment from the assesment made by the admin
 - User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
 - Limit the SkillLevel selection to 0-5
+- Fix the SkillLevel 0 not registering
 
 0: I don't know and don't want to know!
 .
