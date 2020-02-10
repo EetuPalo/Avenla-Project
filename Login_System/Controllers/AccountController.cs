@@ -43,15 +43,21 @@ namespace Login_System.Controllers
                 //This constructs the username from the users first and last names
                 string userName = newUser.FirstName + newUser.LastName;
 
-            AppUser user = await UserMgr.FindByNameAsync(userName);
+                //This is supposed to remove any special characters from the userName string
+                byte[] tempBytes;
+                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+
+                AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
                 {                    
                     user = new AppUser();
                     //we create a new user and set his credentials to the data received from the Register form.
-                    user.UserName = userName;
+                    user.UserName = fixedUn;
                     user.Email = newUser.EMail;
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
+                    user.PhoneNumber = newUser.PhoneNumber;
                     //we then create a new user through usermanager
                     IdentityResult result;
                     IdentityResult roleResult;

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Login_System.ViewModels;
 
 namespace Login_System.Controllers
 {
@@ -49,28 +50,63 @@ namespace Login_System.Controllers
             return View(appUser);
         }
 
-        // GET: AppUsers/Create
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: AppUsers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AppUser appUser)
+        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Password, ConfirmPassword")] RegisterVM appUser)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(appUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //This constructs the username from the users first and last names
+                string userName = appUser.FirstName + appUser.LastName;
+
+                //This is supposed to remove any special characters from the userName string
+                byte[] tempBytes;
+                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+
+                AppUser user = await UserMgr.FindByNameAsync(fixedUn);
+                if (user == null)
+                {
+                    try
+                    {
+                        user = new AppUser();
+                        //we create a new user and set his credentials to the data received from the Register form.
+                        user.UserName = fixedUn;
+                        user.Email = appUser.EMail;
+                        user.FirstName = appUser.FirstName;
+                        user.LastName = appUser.LastName;
+                        user.PhoneNumber = appUser.PhoneNumber;
+                        //we then create a new user through usermanager
+                        IdentityResult result;
+                        IdentityResult roleResult;
+                        result = await UserMgr.CreateAsync(user, appUser.Password);
+                        roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                        TempData["CreateStatus"] = "User has been created!";
+                    }
+                    catch
+                    {
+                        Console.WriteLine("An error occured but the account may have still been created. Check the account list!");
+                        TempData["CreateStatus"] = "An error occured but the account may have still been created. Check the account list!";
+                    }
+                   
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["CreateStatus"] = "Username taken!";
+                    return RedirectToAction("Index");
+                }
             }
             return View(appUser);
+
         }
 
         // GET: AppUsers/Edit/5
