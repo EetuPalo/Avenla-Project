@@ -110,7 +110,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -132,19 +132,27 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, UserName, Email, PhoneNumber, Active")] AppUser appUser)
+       //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, PhoneNumber, Active")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
                 var compareUser = User.Identity.Name;
                 var user = await UserMgr.FindByIdAsync(id.ToString());
 
+                //This constructs the username from the users first and last names
+                string userName = appUser.FirstName + appUser.LastName;
+
+                //This is supposed to remove any special characters from the userName string
+                byte[] tempBytes;
+                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+
                 if (user.UserName == compareUser || User.IsInRole("Admin"))
                 {                   
                     user.FirstName = appUser.FirstName;
                     user.LastName = appUser.LastName;
-                    user.UserName = appUser.UserName;
+                    user.UserName = fixedUn;
                     user.Email = appUser.Email;
                     user.PhoneNumber = appUser.PhoneNumber;
                     user.Active = appUser.Active;
@@ -170,7 +178,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Delete/5
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
