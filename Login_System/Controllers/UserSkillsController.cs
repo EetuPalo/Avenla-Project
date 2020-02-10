@@ -57,7 +57,6 @@ namespace Login_System.Controllers
 
                         model.Add(usrSkill);
                         ViewBag.UserName = usrSkill.UserName;
-
                     }
                 }
                 //The index has different behavior for admins
@@ -154,11 +153,8 @@ namespace Login_System.Controllers
                     })
                 };
                 return View(model);
-            }
-
-            
+            }            
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -189,6 +185,12 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
+            /*
+            else if (userSkills.UserID != Convert.ToInt32(UserMgr.GetUserId(User)))
+            {
+
+            }
+            */
             return View(userSkills);
         }
 
@@ -197,8 +199,10 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,SkillID,SkillLevel,Date")] UserSkills userSkills)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,SkillName,SkillLevel,Date")] UserSkills userSkills)
         {
+            int redirectId = userSkills.UserID;
+
             if (id != userSkills.Id)
             {
                 return NotFound();
@@ -222,7 +226,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), redirectId);
             }
             return View(userSkills);
         }
