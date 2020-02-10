@@ -7,7 +7,7 @@
 - Clean UI
 - Graphs to display skill progression
 - //Admins should be able to add new accounts from their account. The View exists already, but nothing has been implemented.
-- When trying to access stuff youre not authorized for, the wrong (microsoft template) login page is show.
+- //When trying to access stuff youre not authorized for, the wrong (microsoft template) login page is show.
 - Authorization
 - User Groups
 	- Creating, editing, setting user groups for admins
