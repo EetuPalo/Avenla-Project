@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.AppUser
+﻿@model Login_System.ViewModels.RegisterVM
 
 @{
     ViewData["Title"] = "Create";
@@ -9,41 +9,47 @@
 
 <h4>AppUser</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<fieldset>
+    <form asp-action="Create" asp-controller="AppUsers">
+        <div asp-validation-summary="All" class="input-validation-error"></div>
+        <p>
+            <label asp-for="EMail"></label>
+            <input asp-for="EMail" class="form-control" placeholder="E-Mail" />
+            <span asp-validation-for="EMail"></span>
+        </p>
+
+        <p>
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+            <span asp-validation-for="FirstName"></span>
+        </p>
+
+        <p>
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+            <span asp-validation-for="LastName"></span>
+        </p>
+        <p>
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </p>
+        <p>
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" placeholder="Password" />
+            <span asp-validation-for="Password"></span>
+        </p>
+        <p>
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </p>
+        <p>
+            <button type="submit">Register</button>
+        </p>
+
+    </form>
+</fieldset>
 
 <div>
     <a asp-action="Index">Back to List</a>

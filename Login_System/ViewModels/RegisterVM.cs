@@ -21,6 +21,10 @@ namespace Login_System.ViewModels
         [DisplayName("E-Mail")]
         public string EMail { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [DisplayName("Phone Number")]
+        public string PhoneNumber { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
         [DisplayName("First Name")]
