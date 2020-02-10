@@ -71,16 +71,20 @@
                     <img class="status-img" src="~/img/inactive.png" />
                 </td>
             }
-            <td>
-                @*Giving admin users access to every user's edit methods and the current user to his own*@
-                @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+        <td>
+            @*Giving admin users access to every user's edit methods and the current user to his own*@
+            @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+            {
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Index" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a>
+                if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    <a asp-action="Index" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a>
+                    <a asp-action="EditUsersInRole" asp-controller="Admin" asp-route-id="@item.Id">Edit Role</a>
                 }
-            </td>                        
+            }
+        </td>                        
         </tr>
 }
     </tbody>

@@ -133,7 +133,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, PhoneNumber, Active")] AppUser appUser)
+        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, NewPassword, ConfirmNewPassword, PhoneNumber, Active")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
@@ -155,16 +155,30 @@ namespace Login_System.Controllers
                     user.UserName = fixedUn;
                     user.Email = appUser.Email;
                     user.PhoneNumber = appUser.PhoneNumber;
-                    user.Active = appUser.Active;
+                    //user.Active = appUser.Active;
 
-                    //This signs in with the new username IF the user is editing their own account.
-                    //It is neccessary, because without this, the user would stay logged in with their old username, and that would break stuff.
-                    if (UserMgr.GetUserId(User) == id.ToString())
+                    if (User.IsInRole("Admin"))
                     {
-                        await SignInMgr.SignInAsync(user, false);
-                    }                    
-                    var result = await UserMgr.UpdateAsync(user);
+                        if (UserMgr.GetUserId(User) == id.ToString())
+                        {
+                            await SignInMgr.SignInAsync(user, false);
+                        }                       
+                        var hashResult = UserMgr.PasswordHasher.HashPassword(appUser, appUser.NewPassword);
+                        var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
+                        var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
 
+                        var result = await UserMgr.UpdateAsync(user);
+                    }
+                    else
+                    {
+                        //This signs in with the new username IF the user is editing their own account.
+                        //It is neccessary, because without this, the user would stay logged in with their old username, and that would break stuff.
+                        if (UserMgr.GetUserId(User) == id.ToString())
+                        {
+                            await SignInMgr.SignInAsync(user, false);
+                        }
+                        var result = await UserMgr.UpdateAsync(user);
+                    }                   
                     return RedirectToAction(nameof(Index));
                 }
                 else
