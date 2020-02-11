@@ -33,10 +33,14 @@ namespace Login_System.Controllers
                 Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
-            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            GroupMember whatever = await _context.GroupMembers.FindAsync(id);
-            Group tempGroup = await _gcontext.Group.FindAsync(whatever.GroupID);
 
+            //fetch current user from the users table
+            //AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            //fetch current user from the grouptable table to get groupid of his group
+            GroupMember whatever = await _context.GroupMembers.FindAsync(id);
+            //tempUser = await UserMgr.FindByIdAsync(whatever.UserID.ToString());
+            Group tempGroup = await _gcontext.Group.FindAsync(whatever.GroupID);
+            //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach(var member in _context.GroupMembers)
             {
                 if (true)
@@ -44,6 +48,7 @@ namespace Login_System.Controllers
                     var grpmember = new GroupMemberVM();
                     grpmember.Id = member.Id;
                     grpmember.UserID = member.UserID;
+                    AppUser tempUser = await UserMgr.FindByIdAsync(grpmember.UserID.ToString());
                     grpmember.UserName = tempUser.UserName;
                     grpmember.GroupName = tempGroup.name;
 
@@ -52,8 +57,8 @@ namespace Login_System.Controllers
             }
 
             //Some information that we might want to use elsewhere
-            TempData["UserId"] = id;
-            TempData["UserName"] = tempUser.UserName;
+            //TempData["UserId"] = id;
+            //TempData["UserName"] = tempUser.UserName;
 
             return View(model);
         }
