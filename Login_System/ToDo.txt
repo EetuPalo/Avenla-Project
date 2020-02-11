@@ -1,17 +1,17 @@
 ﻿TODO:
-- Better skill evaluation form
+- Better skill evaluation form (all skills on one form, different forms for different user groups) (Eetu)
+- Admins should edit the forms for each user group (reuse code from user role editing)
+- Graphs to display skill progression
+- Authorization
+- User Groups (Parviz)
+	- Creating, editing, setting user groups for admins
+	- Specific SkillLevel goals for each user group. Need to be displayed somehow to the users who are part of that group.
+- User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
+- Remove "change password" from admin
 - A ton of testing.
 - Comments
 - Clean up code
 - Clean UI
-- Graphs to display skill progression
-- Authorization
-- User Groups
-	- Creating, editing, setting user groups for admins
-	- Specific SkillLevel goals for each user group. Need to be displayed somehow to the users who are part of that group.
-- User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
-- Fix the SkillLevel 0 not registering
-- Remove "change password" from admin
 
 Levels: 
 0: I don't know and don't want to know!
@@ -28,3 +28,4 @@ DONE:
 - //Possibly a way to separate the user's self-assesment from the assesment made by the admin [IMPLEMENTED WITH A SIMPLE STRING VALUE THAT IS DISPLAYED IN THE TABLE]
 - //Limit the SkillLevel selection to 0-5
 - //User's roles should be edited from the user profile.
+- //Fix the SkillLevel 0 not registering
