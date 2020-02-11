@@ -28,22 +28,22 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new List<GroupMemberVM>();
-            if (id == null)
-            {
-                Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
-                id = Convert.ToInt32(UserMgr.GetUserId(User));
-            }
+            //if (id == null)
+            //{
+            //    Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
+            //    id = Convert.ToInt32(UserMgr.GetUserId(User));
+            //}
 
             //fetch current user from the users table
             //AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             //fetch current user from the grouptable table to get groupid of his group
-            GroupMember whatever = await _context.GroupMembers.FindAsync(id);
+            //GroupMember whatever = await _context.GroupMembers.FindAsync(id);
             //tempUser = await UserMgr.FindByIdAsync(whatever.UserID.ToString());
-            Group tempGroup = await _gcontext.Group.FindAsync(whatever.GroupID);
+            Group tempGroup = await _gcontext.Group.FindAsync(id);
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach(var member in _context.GroupMembers)
             {
-                if (true)
+                if (member.GroupID == id)
                 {
                     var grpmember = new GroupMemberVM();
                     grpmember.Id = member.Id;
