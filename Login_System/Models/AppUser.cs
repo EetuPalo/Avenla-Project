@@ -14,7 +14,7 @@ namespace Login_System.Models
         public string LastName { get; set; }
 
         public string Active { get; set; }
-        
+
         [NotMapped]
         public string NewPassword { get; set; }
         [NotMapped]
