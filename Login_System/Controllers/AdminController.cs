@@ -194,5 +194,65 @@ namespace Login_System.Controllers
 
             return RedirectToAction("EditRole", new { Id = roleId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRoleOfUser(int? id)
+        {
+            ViewBag.UserId = id;
+            AppUser tempUser = await userManager.FindByIdAsync(id.ToString());
+
+            var listRoles = roleManager.Roles;
+            var model = new List<AppRole>();
+
+            foreach (var role in listRoles)
+            {
+                model.Add(role);
+                if (await userManager.IsInRoleAsync(tempUser, role.Name))
+                {
+                    role.IsSelected = true;
+                }
+                else
+                {
+                    role.IsSelected = false;
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRoleOfUser(List<AppRole> model, int? id)
+        {
+            var tempUser = await userManager.FindByIdAsync(id.ToString());
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                var role = await roleManager.FindByIdAsync(model[i].Id.ToString());
+
+                IdentityResult result = null;
+
+                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(tempUser, model[i].Name)))
+                {
+                    result = await userManager.AddToRoleAsync(tempUser, role.Name);
+                }
+                else if (!model[i].IsSelected && await userManager.IsInRoleAsync(tempUser, model[i].Name))
+                {
+                    result = await userManager.RemoveFromRoleAsync(tempUser, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (result.Succeeded)
+                {
+                    if (i < (model.Count - 1))
+                        continue;
+                    else
+                        return RedirectToAction("Edit","AppUsers", new { Id = id });
+                }
+            }
+
+            return RedirectToAction("Edit","AppUsers", new { Id = id });
+        }
     }
 }

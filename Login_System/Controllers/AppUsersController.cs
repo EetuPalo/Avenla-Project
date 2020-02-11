@@ -124,7 +124,8 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-            
+
+            TempData["UserId"] = id;
             return View(appUser);
         }
         // POST: AppUsers/Edit/5

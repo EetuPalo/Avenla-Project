@@ -59,7 +59,7 @@ namespace Login_System.Controllers
             //userName = tempUser.UserName;
 
             TempData["UserId"] = id;
-            TempData["UserName"] = tempUser.UserName;
+            //TempData["UserName"] = tempUser.UserName;
 
             return View(model);
         }
