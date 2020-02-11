@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Login_System.ViewModels.UserSkillsVM>
+
+@{
+    ViewData["Title"] = "SkillList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@TempData["UserName"] - Skills</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SkillName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SkillLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdminEval)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SkillName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SkillLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @if (item.AdminEval == "Admin Assessment")
+                {
+                    <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.AdminEval)
+                }
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

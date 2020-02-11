@@ -19,5 +19,7 @@ namespace Login_System.ViewModels
         public int SkillLevel { get; set; }
 
         public string Date { get; set; }
+
+        public string AdminEval { get; set; }
     }
 }
