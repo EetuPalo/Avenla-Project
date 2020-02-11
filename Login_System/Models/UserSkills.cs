@@ -23,6 +23,8 @@ namespace Login_System.Models
         [NotMapped]
         public IEnumerable<SelectListItem> Skill { get; set; }
 
+        public string AdminEval { get; set; }
+
         SqlDataReader dr;
         public string GetUserName(int? id)
         {

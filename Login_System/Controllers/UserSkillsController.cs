@@ -17,6 +17,10 @@ namespace Login_System.Controllers
         private readonly SkillDataContext skillContext;
         private UserManager<AppUser> UserMgr { get; }
 
+        //These will be set in the index, and be used by other controller methods.
+        public int userId;
+        public string userName;
+
         public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager)
         {
             _context = context;
@@ -24,36 +28,70 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index (int? id)
         {
-            var model = new List<UserSkillsVM>();
             if (id == null)
             {
-                Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
-                id = Convert.ToInt32(UserMgr.GetUserId(User));
+                id = Convert.ToInt32(TempData["UserId"]);
             }
-            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+
+            var model = new List<Skills>();
+
+            foreach (var skill in skillContext.Skills)
+            {
+                skill.EntryCount = CountEntries(skill.Skill);
+                try
+                {
+                    DateTime latestDateEntry = GetLatest(skill.Skill);
+                    skill.LatestEntry = latestDateEntry.ToString("MM/dd/yyyy H:mm");
+                    skill.LatestEval = GetLatestEval(skill.Skill, latestDateEntry);
+                }
+                catch
+                {
+                    skill.LatestEntry = "Not available!";
+                    skill.LatestEval = 0;
+                }
+                model.Add(skill);
+            }
+            //This is useful information we'll need in other controller actions
+            //userId = id;
+            var tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            //userName = tempUser.UserName;
+
+            TempData["UserId"] = id;
+            TempData["UserName"] = tempUser.UserName;
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> SkillList(string skillName)
+        {
+            var model = new List<UserSkillsVM>();
+
+            int userId = Convert.ToInt32(TempData["UserId"]);
+            string userName = TempData["UserName"].ToString();
+            
+            AppUser tempUser = await UserMgr.FindByIdAsync(userId.ToString());
 
             foreach (var skill in _context.UserSkills)
             {
-                if (skill.UserID == id)
+                if (skill.SkillName == skillName && skill.UserID == userId)
                 {
                     var usrSkill = new UserSkillsVM();
 
                     usrSkill.Id = skill.Id;
                     usrSkill.UserID = skill.UserID;
-                    usrSkill.UserName = tempUser.UserName;
+                    usrSkill.UserName = userName;
                     usrSkill.SkillName = skill.SkillName;
                     usrSkill.SkillLevel = skill.SkillLevel;
-                    usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
+                    usrSkill.Date = skill.Date.ToString("MM/dd/yyyy H:mm");
+                    usrSkill.AdminEval = skill.AdminEval;
 
                     model.Add(usrSkill);
                 }
             }
-            //Some information that we might want to use elsewhere
-            TempData["UserId"] = id;
-            TempData["UserName"] = tempUser.UserName;
 
+            TempData.Keep();
             return View(model);
         }
 
@@ -188,6 +226,8 @@ namespace Login_System.Controllers
                     }),
                     UserID = (int)id
                 };
+
+                TempData.Keep();
                 return View(model);
             }            
         }
@@ -199,7 +239,14 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
                 userSkills.Date = DateTime.Now;
-                //userSkills.UserID = Convert.ToInt32(UserMgr.GetUserId(User));
+                if (User.IsInRole("Admin"))
+                {
+                    userSkills.AdminEval = "Admin Assessment";
+                }
+                else
+                {
+                    userSkills.AdminEval = "Self Assessment";
+                }
 
                 _context.Add(userSkills);
                 await _context.SaveChangesAsync();
@@ -221,6 +268,8 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
+
+            TempData.Keep();
             return View(userSkills);
         }
 
@@ -304,5 +353,57 @@ namespace Login_System.Controllers
             return View(viewModel);
         }
         */
+
+        public int CountEntries(string skillName)
+        {
+            int entryCount = 0;
+
+            int userId = Convert.ToInt32(TempData["UserId"]);
+            foreach (var skill in _context.UserSkills)
+            {
+                if (skill.SkillName == skillName && skill.UserID == userId)
+                {
+                    entryCount++;
+                }
+            }
+
+            TempData.Keep();
+            return entryCount;
+        }
+
+        public DateTime GetLatest (string skillName)
+        {
+            DateTime latestDate;
+            List<DateTime> allDates = new List<DateTime>();
+            int userId = Convert.ToInt32(TempData["UserId"]);
+
+            foreach (var skill in _context.UserSkills)
+            {
+                if (skill.SkillName == skillName && skill.UserID == userId)
+                {
+                    allDates.Add(skill.Date);
+                }
+            }
+            latestDate = allDates.Max();
+            TempData.Keep();
+            return latestDate;
+        }
+
+        public int GetLatestEval (string skillName, DateTime latestDate)
+        {
+            int latestEval = 0;
+            int userId = Convert.ToInt32(TempData["UserId"]);
+
+            foreach (var skill in _context.UserSkills)
+            {
+                if (skill.SkillName == skillName && skill.UserID == userId && skill.Date == latestDate)
+                {
+                    latestEval = skill.SkillLevel;
+                }
+            }
+
+            TempData.Keep();
+            return latestEval;
+        }
     }
 }

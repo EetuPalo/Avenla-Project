@@ -1,7 +1,8 @@
 ﻿TODO:
 
 - User's roles should be edited from the user profile.
-- A Better way to view the progression of skills.
+- //A Better way to view the progression of skills.
+- Even better way to view the progression of skills?
 - A ton of testing.
 - Comments
 - Clean up code
