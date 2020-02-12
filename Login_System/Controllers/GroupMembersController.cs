@@ -34,11 +34,6 @@ namespace Login_System.Controllers
             //    id = Convert.ToInt32(UserMgr.GetUserId(User));
             //}
 
-            //fetch current user from the users table
-            //AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            //fetch current user from the grouptable table to get groupid of his group
-            //GroupMember whatever = await _context.GroupMembers.FindAsync(id);
-            //tempUser = await UserMgr.FindByIdAsync(whatever.UserID.ToString());
             Group tempGroup = await _gcontext.Group.FindAsync(id);
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach(var member in _context.GroupMembers)
@@ -51,12 +46,11 @@ namespace Login_System.Controllers
                     AppUser tempUser = await UserMgr.FindByIdAsync(grpmember.UserID.ToString());
                     grpmember.UserName = tempUser.UserName;
                     grpmember.GroupName = tempGroup.name;
-
                     model.Add(grpmember);
                 }
             }
 
-            //Some information that we might want to use elsewhere
+            //Information that is useful in other methods that is not always available
             TempData["GroupID"] = id;
             try
             {
@@ -64,7 +58,7 @@ namespace Login_System.Controllers
             }
             catch(NullReferenceException e)
             {
-                
+                //line 63 causes NullReference exception but doesn't actually prevent the program from working as intended, so the exception is just ignored
             }
 
             return View(model);
@@ -96,39 +90,33 @@ namespace Login_System.Controllers
             {
                 var model = new GroupMember();
                 {
-                    //string uid 
                     model.Uname = member.Select(x => new SelectListItem
                     {
                         Value = x.UserName,
                         Text = x.UserName
-                    });
-
-                    //var chosen = await UserMgr.FindByNameAsync(uid);                
-                    model.GroupID = (int)id;
+                    });//creating a list of dropdownlist elements                 
+                    model.GroupID = (int)id;//assigning GroupID of the current group
+                    model.GroupName = TempData["GroupName"] as string;//assigning groupname that we saved as well
                 };
                 return View(model);
             }
             else
             {
-                id = TempData["GroupID"] as int?;
+                id = TempData["GroupID"] as int?;//using groupid we saved earlier in the Index if the id passed to the method is NULL
                 var model = new GroupMember();
-                {
-                    //string uid 
+                {                    
                     model.Uname = member.Select(x => new SelectListItem
                     {
                         Value = x.UserName,
                         Text = x.UserName
-                    });
-
-                    //var chosen = await UserMgr.FindByNameAsync(uid);                
-                    model.GroupID = (int)id;
-                    model.GroupName = TempData["GroupName"] as string;
-                    TempData.Keep();
+                    });                   
+                    model.GroupID = (int)id;//assigning GroupID of the current group
+                    model.GroupName = TempData["GroupName"] as string;//assigning groupname that we saved as well
+                    TempData.Keep();//so the data is not lost because it's TEMPdata (temporary)
                 };
                 
                 return View(model);
-            }
-            //return View();
+            }            
         }
 
         // POST: GroupMembers/Create
@@ -140,15 +128,15 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserMgr.FindByNameAsync(groupMember.UserName);
-                groupMember.UserID = user.Id;
-                groupMember.GroupID = Convert.ToInt32(TempData["GroupID"]);
-                groupMember.GroupName = TempData["GroupName"] as string;
-                TempData.Keep();
-                //groupMember.GroupName = _gcontext.Group.Find(groupMember.GroupID).ToString();
+                var user = await UserMgr.FindByNameAsync(groupMember.UserName);//creating a temp user through username selected in the view
+                groupMember.UserID = user.Id;//assinging UserID of the selected user
+                groupMember.GroupID = Convert.ToInt32(TempData["GroupID"]);//the id in the temp data is not int so we convert it
+                groupMember.GroupName = TempData["GroupName"] as string;//same as id
+                TempData.Keep();//keeping the temp data otherwise, groupMember won't have groupid and groupname
                 _context.Add(groupMember);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupMember.GroupID});
+                return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupMember.GroupID});//redirecting back to the list of group members,
+                // without specifying the id, an empty list is shown
             }
             return View(groupMember);
         }
