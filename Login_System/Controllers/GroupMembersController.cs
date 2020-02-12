@@ -148,7 +148,7 @@ namespace Login_System.Controllers
                 //groupMember.GroupName = _gcontext.Group.Find(groupMember.GroupID).ToString();
                 _context.Add(groupMember);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupMember.GroupID});
             }
             return View(groupMember);
         }
