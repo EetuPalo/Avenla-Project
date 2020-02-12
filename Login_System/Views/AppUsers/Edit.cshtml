@@ -51,6 +51,12 @@
     </div>
 </div>
 
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]">Edit Roles</a>
+}
+
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

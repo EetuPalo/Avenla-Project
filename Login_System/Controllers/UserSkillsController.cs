@@ -59,7 +59,7 @@ namespace Login_System.Controllers
             //userName = tempUser.UserName;
 
             TempData["UserId"] = id;
-            TempData["UserName"] = tempUser.UserName;
+            //TempData["UserName"] = tempUser.UserName;
 
             return View(model);
         }
@@ -236,8 +236,9 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserID, SkillName, SkillLevel")] UserSkills userSkills)
         {
+
             if (ModelState.IsValid)
-            {
+            {               
                 userSkills.Date = DateTime.Now;
                 if (User.IsInRole("Admin"))
                 {
