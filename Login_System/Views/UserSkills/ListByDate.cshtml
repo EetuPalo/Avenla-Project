@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Login_System.ViewModels.ListSkillsVM>
+@{
+    ViewData["Title"] = "ListByDate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ListByDate</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+
+                <td>
+                    <a asp-action="SkillList" asp-route-skillName="@item.SkillName">View</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

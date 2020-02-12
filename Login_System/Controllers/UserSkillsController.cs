@@ -39,6 +39,7 @@ namespace Login_System.Controllers
 
             foreach (var skill in skillContext.Skills)
             {
+                /*
                 skill.EntryCount = CountEntries(skill.Skill);
                 try
                 {
@@ -51,7 +52,46 @@ namespace Login_System.Controllers
                     skill.LatestEntry = "Not available!";
                     skill.LatestEval = 0;
                 }
+                */
                 model.Add(skill);
+            }
+            //This is useful information we'll need in other controller actions
+            //userId = id;
+            var tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            //userName = tempUser.UserName;
+
+            TempData["UserId"] = id;
+            //TempData["UserName"] = tempUser.UserName;
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> ListByDate(int? id)
+        {
+            if (id == null)
+            {
+                id = Convert.ToInt32(TempData["UserId"]);
+            }
+
+            var model = new List<UserSkills>();
+
+            foreach (var skill in skillContext.Skills)
+            {
+                /*
+                skill.EntryCount = CountEntries(skill.Skill);
+                try
+                {
+                    DateTime latestDateEntry = GetLatest(skill.Skill);
+                    skill.LatestEntry = latestDateEntry.ToString("MM/dd/yyyy H:mm");
+                    skill.LatestEval = GetLatestEval(skill.Skill, latestDateEntry);
+                }
+                catch
+                {
+                    skill.LatestEntry = "Not available!";
+                    skill.LatestEval = 0;
+                }
+                */
+                //model.SkillList.Add(skill);
             }
             //This is useful information we'll need in other controller actions
             //userId = id;
@@ -79,7 +119,7 @@ namespace Login_System.Controllers
                 {
                     var usrSkill = new UserSkillsVM();
 
-                    usrSkill.Id = skill.Id;
+                    usrSkill.Id = Convert.ToInt32(skill.Id);
                     usrSkill.UserID = skill.UserID;
                     usrSkill.UserName = userName;
                     usrSkill.SkillName = skill.SkillName;
@@ -200,60 +240,71 @@ namespace Login_System.Controllers
         // GET: UserSkills/Create
         public IActionResult Create(int? id)
         {
-            var Skill = skillContext.Skills.ToList();
-            if (id != null)
-            {
-                var model = new UserSkills()
-                {
-                    Skill = Skill.Select(x => new SelectListItem
-                    {
-                        Value = x.Skill,
-                        Text = x.Skill
-                    }),
-                    UserID = (int)id
-                };
-                return View(model);
-            }
-            else
+            //var model = new List<UserSkillsWithSkillVM>();
+            var tempModel = new UserSkillsWithSkillVM();
+            var tempList = new Dictionary<int, string>();
+            var Skills = skillContext.Skills.ToList();
+            int dictKey = 0;
+            if (id == null)
             {
                 id = TempData["UserId"] as int?;
-                var model = new UserSkills()
-                {
-                    Skill = Skill.Select(x => new SelectListItem
-                    {
-                        Value = x.Skill,
-                        Text = x.Skill
-                    }),
-                    UserID = (int)id
-                };
-
                 TempData.Keep();
-                return View(model);
-            }            
+            }
+            foreach (var skill in Skills)
+            {
+                tempList.Add(dictKey, skill.Skill);
+                dictKey++;
+            }
+            tempModel.SkillList = tempList;
+            //model.Add(tempModel);
+            return View(tempModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID, SkillName, SkillLevel")] UserSkills userSkills)
+        public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")] UserSkillsWithSkillVM userSkills)
         {
+            var model = new List<UserSkills>();
+            for (int i = 0; i < userSkills.SkillList.Count(); i++)
+            {
+                var tempModel = new UserSkills
+                {
+                    SkillLevel = userSkills.SkillLevel[i],
+                    SkillName = userSkills.SkillList[i],
+                    UserID = Convert.ToInt32(TempData["UserId"]),
+                    Id = null,
+                    Date = DateTime.Now                    
+                };
 
-            if (ModelState.IsValid)
-            {               
-                userSkills.Date = DateTime.Now;
                 if (User.IsInRole("Admin"))
                 {
-                    userSkills.AdminEval = "Admin Assessment";
+                    tempModel.AdminEval = "Admin Evaluation";
                 }
                 else
                 {
-                    userSkills.AdminEval = "Self Assessment";
+                    tempModel.AdminEval = "Self Assessment";
                 }
 
-                _context.Add(userSkills);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), "UserSkills", new { id = userSkills.UserID });
+                model.Add(tempModel);
             }
-            return View(userSkills);
+
+            foreach (var entry in model)
+            {
+                _context.Add(entry);                
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData.Keep();
+            return RedirectToAction(nameof(Index), "UserSkills", new { id = TempData.Peek("UserId") });
+
+            /*
+             _context.Add(userSkills);
+             await _context.SaveChangesAsync();
+             return RedirectToAction(nameof(Index), "UserSkills", new { id = model.UserID });
+            */
+
+            //return View(model);
         }
 
         // GET: UserSkills/Edit/5
@@ -297,7 +348,7 @@ namespace Login_System.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserSkillsExists(userSkills.Id))
+                    if (!UserSkillsExists(Convert.ToInt32(userSkills.Id)))
                     {
                         return NotFound();
                     }

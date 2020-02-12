@@ -9,5 +9,11 @@ namespace Login_System.ViewModels
     public class ListSkillsVM
     {
         public List<Skills> Skills { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public string SkillName { get; set; }
+
+        public int SkillLevel { get; set; }
     }
 }
