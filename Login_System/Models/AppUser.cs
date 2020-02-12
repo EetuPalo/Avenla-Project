@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,10 +15,13 @@ namespace Login_System.Models
         public string LastName { get; set; }
 
         public string Active { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> Uname { get; set; }
 
         [NotMapped]
         public string NewPassword { get; set; }
         [NotMapped]
         public string ConfirmNewPassword { get; set; }
+        
     }
 }

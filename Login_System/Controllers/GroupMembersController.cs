@@ -84,7 +84,18 @@ namespace Login_System.Controllers
         // GET: GroupMembers/Create
         public IActionResult Create()
         {
-            return View();
+            var member = UserMgr.Users.ToList();
+            var model = new AppUser();
+            {
+                model.Uname = member.Select(x => new SelectListItem
+                {
+                    Value = x.UserName,
+                    Text = x.UserName
+                });
+                //UserID = (int)Id
+            };
+            return View(model);
+            //return View();
         }
 
         // POST: GroupMembers/Create
