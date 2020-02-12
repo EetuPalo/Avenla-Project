@@ -10,7 +10,7 @@ namespace Login_System.Models
 {
     public class UserSkills
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int UserID { get; set; }
 
@@ -21,7 +21,7 @@ namespace Login_System.Models
         public DateTime Date { get; set; }
 
         [NotMapped]
-        public IEnumerable<SelectListItem> Skill { get; set; }
+        public List<Skills> SkillList { get; set; }
 
         public string AdminEval { get; set; }
 

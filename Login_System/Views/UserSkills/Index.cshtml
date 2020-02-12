@@ -16,15 +16,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Skill)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntryCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LatestEntry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LatestEval)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,15 +25,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Skill)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntryCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LatestEntry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LatestEval)
             </td>
             <td>
                 <a asp-action="SkillList" asp-route-skillName="@item.Skill">View</a> |
