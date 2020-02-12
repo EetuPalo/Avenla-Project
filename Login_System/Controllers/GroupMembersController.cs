@@ -57,8 +57,15 @@ namespace Login_System.Controllers
             }
 
             //Some information that we might want to use elsewhere
-            //TempData["UserId"] = id;
-            //TempData["UserName"] = tempUser.UserName;
+            TempData["GroupID"] = id;
+            try
+            {
+                TempData["GroupName"] = tempGroup.name;
+            }
+            catch(NullReferenceException e)
+            {
+                
+            }
 
             return View(model);
         }
@@ -82,19 +89,45 @@ namespace Login_System.Controllers
         }
 
         // GET: GroupMembers/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            var member = UserMgr.Users.ToList();
-            var model = new AppUser();
+            var member = UserMgr.Users.ToList();            
+            if(id != null)
             {
-                model.Uname = member.Select(x => new SelectListItem
+                var model = new GroupMember();
                 {
-                    Value = x.UserName,
-                    Text = x.UserName
-                });
-                //UserID = (int)Id
-            };
-            return View(model);
+                    //string uid 
+                    model.Uname = member.Select(x => new SelectListItem
+                    {
+                        Value = x.UserName,
+                        Text = x.UserName
+                    });
+
+                    //var chosen = await UserMgr.FindByNameAsync(uid);                
+                    model.GroupID = (int)id;
+                };
+                return View(model);
+            }
+            else
+            {
+                id = TempData["GroupID"] as int?;
+                var model = new GroupMember();
+                {
+                    //string uid 
+                    model.Uname = member.Select(x => new SelectListItem
+                    {
+                        Value = x.UserName,
+                        Text = x.UserName
+                    });
+
+                    //var chosen = await UserMgr.FindByNameAsync(uid);                
+                    model.GroupID = (int)id;
+                    model.GroupName = TempData["GroupName"] as string;
+                    TempData.Keep();
+                };
+                
+                return View(model);
+            }
             //return View();
         }
 
@@ -103,10 +136,16 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserID,GroupID")] GroupMember groupMember)
+        public async Task<IActionResult> Create([Bind("UserID,GroupID, UserName, GroupName")] GroupMember groupMember)
         {
             if (ModelState.IsValid)
             {
+                var user = await UserMgr.FindByNameAsync(groupMember.UserName);
+                groupMember.UserID = user.Id;
+                groupMember.GroupID = Convert.ToInt32(TempData["GroupID"]);
+                groupMember.GroupName = TempData["GroupName"] as string;
+                TempData.Keep();
+                //groupMember.GroupName = _gcontext.Group.Find(groupMember.GroupID).ToString();
                 _context.Add(groupMember);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

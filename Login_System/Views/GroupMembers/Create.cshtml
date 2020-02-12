@@ -31,17 +31,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Group" class="control-label"></label>
-                @Html.DropDownListFor(x => x.GroupName, Model.Group, "Select skill", new { @class = "form-control", id = "skill" })
-                <span asp-validation-for="Group" class="text-danger"></span>
+                @Html.DropDownListFor(x => x.UserName, Model.Uname, "Select member", new { @class = "form-control", id = "skill" })
+                <span asp-validation-for="UserName" class="text-danger"></span>                
             </div>
             @*<div class="form-group">
                 <label asp-for="Group" class="control-label"></label>
                 <input type="number" min="0" max="5" asp-for="Group" class="form-control" placeholder="Skill Level (between 0 and 5)" />
                 <span asp-validation-for="Group" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="hidden" asp-for="UserID" class="form-control" />
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

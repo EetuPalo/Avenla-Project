@@ -12,8 +12,12 @@ namespace Login_System.Models
         public int Id { get; set; }
         public int UserID { get; set; }
         public int GroupID { get; set; }
+
+        public string UserName { get; set; }
         public string GroupName { get; set; }
         [NotMapped]
         public IEnumerable<SelectListItem> Group { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> Uname { get; set; }
     }
 }
