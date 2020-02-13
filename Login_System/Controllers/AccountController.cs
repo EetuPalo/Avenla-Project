@@ -36,7 +36,7 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, Password, ConfirmPassword")] RegisterVM newUser)
+        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, PhoneNumber, Password, ConfirmPassword")] RegisterVM newUser)
         {
             if (ModelState.IsValid)
             {
