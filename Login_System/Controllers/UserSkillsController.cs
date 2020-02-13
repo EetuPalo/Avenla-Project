@@ -66,56 +66,44 @@ namespace Login_System.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ListByDate(int? id)
+        public async Task <IActionResult> ListByDate(int? id)
         {
             if (id == null)
             {
                 id = Convert.ToInt32(TempData["UserId"]);
             }
 
-            var model = new List<UserSkills>();
-
-            foreach (var skill in skillContext.Skills)
-            {
-                /*
-                skill.EntryCount = CountEntries(skill.Skill);
-                try
-                {
-                    DateTime latestDateEntry = GetLatest(skill.Skill);
-                    skill.LatestEntry = latestDateEntry.ToString("MM/dd/yyyy H:mm");
-                    skill.LatestEval = GetLatestEval(skill.Skill, latestDateEntry);
-                }
-                catch
-                {
-                    skill.LatestEntry = "Not available!";
-                    skill.LatestEval = 0;
-                }
-                */
-                //model.SkillList.Add(skill);
-            }
-            //This is useful information we'll need in other controller actions
-            //userId = id;
-            var tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            //userName = tempUser.UserName;
-
             TempData["UserId"] = id;
-            //TempData["UserName"] = tempUser.UserName;
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            TempData["UserName"] = tempUser.UserName;
+
+            var model = new List<string>(); 
+            
+            foreach (var item in _context.UserSkills)
+            {
+                if (item.UserID == id && !model.Contains(item.Date.ToString()))
+                {
+                    model.Add(item.Date.ToString());
+                }
+            }
 
             return View(model);
         }
 
-        public async Task<IActionResult> SkillList(string skillName)
+        [HttpGet]
+        public async Task<IActionResult> SkillList(string date)
         {
             var model = new List<UserSkillsVM>();
 
             int userId = Convert.ToInt32(TempData["UserId"]);
-            string userName = TempData["UserName"].ToString();
+            //string userName = TempData["UserName"].ToString();
             
             AppUser tempUser = await UserMgr.FindByIdAsync(userId.ToString());
+            TempData["UserName"] = tempUser.UserName;
 
             foreach (var skill in _context.UserSkills)
             {
-                if (skill.SkillName == skillName && skill.UserID == userId)
+                if (skill.Date.ToString() == date && skill.UserID == userId)
                 {
                     var usrSkill = new UserSkillsVM();
 
@@ -265,6 +253,11 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")] UserSkillsWithSkillVM userSkills)
         {
             var model = new List<UserSkills>();
+
+            //Date is declared here so that it's guaranteed to be the same for all skills.
+            DateTime date = DateTime.Now;
+
+            //Looping through the entries, adding them to a UserSkills object and adding that to a list.
             for (int i = 0; i < userSkills.SkillList.Count(); i++)
             {
                 var tempModel = new UserSkills
@@ -273,7 +266,7 @@ namespace Login_System.Controllers
                     SkillName = userSkills.SkillList[i],
                     UserID = Convert.ToInt32(TempData["UserId"]),
                     Id = null,
-                    Date = DateTime.Now                    
+                    Date = date               
                 };
 
                 if (User.IsInRole("Admin"))
@@ -296,7 +289,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
 
             TempData.Keep();
-            return RedirectToAction(nameof(Index), "UserSkills", new { id = TempData.Peek("UserId") });
+            return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = TempData.Peek("UserId") });
 
             /*
              _context.Add(userSkills);
@@ -325,9 +318,7 @@ namespace Login_System.Controllers
             return View(userSkills);
         }
 
-        // POST: UserSkills/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,SkillName,SkillLevel,Date")] UserSkills userSkills)

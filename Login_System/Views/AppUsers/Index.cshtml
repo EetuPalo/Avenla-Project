@@ -78,7 +78,7 @@
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                <a asp-action="Index" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a>
+                <a asp-action="ListByDate" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a>
                 if (User.IsInRole("Admin"))
                 {
                     <a asp-action="EditUsersInRole" asp-controller="Admin" asp-route-id="@item.Id">Edit Role</a>

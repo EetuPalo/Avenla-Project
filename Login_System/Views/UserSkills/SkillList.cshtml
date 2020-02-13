@@ -17,12 +17,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.SkillLevel)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdminEval)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,20 +28,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SkillLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @if (item.AdminEval == "Admin Assessment")
-                {
-                    <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.AdminEval)
-                }
-            </td>
+            </td>            
             @if (User.IsInRole("Admin"))
             {
                 <td>
