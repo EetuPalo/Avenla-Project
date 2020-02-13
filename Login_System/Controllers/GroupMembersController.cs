@@ -56,9 +56,10 @@ namespace Login_System.Controllers
             {
                 TempData["GroupName"] = tempGroup.name;
             }
-            catch(NullReferenceException e)
+            catch(NullReferenceException)
             {
                 //line 63 causes NullReference exception but doesn't actually prevent the program from working as intended, so the exception is just ignored
+                //someday would need to look into it.
             }
 
             return View(model);
@@ -218,7 +219,7 @@ namespace Login_System.Controllers
             var groupMember = await _context.GroupMembers.FindAsync(id);
             _context.GroupMembers.Remove(groupMember);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupMember.GroupID });//redirecting back to the list of group members after deletion
         }
 
         private bool GroupMemberExists(int id)
