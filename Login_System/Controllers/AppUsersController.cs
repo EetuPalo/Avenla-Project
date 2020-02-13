@@ -110,23 +110,27 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (User.IsInRole("Admin") || UserMgr.GetUserId(User) == id.ToString())
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var appUser = await UserMgr.FindByIdAsync(id.ToString());
-            
-            if (appUser == null)
-            {
-                return NotFound();
-            }
+                var appUser = await UserMgr.FindByIdAsync(id.ToString());
 
-            TempData["UserId"] = id;
-            return View(appUser);
+                if (appUser == null)
+                {
+                    return NotFound();
+                }
+
+                TempData["UserId"] = id;
+                return View(appUser);
+            }
+            return View();
         }
         // POST: AppUsers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -158,9 +162,9 @@ namespace Login_System.Controllers
                     user.PhoneNumber = appUser.PhoneNumber;
                     //user.Active = appUser.Active;
 
-                    if(appUser.NewPassword != null)
+                    if(appUser.NewPassword != null && !(User.IsInRole("Admin") && UserMgr.GetUserId(User) == id.ToString()))
                     {
-                        if (User.IsInRole("Admin"))
+                        if (true)
                         {
                             if (UserMgr.GetUserId(User) == id.ToString())
                             {
@@ -192,7 +196,7 @@ namespace Login_System.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "You do not have the permission to edit this user!";
+                    //ViewBag.Message = "You do not have the permission to edit this user!";
                     Console.WriteLine("You do not have the permission to edit this user!");
                     return RedirectToAction(nameof(Index));
                 }
