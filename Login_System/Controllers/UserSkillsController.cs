@@ -77,14 +77,26 @@ namespace Login_System.Controllers
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserName"] = tempUser.UserName;
 
-            var model = new List<string>(); 
+            //var tempDate = new List<string>();
             
+            var model = new List<DateListVM>();
+            var tempDate = new List<string>();
+
             foreach (var item in _context.UserSkills)
             {
-                if (item.UserID == id && !model.Contains(item.Date.ToString()))
-                {
-                    model.Add(item.Date.ToString());
-                }
+                if (item.UserID == id)
+                {                    
+                    if (!tempDate.Contains(item.Date.ToString()))
+                    {
+                        var tempModel = new DateListVM
+                        {
+                            Date = item.Date.ToString(),
+                            AdminEval = item.AdminEval
+                        };
+                        model.Add(tempModel);
+                    }
+                    tempDate.Add(item.Date.ToString());
+                }                
             }
 
             return View(model);

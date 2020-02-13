@@ -1,4 +1,4 @@
-﻿@model IEnumerable<string>
+﻿@model IEnumerable<Login_System.ViewModels.DateListVM>
 @{
     ViewData["Title"] = "ListByDate";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,22 +16,35 @@
             <th>
                 Date
             </th>
-
+            <th>
+                Evaluation Type
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            @if (item.AdminEval == "Admin Evaluation")
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item)
+                    <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
                 </td>
-
+            }
+            else
+            {
                 <td>
-                    <a asp-action="SkillList" asp-route-date="@item">View</a> |
+                    @Html.DisplayFor(modelItem => item.AdminEval)
                 </td>
-            </tr>
+            }
+            <td>
+                <a asp-action="SkillList" asp-route-date="@item.Date">View</a> |
+            </td>
+        </tr>
         }
     </tbody>
 </table>
