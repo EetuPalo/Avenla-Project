@@ -25,17 +25,26 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            @if (item.AdminEval == "Admin Evaluation")
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
                 </td>
+            }
+            else
+            {
                 <td>
                     @Html.DisplayFor(modelItem => item.AdminEval)
                 </td>
-                <td>
-                    <a asp-action="SkillList" asp-route-date="@item.Date">View</a> |
-                </td>
-            </tr>
+            }
+            <td>
+                <a asp-action="SkillList" asp-route-date="@item.Date">View</a> |
+            </td>
+        </tr>
         }
     </tbody>
 </table>
