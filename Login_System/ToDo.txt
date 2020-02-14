@@ -5,7 +5,7 @@
 - User Groups (Parviz)
 	- Specific SkillLevel goals for each user group. Need to be displayed somehow to the users who are part of that group.
 - User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
-- Remove "change password" from admin
+- Remove "change password" from admin (kinda implemented, the code needs refactoring and maybe the whole thing could be more logical)
 - A ton of testing.
 - Comments
 - Clean up code
