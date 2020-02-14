@@ -17,6 +17,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.SkillLevel)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SkillGoal)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -27,8 +30,19 @@
                 @Html.DisplayFor(modelItem => item.SkillName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SkillLevel)
-            </td>            
+                @if (item.SkillLevel < item.SkillGoal)
+                {
+                    <span class="text-danger"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
+                }
+                else if (item.SkillLevel == item.SkillGoal || item.SkillLevel > item.SkillGoal)
+                {
+                    <span class="text-success"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SkillGoal)
+            </td>
             @if (User.IsInRole("Admin"))
             {
                 <td>

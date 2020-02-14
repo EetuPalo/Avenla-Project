@@ -15,17 +15,21 @@ namespace Login_System.Controllers
     {
         private readonly UserSkillsDataContext _context;
         private readonly SkillDataContext skillContext;
+        private readonly SkillGoalContext goalContext;
+        private readonly GroupMembersDataContext gMemContext;
         private UserManager<AppUser> UserMgr { get; }
 
         //These will be set in the index, and be used by other controller methods.
         public int userId;
         public string userName;
 
-        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager)
+        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager, SkillGoalContext gContext, GroupMembersDataContext memberContext)
         {
             _context = context;
             skillContext = sContext;
             UserMgr = userManager;
+            goalContext = gContext;
+            gMemContext = memberContext;
         }
 
         public async Task<IActionResult> Index (int? id)
@@ -98,7 +102,6 @@ namespace Login_System.Controllers
                     tempDate.Add(item.Date.ToString());
                 }                
             }
-
             return View(model);
         }
 
@@ -109,7 +112,43 @@ namespace Login_System.Controllers
 
             int userId = Convert.ToInt32(TempData["UserId"]);
             //string userName = TempData["UserName"].ToString();
-            
+
+            //Getting the skillgoal info for user group
+            var skillGoalList = goalContext.SkillGoals.ToList();
+            var groupMemberList = gMemContext.GroupMembers.ToList();
+            var groupList = new List<Group>();
+            var goalList = new List<GoalForSkillVM>();
+
+            //Some complex stuff for fetching the correct skillgoal for the correct group for the correct skill for the correct user
+            foreach (var member in groupMemberList)
+            {
+                if (member.UserID == userId)
+                {
+                    var tempGroup = new Group
+                    {
+                        id = member.GroupID,
+                        name = member.GroupName
+                    };
+
+                    groupList.Add(tempGroup);
+                }
+            }
+
+            foreach (var group in groupList)
+            {
+                foreach (var goal in skillGoalList)
+                {
+                    if (group.name == goal.GroupName)
+                    {
+                        var tempGoalList = new GoalForSkillVM();
+                        tempGoalList.SkillName = goal.SkillName;
+                        tempGoalList.SkillGoal = goal.SkillGoal;
+
+                        goalList.Add(tempGoalList);
+                    }
+                }
+            }
+
             AppUser tempUser = await UserMgr.FindByIdAsync(userId.ToString());
             TempData["UserName"] = tempUser.UserName;
 
@@ -124,8 +163,16 @@ namespace Login_System.Controllers
                     usrSkill.UserName = userName;
                     usrSkill.SkillName = skill.SkillName;
                     usrSkill.SkillLevel = skill.SkillLevel;
-                    usrSkill.Date = skill.Date.ToString("MM/dd/yyyy H:mm");
+                    usrSkill.Date = skill.Date.ToString("dd/MM/yyyy H:mm");
                     usrSkill.AdminEval = skill.AdminEval;
+
+                    foreach (var goal in goalList)
+                    {
+                        if (skill.SkillName == goal.SkillName)
+                        {
+                            usrSkill.SkillGoal = goal.SkillGoal;
+                        }
+                    }
 
                     model.Add(usrSkill);
                 }
@@ -333,7 +380,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,SkillName,SkillLevel,Date")] UserSkills userSkills)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AdminEval,UserID,SkillName,SkillLevel,Date")] UserSkills userSkills)
         {
             //int redirectId = userSkills.UserID;
 
@@ -346,6 +393,11 @@ namespace Login_System.Controllers
             {
                 try
                 {
+                    if (!userSkills.AdminEval.Contains(" - Edited"))
+                    {
+                        userSkills.AdminEval += (" - Edited");
+                    }
+
                     _context.Update(userSkills);
                     await _context.SaveChangesAsync();
                 }
@@ -360,7 +412,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "UserSkills", new { id = userSkills.UserID });
+                return RedirectToAction("ListByDate", "UserSkills", new { id = userSkills.UserID });
             }
             return View(userSkills);
         }
@@ -391,7 +443,7 @@ namespace Login_System.Controllers
             var userSkills = await _context.UserSkills.FindAsync(id);
             _context.UserSkills.Remove(userSkills);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ListByDate));
         }
 
         private bool UserSkillsExists(int id)
@@ -409,6 +461,7 @@ namespace Login_System.Controllers
         }
         */
 
+        //Below this are methods not currently used anywhere, but I'm keeping them here just in case.
         public int CountEntries(string skillName)
         {
             int entryCount = 0;
