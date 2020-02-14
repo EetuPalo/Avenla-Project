@@ -8,6 +8,7 @@
 
 <h1>Sign up</h1>
 <fieldset>
+    <span style="font-weight: bold; color: red; font-size: 15px;">@ViewBag.Message</span>
     <form asp-action="Register" asp-controller="Account">
         <div asp-validation-summary="All" class="input-validation-error"></div>
         <p>
@@ -38,11 +39,11 @@
             <label asp-for="Password"></label>
             <input asp-for="Password" class="form-control" placeholder="Password" />
             <span asp-validation-for="Password"></span>
-        </p>       
-         <p>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
-        <span asp-validation-for="ConfirmPassword"></span>
+        </p>
+        <p>
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+            <span asp-validation-for="ConfirmPassword"></span>
         </p>
         <p>
             <button type="submit">Register</button>
