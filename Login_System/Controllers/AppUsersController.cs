@@ -164,32 +164,35 @@ namespace Login_System.Controllers
 
                     if(appUser.NewPassword != null && !(User.IsInRole("Admin") && UserMgr.GetUserId(User) == id.ToString()))
                     {
-                        if (true)
+                        
+                        if (UserMgr.GetUserId(User) == id.ToString())
                         {
-                            if (UserMgr.GetUserId(User) == id.ToString())
-                            {
-                                await SignInMgr.SignInAsync(user, false);
-                            }
-                            var hashResult = UserMgr.PasswordHasher.HashPassword(appUser, appUser.NewPassword);
-                            var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
-                            var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
-
-                            var result = await UserMgr.UpdateAsync(user);
+                            await SignInMgr.SignInAsync(user, false);
                         }
-                        else
-                        {
-                            //This signs in with the new username IF the user is editing their own account.
-                            //It is neccessary, because without this, the user would stay logged in with their old username, and that would break stuff.
-                            if (UserMgr.GetUserId(User) == id.ToString())
-                            {
-                                await SignInMgr.SignInAsync(user, false);
-                            }
-                            var result = await UserMgr.UpdateAsync(user);
-                        }
+                        var hashResult = UserMgr.PasswordHasher.HashPassword(appUser, appUser.NewPassword);
+                        var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
+                        var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
+                        var result = await UserMgr.UpdateAsync(user);
+                        return RedirectToAction(nameof(Index));
+                        //else
+                        //{
+                        //    //This signs in with the new username IF the user is editing their own account.
+                        //    //It is neccessary, because without this, the user would stay logged in with their old username, and that would break stuff.
+                        //    if (UserMgr.GetUserId(User) == id.ToString())
+                        //    {
+                        //        await SignInMgr.SignInAsync(user, false);
+                        //    }
+                        //    var result = await UserMgr.UpdateAsync(user);
+                        //}
                     }
                     else
                     {
                         var result = await UserMgr.UpdateAsync(user);
+                        if(appUser.NewPassword != null)
+                        {
+                            ViewBag.Message = "Permission denied";
+                            return View();
+                        }
                         return RedirectToAction(nameof(Index));
                     }
                     

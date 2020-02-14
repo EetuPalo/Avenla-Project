@@ -34,6 +34,7 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
+            <span style="font-weight: bold; color: red; font-size: 15px;" >@ViewBag.Message</span>
             <div class="form-group">
                 <label asp-for="NewPassword" class="control-label"></label>
                 <input asp-for="NewPassword" class="form-control" />
