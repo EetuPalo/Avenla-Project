@@ -17,12 +17,21 @@ namespace Login_System.Models
 
         public int SkillGoal { get; set; }
 
+        public DateTime Date { get; set; }
+
         [NotMapped]
         public IList<SelectListItem> Skills { get; set; }
+
+        [NotMapped]
+        public IList<SelectListItem> SkillDates { get; set; }
+
+        [NotMapped]
+        public int LatestGoal { get; set; }
 
         public SkillGoals()
         {
             Skills = new List<SelectListItem>();
+            SkillDates = new List<SelectListItem>();
         }
     }
 }

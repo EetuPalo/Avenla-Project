@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Login_System.Models.SkillGoals>
+﻿@model Login_System.ViewModels.SkillGoalIndexVM
 
 @{
     ViewData["Title"] = "Index";
@@ -7,6 +7,12 @@
 
 <h1>Index</h1>
 
+<form asp-controller="SkillGoals" asp-action="RefreshIndex">
+    @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date")
+    <input hidden asp-for="@Model.GroupName"  value="@TempData["GroupName"]"/>
+    <input type="submit" value="Refresh" />
+</form>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -14,27 +20,21 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SkillName)
+                Skill
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SkillGoal)
+                Goal
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Goals) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.SkillName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SkillGoal)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.LatestGoal)
             </td>
         </tr>
 }

@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.SkillGoals
+﻿@model Login_System.ViewModels.CreateSkillGoalsVM
 
 @{
     ViewData["Title"] = "Create";
@@ -13,17 +13,21 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @Html.DropDownListFor(x => x.SkillName, Model.Skills)
-            </div>
-            <div class="form-group">
-                <label asp-for="SkillGoal" class="control-label"></label>
-                <input type="number" asp-for="SkillGoal" class="form-control" min="0" max="5" />
-                <span asp-validation-for="SkillGoal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+            @for (int i = 0; i < Model.SkillCounter; i++)
+            {
+                <p>
+                    <label>@Model.SkillGoals[i].SkillName</label>
+                    <input hidden asp-for="@Model.SkillGoals[i].SkillName" />
+                    <input asp-for="@Model.SkillGoals[i].SkillGoal" class="form-control" type="number" min="0" max="5" />
+                    <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
+                </p>
+            }
+            <p>
+                <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
+            </p>
+            <p>
+                <button type="submit">Submit</button>
+            </p>
         </form>
     </div>
 </div>
