@@ -23,15 +23,11 @@ namespace Login_System.Models
         public IList<SelectListItem> Skills { get; set; }
 
         [NotMapped]
-        public IList<SelectListItem> SkillDates { get; set; }
-
-        [NotMapped]
         public int LatestGoal { get; set; }
 
         public SkillGoals()
         {
             Skills = new List<SelectListItem>();
-            SkillDates = new List<SelectListItem>();
         }
     }
 }

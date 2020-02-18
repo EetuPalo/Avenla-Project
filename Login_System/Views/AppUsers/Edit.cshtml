@@ -7,41 +7,43 @@
 
 <h1>Edit</h1>
 
-<h4>AppUser</h4>
+<h3 class="text-info">@TempData["ActionResult"]</h3>
+
+<h4>@TempData["UserFullName"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+                <label asp-for="FirstName" class="control-label">First Name</label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+                <label asp-for="LastName" class="control-label">Last Name</label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">Email Address</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
+                <label asp-for="PhoneNumber" class="control-label">Phone Number</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <span style="font-weight: bold; color: red; font-size: 15px;" >@ViewBag.Message</span>
             <div class="form-group">
-                <label asp-for="NewPassword" class="control-label"></label>
+                <label asp-for="NewPassword" class="control-label">New Password</label>
                 <input asp-for="NewPassword" class="form-control" />
                 <span asp-validation-for="NewPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConfirmNewPassword" class="control-label"></label>
+                <label asp-for="ConfirmNewPassword" class="control-label">Confirm Password</label>
                 <input asp-for="ConfirmNewPassword" class="form-control" />
                 <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
             </div>
@@ -54,7 +56,7 @@
 
 @if (User.IsInRole("Admin"))
 {
-    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]">Edit Roles</a>
+    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Roles</a>
 }
 
 

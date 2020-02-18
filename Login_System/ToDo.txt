@@ -1,8 +1,8 @@
 ﻿TODO:
 
 - Admins should edit the forms for each user group (can probably reuse code from user role editing)
+	- This could maybe be implemented so that IF skillgoal is set to 0, the user group doesn't need to see it in the userskills form.
 - Graphs to display skill progression
-- User Groups (Parviz)
 - User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
 - Remove "change password" from admin (kinda implemented, the code needs refactoring and maybe the whole thing could be more logical)
 - A ton of testing.
@@ -11,8 +11,8 @@
 - Clean UI
 - Fix redirects in edit user (and refactor the whole thing)
 - UserSkills delete function needs to delete the whole form.
-- Editing skill goals should preserve the old version of the goal. (Similar "view by date" as in userskills)
 - Edit view of userskills should allow the editing of them all on the same form
+- Fix the "My Skills" button in the layout
 
 Levels: 
 0: I don't know and don't want to know!
@@ -34,3 +34,5 @@ DONE:
 - //Creating, editing, setting user groups for admins
 - //Authorization fixes
 - //Specific SkillLevel goals for each user group. Need to be displayed somehow to the users who are part of that group.
+- //Editing skill goals should preserve the old version of the goal. (Similar "view by date" as in userskills)
+- //User Groups (Parviz)

@@ -34,7 +34,10 @@ namespace Login_System.Controllers
                 Console.WriteLine("No group selected. This is most likely an error.");
                 return View();
             }
-            else if (date == null && name != null)
+
+            TempData["GroupName"] = name;
+
+            if (date == null && name != null)
             {
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
@@ -51,9 +54,7 @@ namespace Login_System.Controllers
                 }
 
                 model.Goals = tempModel;
-                model.SkillDates = GetDates(_context.SkillGoals);
-
-                TempData["GroupName"] = name;
+                model.SkillDates = GetDates(_context.SkillGoals);                
 
                 if (model != null)
                 {
@@ -80,8 +81,6 @@ namespace Login_System.Controllers
 
                 model.Goals = tempModel;
                 model.SkillDates = GetDates(_context.SkillGoals);
-
-                TempData["GroupName"] = name;
 
                 if (model != null)
                 {
@@ -166,26 +165,63 @@ namespace Login_System.Controllers
         {
             var model = new List<SkillGoals>();
             DateTime date = DateTime.Now;
-
-            for (int i = 0; i < goals.SkillCounter; i++)
-            {
-                var tempModel = new SkillGoals
-                {
-                    SkillName = goals.SkillGoals[i].SkillName,
-                    SkillGoal = goals.SkillGoals[i].SkillGoal,
-                    Date = date,
-                    GroupName = TempData["GroupName"].ToString()
-                };
-                model.Add(tempModel);
-            }
-
-            foreach (var entry in model)
-            {
-                _context.Add(entry);
-            }
-
-            await _context.SaveChangesAsync();
+            string dateMinute = date.ToString("dd.MM.yyyy");
+            string groupName = TempData["GroupName"].ToString();
             TempData.Keep();
+
+            //This is a complicated way to check if entries have already been made today. If a better way exists, we'll change this
+            var todayList = new List<SkillGoals>();
+            foreach (var goal in _context.SkillGoals)
+            {
+                if (goal.Date.ToString("dd.MM.yyyy") == dateMinute)
+                {
+                    todayList.Add(goal);
+                }
+            }
+
+            if (todayList == null)
+            {
+                for (int i = 0; i < goals.SkillCounter; i++)
+                {
+                    try
+                    {
+                        var tempModel = new SkillGoals
+                        {
+                            GroupName = groupName,
+                            SkillName = goals.SkillGoals[i].SkillName,
+                            SkillGoal = goals.SkillGoals[i].SkillGoal,
+                            Date = date
+                        };
+                        model.Add(tempModel);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error occured at loop " + i);
+                    }
+                }
+
+                foreach (var entry in model)
+                {
+                    _context.Add(entry);
+                }
+            }
+            else if (todayList != null)
+            {
+                foreach (var goal in _context.SkillGoals)
+                {
+                    for (int i = 0; i < goals.SkillCounter; i++)
+                    {
+                        if (goal.SkillName == goals.SkillGoals[i].SkillName && goal.Date.ToString("dd.MM.yyyy") == dateMinute)
+                        {
+                            goal.SkillGoal = goals.SkillGoals[i].SkillGoal;
+                            goal.Date = date;
+                            _context.Update(goal);
+                        }
+                    }
+                }
+            }
+           
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
