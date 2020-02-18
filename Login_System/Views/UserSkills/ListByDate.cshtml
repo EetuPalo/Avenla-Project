@@ -3,7 +3,9 @@
     ViewData["Title"] = "ListByDate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<head>
+    <script src="~/js/Chart.bundle.js"></script>
+</head>
 <h1>ListByDate</h1>
 
 <p>
@@ -25,27 +27,69 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            @if (item.AdminEval == "Admin Evaluation")
-            {
+            <tr>
                 <td>
-                    <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
+                    @Html.DisplayFor(modelItem => item.Date)
                 </td>
-            }
-            else
-            {
+                @if (item.AdminEval == "Admin Evaluation")
+                {
+                    <td>
+                        <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AdminEval)
+                    </td>
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.AdminEval)
+                    <a asp-action="SkillList" asp-route-date="@item.Date">View</a> |
                 </td>
-            }
-            <td>
-                <a asp-action="SkillList" asp-route-date="@item.Date">View</a> |
-            </td>
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
+<canvas id="myChart" width="400" height="400"></canvas>
 
+<script>
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+        datasets: [{
+            label: 'SKill progression for past 14 days or some shit who the fuck knows please fucking end my life',
+            data: JSON.parse('@Html.Raw(ViewBag.DataPoint)'),
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+        
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+console.log(myChart)
+</script>

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using ASPNET_MVC_Samples.Models;
+using Newtonsoft.Json;
 
 namespace Login_System.Controllers
 {
@@ -85,7 +87,8 @@ namespace Login_System.Controllers
             
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
-
+            List<int> dataPoints = new List<int>();
+            int i = 0;
             foreach (var item in _context.UserSkills)
             {
                 if (item.UserID == id)
@@ -99,9 +102,13 @@ namespace Login_System.Controllers
                         };
                         model.Add(tempModel);
                     }
+                    i += 10;
                     tempDate.Add(item.Date.ToString());
+                    dataPoints.Add(item.SkillLevel);
                 }                
             }
+            ViewBag.DataPoint = JsonConvert.SerializeObject(dataPoints);
+            
             return View(model);
         }
 
