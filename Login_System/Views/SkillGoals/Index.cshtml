@@ -9,7 +9,7 @@
 
 <form asp-controller="SkillGoals" asp-action="RefreshIndex">
     @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date")
-    <input hidden asp-for="@Model.GroupName"  value="@TempData["GroupName"]"/>
+    <input hidden asp-for="@Model.GroupName"  value="@TempData.Peek("GroupName")"/>
     <input type="submit" value="Refresh" />
 </form>
 
