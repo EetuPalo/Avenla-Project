@@ -28,14 +28,16 @@ namespace Login_System.Controllers
         // GET: SkillGoals
 #nullable enable
         public async Task<IActionResult> Index(string name, string? date)
-        {
+        {            
             if (name == null)
             {
                 Console.WriteLine("No group selected. This is most likely an error.");
                 return View();
             }
+            string groupName = name;
 
-            TempData["GroupName"] = name;
+            TempData["GroupName"] = groupName;
+            TempData["Group"] = groupName;
 
             if (date == null && name != null)
             {
@@ -45,7 +47,7 @@ namespace Login_System.Controllers
 
                 foreach (var skillGoal in _context.SkillGoals)
                 {
-                    if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName))
+                    if (skillGoal.GroupName == groupName && !modelCheck.Contains(skillGoal.SkillName))
                     {
                         skillGoal.LatestGoal = GetLatest(skillGoal);
                         tempModel.Add(skillGoal);
@@ -71,7 +73,7 @@ namespace Login_System.Controllers
 
                 foreach (var skillGoal in _context.SkillGoals)
                 {
-                    if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
+                    if (skillGoal.GroupName == groupName && !modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
@@ -136,7 +138,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillGoals/Create
-        public IActionResult Create()
+        public IActionResult Create(string name)
         {
             var model = new CreateSkillGoalsVM();
             int dictKey = 0;
@@ -146,8 +148,11 @@ namespace Login_System.Controllers
 
             foreach (var skill in skillContext.Skills)
             {
-                var tempModel = new SkillGoals();
-                tempModel.SkillName = skill.Skill;
+                var tempModel = new SkillGoals
+                {
+                    SkillName = skill.Skill,
+                    GroupName = name
+                };
                 listModel.Add(dictKey, tempModel);
                 dictKey++;
                 model.SkillCounter++;
@@ -166,7 +171,7 @@ namespace Login_System.Controllers
             var model = new List<SkillGoals>();
             DateTime date = DateTime.Now;
             string dateMinute = date.ToString("dd.MM.yyyy");
-            string groupName = TempData["GroupName"].ToString();
+            string groupName = TempData["Group"].ToString();
             TempData.Keep();
 
             //This is a complicated way to check if entries have already been made today. If a better way exists, we'll change this
