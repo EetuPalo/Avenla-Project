@@ -19,19 +19,21 @@ namespace Login_System.Controllers
         private readonly SkillDataContext skillContext;
         private readonly SkillGoalContext goalContext;
         private readonly GroupMembersDataContext gMemContext;
+        private readonly GroupsDataContext groupContext;
         private UserManager<AppUser> UserMgr { get; }
 
         //These will be set in the index, and be used by other controller methods.
         public int userId;
         public string userName;
 
-        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager, SkillGoalContext gContext, GroupMembersDataContext memberContext)
+        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager, SkillGoalContext gContext, GroupMembersDataContext memberContext, GroupsDataContext groupCon)
         {
             _context = context;
             skillContext = sContext;
             UserMgr = userManager;
             goalContext = gContext;
             gMemContext = memberContext;
+            groupContext = groupCon;
         }
 
         public async Task<IActionResult> Index (int? id)
@@ -189,90 +191,6 @@ namespace Login_System.Controllers
             return View(model);
         }
 
-        /* OLD INDEX. REMOVE THIS AT SOME POINT
-        public async Task<IActionResult> OLD_Index(int? id)
-        {
-            var model = new List<UserSkillsVM>();
-
-            ViewBag.UserId = id;
-
-            var userName = UserMgr.GetUserName(User);
-           
-            foreach (var skill in _context.UserSkills)
-            {               
-                
-                if (!User.IsInRole("Admin"))
-                {
-                    //Depending on where the Index is accessed from, the ID may be null. If that's the case it is automatically set to be the same as the ID of the current user
-                    if (id == null)
-                    {
-                        id = Convert.ToInt32(UserMgr.GetUserId(User));
-                    }
-                    //If the UserID of the skill is the same as the id that is passed from AppUser Index (that is the index of the current user), the skill is added to the list.
-                    if (skill.UserID == id || Convert.ToInt32(UserMgr.GetUserId(User)) == skill.UserID)
-                    {
-                        var usrSkill = new UserSkillsVM();
-
-                        usrSkill.Id = skill.Id;
-                        usrSkill.UserID = skill.UserID;
-                        usrSkill.UserName = userName;
-                        usrSkill.SkillName = skill.SkillName;
-                        usrSkill.SkillLevel = skill.SkillLevel;
-                        usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
-
-                        model.Add(usrSkill);
-                        ViewBag.UserName = usrSkill.UserName;
-                    }
-                }
-                //The index has different behavior for admins
-                else if (User.IsInRole("Admin"))
-                {
-                    if (id == null)
-                    {
-                        id = Convert.ToInt32(UserMgr.GetUserId(User));
-
-                        if (skill.UserID == id)
-                        {
-                            var usrSkill = new UserSkillsVM();
-
-                            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-
-                            usrSkill.Id = skill.Id;
-                            usrSkill.UserID = skill.UserID;
-                            usrSkill.UserName = tempUser.UserName;
-                            usrSkill.SkillName = skill.SkillName;
-                            usrSkill.SkillLevel = skill.SkillLevel;
-                            usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
-
-                            model.Add(usrSkill);
-                            ViewBag.UserName = usrSkill.UserName;
-                        }
-                        //var usrSkill = new UserSkillsVM();
-                        //ViewBag.UserName = "All users";
-                        //This lists ALL entries to the userskills db. It's very messy and not really useful.                        
-                    }
-                    else if (skill.UserID == id)
-                    {
-                        var usrSkill = new UserSkillsVM();
-                        //This gets the info of the selected user and sets the username value to it.
-                        AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-                        
-                        usrSkill.Id = skill.Id;
-                        usrSkill.UserID = skill.UserID;
-                        usrSkill.UserName = tempUser.UserName;
-                        usrSkill.SkillName = skill.SkillName;
-                        usrSkill.SkillLevel = skill.SkillLevel;
-                        usrSkill.Date = skill.Date.ToString("MM/dd/yyyy");
-
-                        model.Add(usrSkill);
-                        ViewBag.UserName = usrSkill.UserName;
-                    }
-                }                
-            }            
-            return View(model);
-        }
-        */
-
         // GET: UserSkills/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -292,19 +210,80 @@ namespace Login_System.Controllers
         }
 
         // GET: UserSkills/Create
-        public IActionResult Create(int? id)
+        public async Task<IActionResult> Create(int? id)
         {
             //var model = new List<UserSkillsWithSkillVM>();
             var tempModel = new UserSkillsWithSkillVM();
             var tempList = new Dictionary<int, string>();
-            var Skills = skillContext.Skills.ToList();
+
+            //Code here for creating the form based on the skillgoals (if 0, not part of the form)
+            var skills = skillContext.Skills.ToList();
+            var goals = goalContext.SkillGoals.ToList();
+            var members = gMemContext.GroupMembers.ToList();
+            var groups = groupContext.Group.ToList();
+
+            var groupList = new List<Group>();
+            var memberList = new List<GroupMember>();
+            var skillList = new List<Skills>();
+            var goalList = new List<SkillGoals>();
+            var dateList = new List<DateTime>();
+
+            //skillList.Add(skill);
+
+            foreach (var member in members)
+            {
+                if (member.UserID == id)
+                {
+                    //Lists member entries relating to the current user
+                    memberList.Add(member);
+                }
+            }
+            foreach (var member in memberList)
+            {
+                foreach (var group in groups)
+                {
+                    if (member.GroupName == group.name)
+                    {
+                        groupList.Add(group);
+                    }
+                }
+            }
+            foreach (var group in groupList)
+            {
+                foreach (var goal in goals)
+                {
+                    if (goal.GroupName == group.name)
+                    {
+                        if (!dateList.Contains(goal.Date))
+                        {
+                            dateList.Add(goal.Date);
+                        }
+                        goalList.Add(goal);
+                    }
+                }
+            }
+
+            DateTime latestDate = dateList.Max();
+
+            foreach (var goal in goalList)
+            {
+                foreach (var skill in skills)
+                {
+                    if (goal.SkillName == skill.Skill && goal.SkillGoal != 0 && goal.Date == latestDate)
+                    {
+                        skillList.Add(skill);
+                    }
+                }
+            }
+
+
             int dictKey = 0;
             if (id == null)
             {
                 id = TempData["UserId"] as int?;
                 TempData.Keep();
             }
-            foreach (var skill in Skills)
+            foreach (var skill in skillList)
             {
                 tempList.Add(dictKey, skill.Skill);
                 dictKey++;
