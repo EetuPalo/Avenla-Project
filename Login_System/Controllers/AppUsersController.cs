@@ -47,6 +47,10 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            TempData["UserId"] = id;
+            TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
+
             return View(appUser);
         }
 
@@ -227,6 +231,11 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+
+            TempData["UserId"] = id;
+            TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
+
             return View(appUser);
         }
 
@@ -239,6 +248,7 @@ namespace Login_System.Controllers
             var appUser = await _context.Users.FindAsync(id);
             _context.Users.Remove(appUser);
             await _context.SaveChangesAsync();
+            TempData["ActionResult"] = "User has been deleted!";
             return RedirectToAction(nameof(Index));
         }
 
