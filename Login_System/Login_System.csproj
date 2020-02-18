@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-Login_System-E692E37F-4593-47AA-8521-6BE603859559</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\js\moment.js" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebPages.WebData" Version="3.2.7" />

@@ -10,18 +10,18 @@ namespace ASPNET_MVC_Samples.Models
 	[DataContract]
 	public class DataPoint
 	{
-		public DataPoint(double x, double y)
+		public DataPoint(int a, int b)
 		{
-			this.X = x;
-			this.Y = y;
+			this.x = a;
+			this.y = b;
 		}
 
 		//Explicitly setting the name to be used while serializing to JSON.
-		[DataMember(Name = "Date")]
-		public Nullable<double> X = null;
+		[DataMember]
+		public Nullable<int> x = null;
 
 		//Explicitly setting the name to be used while serializing to JSON.
-		[DataMember(Name = "Skill Level")]
-		public Nullable<double> Y = null;
+		[DataMember]
+		public Nullable<int> y = null;
 	}
 }
