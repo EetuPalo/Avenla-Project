@@ -10,5 +10,9 @@ namespace Login_System.ViewModels
         public string Date { get; set; }
 
         public string AdminEval { get; set; }
+
+        public string TempDate { get; set; }
+
+        public int Id { get; set; }
     }
 }

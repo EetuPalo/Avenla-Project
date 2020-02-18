@@ -22,6 +22,8 @@ namespace Login_System.Controllers
         private readonly GroupsDataContext groupContext;
         private UserManager<AppUser> UserMgr { get; }
 
+        int uId;
+
         //These will be set in the index, and be used by other controller methods.
         public int userId;
         public string userName;
@@ -66,10 +68,8 @@ namespace Login_System.Controllers
             //This is useful information we'll need in other controller actions
             //userId = id;
             var tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            //userName = tempUser.UserName;
-
             TempData["UserId"] = id;
-            //TempData["UserName"] = tempUser.UserName;
+            TempData["UserName"] = tempUser.UserName;
 
             return View(model);
         }
@@ -79,13 +79,16 @@ namespace Login_System.Controllers
             if (id == null)
             {
                 id = Convert.ToInt32(TempData["UserId"]);
+                TempData.Keep();
+            }
+            else
+            {
+                TempData["UserId"] = id;
             }
 
-            TempData["UserId"] = id;
+            uId = (int)id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            TempData["UserName"] = tempUser.UserName;
-
-            //var tempDate = new List<string>();
+            //TempData["UserName"] = tempUser.UserName;
             
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
@@ -100,8 +103,10 @@ namespace Login_System.Controllers
                     {
                         var tempModel = new DateListVM
                         {
-                            Date = item.Date.ToString(),
-                            AdminEval = item.AdminEval
+                            Date = item.Date.ToString("dd/MM/yyyy HH/mm"),
+                            AdminEval = item.AdminEval,
+                            TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                            Id = (int)id
                         };
                         model.Add(tempModel);
                         dates.Add(item.Date);
@@ -122,11 +127,12 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SkillList(string date)
+        public async Task<IActionResult> SkillList(string name, int? id)
         {
             var model = new List<UserSkillsVM>();
 
-            int userId = Convert.ToInt32(TempData["UserId"]);
+            int userId = (int)id;
+            TempData.Keep();
             //string userName = TempData["UserName"].ToString();
 
             //Getting the skillgoal info for user group
@@ -149,7 +155,6 @@ namespace Login_System.Controllers
                     groupList.Add(tempGroup);
                 }
             }
-
             foreach (var group in groupList)
             {
                 foreach (var goal in skillGoalList)
@@ -164,13 +169,15 @@ namespace Login_System.Controllers
                     }
                 }
             }
-
             AppUser tempUser = await UserMgr.FindByIdAsync(userId.ToString());
-            TempData["UserName"] = tempUser.UserName;
+            //TempData["UserName"] = tempUser.UserName;
 
             foreach (var skill in _context.UserSkills)
             {
-                if (skill.Date.ToString() == date && skill.UserID == userId)
+                var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
+                var date2 = name;
+
+                if (date1 == date2 && skill.UserID == userId)
                 {
                     var usrSkill = new UserSkillsVM();
 
@@ -217,8 +224,9 @@ namespace Login_System.Controllers
         }
 
         // GET: UserSkills/Create
-        public async Task<IActionResult> Create(int? id)
+        public async Task<IActionResult> Create(int id)
         {
+            TempData["UserId"] = id;
             //var model = new List<UserSkillsWithSkillVM>();
             var tempModel = new UserSkillsWithSkillVM();
             var tempList = new Dictionary<int, string>();
@@ -285,11 +293,7 @@ namespace Login_System.Controllers
 
 
             int dictKey = 0;
-            if (id == null)
-            {
-                id = TempData["UserId"] as int?;
-                TempData.Keep();
-            }
+
             foreach (var skill in skillList)
             {
                 tempList.Add(dictKey, skill.Skill);
@@ -305,6 +309,8 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")] UserSkillsWithSkillVM userSkills)
         {
             var model = new List<UserSkills>();
+            int userId = Convert.ToInt32(TempData["UserId"]);
+            TempData.Keep();
 
             //Date is declared here so that it's guaranteed to be the same for all skills.
             DateTime date = DateTime.Now;
@@ -316,7 +322,7 @@ namespace Login_System.Controllers
                 {
                     SkillLevel = userSkills.SkillLevel[i],
                     SkillName = userSkills.SkillList[i],
-                    UserID = Convert.ToInt32(TempData["UserId"]),
+                    UserID = userId,
                     Id = null,
                     Date = date               
                 };
@@ -341,7 +347,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
 
             TempData.Keep();
-            return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = TempData.Peek("UserId") });
+            return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = userId });
 
             /*
              _context.Add(userSkills);
