@@ -127,7 +127,10 @@ namespace Login_System.Controllers
                     return NotFound();
                 }
 
+                AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+
                 TempData["UserId"] = id;
+                TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
                 return View(appUser);
             }
             return View();
@@ -153,54 +156,55 @@ namespace Login_System.Controllers
                 tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
                 string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
 
+                //This is just an extra step to make sure the user is authorized to edit the account
                 if (user.UserName == compareUser || User.IsInRole("Admin"))
-                {                   
+                {
                     user.FirstName = appUser.FirstName;
                     user.LastName = appUser.LastName;
                     user.UserName = fixedUn;
                     user.Email = appUser.Email;
                     user.PhoneNumber = appUser.PhoneNumber;
-                    //user.Active = appUser.Active;
+                }
 
-                    if(appUser.NewPassword != null && !(User.IsInRole("Admin") && UserMgr.GetUserId(User) == id.ToString()))
+                if (appUser.NewPassword == null)
+                {
+                    try
                     {
-                        
-                        if (UserMgr.GetUserId(User) == id.ToString())
-                        {
-                            await SignInMgr.SignInAsync(user, false);
-                        }
+                        var result = await UserMgr.UpdateAsync(user);
+                        TempData["ActionResult"] = "User edited!";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Updating user information failed!");
+                        TempData["ActionResult"] = "User edit failed!";
+                        return View(appUser);
+                    }
+                }
+                else if (appUser.NewPassword != null)
+                {
+                    try
+                    {
+                        //This changes the password if the user has edited it
                         var hashResult = UserMgr.PasswordHasher.HashPassword(appUser, appUser.NewPassword);
                         var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
                         var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
                         var result = await UserMgr.UpdateAsync(user);
+
+                        TempData["ActionResult"] = "User edited!";
                         return RedirectToAction(nameof(Index));
-                        //else
-                        //{
-                        //    //This signs in with the new username IF the user is editing their own account.
-                        //    //It is neccessary, because without this, the user would stay logged in with their old username, and that would break stuff.
-                        //    if (UserMgr.GetUserId(User) == id.ToString())
-                        //    {
-                        //        await SignInMgr.SignInAsync(user, false);
-                        //    }
-                        //    var result = await UserMgr.UpdateAsync(user);
-                        //}
                     }
-                    else
+                    catch
                     {
-                        var result = await UserMgr.UpdateAsync(user);
-                        if(appUser.NewPassword != null)
-                        {
-                            ViewBag.Message = "Permission denied";
-                            return View();
-                        }
-                        return RedirectToAction(nameof(Index));
+                        Console.WriteLine("Updating user information with password failed!");
+                        TempData["ActionResult"] = "User edit failed!";
+                        return View(appUser);
                     }
-                    
-                }
+                }                  
                 else
                 {
-                    //ViewBag.Message = "You do not have the permission to edit this user!";
                     Console.WriteLine("You do not have the permission to edit this user!");
+                    TempData["ActionResult"] = "User edit failed!";
                     return RedirectToAction(nameof(Index));
                 }
             }
