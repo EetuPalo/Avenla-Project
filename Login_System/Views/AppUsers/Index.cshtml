@@ -81,7 +81,7 @@
                 <a asp-action="ListByDate" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a><span> |</span>
                 if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="EditUsersInRole" asp-controller="Admin" asp-route-id="@item.Id">Edit Role</a>
+                    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@item.Id" asp-route-source="index">Edit Role</a>
                 }
             }
         </td>                        

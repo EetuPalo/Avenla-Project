@@ -196,10 +196,11 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditRoleOfUser(int? id)
+        public async Task<IActionResult> EditRoleOfUser(int? id, string source)
         {
             ViewBag.UserId = id;
             AppUser tempUser = await userManager.FindByIdAsync(id.ToString());
+            TempData["Source"] = source;
 
             var listRoles = roleManager.Roles;
             var model = new List<AppRole>();
@@ -252,7 +253,16 @@ namespace Login_System.Controllers
                 }
             }
 
-            return RedirectToAction("Edit","AppUsers", new { Id = id });
+            string source = TempData["Source"].ToString();
+            if (source == "edit")
+            {
+                return RedirectToAction("Edit", "AppUsers", new { Id = id });
+            }
+            else
+            {
+                return RedirectToAction("Index", "AppUsers");
+            }
+
         }
     }
 }
