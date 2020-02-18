@@ -88,7 +88,8 @@ namespace Login_System.Controllers
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
             List<int> dataPoints = new List<int>();
-            int i = 0;
+            List<DateTime> dates = new List<DateTime>();
+            List<string> skillnames = new List<string>();
             foreach (var item in _context.UserSkills)
             {
                 if (item.UserID == id)
@@ -101,14 +102,20 @@ namespace Login_System.Controllers
                             AdminEval = item.AdminEval
                         };
                         model.Add(tempModel);
-                    }
-                    i += 10;
+                        dates.Add(item.Date);
+                    }                    
                     tempDate.Add(item.Date.ToString());
-                    dataPoints.Add(item.SkillLevel);
+                    
+                    if(!skillnames.Contains(item.SkillName))
+                    {
+                        skillnames.Add(item.SkillName);
+                        dataPoints.Add(item.SkillLevel);
+                    }             
                 }                
             }
             ViewBag.DataPoint = JsonConvert.SerializeObject(dataPoints);
-            
+            ViewBag.Dates = JsonConvert.SerializeObject(dates);
+            ViewBag.names = JsonConvert.SerializeObject(skillnames);
             return View(model);
         }
 

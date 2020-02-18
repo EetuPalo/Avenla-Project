@@ -50,17 +50,19 @@
         }
     </tbody>
 </table>
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart" width="2000" height="500"></canvas>
 
 <script>
 var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
-        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+        labels: [1,2,3,4,5/*,6,7,8,9,10,11,12,13,14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30*/],
+        //labels: [@Html.Raw(ViewBag.Dates)],
+        //labels: [@Html.Raw(ViewBag.names)],
         datasets: [{
-            label: 'SKill progression for past 14 days or some shit who the fuck knows please fucking end my life',
-            data: JSON.parse('@Html.Raw(ViewBag.DataPoint)'),
+            label: @Html.Raw(ViewBag.Dates),
+            data: @Html.Raw(ViewBag.DataPoint),
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -77,19 +79,50 @@ var myChart = new Chart(ctx, {
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
-            borderWidth: 1
+            borderWidth: 3
         }]
         
     },
     options: {
+        label: {
+            display: true
+        }
+    }
+    //options: {
+    //    scales: {
+    //        yAxes: [{
+    //            ticks: {
+    //                beginAtZero: true
+    //            }
+    //        }]
+    //    }
+    //}
+});
+    lineChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
-            yAxes: [{
+            xAxes: [{
+                type: 'time',
+                time: {
+                    parser: 'YYYY-MM-DD HH:mm:ss',
+                    unit: 'day',
+                    autoSkip: true,
+                    displayFormats: {
+                        day: 'MMM-DD'
+                    }
+                },
                 ticks: {
-                    beginAtZero: true
+
+                    source: 'label',
+
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Date'
                 }
             }]
         }
     }
-});
 console.log(myChart)
 </script>
