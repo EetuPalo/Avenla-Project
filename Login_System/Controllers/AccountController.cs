@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.ViewModels;
@@ -47,6 +48,7 @@ namespace Login_System.Controllers
                 byte[] tempBytes;
                 tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
                 string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+                fixedUn = RemoveSpecialCharacters(fixedUn);
 
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
@@ -126,7 +128,18 @@ namespace Login_System.Controllers
                 Console.WriteLine(ex.Message);
             }
             return RedirectToAction("Index", "Home");
-
+        }
+        public static string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
         }
     }
 }
