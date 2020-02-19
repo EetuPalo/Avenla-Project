@@ -53,7 +53,7 @@
         }
     </tbody>
 </table>
-<canvas id="myChart" width="2000" height="500"></canvas>
+<canvas id="myChart" width="2000" height="2000"></canvas>
 
 <script>
 var ctx = document.getElementById('myChart');
@@ -91,7 +91,6 @@ var myChart = new Chart(ctx, {
                 deta = deta.Replace("\"y\"", "y");
                 <text>
                 {
-            //label: @Html.Raw(Json.Serialize(ViewBag.Dates[i])),
             data: [@Html.Raw(deta)],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

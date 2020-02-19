@@ -10,11 +10,11 @@
 //USERSKILLS
 - UserSkills delete function needs to delete the whole form.
 - Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
-
+	- Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
 - Fix the "My Skills" button in the layout
-- Add action result messages to all the views
+
+- Add action result messages to all the views (mostly done)
 - Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
--WHen registering, remove non letter non number characters so the invalidusername warning is not thrown preventing user from being created
 
 Levels: 
 0: I don't know and don't want to know!
@@ -43,3 +43,4 @@ DONE:
 - //Fix redirects in edit user (and refactor the whole thing)
 - //Admins should edit the forms for each user group (can probably reuse code from user role editing)
 - //This could maybe be implemented so that IF skillgoal is set to 0, the user group doesn't need to see it in the userskills form.
+- //WHen registering, remove non letter non number characters so the invalidusername warning is not thrown preventing user from being created
