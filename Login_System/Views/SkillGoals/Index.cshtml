@@ -6,6 +6,7 @@
 }
 
 <h1>Index</h1>
+<h3 class="text-info">@TempData["ActionResult"]</h3>
 
 <form asp-controller="SkillGoals" asp-action="RefreshIndex">
     @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date")

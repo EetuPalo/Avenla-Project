@@ -227,6 +227,7 @@ namespace Login_System.Controllers
             }
            
             await _context.SaveChangesAsync();
+            TempData["ActionResult"] = "New goals set!";
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
@@ -279,6 +280,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
+                TempData["ActionResult"] = "Goals edited successfully!";
                 return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
             }
             return View(skillGoals);
@@ -310,6 +312,8 @@ namespace Login_System.Controllers
             var skillGoals = await _context.SkillGoals.FindAsync(id);
             _context.SkillGoals.Remove(skillGoals);
             await _context.SaveChangesAsync();
+
+            TempData["ActionResult"] = "Goals deleted successfully!";
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
