@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>@TempData.Peek("GroupName"): Goals for @TempData.Peek("LatestDate")</h1>
 <h3 class="text-info">@TempData["ActionResult"]</h3>
 
 <form asp-controller="SkillGoals" asp-action="RefreshIndex">

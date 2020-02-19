@@ -46,8 +46,8 @@ namespace Login_System.Controllers
 
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
-                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
-                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+                tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = Encoding.UTF8.GetString(tempBytes);
                 fixedUn = RemoveSpecialCharacters(fixedUn);
 
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);

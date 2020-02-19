@@ -38,6 +38,13 @@ namespace Login_System.Controllers
             TempData["GroupName"] = name;
             TempData["Group"] = name;
 
+            //This gets us the latest date an entry has been made and displays it at the top of the page
+            if (TempData["LatestDate"] == null)
+            {
+                var latestDate = GetLatestDate().ToString("dd.MM.yyyy");
+                TempData["LatestDate"] = latestDate;
+            }
+
             if (date == null && name != null)
             {
                 var model = new SkillGoalIndexVM();
@@ -97,6 +104,7 @@ namespace Login_System.Controllers
 #nullable disable
         public async Task<IActionResult> RefreshIndex([Bind("GroupName, SelectedDate")]SkillGoalIndexVM goal)
         {
+            TempData["LatestDate"] = goal.SelectedDate;
             return RedirectToAction(nameof(Index), "SkillGoals", new { name = goal.GroupName, date = goal.SelectedDate });
         }
         public async Task<IActionResult> ListByDate(string name)
@@ -174,7 +182,7 @@ namespace Login_System.Controllers
             string groupName = TempData["Group"].ToString();
             TempData.Keep();
 
-            //This is a complicated way to check if entries have already been made today. If a better way exists, we'll change this
+            //This is a complicated way to check if entries have already been made today
             var todayList = new List<SkillGoals>();
             foreach (var goal in _context.SkillGoals)
             {
@@ -183,7 +191,6 @@ namespace Login_System.Controllers
                     todayList.Add(goal);
                 }
             }
-
 
             if (todayList.Count() != 0)
             {
@@ -352,6 +359,21 @@ namespace Login_System.Controllers
             }
 
             return ls;
+        }
+
+        public DateTime GetLatestDate()
+        {
+            var goalList = _context.SkillGoals.ToList();
+            var dateList = new List<DateTime>();
+            foreach (var goal in goalList)
+            {
+                if (!dateList.Contains(goal.Date))
+                {
+                    dateList.Add(goal.Date);
+                }
+            }
+            var maxDate = dateList.Max();
+            return maxDate;
         }
 
         public int GetLatest(SkillGoals goal)
