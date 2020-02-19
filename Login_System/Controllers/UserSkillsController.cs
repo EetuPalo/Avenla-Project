@@ -283,8 +283,16 @@ namespace Login_System.Controllers
                     }
                 }
             }
+            string latestDate;
+            if (dateList.Count() != 0)
+            {
+                latestDate = dateList.Max().ToString("dd.MM.yyyy.HH.mm.ss");
+            }
+            else
+            {
+                latestDate = DateTime.Now.ToString();
+            }
 
-            string latestDate = dateList.Max().ToString("dd.MM.yyyy.HH.mm.ss");
 
             foreach (var goal in goalList)
             {
@@ -296,18 +304,23 @@ namespace Login_System.Controllers
                     }
                 }
             }
-
-
             int dictKey = 0;
-
-            foreach (var skill in skillList)
+            if (skillList.Count() != 0)
             {
-                tempList.Add(dictKey, skill.Skill);
-                dictKey++;
+                foreach (var skill in skillList)
+                {
+                    tempList.Add(dictKey, skill.Skill);
+                    dictKey++;
+                }
+                tempModel.SkillList = tempList;
+                //model.Add(tempModel);
+                return View(tempModel);
             }
-            tempModel.SkillList = tempList;
-            //model.Add(tempModel);
-            return View(tempModel);
+            else
+            {
+                TempData["ActionResult"] = "Can't add skills without adding goals first!";
+                return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = id });
+            }
         }
 
         [HttpPost]

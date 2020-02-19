@@ -365,6 +365,7 @@ namespace Login_System.Controllers
         {
             var goalList = _context.SkillGoals.ToList();
             var dateList = new List<DateTime>();
+            DateTime maxDate;
             foreach (var goal in goalList)
             {
                 if (!dateList.Contains(goal.Date))
@@ -372,7 +373,14 @@ namespace Login_System.Controllers
                     dateList.Add(goal.Date);
                 }
             }
-            var maxDate = dateList.Max();
+            if (dateList.Count() != 0)
+            {
+                maxDate = dateList.Max();
+            }
+            else
+            {
+                maxDate = DateTime.Now;
+            }
             return maxDate;
         }
 
