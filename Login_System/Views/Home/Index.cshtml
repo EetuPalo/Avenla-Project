@@ -9,6 +9,6 @@
         }
         else if (User.Identity.IsAuthenticated)
         {
-            <h1 class="display-4">Welcome, @User.Identity.Name!</h1>
+            <h1 class="display-4">Welcome, @TempData.Peek("UserFullNames")!</h1>
         }
     </div>

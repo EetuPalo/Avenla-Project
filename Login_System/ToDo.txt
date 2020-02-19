@@ -6,8 +6,11 @@
 - Comments
 - Clean up code
 - Clean UI
+
+//USERSKILLS
 - UserSkills delete function needs to delete the whole form.
-- Edit view of userskills should allow the editing of them all on the same form
+- Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
+
 - Fix the "My Skills" button in the layout
 - Add action result messages to all the views
 - Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)

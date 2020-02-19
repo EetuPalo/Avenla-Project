@@ -34,10 +34,16 @@ namespace Login_System.Controllers
                 Console.WriteLine("No group selected. This is most likely an error.");
                 return View();
             }
-            string groupName = name;
 
-            TempData["GroupName"] = groupName;
-            TempData["Group"] = groupName;
+            TempData["GroupName"] = name;
+            TempData["Group"] = name;
+
+            //This gets us the latest date an entry has been made and displays it at the top of the page
+            if (TempData["LatestDate"] == null)
+            {
+                var latestDate = GetLatestDate().ToString("dd.MM.yyyy");
+                TempData["LatestDate"] = latestDate;
+            }
 
             if (date == null && name != null)
             {
@@ -47,7 +53,7 @@ namespace Login_System.Controllers
 
                 foreach (var skillGoal in _context.SkillGoals)
                 {
-                    if (skillGoal.GroupName == groupName && !modelCheck.Contains(skillGoal.SkillName))
+                    if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName))
                     {
                         skillGoal.LatestGoal = GetLatest(skillGoal);
                         tempModel.Add(skillGoal);
@@ -56,7 +62,8 @@ namespace Login_System.Controllers
                 }
 
                 model.Goals = tempModel;
-                model.SkillDates = GetDates(_context.SkillGoals);                
+                model.SkillDates = GetDates(_context.SkillGoals, name);
+                model.GroupName = name;
 
                 if (model != null)
                 {
@@ -73,7 +80,7 @@ namespace Login_System.Controllers
 
                 foreach (var skillGoal in _context.SkillGoals)
                 {
-                    if (skillGoal.GroupName == groupName && !modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
+                    if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
@@ -82,7 +89,7 @@ namespace Login_System.Controllers
                 }
 
                 model.Goals = tempModel;
-                model.SkillDates = GetDates(_context.SkillGoals);
+                model.SkillDates = GetDates(_context.SkillGoals, name);
 
                 if (model != null)
                 {
@@ -97,6 +104,7 @@ namespace Login_System.Controllers
 #nullable disable
         public async Task<IActionResult> RefreshIndex([Bind("GroupName, SelectedDate")]SkillGoalIndexVM goal)
         {
+            TempData["LatestDate"] = goal.SelectedDate;
             return RedirectToAction(nameof(Index), "SkillGoals", new { name = goal.GroupName, date = goal.SelectedDate });
         }
         public async Task<IActionResult> ListByDate(string name)
@@ -174,17 +182,32 @@ namespace Login_System.Controllers
             string groupName = TempData["Group"].ToString();
             TempData.Keep();
 
-            //This is a complicated way to check if entries have already been made today. If a better way exists, we'll change this
+            //This is a complicated way to check if entries have already been made today
             var todayList = new List<SkillGoals>();
             foreach (var goal in _context.SkillGoals)
             {
-                if (goal.Date.ToString("dd.MM.yyyy") == dateMinute)
+                if (goal.Date.ToString("dd.MM.yyyy") == dateMinute && goal.GroupName == groupName)
                 {
                     todayList.Add(goal);
                 }
             }
 
-            if (todayList == null)
+            if (todayList.Count() != 0)
+            {
+                foreach (var goal in _context.SkillGoals)
+                {
+                    for (int i = 0; i < goals.SkillCounter; i++)
+                    {
+                        if (goal.SkillName == goals.SkillGoals[i].SkillName && goal.Date.ToString("dd.MM.yyyy") == dateMinute)
+                        {
+                            goal.SkillGoal = goals.SkillGoals[i].SkillGoal;
+                            goal.Date = date;
+                            _context.Update(goal);
+                        }
+                    }
+                }
+            }
+            else
             {
                 for (int i = 0; i < goals.SkillCounter; i++)
                 {
@@ -204,29 +227,14 @@ namespace Login_System.Controllers
                         Console.WriteLine("Error occured at loop " + i);
                     }
                 }
-
                 foreach (var entry in model)
                 {
                     _context.Add(entry);
                 }
             }
-            else if (todayList != null)
-            {
-                foreach (var goal in _context.SkillGoals)
-                {
-                    for (int i = 0; i < goals.SkillCounter; i++)
-                    {
-                        if (goal.SkillName == goals.SkillGoals[i].SkillName && goal.Date.ToString("dd.MM.yyyy") == dateMinute)
-                        {
-                            goal.SkillGoal = goals.SkillGoals[i].SkillGoal;
-                            goal.Date = date;
-                            _context.Update(goal);
-                        }
-                    }
-                }
-            }
            
             await _context.SaveChangesAsync();
+            TempData["ActionResult"] = "New goals set!";
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
@@ -279,6 +287,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
+                TempData["ActionResult"] = "Goals edited successfully!";
                 return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
             }
             return View(skillGoals);
@@ -310,6 +319,8 @@ namespace Login_System.Controllers
             var skillGoals = await _context.SkillGoals.FindAsync(id);
             _context.SkillGoals.Remove(skillGoals);
             await _context.SaveChangesAsync();
+
+            TempData["ActionResult"] = "Goals deleted successfully!";
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
@@ -328,7 +339,8 @@ namespace Login_System.Controllers
             return ls;
         }
 
-        public static List<SelectListItem> GetDates(DbSet<SkillGoals> skillList)
+        //This takes the list of skills and groupname to put all the dates where skillgoal entries have been made (for that specific group) into a list
+        public static List<SelectListItem> GetDates(DbSet<SkillGoals> skillList, string groupName)
         {
             List<SelectListItem> ls = new List<SelectListItem>();
             var dateList = new List<string>();
@@ -336,7 +348,7 @@ namespace Login_System.Controllers
 
             foreach (var item in skillList)
             {
-                if (!dateList.Contains(item.Date.ToString("dd.MM.yyyy")))
+                if (!dateList.Contains(item.Date.ToString("dd.MM.yyyy")) && item.GroupName == groupName)
                 {
                     dateList.Add(item.Date.ToString("dd.MM.yyyy"));
                 }               
@@ -347,6 +359,21 @@ namespace Login_System.Controllers
             }
 
             return ls;
+        }
+
+        public DateTime GetLatestDate()
+        {
+            var goalList = _context.SkillGoals.ToList();
+            var dateList = new List<DateTime>();
+            foreach (var goal in goalList)
+            {
+                if (!dateList.Contains(goal.Date))
+                {
+                    dateList.Add(goal.Date);
+                }
+            }
+            var maxDate = dateList.Max();
+            return maxDate;
         }
 
         public int GetLatest(SkillGoals goal)

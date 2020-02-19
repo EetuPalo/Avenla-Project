@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.ViewModels;
@@ -45,8 +46,9 @@ namespace Login_System.Controllers
 
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
-                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
-                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+                tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = Encoding.UTF8.GetString(tempBytes);
+                fixedUn = RemoveSpecialCharacters(fixedUn);
 
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
@@ -64,6 +66,7 @@ namespace Login_System.Controllers
                     result = await UserMgr.CreateAsync(user, newUser.Password);
                     roleResult = await UserMgr.AddToRoleAsync(user, "User");
                     ViewBag.Message = "User has been created!";
+                    TempData["UserFullNames"] = user.FirstName + " " + user.LastName;
                     return View("Index");
                 }
                 else
@@ -96,6 +99,9 @@ namespace Login_System.Controllers
                 _context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
                 _context.SaveChanges();//save changes to the DB
 
+                //Constructs a string from users first and last names to be shown in loginpartial
+                TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
+
                 //Sends the userID in viewbag to the view
                 ViewBag.UserID = appUser.Id;
                 return RedirectToAction("Index", "Home");
@@ -126,7 +132,18 @@ namespace Login_System.Controllers
                 Console.WriteLine(ex.Message);
             }
             return RedirectToAction("Index", "Home");
-
+        }
+        public static string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
         }
     }
 }

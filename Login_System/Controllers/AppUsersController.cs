@@ -10,6 +10,7 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
+using System.Text;
 
 namespace Login_System.Controllers
 {
@@ -73,8 +74,9 @@ namespace Login_System.Controllers
 
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
-                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
-                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+                tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = Encoding.UTF8.GetString(tempBytes);
+                fixedUn = RemoveSpecialCharacters(fixedUn);
 
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
@@ -93,14 +95,14 @@ namespace Login_System.Controllers
                         IdentityResult roleResult;
                         result = await UserMgr.CreateAsync(user, appUser.Password);
                         roleResult = await UserMgr.AddToRoleAsync(user, "User");
-                        TempData["CreateStatus"] = "User has been created!";
                     }
                     catch
                     {
-                        Console.WriteLine("An error occured but the account may have still been created. Check the account list!");
+                        //Console.WriteLine("An error occured but the account may have still been created. Check the account list!");
                         TempData["CreateStatus"] = "An error occured but the account may have still been created. Check the account list!";
                     }
                    
+                    TempData["ActionResult"] = "User " + fixedUn + " created successfully!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -136,7 +138,7 @@ namespace Login_System.Controllers
                 TempData["UserId"] = id;
                 TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
                 return View(appUser);
-            }
+            }           
             return View();
         }
 
@@ -153,10 +155,11 @@ namespace Login_System.Controllers
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
 
-                //This is supposed to remove any special characters from the userName string
+                //This is supposed to remove any Ä's Ö's and Å's from the userName string
                 byte[] tempBytes;
-                tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
-                string fixedUn = System.Text.Encoding.UTF8.GetString(tempBytes);
+                tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = Encoding.UTF8.GetString(tempBytes);
+                fixedUn = RemoveSpecialCharacters(fixedUn);
 
                 //This is just an extra step to make sure the user is authorized to edit the account
                 if (user.UserName == compareUser || User.IsInRole("Admin"))
@@ -173,7 +176,7 @@ namespace Login_System.Controllers
                     try
                     {
                         var result = await UserMgr.UpdateAsync(user);
-                        TempData["ActionResult"] = "User edited!";
+                        TempData["ActionResult"] = "User" + appUser.UserName + "edited!";
                         return RedirectToAction(nameof(Index));
                     }
                     catch
@@ -193,7 +196,7 @@ namespace Login_System.Controllers
                         var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
                         var result = await UserMgr.UpdateAsync(user);
 
-                        TempData["ActionResult"] = "User edited!";
+                        TempData["ActionResult"] = "User" + appUser.UserName + "edited!";
                         return RedirectToAction(nameof(Index));
                     }
                     catch
@@ -253,6 +256,19 @@ namespace Login_System.Controllers
         private bool AppUserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        public static string RemoveSpecialCharacters(string str)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_')
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
         }
     }
 }

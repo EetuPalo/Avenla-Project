@@ -8,10 +8,11 @@
 <head>
     <script src="~/js/Chart.bundle.js"></script>
 </head>
-<h1>ListByDate</h1>
+<h1>@TempData["UserName"]</h1>
 
 <p>
-    <a asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a>
+    <a asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a> | 
+    <a asp-action="Index" asp-controller="AppUsers">Back to List</a>
 </p>
 
 <table class="table">

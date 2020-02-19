@@ -7,7 +7,7 @@
 }
 
 <h1>Employee List</h1>
-<h3 class="text-success">@TempData["CreateStatus"]</h3>
+<h3 class="text-danger">@TempData["CreateStatus"]</h3>
 <h3 class="text-info">@TempData["ActionResult"]</h3>
 
 <p>
@@ -82,7 +82,7 @@
                 <a asp-action="ListByDate" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a><span> |</span>
                 if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@item.Id" asp-route-source="index">Edit Role</a>
+                    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@item.Id" asp-route-source="index">Roles</a>
                 }
             }
         </td>                        
