@@ -94,7 +94,8 @@ namespace Login_System.Controllers
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
             List<DataPoint> dataPoints = new List<DataPoint>();
-            //List<DateTime> dates = new List<DateTime>();            
+            //List<DateTime> dates = new List<DateTime>();
+            //DateTime?[] dates = new DateTime?[3];
             List<string> skillnames = new List<string>();
             int i = 0;
             foreach (var item in _context.UserSkills)
@@ -112,20 +113,22 @@ namespace Login_System.Controllers
                             Id = (int)id
                         };
                         model.Add(tempModel);
-
+                        //if(item.Date != null)
+                            //dates[i] = item.Date;
                     }                    
                     tempDate.Add(item.Date.ToString());
                     
                     if(!skillnames.Contains(item.SkillName))
                     {
-                        skillnames.Add(item.SkillName);
+                        //skillnames.Add(item.SkillName);
                         dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                     }             
                 }                
             }
             ViewBag.DataPoint = dataPoints.ToArray();
             //ViewBag.Dates = JsonConvert.SerializeObject(dates);
-            ViewBag.names = skillnames.ToArray();
+            //ViewBag.Dates = dates;
+            //ViewBag.names = skillnames.ToArray();
             return View(model);
         }
 
@@ -281,13 +284,13 @@ namespace Login_System.Controllers
                 }
             }
 
-            DateTime latestDate = dateList.Max();
+            string latestDate = dateList.Max().ToString("dd.MM.yyyy.HH.mm.ss");
 
             foreach (var goal in goalList)
             {
                 foreach (var skill in skills)
                 {
-                    if (goal.SkillName == skill.Skill && goal.SkillGoal != 0 && goal.Date == latestDate)
+                    if (goal.SkillName == skill.Skill && goal.SkillGoal != 0 && goal.Date.ToString("dd.MM.yyyy.HH.mm.ss") == latestDate)
                     {
                         skillList.Add(skill);
                     }
