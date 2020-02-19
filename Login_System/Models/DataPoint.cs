@@ -18,7 +18,7 @@ namespace ASPNET_MVC_Samples.Models
 
 		//Explicitly setting the name to be used while serializing to JSON.
 		[DataMember]
-		public Nullable<int> x = null;
+		public int? x = null;
 
 		//Explicitly setting the name to be used while serializing to JSON.
 		[DataMember]

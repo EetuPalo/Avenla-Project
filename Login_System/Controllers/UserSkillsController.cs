@@ -92,15 +92,18 @@ namespace Login_System.Controllers
             
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
-            List<int> dataPoints = new List<int>();
-            List<DateTime> dates = new List<DateTime>();
+            List<DataPoint> dataPoints = new List<DataPoint>();
+            //List<DateTime> dates = new List<DateTime>();
+            DateTime?[] dates = new DateTime?[3];
             List<string> skillnames = new List<string>();
+            int i = 0;
             foreach (var item in _context.UserSkills)
             {
                 if (item.UserID == id)
                 {                    
                     if (!tempDate.Contains(item.Date.ToString()))
                     {
+                        i++;
                         var tempModel = new DateListVM
                         {
                             Date = item.Date.ToString("dd/MM/yyyy HH/mm"),
@@ -109,20 +112,22 @@ namespace Login_System.Controllers
                             Id = (int)id
                         };
                         model.Add(tempModel);
-                        dates.Add(item.Date);
+                        if(item.Date != null)
+                            dates[i] = item.Date;
                     }                    
                     tempDate.Add(item.Date.ToString());
                     
                     if(!skillnames.Contains(item.SkillName))
                     {
-                        skillnames.Add(item.SkillName);
-                        dataPoints.Add(item.SkillLevel);
+                        //skillnames.Add(item.SkillName);
+                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                     }             
                 }                
             }
-            ViewBag.DataPoint = JsonConvert.SerializeObject(dataPoints);
-            ViewBag.Dates = JsonConvert.SerializeObject(dates);
-            ViewBag.names = JsonConvert.SerializeObject(skillnames);
+            ViewBag.DataPoint = dataPoints.ToArray();
+            //ViewBag.Dates = JsonConvert.SerializeObject(dates);
+            ViewBag.Dates = dates;
+            //ViewBag.names = skillnames.ToArray();
             return View(model);
         }
 
