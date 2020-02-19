@@ -88,8 +88,9 @@ namespace Login_System.Controllers
 
             uId = (int)id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            //TempData["UserName"] = tempUser.UserName;
-            
+            string userName = tempUser.UserName;
+            TempData["UserName"] = userName;
+
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
             List<int> dataPoints = new List<int>();
@@ -133,7 +134,9 @@ namespace Login_System.Controllers
 
             int userId = (int)id;
             TempData.Keep();
-            //string userName = TempData["UserName"].ToString();
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            string userName = tempUser.UserName;
+            TempData["UserName"] = userName;
 
             //Getting the skillgoal info for user group
             var skillGoalList = goalContext.SkillGoals.ToList();
@@ -169,8 +172,6 @@ namespace Login_System.Controllers
                     }
                 }
             }
-            AppUser tempUser = await UserMgr.FindByIdAsync(userId.ToString());
-            //TempData["UserName"] = tempUser.UserName;
 
             foreach (var skill in _context.UserSkills)
             {
@@ -411,7 +412,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("ListByDate", "UserSkills", new { id = userSkills.UserID });
+                return RedirectToAction("SkillList", "UserSkills", new { id = userSkills.UserID, name = userSkills.Date.ToString("dd/MM/yyyy+HH/mm") });
             }
             return View(userSkills);
         }
