@@ -34,7 +34,7 @@
                         @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
                     </div>
                     <div class="col-sm">
-                        <input id="goal[@i]" asp-for="@Model.SkillGoals[i].SkillGoal" class="form-control" type="number" min="0" max="5" />
+                        <input id="goal[@i]" asp-for="@Model.SkillGoals[i].SkillGoal" class="form-control" type="number" min="-1" max="5" value="-1" />
                     </div>
                     <div class="col-sm">
                         <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">Add</button>
@@ -63,6 +63,7 @@
         function ShowForm(idNr) {
             document.getElementById('skillForm[' + idNr + ']').style.display = "flex"
             document.getElementById('addButton[' + idNr + ']').style.display = "none"
+            document.getElementById('goal[' + idNr + ']').setAttribute("value", "0")
         }
     </script>
 
