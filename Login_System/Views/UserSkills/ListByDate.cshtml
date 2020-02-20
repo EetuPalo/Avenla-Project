@@ -55,7 +55,7 @@
         }
     </tbody>
 </table>
-<canvas id="myChart" width="2000" height="500"></canvas>
+<canvas id="myChart" width="1000" height="500"></canvas>
 
 <script>
 var ctx = document.getElementById('myChart');
@@ -63,29 +63,9 @@ var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-        //labels: [@Html.Raw(ViewBag.Dates)],
+        //labels: [@Html.Raw(Json.Serialize(ViewBag.Dates))],
         //labels: [@Html.Raw(ViewBag.names)],
-        datasets: [@*{
-            label: @Html.Raw(ViewBag.Dates),
-            data: @Html.Raw(ViewBag.DataPoint),
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 3
-        }*@
+        datasets: [
             @for(int i = 0; i < ViewBag.DataPoint.Length;i++)
             {
                 string deta = JsonConvert.SerializeObject(ViewBag.DataPoint[i]);
@@ -95,36 +75,18 @@ var myChart = new Chart(ctx, {
                 var color = String.Format("#{0:X6}", random.Next(0x1000000));
                 <text>
                 {
-                label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i])),
+                label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i]))+@Html.Raw(Json.Serialize(ViewBag.Dates[i])),
                 data: [@Html.Raw(deta)],
                 backgroundColor: "@color",
                 borderColor: "@color",
-                borderWidth: 2,
+                borderWidth: 5,
                 tension: 0,
                 showLine: true
                 },
         </text>
             }
             {
-            ////label: "hello",
-            ////data: [0,0,0],
-            //backgroundColor: [
-            //    'rgba(255, 99, 132, 0.2)',
-            //    'rgba(54, 162, 235, 0.2)',
-            //    'rgba(255, 206, 86, 0.2)',
-            //    'rgba(75, 192, 192, 0.2)',
-            //    'rgba(153, 102, 255, 0.2)',
-            //    'rgba(255, 159, 64, 0.2)'
-            //],
-            //borderColor: [
-            //    'rgba(255, 99, 132, 1)',
-            //    'rgba(54, 162, 235, 1)',
-            //    'rgba(255, 206, 86, 1)',
-            //    'rgba(75, 192, 192, 1)',
-            //    'rgba(153, 102, 255, 1)',
-            //    'rgba(255, 159, 64, 1)'
-            //],
-            //borderWidth: 3
+            //empty dataset cause too lazy to implement no comma in the for loop for the last element
         }
         ]
         
@@ -132,42 +94,23 @@ var myChart = new Chart(ctx, {
     options: {
         label: {
             display: true
-        }
+        }        
     }
-    //options: {
-    //    scales: {
-    //        yAxes: [{
-    //            ticks: {
-    //                beginAtZero: true
-    //            }
-    //        }]
-    //    }
-    //}
 });
     lineChartOptions = {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
             xAxes: [{
-                type: 'time',
-                time: {
-                    parser: 'YYYY-MM-DD HH:mm:ss',
-                    unit: 'day',
-                    autoSkip: true,
-                    displayFormats: {
-                        day: 'MMM-DD'
+                    type: 'time',
+                    time: {
+                        parser: 'YYYY-MM-DDTHH:mm:ss',
+                        unit: 'day'
+                    },
+                    ticks: {
+                        source: 'data'
                     }
-                },
-                ticks: {
-
-                    source: 'label',
-
-                },
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Date'
-                }
-            }]
+                }]
         }
     }
 console.log(myChart)

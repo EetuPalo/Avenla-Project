@@ -95,7 +95,7 @@ namespace Login_System.Controllers
             var tempDate = new List<string>();
             List<DataPoint> dataPoints = new List<DataPoint>();
             //List<DateTime> dates = new List<DateTime>();
-            //DateTime?[] dates = new DateTime?[3];
+            List<string> dates = new List<string>();
             List<string> skillnames = new List<string>();
             int i = 0;
             foreach (var item in _context.UserSkills)
@@ -113,22 +113,23 @@ namespace Login_System.Controllers
                             Id = (int)id
                         };
                         model.Add(tempModel);
-                        //if(item.Date != null)
-                            //dates[i] = item.Date;
+                        
                     }                    
                     tempDate.Add(item.Date.ToString());
-                    
+
                     //if(!skillnames.Contains(item.SkillName))
                     //{
-                                                
+
                     //}
+                    if (item.Date != null)
+                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
                     skillnames.Add(item.SkillName);
                     dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                 }                
             }
             ViewBag.DataPoint = dataPoints.ToArray();
             //ViewBag.Dates = JsonConvert.SerializeObject(dates);
-            //ViewBag.Dates = dates;
+            ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
             return View(model);
         }
