@@ -12,22 +12,44 @@
 <fieldset>
     <form asp-action="Create" asp-controller="SkillGoals">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @for (int i = 0; i < Model.SkillCounter; i++)
-        {
+        <div class="container-fluid">
+            <div style="display:flex" id="skillForm[0]" class="row mb-4">
+                <input hidden asp-for="@Model.SkillGoals[0].GroupName" />
+                <div class="col-sm">
+                    @Html.DropDownListFor(x => x.SkillGoals[0].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
+                </div>
+                <div class="col-sm">
+                    <input asp-for="@Model.SkillGoals[0].SkillGoal" class="form-control" type="number" min="0" max="5" />
+                </div>
+                <div class="col-sm">
+                    <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">Add</button>
+                </div>               
+                <span asp-validation-for="@Model.SkillGoals[0].SkillGoal"></span>
+            </div>
+            @for (int i = 1; i < Model.Skills.Count(); i++)
+            {
+                <div style="display:none" id="skillForm[@i]" class="row mb-4">                    
+                    <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
+                    <div class="col-sm">
+                        @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
+                    </div>
+                    <div class="col-sm">
+                        <input id="goal[@i]" asp-for="@Model.SkillGoals[i].SkillGoal" class="form-control" type="number" min="0" max="5" />
+                    </div>
+                    <div class="col-sm">
+                        <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">Add</button>
+                    </div>                    
+                    <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
+                </div>
+            }
             <p>
-                <label>@Model.SkillGoals[i].SkillName</label>
-                <input hidden asp-for="@Model.SkillGoals[i].SkillName" />
-                <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
-                <input asp-for="@Model.SkillGoals[i].SkillGoal" class="form-control" type="number" min="0" max="5" />
-                <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
+                <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
             </p>
-        }
-        <p>
-            <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
-        </p>
-        <p>
-            <button type="submit">Submit</button>
-        </p>
+            <p>
+                <button type="submit">Submit</button>
+            </p>
+        </div>
+        
     </form>
 </fieldset>
 
@@ -37,4 +59,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        function ShowForm(idNr) {
+            document.getElementById('skillForm[' + idNr + ']').style.display = "flex"
+            document.getElementById('addButton[' + idNr + ']').style.display = "none"
+        }
+    </script>
+
 }

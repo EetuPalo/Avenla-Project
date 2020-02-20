@@ -149,25 +149,31 @@ namespace Login_System.Controllers
         public IActionResult Create(string name)
         {
             var model = new CreateSkillGoalsVM();
+            DateTime date = DateTime.Now;
             int dictKey = 0;
             model.SkillCounter = 0;
 
-            var listModel = new Dictionary<int, SkillGoals>();
+            var skills = skillContext.Skills.ToList();
+            var listModel = new List<SkillGoals>();
 
-            foreach (var skill in skillContext.Skills)
+            foreach (var skill in skills)
             {
                 var tempModel = new SkillGoals
                 {
                     SkillName = skill.Skill,
                     GroupName = name
                 };
-                listModel.Add(dictKey, tempModel);
+               
+                listModel.Add(tempModel);
                 dictKey++;
                 model.SkillCounter++;
             }
-
             model.SkillGoals = listModel;
-
+            model.Skills = skills.Select(x => new SelectListItem
+            {
+                Value = x.Skill,
+                Text = x.Skill
+            });
             return View(model);
         }
 
