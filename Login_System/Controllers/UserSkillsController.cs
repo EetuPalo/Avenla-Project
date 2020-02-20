@@ -118,17 +118,18 @@ namespace Login_System.Controllers
                     }                    
                     tempDate.Add(item.Date.ToString());
                     
-                    if(!skillnames.Contains(item.SkillName))
-                    {
-                        //skillnames.Add(item.SkillName);
-                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
-                    }             
+                    //if(!skillnames.Contains(item.SkillName))
+                    //{
+                                                
+                    //}
+                    skillnames.Add(item.SkillName);
+                    dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                 }                
             }
             ViewBag.DataPoint = dataPoints.ToArray();
             //ViewBag.Dates = JsonConvert.SerializeObject(dates);
             //ViewBag.Dates = dates;
-            //ViewBag.names = skillnames.ToArray();
+            ViewBag.names = skillnames.ToArray();
             return View(model);
         }
 
