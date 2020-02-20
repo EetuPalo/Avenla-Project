@@ -460,10 +460,10 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userSkills = await _context.UserSkills.FindAsync(id);
+            var userSkills = await _context.UserSkills.FindAsync(id);            
             _context.UserSkills.Remove(userSkills);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ListByDate));
+            return RedirectToAction(nameof(SkillList), "UserSkills", new { id = userSkills.UserID, name = userSkills.Date.ToString("dd/MM/yyyy+HH/mm") });
         }
 
         private bool UserSkillsExists(int id)
