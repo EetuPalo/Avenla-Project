@@ -101,7 +101,7 @@ namespace Login_System.Controllers
 
                 //Constructs a string from users first and last names to be shown in loginpartial
                 TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
-
+                TempData["UserID"] = appUser.Id;
                 //Sends the userID in viewbag to the view
                 ViewBag.UserID = appUser.Id;
                 return RedirectToAction("Index", "Home");
