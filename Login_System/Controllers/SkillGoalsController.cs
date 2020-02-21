@@ -199,28 +199,7 @@ namespace Login_System.Controllers
                     todayList.Add(goal);
                 }
             }
-
-            if (todayList.Count() != 0)
-            {
-                foreach (var goal in _context.SkillGoals)
-                {
-                    for (int i = 0; i < goals.SkillCounter; i++)
-                    {
-                        foreach (var skill in skillList)
-                        {
-                            if (goal.SkillName == goals.SkillGoals[i].SkillName && goal.Date.ToString("dd.MM.yyyy") == dateMinute && skill.Skill == goals.SkillGoals[i].SkillName)
-                            {
-                                goal.SkillGoal = goals.SkillGoals[i].SkillGoal;
-                                goal.SkillName = goals.SkillGoals[i].SkillName;
-                                goal.GroupName = groupName;
-                                goal.Date = date;
-                                _context.Update(goal);
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            if(true)
             {
                 for (int i = 0; i < goals.SkillCounter; i++)
                 {
@@ -281,15 +260,29 @@ namespace Login_System.Controllers
                 {
                     combModel.Add(entry);
                 }
+
                 foreach (var entry in combModel)
                 {
                     _context.Add(entry);
                 }
-            }
-           
+
+                if (todayList != null)
+                {
+                    foreach (var skillGoal in _context.SkillGoals)
+                    {
+                        foreach (var todayEntry in todayList)
+                        {
+                            if (skillGoal.Date == todayEntry.Date && skillGoal.GroupName == groupName)
+                            {
+                                _context.Remove(skillGoal);
+                            }
+                        }
+                    }
+                }
+            }           
             await _context.SaveChangesAsync();
             TempData["ActionResult"] = "New goals set!";
-            return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName"), date = date });
+            return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName")});
         }
 
         // GET: SkillGoals/Edit/5
