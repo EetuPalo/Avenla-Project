@@ -1,7 +1,6 @@
 ﻿TODO:
 
 - User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
-- Improve the graphs
 - A ton of testing.
 - Comments
 - Clean up code
@@ -11,9 +10,7 @@
 - UserSkills delete function needs to delete the whole form.
 - Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
 	- Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
-- Fix the "My Skills" button in the layout
-
-- Add action result messages to all the views (mostly done)
+- How to handle skill forms for users who are in multiple groups?
 - Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
 
 Levels: 
@@ -25,6 +22,8 @@ Levels:
 5: I am a master of this topic!
 
 DONE:
+- //Add action result messages to all the views (mostly done)
+- //Improve the graphs
 - //A Better way to view the progression of skills.
 - //Admins should be able to add new accounts from their account. The View exists already, but nothing has been implemented.
 - //When trying to access stuff youre not authorized for, the wrong (microsoft template) login page is show.
@@ -44,3 +43,4 @@ DONE:
 - //Admins should edit the forms for each user group (can probably reuse code from user role editing)
 - //This could maybe be implemented so that IF skillgoal is set to 0, the user group doesn't need to see it in the userskills form.
 - //WHen registering, remove non letter non number characters so the invalidusername warning is not thrown preventing user from being created
+- //Fix the "My Skills" button in the layout

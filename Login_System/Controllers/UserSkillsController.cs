@@ -284,14 +284,14 @@ namespace Login_System.Controllers
                     }
                 }
             }
-            string latestDate;
+            DateTime latestDate;
             if (dateList.Count() != 0)
             {
-                latestDate = dateList.Max().ToString("dd.MM.yyyy.HH.mm.ss");
+                latestDate = dateList.Max();
             }
             else
             {
-                latestDate = DateTime.Now.ToString();
+                latestDate = DateTime.Now;
             }
 
 
@@ -299,7 +299,7 @@ namespace Login_System.Controllers
             {
                 foreach (var skill in skills)
                 {
-                    if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date.ToString("dd.MM.yyyy.HH.mm.ss") == latestDate)
+                    if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date == latestDate)
                     {
                         skillList.Add(skill);
                     }
