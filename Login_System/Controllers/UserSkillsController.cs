@@ -167,9 +167,12 @@ namespace Login_System.Controllers
                 {
                     if (group.name == goal.GroupName)
                     {
-                        var tempGoalList = new GoalForSkillVM();
-                        tempGoalList.SkillName = goal.SkillName;
-                        tempGoalList.SkillGoal = goal.SkillGoal;
+                        var tempGoalList = new GoalForSkillVM
+                        {
+                            SkillName = goal.SkillName,
+                            SkillGoal = goal.SkillGoal,
+                            Date = goal.Date.ToString()
+                        };
 
                         goalList.Add(tempGoalList);
                     }
@@ -177,7 +180,7 @@ namespace Login_System.Controllers
             }
 
             foreach (var skill in _context.UserSkills)
-            {
+            {               
                 var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
                 var date2 = name;
 
@@ -195,7 +198,7 @@ namespace Login_System.Controllers
 
                     foreach (var goal in goalList)
                     {
-                        if (skill.SkillName == goal.SkillName)
+                        if (skill.SkillName == goal.SkillName && DateTime.Parse(goal.Date) <= skill.Date)
                         {
                             usrSkill.SkillGoal = goal.SkillGoal;
                         }
