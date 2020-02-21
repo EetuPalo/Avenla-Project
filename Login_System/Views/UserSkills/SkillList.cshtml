@@ -34,30 +34,23 @@
             <td>
                 @if (item.SkillLevel < item.SkillGoal)
                 {
-                    @if (item.SkillGoal != -1)
-                    {
-                        <span class="text-danger"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
-                    }
-                    else
-                    {
-                        <span class="text-danger"><strong>NO GOAL SET</strong></span>
-                    }
+                    <span class="text-danger"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
                 }
                 else if (item.SkillLevel == item.SkillGoal || item.SkillLevel > item.SkillGoal)
                 {
-                    @if (item.SkillGoal != -1)
-                    {
-                        <span class="text-success"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
-                    }
-                    else
-                    {
-                        <span class="text-danger"><strong>NO GOAL SET</strong></span>
-                    }
+                    <span class="text-success"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
                 }
-
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SkillGoal)
+                @if (item.SkillGoal != -1)
+                {
+                    <span><strong>@Html.DisplayFor(modelItem => item.SkillGoal)</strong></span>
+                }
+                else
+                {
+                    <span class="text-danger"><strong>NO GOAL SET</strong></span>
+                }
+                
             </td>
             @if (User.IsInRole("Admin"))
             {
