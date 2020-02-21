@@ -35,7 +35,14 @@
                 @Html.DisplayFor(modelItem => item.SkillName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LatestGoal)
+                @if (item.LatestGoal == -1)
+                {
+                    <span class="text-danger">NO GOAL</span>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.LatestGoal)
+                }
             </td>
         </tr>
 }

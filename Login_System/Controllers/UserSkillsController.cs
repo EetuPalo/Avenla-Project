@@ -117,10 +117,6 @@ namespace Login_System.Controllers
                     }                    
                     tempDate.Add(item.Date.ToString());
 
-                    //if(!skillnames.Contains(item.SkillName))
-                    //{
-
-                    //}
                     if (item.Date != null)
                         dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
                     skillnames.Add(item.SkillName);
@@ -369,14 +365,6 @@ namespace Login_System.Controllers
 
             TempData.Keep();
             return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = userId });
-
-            /*
-             _context.Add(userSkills);
-             await _context.SaveChangesAsync();
-             return RedirectToAction(nameof(Index), "UserSkills", new { id = model.UserID });
-            */
-
-            //return View(model);
         }
 
         // GET: UserSkills/Edit/5
@@ -470,16 +458,6 @@ namespace Login_System.Controllers
         {
             return _context.UserSkills.Any(e => e.Id == id);
         }
-
-        /*
-        [HttpGet]
-        public ActionResult ListSkills()
-        {
-            var skills = skillContext.Skills.ToList();
-            var viewModel = new ListSkillsVM { Skills = skills };
-            return View(viewModel);
-        }
-        */
 
         //Below this are methods not currently used anywhere, but I'm keeping them here just in case.
         public int CountEntries(string skillName)

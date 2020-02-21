@@ -10,7 +10,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
 <h1>@TempData["UserName"]</h1>
-<h2>@TempData["ActionResult"]</h2>
+<h2 class="text-danger">@TempData["ActionResult"]</h2>
 
 <p>
     <a asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a> | 
