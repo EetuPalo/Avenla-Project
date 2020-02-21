@@ -190,6 +190,8 @@ namespace Login_System.Controllers
 
             //This is a complicated way to check if entries have already been made today
             var todayList = new List<SkillGoals>();
+            var skillList = skillContext.Skills.ToList();
+
             foreach (var goal in _context.SkillGoals)
             {
                 if (goal.Date.ToString("dd.MM.yyyy") == dateMinute && goal.GroupName == groupName)
@@ -204,11 +206,16 @@ namespace Login_System.Controllers
                 {
                     for (int i = 0; i < goals.SkillCounter; i++)
                     {
-                        if (goal.SkillName == goals.SkillGoals[i].SkillName && goal.Date.ToString("dd.MM.yyyy") == dateMinute)
+                        foreach (var skill in skillList)
                         {
-                            goal.SkillGoal = goals.SkillGoals[i].SkillGoal;
-                            goal.Date = date;
-                            _context.Update(goal);
+                            if (goal.SkillName == goals.SkillGoals[i].SkillName && goal.Date.ToString("dd.MM.yyyy") == dateMinute && skill.Skill == goals.SkillGoals[i].SkillName)
+                            {
+                                goal.SkillGoal = goals.SkillGoals[i].SkillGoal;
+                                goal.SkillName = goals.SkillGoals[i].SkillName;
+                                goal.GroupName = groupName;
+                                goal.Date = date;
+                                _context.Update(goal);
+                            }
                         }
                     }
                 }
@@ -232,8 +239,49 @@ namespace Login_System.Controllers
                     {
                         Console.WriteLine("Error occured at loop " + i);
                     }
+                }                
+                foreach (var skill in skillList)
+                {
+                    var skillName = model.FindIndex(item => item.SkillName == skill.Skill);
+                    if (skillName == -1)
+                    {
+                        var tempModel = new SkillGoals
+                        {
+                            GroupName = groupName,
+                            SkillName = skill.Skill,
+                            SkillGoal = -1,
+                            Date = date
+                        };
+                        model.Add(tempModel);
+                    }
                 }
+                var negModel = new List<SkillGoals>();
+                var plusModel = new List<SkillGoals>();
+                var combModel = new List<SkillGoals>();
                 foreach (var entry in model)
+                {
+                    if (entry.SkillGoal == -1)
+                    {
+                        negModel.Add(entry);
+                    }
+                    else if (entry.SkillGoal >= 0)
+                    {
+                        plusModel.Add(entry);
+                    }
+                }
+                foreach (var negEntry in negModel)
+                {
+                    var index = plusModel.FindIndex(item => item.SkillName == negEntry.SkillName);
+                    if (index == -1)
+                    {
+                        combModel.Add(negEntry);
+                    }
+                }
+                foreach (var entry in plusModel)
+                {
+                    combModel.Add(entry);
+                }
+                foreach (var entry in combModel)
                 {
                     _context.Add(entry);
                 }
@@ -241,7 +289,7 @@ namespace Login_System.Controllers
            
             await _context.SaveChangesAsync();
             TempData["ActionResult"] = "New goals set!";
-            return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
+            return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName"), date = date });
         }
 
         // GET: SkillGoals/Edit/5

@@ -296,7 +296,7 @@ namespace Login_System.Controllers
             {
                 foreach (var skill in skills)
                 {
-                    if (goal.SkillName == skill.Skill && goal.SkillGoal != 0 && goal.Date.ToString("dd.MM.yyyy.HH.mm.ss") == latestDate)
+                    if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date.ToString("dd.MM.yyyy.HH.mm.ss") == latestDate)
                     {
                         skillList.Add(skill);
                     }
