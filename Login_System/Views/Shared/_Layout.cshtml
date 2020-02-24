@@ -25,7 +25,7 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserSkills" asp-action="ListByDate" asp-route-id="@TempData.Peek("UserID")">My Skills</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UserSkills" asp-action="ListByDate" asp-route-id="@ViewBag.UserID">My Skills</a>
                             </li>
                             <li>
                                 <a class="nav-link text-dark" asp-area="" asp-controller="AppUsers" asp-action="Index">List of employees</a>

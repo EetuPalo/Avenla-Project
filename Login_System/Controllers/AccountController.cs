@@ -100,10 +100,9 @@ namespace Login_System.Controllers
                 _context.SaveChanges();//save changes to the DB
 
                 //Constructs a string from users first and last names to be shown in loginpartial
-                TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
-                TempData["UserID"] = appUser.Id;
+                TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;                
                 //Sends the userID in viewbag to the view
-                ViewBag.UserID = appUser.Id;
+                ViewBag.UserID = appUser.Id;                
                 return RedirectToAction("Index", "Home");
             }
             else
