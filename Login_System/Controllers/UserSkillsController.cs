@@ -146,6 +146,7 @@ namespace Login_System.Controllers
             var groupMemberList = gMemContext.GroupMembers.ToList();
             var groupList = new List<Group>();
             var goalList = new List<GoalForSkillVM>();
+            var dateList = new Dictionary<string, string>();
 
             //Some complex stuff for fetching the correct skillgoal for the correct group for the correct skill for the correct user
             foreach (var member in groupMemberList)
@@ -171,9 +172,9 @@ namespace Login_System.Controllers
                         {
                             SkillName = goal.SkillName,
                             SkillGoal = goal.SkillGoal,
-                            Date = goal.Date.ToString()
+                            Date = goal.Date.ToString(),
+                            GroupName = goal.GroupName
                         };
-
                         goalList.Add(tempGoalList);
                     }
                 }
@@ -183,6 +184,7 @@ namespace Login_System.Controllers
             {               
                 var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
                 var date2 = name;
+                var skillGoal = 0;
 
                 if (date1 == date2 && skill.UserID == userId)
                 {
@@ -198,19 +200,34 @@ namespace Login_System.Controllers
 
                     foreach (var goal in goalList)
                     {
-                        if (skill.SkillName == goal.SkillName && DateTime.Parse(goal.Date) <= skill.Date)
+                        foreach (var group in groupList)
                         {
-                            if (goal.SkillGoal == -1)
+                            if (goal.SkillGoal > -1 && goal.GroupName == group.name)
                             {
-                                usrSkill.SkillGoal = 0;
+                                if (dateList.ContainsKey(group.name))
+                                {
+                                    dateList[group.name] = goal.Date;
+                                }
+                                else if (!dateList.ContainsKey(group.name))
+                                {
+                                    dateList.Add(group.name, goal.Date);
+                                }
                             }
-                            else
+                        }                        
+                    }     
+                    
+                    foreach (var date in dateList.Values)
+                    {
+                        foreach (var goal in goalList)
+                        {
+                            if (date == goal.Date && goal.SkillName == skill.SkillName && goal.SkillGoal > skillGoal)
                             {
-                                usrSkill.SkillGoal = goal.SkillGoal;
+                                skillGoal = goal.SkillGoal;
                             }
-
                         }
                     }
+
+                    usrSkill.SkillGoal = skillGoal;
                     model.Add(usrSkill);
                 }
             }
@@ -255,7 +272,7 @@ namespace Login_System.Controllers
             var memberList = new List<GroupMember>();
             var skillList = new List<Skills>();
             var goalList = new List<SkillGoals>();
-            var dateList = new List<DateTime>();
+            var dateList = new Dictionary<string, DateTime>();
 
             //skillList.Add(skill);
 
@@ -283,18 +300,29 @@ namespace Login_System.Controllers
                 {
                     if (goal.GroupName == group.name)
                     {
-                        if (!dateList.Contains(goal.Date))
+                        DateTime value = goal.Date;
+                        if (dateList.ContainsKey(group.name))
                         {
-                            dateList.Add(goal.Date);
+                            dateList[group.name] = value;
                         }
+                        else
+                        {
+                            dateList.Add(group.name, value);
+                        }
+
                         goalList.Add(goal);
                     }
                 }
             }
-            DateTime latestDate;
+            DateTime latestDate = DateTime.Now;
+            var latestDateList = new List<DateTime>();
             if (dateList.Count() != 0)
             {
-                latestDate = dateList.Max();
+                foreach (var key in dateList.Keys)
+                {
+                    latestDateList.Add(dateList[key]);
+                }
+                //latestDate = dateList.Max();
             }
             else
             {
@@ -306,9 +334,12 @@ namespace Login_System.Controllers
             {
                 foreach (var skill in skills)
                 {
-                    if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date == latestDate)
+                    foreach (var date in latestDateList)
                     {
-                        skillList.Add(skill);
+                        if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date == date)
+                        {
+                            skillList.Add(skill);
+                        }
                     }
                 }
             }

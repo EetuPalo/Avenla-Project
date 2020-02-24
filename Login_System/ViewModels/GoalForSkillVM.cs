@@ -12,5 +12,7 @@ namespace Login_System.ViewModels
         public int SkillGoal { get; set; }
 
         public string Date { get; set; }
+
+        public string GroupName { get; set; }
     }
 }
