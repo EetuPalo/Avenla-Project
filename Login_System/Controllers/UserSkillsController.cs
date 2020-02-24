@@ -306,6 +306,7 @@ namespace Login_System.Controllers
                 }
             }
             int dictKey = 0;
+            TempData.Keep();
             if (skillList.Count() != 0)
             {
                 foreach (var skill in skillList)
