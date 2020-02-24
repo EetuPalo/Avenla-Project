@@ -19,12 +19,16 @@ namespace Login_System.Controllers
         private readonly IdentityDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
         private SignInManager<AppUser> SignInMgr { get; }
+        private GroupsDataContext groupContext { get; }
+        private GroupMembersDataContext memberContext { get; }
 
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext)
         {
             _context = context;
             UserMgr = userManager;
             SignInMgr = signInManager;
+            groupContext = gContext;
+            memberContext = memContext;
         }
 
         // GET: AppUsers
@@ -270,5 +274,119 @@ namespace Login_System.Controllers
             }
             return sb.ToString();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditGroupOfUser(int? id, string source)
+        {
+            ViewBag.UserId = id;
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            TempData["Source"] = source;
+
+            var listGroups = groupContext.Group;
+            var listMembers = memberContext.GroupMembers;
+            var userMembership = new List<GroupMember>();
+
+            var model = new List<Group>();
+
+            foreach (var group in listGroups)
+            {
+                foreach (var member in listMembers)
+                {
+                    if (member.GroupName == group.name && member.UserID == tempUser.Id)
+                    {
+                        userMembership.Add(member);
+                    }
+                }               
+            }
+
+            foreach (var group in listGroups)
+            {
+                model.Add(group);
+                int index = userMembership.FindIndex(f => f.GroupName == group.name);
+
+                if (index >= 0)
+                {
+                    group.IsSelected = true;
+                }
+                else
+                {
+                    group.IsSelected = false;
+                }
+            }
+           
+            return View(model);
+        }
+   
+        [HttpPost]
+        public async Task<IActionResult> EditGroupOfUser(List<Group> model, int? id)
+        {
+            var tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            var groupList = groupContext.Group;
+            var memberList = memberContext.GroupMembers;
+            var memberIndex = memberContext.GroupMembers.ToList();
+            var tempList = new List<GroupMember>();
+            var delList = new List<GroupMember>();
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                if (model[i].IsSelected)
+                {
+                    foreach (var member in memberList)
+                    {
+                        int index = memberIndex.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model[i].name));
+                        if (index == -1)
+                        {
+                            int tempIndex = tempList.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model[i].name));
+                            if (tempIndex == -1)
+                            {
+                                var tempMember = new GroupMember
+                                {
+                                    UserID = tempUser.Id,
+                                    GroupID = model[i].id,
+                                    UserName = tempUser.UserName,
+                                    GroupName = model[i].name
+                                };
+                                tempList.Add(tempMember);
+                                memberContext.Add(tempMember);
+                            }
+                        }                       
+                    }
+                }
+                else if (!model[i].IsSelected)
+                {
+                    foreach (var member in memberList)
+                    {
+                        int index = memberIndex.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model[i].name));
+                        if (index >= 0)
+                        {
+                            if (member.GroupID == model[i].id && member.UserID == tempUser.Id && !delList.Contains(member))
+                            {
+                                memberContext.Remove(member);
+                                delList.Add(member);
+                            }
+                        }
+                    }                   
+                }
+                else
+                {
+                    continue;
+                }
+                //var role = await groupContext.FindByIdAsync(model[i].id.ToString());
+                await memberContext.SaveChangesAsync();
+
+            }
+            
+            string source = TempData["Source"].ToString();
+            if (source == "edit")
+            {
+                return RedirectToAction("Edit", "AppUsers", new { Id = id });
+            }
+            else
+            {
+                return RedirectToAction("Index", "AppUsers");
+            }
+            
+        } 
     }
+
 }
