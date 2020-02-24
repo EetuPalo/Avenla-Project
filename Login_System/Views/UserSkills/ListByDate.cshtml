@@ -47,9 +47,10 @@
                         @Html.DisplayFor(modelItem => item.AdminEval)
                     </td>
                 }
-                <td>
-                    <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">View</a> |
-                </td>
+            <td>
+                <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">View</a> |
+                <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">Delete</a>
+            </td>
             </tr>
         }
     </tbody>

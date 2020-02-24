@@ -200,10 +200,17 @@ namespace Login_System.Controllers
                     {
                         if (skill.SkillName == goal.SkillName && DateTime.Parse(goal.Date) <= skill.Date)
                         {
-                            usrSkill.SkillGoal = goal.SkillGoal;
+                            if (goal.SkillGoal == -1)
+                            {
+                                usrSkill.SkillGoal = 0;
+                            }
+                            else
+                            {
+                                usrSkill.SkillGoal = goal.SkillGoal;
+                            }
+
                         }
                     }
-
                     model.Add(usrSkill);
                 }
             }
@@ -456,6 +463,21 @@ namespace Login_System.Controllers
             _context.UserSkills.Remove(userSkills);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(SkillList), "UserSkills", new { id = userSkills.UserID, name = userSkills.Date.ToString("dd/MM/yyyy+HH/mm") });
+        }
+
+        public async Task<IActionResult> DeleteForm(string name, int? id)
+        {
+            var userSkillList = _context.UserSkills.ToList();
+
+            foreach (var userSkill in userSkillList)
+            {
+                if (userSkill.Date.ToString("dd/MM/yyyy+HH/mm") == name && userSkill.UserID == id)
+                {
+                    _context.Remove(userSkill);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = id });
         }
 
         private bool UserSkillsExists(int id)

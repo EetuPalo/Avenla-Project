@@ -42,15 +42,7 @@
                 }
             </td>
             <td>
-                @if (item.SkillGoal != -1)
-                {
-                    <span><strong>@Html.DisplayFor(modelItem => item.SkillGoal)</strong></span>
-                }
-                else
-                {
-                    <span class="text-danger"><strong>NO GOAL SET</strong></span>
-                }
-                
+                <span><strong>@Html.DisplayFor(modelItem => item.SkillGoal)</strong></span>                
             </td>
             @if (User.IsInRole("Admin"))
             {
