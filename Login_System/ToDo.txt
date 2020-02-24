@@ -6,8 +6,13 @@
 - Clean up code
 - Clean UI
 
+- //COURSES
+- SkillCourses are listed somewhere
+- Listing of user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe))
+- Date when course has been completed.
+	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2)
+
 //USERSKILLS
-- UserSkills delete function needs to delete the whole form.
 - Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
 	- Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
 - How to handle skill forms for users who are in multiple groups?
@@ -44,3 +49,4 @@ DONE:
 - //This could maybe be implemented so that IF skillgoal is set to 0, the user group doesn't need to see it in the userskills form.
 - //WHen registering, remove non letter non number characters so the invalidusername warning is not thrown preventing user from being created
 - //Fix the "My Skills" button in the layout
+- //UserSkills delete function needs to delete the whole form.
