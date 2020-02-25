@@ -16,6 +16,9 @@
 - How to handle skill forms for users who are in multiple groups? (Mostly implemented, needs testing)
 - Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
 
+//SKILLGOALS
+- Delete skillgoals of certain date
+
 Levels: 
 0: I don't know and don't want to know!
 .

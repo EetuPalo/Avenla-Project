@@ -5,16 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>User Groups</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <form asp-controller="Groups" asp-action="Index">
-    <p>
-        Group name: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for user groups...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="Create">Create New</a>
+            </div>
+        </div>
+    </div>
+    
 </form>
 <table class="table">
     <thead>
