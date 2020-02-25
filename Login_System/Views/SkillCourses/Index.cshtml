@@ -8,13 +8,20 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    
 </p>
 <form asp-controller="SkillCourses" asp-action="Index">
-    <p>
-        Course title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for courses...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="Create">Create New</a>
+            </div>
+        </div>
+    </div>    
 </form>
 <table class="table">
     <thead>
