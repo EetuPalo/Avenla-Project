@@ -46,6 +46,8 @@ namespace Login_System.Controllers
                     AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
                     coursemember.UserName = tempUser.UserName;
                     coursemember.CourseName = tempCourse.CourseName;
+                    var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID);
+                    coursemember.Status = user.Status;
                     model.Add(coursemember);
                 }
             }
@@ -125,14 +127,16 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseID, UserID,UserName, CourseName")] SkillCourseMember skillCourseMember)
+        public async Task<IActionResult> Create([Bind("CourseID, UserID,UserName, CourseName, Status, CompletionDate")] SkillCourseMember skillCourseMember)
         {
             if (ModelState.IsValid)
             {
                 var user = await UserMgr.FindByNameAsync(skillCourseMember.UserName);//creating a temp user through username selected in the view
                 skillCourseMember.UserID = user.Id;//assinging UserID of the selected user
                 skillCourseMember.CourseID = Convert.ToInt32(TempData["CourseID"]);//the id in the temp data is not int so we convert it
-                skillCourseMember.CourseName = TempData["CourseName"] as string;//same as id              
+                skillCourseMember.CourseName = TempData["CourseName"] as string;//same as id
+                //skillCourseMember.CompletionDate = DateTime.Now;
+                skillCourseMember.Status = "In-progress";
                 TempData.Keep();//keeping the temp data otherwise, skillCourseMember won't have CourseID and CourseName
                 _context.Add(skillCourseMember);
                 await _context.SaveChangesAsync();
