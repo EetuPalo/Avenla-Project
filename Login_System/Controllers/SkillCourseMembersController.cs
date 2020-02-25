@@ -6,22 +6,63 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Microsoft.AspNetCore.Identity;
+using Login_System.ViewModels;
 
 namespace Login_System.Controllers
 {
     public class SkillCourseMembersController : Controller
     {
-        private readonly SkillCourseMemberDataContext _context;
+        private readonly SkillCourseMemberDataContext _context;        
+        private readonly SkillCourseDataContext _sccontext;
+        private readonly UserManager<AppUser> UserMgr;
 
-        public SkillCourseMembersController(SkillCourseMemberDataContext context)
+        public SkillCourseMembersController(SkillCourseMemberDataContext context, UserManager<AppUser> userManager, SkillCourseDataContext groups)
         {
             _context = context;
+            UserMgr = userManager;
+            _sccontext = groups;
         }
 
         // GET: SkillCourseMembers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.SkillCourseMembers.ToListAsync());
+            var model = new List<SkillCourseMemberVM>();
+            //if (id == null)
+            //{
+            //    Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
+            //    id = Convert.ToInt32(UserMgr.GetUserId(User));
+            //}
+
+            SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+            //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
+            foreach (var member in _context.SkillCourseMembers)
+            {
+                if (member.CourseID == id)
+                {
+                    var coursemember = new SkillCourseMemberVM();
+                    coursemember.Id = member.Id;
+                    coursemember.UserID = member.UserID;
+                    AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
+                    coursemember.UserName = tempUser.UserName;
+                    coursemember.CourseName = tempCourse.CourseName;
+                    model.Add(coursemember);
+                }
+            }
+
+            //Information that is useful in other methods that is not always available
+            TempData["CourseID"] = id;
+            try
+            {
+                TempData["CourseName"] = tempCourse.CourseName;
+            }
+            catch (NullReferenceException)
+            {
+                //line 63 causes NullReference exception but doesn't actually prevent the program from working as intended, so the exception is just ignored
+                //someday would need to look into it.
+            }
+
+            return View(model);
         }
 
         // GET: SkillCourseMembers/Details/5
@@ -43,9 +84,40 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            return View();
+            var member = UserMgr.Users.ToList();
+            if (id != null)
+            {
+                var model = new SkillCourseMember();
+                {
+                    model.Uname = member.Select(x => new SelectListItem
+                    {
+                        Value = x.UserName,
+                        Text = x.UserName
+                    });//creating a list of dropdownlist elements                 
+                    model.CourseID = (int)id;//assigning CourseID of the current group
+                    model.CourseName = TempData["CourseName"] as string;//assigning CourseName that we saved as well
+                };
+                return View(model);
+            }
+            else
+            {
+                id = TempData["CourseID"] as int?;//using CourseID we saved earlier in the Index if the id passed to the method is NULL
+                var model = new SkillCourseMember();
+                {
+                    model.Uname = member.Select(x => new SelectListItem
+                    {
+                        Value = x.UserName,
+                        Text = x.UserName
+                    });
+                    model.CourseID= (int)id;//assigning CourseID of the current group
+                    model.CourseName = TempData["CourseName"] as string;//assigning CourseName that we saved as well
+                    TempData.Keep();//so the data is not lost because it's TEMPdata (temporary)
+                };
+
+                return View(model);
+            }
         }
 
         // POST: SkillCourseMembers/Create
@@ -53,13 +125,19 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserID,UserName")] SkillCourseMember skillCourseMember)
+        public async Task<IActionResult> Create([Bind("CourseID, UserID,UserName, CourseName")] SkillCourseMember skillCourseMember)
         {
             if (ModelState.IsValid)
             {
+                var user = await UserMgr.FindByNameAsync(skillCourseMember.UserName);//creating a temp user through username selected in the view
+                skillCourseMember.UserID = user.Id;//assinging UserID of the selected user
+                skillCourseMember.CourseID = Convert.ToInt32(TempData["CourseID"]);//the id in the temp data is not int so we convert it
+                skillCourseMember.CourseName = TempData["CourseName"] as string;//same as id
+                TempData.Keep();//keeping the temp data otherwise, skillCourseMember won't have CourseID and CourseName
                 _context.Add(skillCourseMember);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "skillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of group members,
+                // without specifying the id, an empty list is shown
             }
             return View(skillCourseMember);
         }
@@ -141,7 +219,7 @@ namespace Login_System.Controllers
             var skillCourseMember = await _context.SkillCourseMembers.FindAsync(id);
             _context.SkillCourseMembers.Remove(skillCourseMember);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID});//redirecting back to the list of group members after deletion
         }
 
         private bool SkillCourseMemberExists(int id)
