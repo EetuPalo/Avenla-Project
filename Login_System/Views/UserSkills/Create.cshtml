@@ -20,7 +20,14 @@
             counter++;
             <p>
                 <label class="mb-1">@Model.SkillList[i]</label>
-                <input asp-for="@Model.SkillLevel[i]" class="form-control" type="number" min="0" max="5" />
+                <select class="form-control" asp-for="@Model.SkillLevel[i]">
+                    <option value="0">0 - No interest</option>
+                    <option value="1">1 - Apprentice</option>
+                    <option value="2">2 - Journeyman</option>
+                    <option value="3">3 - Expert</option>
+                    <option value="4">4 - Artisan</option>
+                    <option value="5">5 - Master</option>
+                </select>
                 <input hidden asp-for="@Model.SkillList[i]" />
                 <span asp-validation-for="@Model.SkillLevel[i]"></span>
             </p>
