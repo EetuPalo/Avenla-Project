@@ -10,6 +10,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="SkillCourses" asp-action="Index">
+    <p>
+        Course title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>

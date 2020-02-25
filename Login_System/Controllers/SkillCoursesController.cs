@@ -19,9 +19,14 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Courses.ToListAsync());
+            var courses = from c in _context.Courses select c;
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                courses = courses.Where(s => s.CourseName.Contains(searchString));
+            }
+            return View(await courses.ToListAsync());
         }
 
         // GET: SkillCourses/Details/5

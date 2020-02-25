@@ -19,9 +19,14 @@ namespace Login_System.Controllers
         }
 
         // GET: Groups
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Group.ToListAsync());
+            var groups = from g in _context.Group select g;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                groups = groups.Where(s => s.name.Contains(searchString));
+            }
+            return View(await groups.ToListAsync());
         }
 
         // GET: Groups/Details/5

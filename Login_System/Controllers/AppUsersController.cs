@@ -32,9 +32,22 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Users.ToListAsync());
+            var employees = from e in _context.Users select e;
+            if(!String.IsNullOrEmpty(searchString))
+            {                
+                employees = employees.Where(s => s.UserName.Contains(searchString));
+                if(employees == null)
+                {
+                    employees = employees.Where(s => s.FirstName.Contains(searchString));
+                    if(employees == null)
+                    {
+                        employees = employees.Where(s => s.LastName.Contains(searchString));
+                    }
+                }
+            }
+            return View(await employees.ToListAsync());
         }
 
         // GET: AppUsers/Details/5
