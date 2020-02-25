@@ -23,10 +23,20 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        //This returns the view of the skills of the specific employee.
+        /*
         public async Task<IActionResult> Index(int id)
         {
             return View(await _context.Skills.ToListAsync());
+        }
+        */
+        public async Task<IActionResult> Index (string searchString)
+        {
+            var skills = from c in _context.Skills select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                skills = skills.Where(s => s.Skill.Contains(searchString));
+            }
+            return View(await skills.ToListAsync());
         }
 
         // GET: Skills/Details/5

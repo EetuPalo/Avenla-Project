@@ -7,14 +7,20 @@
 
 <h1>Index</h1>
 
-<div class="container-fluid p-0">
-    <div class="row mb-4">
-        <div class="col-sm">
-            <a class="btn btn-primary" asp-action="Create">Create New</a>
+<form asp-controller="Skills" asp-action="Index">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for skills...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="Create">Create New</a>
+            </div>
         </div>
     </div>
-    
-</div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
