@@ -5,7 +5,8 @@
 - Comments
 - Clean up code
 - Clean UI
-- Editing of Skill names should update database entries with the new name
+- Editing of Skill names should update database entries with the new name (half done)
+- Add search feature to some places
 
 - //COURSES
 - SkillCourses are listed somewhere
@@ -15,7 +16,7 @@
 
 //USERSKILLS
 - How to handle skill forms for users who are in multiple groups? (Mostly implemented, needs testing)
-- Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
+
 
 //SKILLGOALS
 - Delete skillgoals of certain date
@@ -29,6 +30,8 @@ Levels:
 5: I am a master of this topic!
 
 DONE:
+- //Delete role feature
+- //Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
 - //Add action result messages to all the views (mostly done)
 - //Improve the graphs
 - //A Better way to view the progression of skills.

@@ -4,13 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ListRoles</h1>
+<h2>ListRoles</h2>
+<h3 class="text-info">@TempData["ActionResult"]</h3>
+
+<form asp-controller="Admin" asp-action="ListRoles">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for skills...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="CreateRole">Create New</a>
+            </div>
+        </div>
+    </div>
+</form>
 
 @if (Model.Any())
 {
-    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Admin" asp-action="CreateRole">
-        Create Role
-    </a>
     <table class="table">
         <thead>
             <tr>
@@ -34,7 +46,13 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Id">Edit</a>
+                        @if (item.Name != "Admin" && item.Name != "User")
+                        {
+                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Id">Edit | </a>
+                        <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">Delete</a>
+                        }
+                        
+
                     </td>
                 </tr>
             }

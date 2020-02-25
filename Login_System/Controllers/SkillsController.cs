@@ -15,12 +15,14 @@ namespace Login_System.Controllers
     public class SkillsController : Controller
     {
         private readonly SkillDataContext _context;
+        private readonly UserSkillsDataContext userSkillsContext;
         private UserManager<AppUser> UserMgr { get; }
 
-        public SkillsController(SkillDataContext context, UserManager<AppUser> userManager)
+        public SkillsController(SkillDataContext context, UserManager<AppUser> userManager, UserSkillsDataContext uSkillCon)
         {
             _context = context;
             UserMgr = userManager;
+            userSkillsContext = uSkillCon;
         }
 
         /*
@@ -87,6 +89,7 @@ namespace Login_System.Controllers
             }
 
             var skills = await _context.Skills.FindAsync(id);
+            skills.OldName = skills.Skill;
             if (skills == null)
             {
                 return NotFound();
@@ -99,7 +102,7 @@ namespace Login_System.Controllers
         //TODO: Do not bind Id or UserId, those should not be edited.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, Skill")] Skills skills)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, OldName, Skill")] Skills skills)
         {
             if (id != skills.Id)
             {
@@ -123,6 +126,23 @@ namespace Login_System.Controllers
                     {
                         throw;
                     }
+                }
+                //This here updates the skill name to the userskills table. similar loop should be run for every table that uses skillnames
+                try
+                {
+                    foreach (var uSkill in userSkillsContext.UserSkills)
+                    {
+                        if (uSkill.SkillName == skills.OldName)
+                        {
+                            uSkill.SkillName = skills.Skill;
+                            userSkillsContext.Update(uSkill);
+                        }
+                    }
+                    await userSkillsContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
             }

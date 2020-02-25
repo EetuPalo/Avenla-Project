@@ -12,6 +12,9 @@ namespace Login_System.Models
 
         public string Skill { get; set; }
 
+        [NotMapped]
+        public string OldName { get; set; }
+
         /*
         [NotMapped]
         public int EntryCount { get; set; }

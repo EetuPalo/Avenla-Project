@@ -42,7 +42,8 @@ namespace Login_System.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    TempData["ActionResult"] = "Role created successfully!";
+                    return RedirectToAction("ListRoles", "Admin");
                 }
 
                 foreach (IdentityError error in result.Errors)
@@ -54,13 +55,23 @@ namespace Login_System.Controllers
             return View(roleModel);
         }
 
+        /*
         [HttpGet]
         public IActionResult ListRoles()
         {
             var roles = roleManager.Roles;
             return View(roles);
         }
-
+        */
+        public IActionResult ListRoles(string searchString)
+        {
+            var roles = from c in roleManager.Roles select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                roles = roles.Where(s => s.Name.Contains(searchString));
+            }
+            return View(roles.ToList());
+        }
         [HttpGet]
         //The id of a specific role is passed to this method.
         public async Task<IActionResult> EditRole(string id)
@@ -263,6 +274,31 @@ namespace Login_System.Controllers
                 return RedirectToAction("Index", "AppUsers");
             }
 
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                TempData["ActionResult"] = "No role deleted. This is likely an error.";
+                return RedirectToAction(nameof(ListRoles));
+            }
+            else
+            {
+                AppRole tempRole = await roleManager.FindByIdAsync(id.ToString());
+                var result = await roleManager.DeleteAsync(tempRole);
+                if (result.Succeeded)
+                {
+                    TempData["ActionResult"] = "Role deleted successfully!";
+                    return RedirectToAction(nameof(ListRoles));
+                }
+                else if (!result.Succeeded)
+                {
+                    TempData["ActionResult"] = "An exception occured while deleting role. Check the list!";
+                    return RedirectToAction(nameof(ListRoles));
+                }
+                return RedirectToAction(nameof(ListRoles));
+            }
         }
     }
 }
