@@ -72,6 +72,7 @@ body {
 }
 
 .status-img {
-    width: 20px;
+    width: 15px;
+    margin-top: 5px;
     height: auto;
 }
