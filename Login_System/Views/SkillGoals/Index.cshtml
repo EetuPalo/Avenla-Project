@@ -8,10 +8,11 @@
 <h1>@TempData.Peek("GroupName"): Goals for @TempData.Peek("LatestDate")</h1>
 <h3 class="text-info">@TempData["ActionResult"]</h3>
 
-<form asp-controller="SkillGoals" asp-action="RefreshIndex">
-    @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date")
-    <input hidden asp-for="@Model.GroupName"  value="@TempData.Peek("GroupName")"/>
-    <input type="submit" value="Refresh" />
+<form id="dateForm" asp-controller="SkillGoals" asp-action="RefreshIndex">
+    <div class="row mb-2">
+        @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date", new { @class = "form-control col-sm", @onchange = "reloadPage()" })
+        <input hidden asp-for="@Model.GroupName" value="@TempData.Peek("GroupName")" />
+    </div>
 </form>
 
 <p>
@@ -29,26 +30,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Goals) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SkillName)
-            </td>
-            <td>
-                @if (item.LatestGoal == -1)
-                {
-                    <span class="text-danger">NO GOAL</span>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.LatestGoal)
-                }
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Goals)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SkillName)
+                </td>
+                <td>
+                    @if (item.LatestGoal == -1)
+                    {
+                        <span class="text-danger">NO GOAL</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.LatestGoal)
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
 <div>
     <a asp-action="Index" asp-controller="Groups">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        function reloadPage() {
+            document.getElementById("dateForm").submit();
+        }
+    </script>
+}

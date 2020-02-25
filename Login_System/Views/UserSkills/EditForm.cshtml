@@ -16,13 +16,13 @@
                 {
                     uId = Model.UserSkills[i].UserID;
                     <div class="form-group">
-                        <label>@Model.UserSkills[i].SkillName</label>
+                        <label class="form-check-label">@Model.UserSkills[i].SkillName</label>
                         <input hidden asp-for="@Model.UserSkills[i].SkillName" />
                         <input hidden asp-for="@Model.UserSkills[i].UserID" />
                         <input hidden asp-for="@Model.UserSkills[i].Id" />
                         <input hidden asp-for="@Model.UserSkills[i].AdminEval" />
                         <input hidden asp-for="@Model.UserSkills[i].Date" />
-                        <select asp-for="@Model.UserSkills[i].SkillLevel">
+                        <select class="form-control" asp-for="@Model.UserSkills[i].SkillLevel">
                             <option value="0">0 - No interest</option>
                             <option value="1">1 - Apprentice</option>
                             <option value="2">2 - Journeyman</option>
