@@ -1,0 +1,33 @@
+﻿@model Login_System.ViewModels.EditFormVM
+@{
+    ViewData["Title"] = "EditForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int uId = 0;
+}
+
+<h1>EditForm</h1>
+
+<fieldset>
+    <form asp-action="EditForm">
+        <div asp-validation-summary="All" class="input-validation-error"></div>
+        @for (int i = 0; i < Model.UserSkills.Count(); i++)
+        {
+            uId = Model.UserSkills[i].UserID;
+            <label>@Model.UserSkills[i].SkillName</label>
+            <input hidden asp-for="@Model.UserSkills[i].SkillName" />
+            <input hidden asp-for="@Model.UserSkills[i].UserID" />
+            <input hidden asp-for="@Model.UserSkills[i].Id" />
+            <input hidden asp-for="@Model.UserSkills[i].AdminEval" />
+            <input hidden asp-for="@Model.UserSkills[i].Date" />
+            <input asp-for="@Model.UserSkills[i].SkillLevel" class="form-control" type="number" min="0" max="5" />
+            <span asp-validation-for="@Model.UserSkills[i].SkillLevel"></span>
+        }
+        <p>
+            <input type="submit" class="btn btn-info" value="Update"/>
+        </p>
+        <div>
+            <a asp-action="ListByDate" asp-route-id="@uId">Back to List</a>
+        </div>
+    </form>
+</fieldset>
+

@@ -13,9 +13,7 @@
 	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2)
 
 //USERSKILLS
-- Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
-	- Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
-- How to handle skill forms for users who are in multiple groups?
+- How to handle skill forms for users who are in multiple groups? (Mostly implemented, needs testing)
 - Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
 
 Levels: 
@@ -50,3 +48,5 @@ DONE:
 - //WHen registering, remove non letter non number characters so the invalidusername warning is not thrown preventing user from being created
 - //Fix the "My Skills" button in the layout
 - //UserSkills delete function needs to delete the whole form.
+- //Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
+- //Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
