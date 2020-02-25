@@ -61,17 +61,18 @@
             <p>
                 <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
             </p>
-            <p>
-                <button type="submit">Submit</button>
-            </p>
+            <div class="container-fluid p-0">
+                <div class="row">
+                    <div class="col-sm">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </div>
         </div>
         
     </form>
 </fieldset>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

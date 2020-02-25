@@ -11,10 +11,15 @@
 <h1>@TempData["UserName"]</h1>
 <h2 class="text-danger">@TempData["ActionResult"]</h2>
 
-<p>
-    <a asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a> | 
-    <a asp-action="Index" asp-controller="AppUsers">Back to List</a>
-</p>
+<div class="container-fluid p-0">
+    <div class="row mb-4">
+        <div class="col-sm">
+            <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a>
+            <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back to List</a>
+        </div>
+    </div>
+
+</div>
 
 <table class="table table-striped">
     <thead>

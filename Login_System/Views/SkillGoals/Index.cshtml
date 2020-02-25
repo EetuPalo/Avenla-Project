@@ -9,7 +9,7 @@
 <h3 class="text-info">@TempData["ActionResult"]</h3>
 
 <form id="dateForm" asp-controller="SkillGoals" asp-action="RefreshIndex">
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
                 @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date", new { @class = "form-control col-sm", @onchange = "reloadPage()" })
@@ -17,6 +17,7 @@
             </div>
             <div class="col-sm">
                 <a class="btn btn-primary" asp-action="Create" asp-route-name="@TempData.Peek("GroupName")">Create New</a>
+                <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back to Groups</a>
             </div>
         </div>
     </div>    
@@ -54,10 +55,6 @@
         }
     </tbody>
 </table>
-
-<div>
-    <a asp-action="Index" asp-controller="Groups">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

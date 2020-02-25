@@ -5,6 +5,7 @@
 - Comments
 - Clean up code
 - Clean UI
+- Editing of Skill names should update database entries with the new name
 
 - //COURSES
 - SkillCourses are listed somewhere
