@@ -467,7 +467,6 @@ namespace Login_System.Controllers
             return View(userSkills);
         }
 
-        // GET: UserSkills/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -485,7 +484,40 @@ namespace Login_System.Controllers
             return View(userSkills);
         }
 
-        // POST: UserSkills/Delete/5
+        //GET
+        [HttpGet]
+        public async Task<IActionResult> EditForm(string name, int id)
+        {
+            //Getting the correct entries by date and userId
+            var userSkills = _context.UserSkills.ToList();
+            var viewModel = new EditFormVM();
+            var model = new List<UserSkills>();
+            foreach (var skill in userSkills)
+            {
+                if (skill.Date.ToString("dd/MM/yyyy+HH/mm") == name && skill.UserID == id)
+                {
+                    model.Add(skill);
+                }
+            }
+            viewModel.UserSkills = model;
+            return View(viewModel);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditForm(int id, [Bind("UserSkills")] EditFormVM UserSkillsVM)
+        {
+            //Looping through the entries, and updating them
+            foreach (var skill in UserSkillsVM.UserSkills)
+            {
+                _context.Update(skill);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = id });
+        }
+        
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
