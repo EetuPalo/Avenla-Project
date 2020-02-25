@@ -56,8 +56,12 @@
 
 @if (User.IsInRole("Admin"))
 {
-    <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Roles</a>
-    <a asp-action="EditGroupOfUser" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Groups</a>
+    <p>
+        <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Roles</a>
+    </p>
+    <p>
+        <a asp-action="EditGroupOfUser" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Groups</a>
+    </p>    
 }
 
 <div>

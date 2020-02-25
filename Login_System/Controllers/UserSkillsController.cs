@@ -107,7 +107,7 @@ namespace Login_System.Controllers
                         i++;
                         var tempModel = new DateListVM
                         {
-                            Date = item.Date.ToString("dd/MM/yyyy HH/mm"),
+                            Date = item.Date.ToString("dd.MM.yyyy HH:mm"),
                             AdminEval = item.AdminEval,
                             TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
                             Id = (int)id
@@ -486,8 +486,18 @@ namespace Login_System.Controllers
 
         //GET
         [HttpGet]
-        public async Task<IActionResult> EditForm(string name, int id)
+        public async Task<IActionResult> EditForm(string date, string name, int id)
         {
+            //Try to get the date to be shown in the view
+            try
+            {
+                ViewBag.Date = date;
+            }
+            catch
+            {
+                ViewBag.Date = "INVALID_DATE";
+            }
+
             //Getting the correct entries by date and userId
             var userSkills = _context.UserSkills.ToList();
             var viewModel = new EditFormVM();

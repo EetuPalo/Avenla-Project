@@ -19,7 +19,7 @@
         {
             counter++;
             <p>
-                <label>@Model.SkillList[i]</label>
+                <label class="mb-1">@Model.SkillList[i]</label>
                 <input asp-for="@Model.SkillLevel[i]" class="form-control" type="number" min="0" max="5" />
                 <input hidden asp-for="@Model.SkillList[i]" />
                 <span asp-validation-for="@Model.SkillLevel[i]"></span>
@@ -29,7 +29,7 @@
             <input hidden asp-for="@Model.SkillCount" value="@counter" />
         </p>
         <p>
-            <button type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">Submit</button>
         </p>
     </form>
 </fieldset>

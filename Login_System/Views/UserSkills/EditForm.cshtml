@@ -5,29 +5,43 @@
     int uId = 0;
 }
 
-<h1>EditForm</h1>
+<h1>Skill Entries for: @ViewBag.Date</h1>
 
 <fieldset>
-    <form asp-action="EditForm">
-        <div asp-validation-summary="All" class="input-validation-error"></div>
-        @for (int i = 0; i < Model.UserSkills.Count(); i++)
-        {
-            uId = Model.UserSkills[i].UserID;
-            <label>@Model.UserSkills[i].SkillName</label>
-            <input hidden asp-for="@Model.UserSkills[i].SkillName" />
-            <input hidden asp-for="@Model.UserSkills[i].UserID" />
-            <input hidden asp-for="@Model.UserSkills[i].Id" />
-            <input hidden asp-for="@Model.UserSkills[i].AdminEval" />
-            <input hidden asp-for="@Model.UserSkills[i].Date" />
-            <input asp-for="@Model.UserSkills[i].SkillLevel" class="form-control" type="number" min="0" max="5" />
-            <span asp-validation-for="@Model.UserSkills[i].SkillLevel"></span>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EditForm">
+                <div asp-validation-summary="All" class="input-validation-error"></div>
+                @for (int i = 0; i < Model.UserSkills.Count(); i++)
+                {
+                    uId = Model.UserSkills[i].UserID;
+                    <div class="form-group">
+                        <label>@Model.UserSkills[i].SkillName</label>
+                        <input hidden asp-for="@Model.UserSkills[i].SkillName" />
+                        <input hidden asp-for="@Model.UserSkills[i].UserID" />
+                        <input hidden asp-for="@Model.UserSkills[i].Id" />
+                        <input hidden asp-for="@Model.UserSkills[i].AdminEval" />
+                        <input hidden asp-for="@Model.UserSkills[i].Date" />
+                        <select asp-for="@Model.UserSkills[i].SkillLevel">
+                            <option value="0">0 - No interest</option>
+                            <option value="1">1 - Apprentice</option>
+                            <option value="2">2 - Journeyman</option>
+                            <option value="3">3 - Expert</option>
+                            <option value="4">4 - Artisan</option>
+                            <option value="5">5 - Master</option>
+                        </select>
+                        <span asp-validation-for="@Model.UserSkills[i].SkillLevel"></span>
+                    </div>
         }
-        <p>
-            <input type="submit" class="btn btn-info" value="Update"/>
-        </p>
-        <div>
-            <a asp-action="ListByDate" asp-route-id="@uId">Back to List</a>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Update" />
+                </div>
+                <div class="form-group">
+                    <a asp-action="ListByDate" asp-route-id="@uId">Back to List</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+    
 </fieldset>
 
