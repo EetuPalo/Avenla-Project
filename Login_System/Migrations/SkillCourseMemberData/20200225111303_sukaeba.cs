@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Login_System.Migrations.SkillCourseMemberData
 {
-    public partial class skillcoursemember : Migration
+    public partial class sukaeba : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +13,12 @@ namespace Login_System.Migrations.SkillCourseMemberData
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseID = table.Column<int>(nullable: false),
                     UserID = table.Column<int>(nullable: false),
-                    UserName = table.Column<string>(nullable: true)
+                    UserName = table.Column<string>(nullable: true),
+                    CourseName = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    CompletionDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

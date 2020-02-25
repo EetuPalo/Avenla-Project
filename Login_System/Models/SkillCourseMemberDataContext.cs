@@ -11,8 +11,8 @@ namespace Login_System.Models
     {
         public SkillCourseMemberDataContext(DbContextOptions<SkillCourseMemberDataContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }       
-        public DbSet<SkillCourseMember> SkillCourseMembers { get; set; }
+        public virtual DbSet<SkillCourseMember> SkillCourseMembers { get; set; }
     }
 }

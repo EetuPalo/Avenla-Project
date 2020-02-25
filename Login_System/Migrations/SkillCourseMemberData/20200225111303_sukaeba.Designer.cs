@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Login_System.Migrations.SkillCourseMemberData
 {
     [DbContext(typeof(SkillCourseMemberDataContext))]
-    [Migration("20200225080739_coursmemberinit")]
-    partial class coursmemberinit
+    [Migration("20200225111303_sukaeba")]
+    partial class sukaeba
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
