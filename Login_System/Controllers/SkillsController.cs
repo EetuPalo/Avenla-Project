@@ -16,13 +16,15 @@ namespace Login_System.Controllers
     {
         private readonly SkillDataContext _context;
         private readonly UserSkillsDataContext userSkillsContext;
+        private readonly SkillGoalContext goalContext;
         private UserManager<AppUser> UserMgr { get; }
 
-        public SkillsController(SkillDataContext context, UserManager<AppUser> userManager, UserSkillsDataContext uSkillCon)
+        public SkillsController(SkillDataContext context, UserManager<AppUser> userManager, UserSkillsDataContext uSkillCon, SkillGoalContext skillGoalContext)
         {
             _context = context;
             UserMgr = userManager;
             userSkillsContext = uSkillCon;
+            goalContext = skillGoalContext;
         }
 
         /*
@@ -136,6 +138,23 @@ namespace Login_System.Controllers
                         {
                             uSkill.SkillName = skills.Skill;
                             userSkillsContext.Update(uSkill);
+                        }
+                    }
+                    await userSkillsContext.SaveChangesAsync();
+                }
+                catch
+                {
+                    return NotFound();
+                }
+                //This here updates the skill name to the skillgoals table.
+                try
+                {
+                    foreach (var goal in goalContext.SkillGoals)
+                    {
+                        if (goal.SkillName == skills.OldName)
+                        {
+                            goal.SkillName = skills.Skill;
+                            userSkillsContext.Update(goal);
                         }
                     }
                     await userSkillsContext.SaveChangesAsync();

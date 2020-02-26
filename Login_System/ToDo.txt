@@ -5,8 +5,8 @@
 - Comments
 - Clean up code
 - Clean UI
-- Editing of Skill names should update database entries with the new name (half done)
 - Add search feature to some places
+- Delete confirmations to where it's useful to have
 
 - //COURSES
 - SkillCourses are listed somewhere
@@ -16,7 +16,6 @@
 
 //USERSKILLS
 - How to handle skill forms for users who are in multiple groups? (Mostly implemented, needs testing)
-
 
 //SKILLGOALS
 - Delete skillgoals of certain date
@@ -48,7 +47,7 @@ DONE:
 - //Editing skill goals should preserve the old version of the goal. (Similar "view by date" as in userskills)
 - //User Groups (Parviz)
 - //Remove "change password" from admin (kinda implemented, the code needs refactoring and maybe the whole thing could be more logical)
-- //Graphs to display skill progression
+- //Graphs to display skill progression (Parviz)
 - //Fix redirects in edit user (and refactor the whole thing)
 - //Admins should edit the forms for each user group (can probably reuse code from user role editing)
 - //This could maybe be implemented so that IF skillgoal is set to 0, the user group doesn't need to see it in the userskills form.
@@ -57,3 +56,4 @@ DONE:
 - //UserSkills delete function needs to delete the whole form.
 - //Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
 - //Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
+- //Editing of Skill names should update database entries with the new name
