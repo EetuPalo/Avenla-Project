@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit Role</h1>
+<h2>Edit Role</h2>
 
 <form method="post">
     <div class="card-header">
@@ -24,9 +24,11 @@
         }
     </div>
     <div class="card-footer">
-        <input type="submit" value="Update" class="btn btn-primary" style="width:auto" />
+        <div class="row">
+            <div class="col-sm">
+                <input type="submit" value="Update" class="btn btn-primary" style="width:auto" />
+                <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back to List</a>
+            </div>
+        </div>
     </div>
 </form>
-<div>
-    <a asp-action="Index" asp-controller="AppUsers">Back to List</a>
-</div>

@@ -6,24 +6,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create New Role</h1>
+<h2>Create New Role</h2>
+<hr />
 <fieldset>
     <form asp-action="CreateRole" asp-controller="Admin">
         <div asp-validation-summary="All" class="input-validation-error"></div>
-        <p>
-            <label asp-for="RoleName"></label>
-            <input asp-for="RoleName" class="form-control" placeholder="Username" />
-            <span asp-validation-for="RoleName"></span>
-        </p>
+        <div class="container-fluid p-0">
+            <div class="row mb-4">
+                <div class="col-sm-4">
+                    <label class="form-check-label" asp-for="RoleName"></label>
+                    <input asp-for="RoleName" class="form-control" placeholder="Role Name" />
+                    <span asp-validation-for="RoleName"></span>
+                </div>
+                <div class="col-sm-8"></div>
+            </div>            
+        </div>
       
-        <p>
-            <button type="submit">Create Role</button>
-        </p>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-sm">
+                    <button class="btn btn-primary" type="submit">Create Role</button>
+                    <a class="btn btn-danger" asp-action="ListRoles" asp-controller="Admin">Back to List</a>
+                </div>
+            </div>
+        </div>
 
     </form>
 </fieldset>
-
-<div>
-    <a asp-action="ListRoles" asp-controller="Admin">Back to List</a>
-</div>
 
