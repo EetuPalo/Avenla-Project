@@ -177,7 +177,7 @@ namespace Login_System.Controllers
                 tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
                 string fixedUn = Encoding.UTF8.GetString(tempBytes);
                 fixedUn = RemoveSpecialCharacters(fixedUn);
-
+                appUser.UserName = fixedUn;
                 //This is just an extra step to make sure the user is authorized to edit the account
                 if (user.UserName == compareUser || User.IsInRole("Admin"))
                 {
@@ -201,7 +201,7 @@ namespace Login_System.Controllers
                     try
                     {
                         var result = await UserMgr.UpdateAsync(user);
-                        TempData["ActionResult"] = "User" + appUser.UserName + "edited!";
+                        TempData["ActionResult"] = "User" + " " + appUser.UserName + " " + "edited!";
                         return RedirectToAction(nameof(Index));
                     }
                     catch
