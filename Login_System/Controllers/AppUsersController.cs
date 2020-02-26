@@ -88,7 +88,14 @@ namespace Login_System.Controllers
             {
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
-
+                var k = 1;
+                var veryTempUser = await UserMgr.FindByNameAsync(userName);
+                while (veryTempUser != null)
+                {
+                    userName = userName + k;
+                    veryTempUser = await UserMgr.FindByNameAsync(userName);
+                    k++;
+                }
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
                 tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);

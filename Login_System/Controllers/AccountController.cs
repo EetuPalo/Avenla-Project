@@ -43,6 +43,14 @@ namespace Login_System.Controllers
             {
                 //This constructs the username from the users first and last names
                 string userName = newUser.FirstName + newUser.LastName;
+                var k = 1;
+                var veryTempUser = await UserMgr.FindByNameAsync(userName);
+                while (veryTempUser != null)
+                {
+                    userName = userName + k;
+                    veryTempUser = await UserMgr.FindByNameAsync(userName);
+                    k++;
+                }
 
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
