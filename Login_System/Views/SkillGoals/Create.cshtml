@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var gName = Model.SkillGoals[0].GroupName;
 }
 
 <h1>Create</h1>
@@ -31,12 +32,12 @@
                 </div>
                 <div class="col-sm">
                     <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">Add</button>
-                </div>               
+                </div>
                 <span asp-validation-for="@Model.SkillGoals[0].SkillGoal"></span>
             </div>
             @for (int i = 1; i < Model.Skills.Count(); i++)
             {
-                <div style="display:none" id="skillForm[@i]" class="row mb-4">                    
+                <div style="display:none" id="skillForm[@i]" class="row mb-4">
                     <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
                     <div class="col-sm">
                         @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
@@ -54,7 +55,7 @@
                     </div>
                     <div class="col-sm">
                         <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">Add</button>
-                    </div>                    
+                    </div>
                     <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
                 </div>
             }
@@ -65,12 +66,12 @@
                 <div class="row">
                     <div class="col-sm">
                         <button class="btn btn-primary" type="submit">Submit</button>
-                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                        <a class="btn btn-danger" asp-action="Index" asp-route-name="@gName">Back to List</a>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </form>
 </fieldset>
 

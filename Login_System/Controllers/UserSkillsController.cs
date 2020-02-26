@@ -42,7 +42,7 @@ namespace Login_System.Controllers
         {
             if (id == null)
             {
-                id = Convert.ToInt32(TempData["UserId"]);
+                id = Convert.ToInt32(TempData.Peek("UserId"));
             }
 
             var model = new List<Skills>();
@@ -74,11 +74,12 @@ namespace Login_System.Controllers
             return View(model);
         }
 
-        public async Task <IActionResult> ListByDate(int? id)
+        public async Task <IActionResult> ListByDate(int? id, string searchString)
         {
             if (id == null)
             {
-                id = Convert.ToInt32(TempData["UserId"]);
+                //I dont understand tempdata lol
+                id = Convert.ToInt32(TempData.Peek("UserId"));
                 TempData.Keep();
             }
             else
@@ -98,31 +99,67 @@ namespace Login_System.Controllers
             List<string> dates = new List<string>();
             List<string> skillnames = new List<string>();
             int i = 0;
-            foreach (var item in _context.UserSkills)
-            {
-                if (item.UserID == id)
-                {                    
-                    if (!tempDate.Contains(item.Date.ToString()))
-                    {
-                        i++;
-                        var tempModel = new DateListVM
-                        {
-                            Date = item.Date.ToString("dd.MM.yyyy HH:mm"),
-                            AdminEval = item.AdminEval,
-                            TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
-                            Id = (int)id
-                        };
-                        model.Add(tempModel);
-                        
-                    }                    
-                    tempDate.Add(item.Date.ToString());
 
-                    if (item.Date != null)
-                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                    skillnames.Add(item.SkillName);
-                    dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
-                }                
+            var userSkills = from c in _context.UserSkills select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                userSkills = userSkills.Where(s => (s.Date.ToString().Contains(searchString)) && (s.UserID == id));
+                foreach (var item in userSkills)
+                {
+                    if (item.UserID == id)
+                    {
+                        if (!tempDate.Contains(item.Date.ToString()))
+                        {
+                            i++;
+                            var tempModel = new DateListVM
+                            {
+                                Date = item.Date.ToString("dd.MM.yyyy HH:mm"),
+                                AdminEval = item.AdminEval,
+                                TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                                Id = (int)id
+                            };
+                            model.Add(tempModel);
+
+                        }
+                        tempDate.Add(item.Date.ToString());
+
+                        if (item.Date != null)
+                            dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                        skillnames.Add(item.SkillName);
+                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                    }
+                }
             }
+            else
+            {
+                foreach (var item in _context.UserSkills)
+                {
+                    if (item.UserID == id)
+                    {
+                        if (!tempDate.Contains(item.Date.ToString()))
+                        {
+                            i++;
+                            var tempModel = new DateListVM
+                            {
+                                Date = item.Date.ToString("dd.MM.yyyy HH:mm"),
+                                AdminEval = item.AdminEval,
+                                TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                                Id = (int)id
+                            };
+                            model.Add(tempModel);
+
+                        }
+                        tempDate.Add(item.Date.ToString());
+
+                        if (item.Date != null)
+                            dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                        skillnames.Add(item.SkillName);
+                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                    }
+                }
+            }
+
+           
             ViewBag.DataPoint = dataPoints.ToArray();
             //ViewBag.Dates = JsonConvert.SerializeObject(dates);
             ViewBag.Dates = dates.ToArray();

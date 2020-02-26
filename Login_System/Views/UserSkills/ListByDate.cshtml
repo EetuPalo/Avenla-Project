@@ -11,15 +11,20 @@
 <h1>@TempData["UserName"]</h1>
 <h2 class="text-danger">@TempData["ActionResult"]</h2>
 
-<div class="container-fluid p-0">
-    <div class="row mb-4">
-        <div class="col-sm">
-            <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a>
-            <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back to List</a>
+<form asp-controller="UserSkills" asp-action="ListByDate">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for dates...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a>
+                <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back to List</a>
+            </div>
         </div>
     </div>
-
-</div>
+</form>
 
 <table class="table table-striped">
     <thead>
