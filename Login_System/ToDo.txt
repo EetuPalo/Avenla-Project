@@ -9,8 +9,9 @@
 - Delete confirmations to where it's useful to have
 
 - //COURSES
-- SkillCourses are listed somewhere
-- Listing of user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe))
+- Course Enrollment for user
+- Course location?
+- Listing if user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe))
 - Date when course has been completed.
 	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2)
 
@@ -19,6 +20,7 @@
 
 //SKILLGOALS
 - Delete skillgoals of certain date
+- Handle duplicate skill name on one form
 
 Levels: 
 0: I don't know and don't want to know!
@@ -29,6 +31,7 @@ Levels:
 5: I am a master of this topic!
 
 DONE:
+- //SkillCourses are listed somewhere
 - //Delete role feature
 - //Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
 - //Add action result messages to all the views (mostly done)
