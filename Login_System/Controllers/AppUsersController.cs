@@ -161,6 +161,7 @@ namespace Login_System.Controllers
 
                 TempData["UserId"] = id;
                 TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
+                appUser.TempUserName = tempUser.UserName;
                 return View(appUser);
             }           
             return View();
@@ -169,7 +170,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, NewPassword, ConfirmNewPassword, PhoneNumber, EmpStatus")] AppUser appUser)
+        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, NewPassword, ConfirmNewPassword, PhoneNumber, EmpStatus, TempUserName")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
@@ -177,15 +178,7 @@ namespace Login_System.Controllers
                 var user = await UserMgr.FindByIdAsync(id.ToString());
 
                 //This constructs the username from the users first and last names
-                string userName = appUser.FirstName + appUser.LastName;
-                var k = 1;
-                var veryTempUser = await UserMgr.FindByNameAsync(userName);
-                while (veryTempUser != null)
-                {
-                    userName = userName + k;
-                    veryTempUser = await UserMgr.FindByNameAsync(userName);
-                    k++;
-                }
+                string userName = appUser.TempUserName;
                 //This is supposed to remove any Ä's Ö's and Å's from the userName string
                 byte[] tempBytes;
                 tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);

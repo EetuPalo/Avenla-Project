@@ -23,6 +23,8 @@ namespace Login_System.Models
         public string NewPassword { get; set; }
         [NotMapped]
         public string ConfirmNewPassword { get; set; }
+        [NotMapped]
+        public string TempUserName { get; set; }
         
     }
 }
