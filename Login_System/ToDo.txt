@@ -17,6 +17,7 @@
 
 //USERSKILLS
 - How to handle skill forms for users who are in multiple groups? (Mostly implemented, needs testing)
+	- Deal with cases where two different groups (user is part of) has set goals for the same skill
 
 //SKILLGOALS
 - Delete skillgoals of certain date
