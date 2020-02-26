@@ -7,6 +7,8 @@
 - Clean UI
 - Add search feature to some places (mostly done, improve search in userskills (maybe replace with a calendar))
 - Delete confirmations to where it's useful to have
+- Some sort of a "Mass edit" system for AppUsers (only usable by admins)?
+- 
 
 - //COURSES
 - Course Enrollment for user
@@ -18,10 +20,15 @@
 //USERSKILLS
 - How to handle skill forms for users who are in multiple groups? (Mostly implemented, needs testing)
 	- Deal with cases where two different groups (user is part of) has set goals for the same skill
+- UserSkills switch listbydate and skilllist around
+- The current skill level needs to be easily seen
 
 //SKILLGOALS
 - Delete skillgoals of certain date
 - Handle duplicate skill name on one form
+
+//GROUPS
+- Show skillgoal creation when creating a new group
 
 Levels: 
 0: I don't know and don't want to know!

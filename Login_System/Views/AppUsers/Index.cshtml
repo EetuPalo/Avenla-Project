@@ -9,7 +9,7 @@
 <h2>Employee List</h2>
 <h4 class="text-danger">@TempData["CreateStatus"]</h4>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
-
+<hr />
 <form asp-controller="AppUsers" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -20,6 +20,18 @@
                 <input class="btn btn-info" type="submit" value="Filter" />
                 <a class="btn btn-primary" asp-action="Create">Create New</a>
             </div>
+            <div class="col-sm">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        Mass Edit
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item" href="#">Set Active</a>
+                        <a class="dropdown-item" href="#">Add to Group</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>   
 </form>
@@ -27,6 +39,7 @@
     <table class="table table-sm table-hover">
         <thead>
             <tr>
+                <th></th>
                 <th>
                     First Name
                 </th>
@@ -56,6 +69,9 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input" value="1"/>
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
