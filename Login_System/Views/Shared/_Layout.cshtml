@@ -20,36 +20,31 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="text-dark btn" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("User"))
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("User") || User.IsInRole("Admin")))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="UserSkills" asp-action="ListByDate" asp-route-id="@ViewBag.UserID">My Skills</a>
-                            </li>
                             <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AppUsers" asp-action="Index">List of employees</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="SkillCourses" asp-action="Index">Courses</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ListRoles">Roles</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Skills" asp-action="Index">Skills</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
+                                <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">Employees</a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="text-dark btn" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown show">
+                                <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admininstrator
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="ListRoles">Roles</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Skills" asp-action="Index">Skills</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="SkillCourses" asp-action="Index">Courses</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
