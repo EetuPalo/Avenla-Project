@@ -60,6 +60,7 @@ namespace Login_System.Controllers
                     user.FirstName = newUser.FirstName;
                     user.LastName = newUser.LastName;
                     user.PhoneNumber = newUser.PhoneNumber;
+                    user.EmpStatus = "Active";
                     //we then create a new user through usermanager
                     IdentityResult result;
                     IdentityResult roleResult;

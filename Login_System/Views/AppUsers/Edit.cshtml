@@ -36,7 +36,18 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <span style="font-weight: bold; color: red; font-size: 15px;" >@ViewBag.Message</span>
+            <div class="form-group">
+                <label asp-for="EmpStatus" class="control-label">Status</label>
+                <select class="form-control" asp-for="EmpStatus">
+                    <option value="Active">Active</option>
+                    <option value="Parental Leave">Parental Leave</option>
+                    <option value="Winter Break">Winter Break</option>
+                    <option value="Summer Break">Summer Break</option>
+                    <option selected="selected" value="-1">Select Status</option>
+                </select>
+                <span asp-validation-for="EmpStatus" class="text-danger"></span>
+            </div>
+            <span style="font-weight: bold; color: red; font-size: 15px;">@ViewBag.Message</span>
             <div class="form-group">
                 <label asp-for="NewPassword" class="control-label">New Password</label>
                 <input asp-for="NewPassword" class="form-control" />

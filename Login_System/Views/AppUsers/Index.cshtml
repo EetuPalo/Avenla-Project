@@ -28,24 +28,26 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    First Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    Last Name
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.UserName)
+                    Username
+                </th>
+                <th>
+                    Email
                 </th>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Email)
+                    Phone Nbr.
                 </th>
-
                 <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                    Status
                 </th>
                 <th class="text-center">
-                    @Html.DisplayNameFor(model => model.Active)
+                    Online
                 </th>
                 <th></th>
             </tr>
@@ -70,6 +72,9 @@
 
                     <td>
                         @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmpStatus)
                     </td>
                     @*Show different image based on activity status*@
                     @if (item.Active == "Active")

@@ -27,12 +27,6 @@ namespace Login_System.Controllers
             goalContext = skillGoalContext;
         }
 
-        /*
-        public async Task<IActionResult> Index(int id)
-        {
-            return View(await _context.Skills.ToListAsync());
-        }
-        */
         public async Task<IActionResult> Index (string searchString)
         {
             var skills = from c in _context.Skills select c;
@@ -99,9 +93,6 @@ namespace Login_System.Controllers
             return View(skills);
         }
 
-        // POST: Skills/Edit/5
-        //Binds all user info from database to the skills object. 
-        //TODO: Do not bind Id or UserId, those should not be edited.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id, OldName, Skill")] Skills skills)
@@ -163,6 +154,7 @@ namespace Login_System.Controllers
                 {
                     return NotFound();
                 }
+                //
                 return RedirectToAction(nameof(Index));
             }
             return View(skills);

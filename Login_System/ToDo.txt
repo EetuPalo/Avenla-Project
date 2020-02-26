@@ -1,6 +1,6 @@
 ﻿TODO:
 
-- User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
+
 - A ton of testing.
 - Comments
 - Clean up code
@@ -57,3 +57,4 @@ DONE:
 - //Edit view of userskills should allow the editing of them all on the same form (get the right enties by date and userid)
 - //Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
 - //Editing of Skill names should update database entries with the new name
+- //User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?

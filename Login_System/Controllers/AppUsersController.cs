@@ -162,7 +162,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
        //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, NewPassword, ConfirmNewPassword, PhoneNumber, Active")] AppUser appUser)
+        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, NewPassword, ConfirmNewPassword, PhoneNumber, EmpStatus")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
@@ -186,6 +186,14 @@ namespace Login_System.Controllers
                     user.UserName = fixedUn;
                     user.Email = appUser.Email;
                     user.PhoneNumber = appUser.PhoneNumber;
+                    if (appUser.EmpStatus != "-1")
+                    {
+                        user.EmpStatus = appUser.EmpStatus;
+                    }
+                    else if (appUser.EmpStatus == "-1")
+                    {
+                        user.EmpStatus = "Active";
+                    }
                 }
 
                 if (appUser.NewPassword == null)
@@ -213,7 +221,7 @@ namespace Login_System.Controllers
                         var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
                         var result = await UserMgr.UpdateAsync(user);
 
-                        TempData["ActionResult"] = "User" + appUser.UserName + "edited!";
+                        TempData["ActionResult"] = "User edited!";
                         return RedirectToAction(nameof(Index));
                     }
                     catch

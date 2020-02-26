@@ -55,14 +55,6 @@ namespace Login_System.Controllers
             return View(roleModel);
         }
 
-        /*
-        [HttpGet]
-        public IActionResult ListRoles()
-        {
-            var roles = roleManager.Roles;
-            return View(roles);
-        }
-        */
         public IActionResult ListRoles(string searchString)
         {
             var roles = from c in roleManager.Roles select c;
