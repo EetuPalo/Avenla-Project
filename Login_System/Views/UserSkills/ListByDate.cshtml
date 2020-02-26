@@ -8,7 +8,7 @@
         <script src="~/js/Chart.bundle.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
-<h1>@TempData["UserName"]</h1>
+<h2>@ViewBag.UserNames - Skill Overview</h2>
 <h2 class="text-danger">@TempData["ActionResult"]</h2>
 
 <form asp-controller="UserSkills" asp-action="ListByDate">

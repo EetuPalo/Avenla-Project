@@ -80,17 +80,24 @@ namespace Login_System.Controllers
             {
                 //I dont understand tempdata lol
                 id = Convert.ToInt32(TempData.Peek("UserId"));
-                TempData.Keep();
+                TempData.Keep();                
             }
             else
             {
                 TempData["UserId"] = id;
             }
 
+            //if it's still null
+            if (id == null || id == 0)
+            {
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+
             uId = (int)id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            string userName = tempUser.UserName;
-            TempData["UserName"] = userName;
+            //string userName = tempUser.UserName;
+            TempData["UserName"] = tempUser.UserName;
+            ViewBag.UserNames = tempUser.FirstName + " " + tempUser.LastName;
 
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
@@ -170,6 +177,11 @@ namespace Login_System.Controllers
         [HttpGet]
         public async Task<IActionResult> SkillList(string name, int? id)
         {
+            if (id == null)
+            {
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+
             var model = new List<UserSkillsVM>();
 
             int userId = (int)id;

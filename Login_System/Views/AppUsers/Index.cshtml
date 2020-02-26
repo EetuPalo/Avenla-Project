@@ -6,9 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Employee List</h1>
-<h3 class="text-danger">@TempData["CreateStatus"]</h3>
-<h3 class="text-info">@TempData["ActionResult"]</h3>
+<h2>Employee List</h2>
+<h4 class="text-danger">@TempData["CreateStatus"]</h4>
+<h4 class="text-info">@TempData["ActionResult"]</h4>
 
 <form asp-controller="AppUsers" asp-action="Index">
     <div class="container-fluid p-0">
