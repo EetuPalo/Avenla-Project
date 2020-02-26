@@ -89,20 +89,19 @@
                             <img class="status-img mx-auto d-block" src="~/img/inactive.png" />
                         </td>
                     }
-                    <td>
-                        @*Giving admin users access to every user's edit methods and the current user to his own*@
-                        @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+                <td>
+                    @*Giving admin users access to every user's edit methods and the current user to his own*@
+                    @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> <span> |</span>
+                        <a asp-action="ListByDate" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a><span> |</span>
+                        @if (User.IsInRole("Admin"))
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> <span> |</span>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <span> |</span>
-                            <a asp-action="ListByDate" asp-controller="UserSkills" asp-route-id="@item.Id">Skills</a><span> |</span>
-                            if (User.IsInRole("Admin"))
-                            {
-                                <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@item.Id" asp-route-source="index">Roles</a>
-                            }
+                            <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         }
-                    </td>
+                    }
+                </td>
                 </tr>
             }
         </tbody>

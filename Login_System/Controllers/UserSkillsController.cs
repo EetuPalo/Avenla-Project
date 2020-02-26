@@ -110,7 +110,7 @@ namespace Login_System.Controllers
             var userSkills = from c in _context.UserSkills select c;
             if (!String.IsNullOrEmpty(searchString))
             {
-                userSkills = userSkills.Where(s => (s.Date.ToString().Contains(searchString)) && (s.UserID == id));
+                userSkills = userSkills.Where(s => ((s.Date.Day.ToString().Contains(searchString)) || (s.Date.Month.ToString().Contains(searchString)) || (s.Date.Year.ToString().Contains(searchString)) || (s.Date.Hour.ToString().Contains(searchString)) || (s.Date.Minute.ToString().Contains(searchString))) && (s.UserID == id));
                 foreach (var item in userSkills)
                 {
                     if (item.UserID == id)

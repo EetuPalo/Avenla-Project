@@ -5,12 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-<h4>@TempData["UserFullName"]</h4>
 
-<h3 class="text-info">@TempData["ActionResult"]</h3>
 
-<hr />
+<h4 class="text-info">@TempData["ActionResult"]</h4>
+
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-sm-2">
+                <h2>@TempData["UserFullName"]</h2>
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-sm-10">
+                    <a class="btn btn-info" asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Roles</a>
+                    <a class="btn btn-info" asp-action="EditGroupOfUser" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Groups</a>
+                </div>
+            }
+
+        </div>
+    </div>
+    <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -62,25 +76,16 @@
                 <input asp-for="ConfirmNewPassword" class="form-control" />
                 <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="container-fluid p-0">
+                <div class="row">
+                    <div class="col-sm">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-@if (User.IsInRole("Admin"))
-{
-    <p>
-        <a asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Roles</a>
-    </p>
-    <p>
-        <a asp-action="EditGroupOfUser" asp-route-id="@TempData["UserId"]" asp-route-source="edit">Edit Groups</a>
-    </p>    
-}
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
