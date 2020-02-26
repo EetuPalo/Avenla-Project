@@ -154,10 +154,10 @@ namespace Login_System.Controllers
                         if (goal.SkillName == skills.OldName)
                         {
                             goal.SkillName = skills.Skill;
-                            userSkillsContext.Update(goal);
+                            goalContext.Update(goal);
                         }
                     }
-                    await userSkillsContext.SaveChangesAsync();
+                    await goalContext.SaveChangesAsync();
                 }
                 catch
                 {
