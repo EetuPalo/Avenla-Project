@@ -11,6 +11,7 @@ namespace Login_System.Models
         public int id { get; set; }
         public string CourseName { get; set; }
         public string CourseContents { get; set; }
+        public string Location { get; set; } //If it's online, it will be just a link
         [NotMapped]
         public bool IsSelected { get; set; }
     }
