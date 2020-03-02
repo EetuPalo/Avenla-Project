@@ -23,9 +23,8 @@
 - The current skill level needs to be easily seen
 
 //SKILLGOALS
-- Delete skillgoals of certain date
-- Handle duplicate skill name on one form
 - Editing of goals for admins
+- Improve the tempdata showing the date at the top of the page
 
 //GROUPS
 - Show skillgoal creation when creating a new group
@@ -39,6 +38,7 @@ Levels:
 5: I am a master of this topic!
 
 DONE:
+- //Handle duplicate skill name on one form
 - //SkillCourses are listed somewhere
 - //Delete role feature
 - //Maybe change the refresh button in the skillgoals to be automatic instead (needs javascript?)
@@ -70,3 +70,4 @@ DONE:
 - //Editing of Skill names should update database entries with the new name
 - //User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
 - //Course location?
+- //Delete skillgoals of certain date

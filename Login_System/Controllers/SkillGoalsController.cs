@@ -189,6 +189,17 @@ namespace Login_System.Controllers
             string groupName = TempData["Group"].ToString();
             TempData.Keep();
 
+            var duplicateCheck = new List<string>();
+            //This displays a warning if a skill has been selected more than once
+            foreach (var goal in goals.SkillGoals)
+            {
+                if (duplicateCheck.Contains(goal.SkillName))
+                {
+                    TempData["ActionWarning"] = "A skill has been selected multiple times. One of the selections may have been overridden.";
+                }
+                duplicateCheck.Add(goal.SkillName);
+            }
+
             //This is a complicated way to check if entries have already been made today
             var todayList = new List<SkillGoals>();
             var skillList = skillContext.Skills.ToList();
@@ -309,7 +320,7 @@ namespace Login_System.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, SkillName, GroupName, SkillGoal")] SkillGoals skillGoals)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, SkillName, GroupName, SkillGoal, Date")] SkillGoals skillGoals)
         {
             if (id != skillGoals.Id)
             {
