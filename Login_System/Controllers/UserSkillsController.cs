@@ -128,12 +128,14 @@ namespace Login_System.Controllers
                             model.Add(tempModel);
 
                         }
-                        tempDate.Add(item.Date.ToString());
-
-                        if (item.Date != null)
-                            dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                        skillnames.Add(item.SkillName);
-                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                        tempDate.Add(item.Date.ToString());      
+                        if(item.Date.Month == DateTime.Now.Month && item.Date.Year == DateTime.Now.Year)
+                        {
+                            skillnames.Add(item.SkillName);
+                            dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss")); 
+                            dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                        }
+                            
                     }
                 }
             }
@@ -158,10 +160,12 @@ namespace Login_System.Controllers
                         }
                         tempDate.Add(item.Date.ToString());
 
-                        if (item.Date != null)
+                        if (item.Date.Month == DateTime.Now.Month && item.Date.Year == DateTime.Now.Year)
+                        {
+                            skillnames.Add(item.SkillName);
                             dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                        skillnames.Add(item.SkillName);
-                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                            dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                        }
                     }
                 }
             }

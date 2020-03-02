@@ -58,7 +58,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents")] SkillCourse skillCourse)
+        public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents, Location")] SkillCourse skillCourse)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,CourseName,CourseContents")] SkillCourse skillCourse)
+        public async Task<IActionResult> Edit(int id, [Bind("id,CourseName,CourseContents, Location")] SkillCourse skillCourse)
         {
             if (id != skillCourse.id)
             {
