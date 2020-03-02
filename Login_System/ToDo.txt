@@ -12,7 +12,6 @@
 
 - //COURSES
 - Course Enrollment for user
-- Course location?
 - Listing if user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe))
 - Date when course has been completed.
 	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2)
@@ -26,6 +25,7 @@
 //SKILLGOALS
 - Delete skillgoals of certain date
 - Handle duplicate skill name on one form
+- Editing of goals for admins
 
 //GROUPS
 - Show skillgoal creation when creating a new group
@@ -69,3 +69,4 @@ DONE:
 - //Impement this with a new EditForm-action. Admins should retain the ability to edit individual skills in a form
 - //Editing of Skill names should update database entries with the new name
 - //User employment status: Are they an active emoployee at Avenla, are they on holiday, or something else?
+- //Course location?

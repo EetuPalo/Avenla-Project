@@ -90,6 +90,7 @@ namespace Login_System.Controllers
 
                 model.Goals = tempModel;
                 model.SkillDates = GetDates(_context.SkillGoals, name);
+                model.DateToDelete = date;
 
                 if (model != null)
                 {
@@ -369,6 +370,34 @@ namespace Login_System.Controllers
 
             TempData["ActionResult"] = "Goals deleted successfully!";
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
+        }
+
+        public async Task<IActionResult> DeleteForm(string date, string group)
+        {
+            if (date == null || group == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                try
+                {
+                    foreach (var entry in _context.SkillGoals)
+                    {
+                        if (entry.GroupName == group && entry.Date.ToString("dd.MM.yyyy") == date)
+                        {
+                            _context.Remove(entry);
+                        }
+                    }
+                    await _context.SaveChangesAsync();
+                    TempData["ActionResult"] = "Goals deleted successfully!";
+                }
+                catch
+                {
+                    TempData["ActionResult"] = "An exception occured when deleting goals!";
+                }
+            }
+            return RedirectToAction(nameof(Index), new { name = group });
         }
 
         private bool SkillGoalsExists(int id)

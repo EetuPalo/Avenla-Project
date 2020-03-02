@@ -6,7 +6,7 @@
 }
 
 <h2>@TempData.Peek("GroupName"): Goals for @TempData.Peek("LatestDate")</h2>
-<h3 class="text-info">@TempData["ActionResult"]</h3>
+<h4 class="text-info">@TempData["ActionResult"]</h4>
 
 <form id="dateForm" asp-controller="SkillGoals" asp-action="RefreshIndex">
     <div class="container-fluid p-0">
@@ -17,6 +17,15 @@
             </div>
             <div class="col-sm">
                 <a class="btn btn-primary" asp-action="Create" asp-route-name="@TempData.Peek("GroupName")">Create New</a>
+                @if (Model.DateToDelete != null)
+                {
+                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">Delete</a>
+                }
+                else
+                {
+                    Model.DateToDelete = TempData.Peek("LatestDate").ToString();
+                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">Delete</a>
+                }
                 <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back to Groups</a>
             </div>
         </div>

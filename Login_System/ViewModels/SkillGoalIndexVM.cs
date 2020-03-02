@@ -19,6 +19,8 @@ namespace Login_System.ViewModels
 
         public string GroupName { get; set; }
 
+        public string DateToDelete { get; set; }
+
         public SkillGoalIndexVM()
         {
             SkillDates = new List<SelectListItem>();
