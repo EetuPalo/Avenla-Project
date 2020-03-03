@@ -414,7 +414,10 @@ namespace Login_System.Controllers
                     {
                         if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date == date)
                         {
-                            skillList.Add(skill);
+                            if (!skillList.Contains(skill))
+                            {
+                                skillList.Add(skill);
+                            }
                         }
                     }
                 }
