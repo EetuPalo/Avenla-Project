@@ -46,7 +46,7 @@ namespace Login_System.Controllers
                     AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
                     coursemember.UserName = tempUser.UserName;
                     coursemember.CourseName = tempCourse.CourseName;
-                    var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID);
+                    var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
                     coursemember.Status = user.Status;
                     model.Add(coursemember);
                 }
@@ -167,7 +167,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,UserName")] SkillCourseMember skillCourseMember)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status")] SkillCourseMember skillCourseMember)
         {
             if (id != skillCourseMember.Id)
             {
