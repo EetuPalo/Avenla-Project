@@ -8,6 +8,7 @@
 - Add search feature to some places (mostly done, improve search in userskills (maybe replace with a calendar))
 - Delete confirmations to where it's useful to have
 - Some sort of a "Mass edit" system for AppUsers (only usable by admins)?
+	- This could possibly be expanded to other menus as well
 
 - //COURSES
 - Course Enrollment for user

@@ -6,11 +6,17 @@
     int userId = 0;
 }
 
-<h2>@TempData["UserName"] - Skills</h2>
-<h4>@TempData["Date"]</h4>
-<h4>@TempData["ActionResult"]</h4>
-
 <div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-sm">
+            <h2>@TempData["UserName"] - Skills</h2>
+            <h4>@TempData["Date"]</h4>
+            <h4>@TempData["ActionResult"]</h4>
+        </div>        
+    </div>  
+</div>
+<hr />
+<div class="container-fluid p-0 pb-4">
     <div class="row">
         <div class="col-sm">
             <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" class="btn btn-info">View History</a>
@@ -18,8 +24,6 @@
         </div>
     </div>
 </div>
-
-<hr />
 
 <table class="table">
     <thead>
