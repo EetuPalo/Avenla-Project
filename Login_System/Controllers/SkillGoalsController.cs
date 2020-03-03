@@ -190,15 +190,6 @@ namespace Login_System.Controllers
             TempData.Keep();
 
             var duplicateCheck = new List<string>();
-            //This displays a warning if a skill has been selected more than once
-            foreach (var goal in goals.SkillGoals)
-            {
-                if (duplicateCheck.Contains(goal.SkillName))
-                {
-                    TempData["ActionWarning"] = "A skill has been selected multiple times. One of the selections may have been overridden.";
-                }
-                duplicateCheck.Add(goal.SkillName);
-            }
 
             //This is a complicated way to check if entries have already been made today
             var todayList = new List<SkillGoals>();
@@ -273,8 +264,15 @@ namespace Login_System.Controllers
                     combModel.Add(entry);
                 }
 
+
                 foreach (var entry in combModel)
                 {
+                    //This displays a warning if a skill has been selected more than once
+                    if (duplicateCheck.Contains(entry.SkillName))
+                    {
+                        TempData["ActionWarning"] = "A skill has been selected multiple times. One of the selections may have been overridden.";
+                    }
+                    duplicateCheck.Add(entry.SkillName);
                     _context.Add(entry);
                 }
 
