@@ -53,9 +53,6 @@ namespace Login_System.Controllers
             return View();
         }
 
-        // POST: Groups/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,name")] Group @group)
@@ -64,8 +61,11 @@ namespace Login_System.Controllers
             {
                 _context.Add(@group);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["ActionResult"] = "Group created! Next you need to set up the group goals.";
+                TempData["Source"] = "create";
+                return RedirectToAction(nameof(Create), "SkillGoals", new { name = group.name });
             }
+            TempData["ActionResult"] = "Error!";           
             return View(@group);
         }
 

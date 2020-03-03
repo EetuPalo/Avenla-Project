@@ -181,12 +181,12 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize("Admin")]
-        public async Task<IActionResult> Create([Bind("SkillCounter,SkillGoals")] CreateSkillGoalsVM goals)
+        public async Task<IActionResult> Create(string source, [Bind("SkillCounter,SkillGoals")] CreateSkillGoalsVM goals)
         {
             var model = new List<SkillGoals>();
             DateTime date = DateTime.Now;
             string dateMinute = date.ToString("dd.MM.yyyy");
-            string groupName = TempData["Group"].ToString();
+            string groupName = goals.SkillGoals[0].GroupName;
             TempData.Keep();
 
             var duplicateCheck = new List<string>();
@@ -292,7 +292,11 @@ namespace Login_System.Controllers
             }           
             await _context.SaveChangesAsync();
             TempData["ActionResult"] = "New goals set!";
-            return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName")});
+            if (source == "create")
+            {
+                return RedirectToAction(nameof(Index), "Groups");
+            }
+            return RedirectToAction(nameof(Index), new { name = groupName});
         }
 
         // GET: SkillGoals/Edit/5
