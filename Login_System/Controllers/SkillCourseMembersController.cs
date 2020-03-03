@@ -182,6 +182,10 @@ namespace Login_System.Controllers
                     {
                         skillCourseMember.CompletionDate = DateTime.Now;
                     }
+                    else
+                    {
+                        skillCourseMember.CompletionDate = DateTime.MinValue;
+                    }
                     _context.Update(skillCourseMember);
                     await _context.SaveChangesAsync();
                 }

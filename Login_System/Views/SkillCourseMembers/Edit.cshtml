@@ -20,7 +20,13 @@
             <input type="hidden" asp-for="CourseName" />
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <select class="form-control" asp-for="Status">
+                    <option value="In-progress">In-progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Dropout">Dropout</option>
+                    <option value="Gunned down like a degenerate">Killed in action</option>
+                    <option selected="selected" value="-1">Select Status</option>
+                </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="container-fluid">
