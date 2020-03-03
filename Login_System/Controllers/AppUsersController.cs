@@ -43,11 +43,16 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Details/5
-        public async Task<IActionResult> Details(int? id)
+#nullable enable
+        public async Task<IActionResult> Details(string? source, int? id)
         {
+            if (source != null)
+            {
+                TempData["Source"] = source;
+            }
             if (id == null)
             {
-                return NotFound();
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
 
             var appUser = await _context.Users

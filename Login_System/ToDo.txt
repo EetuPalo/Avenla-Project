@@ -1,12 +1,13 @@
 ﻿TODO:
 
 //GENERAL
-/----------------------/
+/---------Low priority & ongoing work-------------/
 - A ton of testing.
 - Comments
 - Clean up code
 - Clean UI
-/----------------------/
+- Add authorization to where it makes sense
+/-------------------------------------------------/
 - Add search feature to some places (mostly done, improve search in userskills (maybe replace with a calendar)) !
 - Delete confirmations to where it's useful to have !
 - Some sort of a "Mass edit" system for AppUsers (only usable by admins)? !

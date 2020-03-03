@@ -122,7 +122,7 @@
                     @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> <span> |</span>
+                        <a asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">Details</a> <span> |</span>
                         <a asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">Skills</a><span> |</span>
                         @if (User.IsInRole("Admin"))
                         {
