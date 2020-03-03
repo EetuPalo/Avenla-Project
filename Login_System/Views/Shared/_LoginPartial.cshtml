@@ -10,7 +10,8 @@
         Hello @TempData.Peek("UserFullNames")!
         </a>
         <div class="dropdown-menu" aria-labelledby="nameDropdown">
-            <a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="ListByDate" asp-route-id="@ViewBag.UserID">My Skills</a>
+            <a class="dropdown-item" asp-area="" asp-controller="AppUsers" asp-action="Details" asp-route-id="@ViewBag.UserID">Profile</a>
+            <a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest">Skills</a>
         </div>
     </li>
     <li class="nav-item">

@@ -19,7 +19,7 @@
 - Add more useful info to the SkillList as it's now the "overview" page of the user
 
 //SKILLGOALS
-- Improve the tempdata showing the date at the top of the page ()
+- Improve the tempdata showing the date at the top of the page (seems to be mostly working)
 
 //GROUPS
 - Adding users when creating a group (show list of users with checkboxes next to them)
