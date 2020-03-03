@@ -16,13 +16,17 @@ namespace Login_System.Controllers
     {
         private readonly SkillGoalContext _context;
         private readonly SkillDataContext skillContext;
+        private readonly GroupMembersDataContext gMemContext;
+        private readonly GroupsDataContext groupContext;
         private UserManager<AppUser> UserMgr { get; }
 
-        public SkillGoalsController(SkillGoalContext context, UserManager<AppUser> userManager, SkillDataContext sContext)
+        public SkillGoalsController(SkillGoalContext context, UserManager<AppUser> userManager, SkillDataContext sContext, GroupMembersDataContext groupMemberCon, GroupsDataContext groupCon)
         {
             _context = context;
             UserMgr = userManager;
             skillContext = sContext;
+            gMemContext = groupMemberCon;
+            groupContext = groupCon;
         }
 
         // GET: SkillGoals
@@ -187,6 +191,7 @@ namespace Login_System.Controllers
             DateTime date = DateTime.Now;
             string dateMinute = date.ToString("dd.MM.yyyy");
             string groupName = goals.SkillGoals[0].GroupName;
+            int groupId = 0;
             TempData.Keep();
 
             var duplicateCheck = new List<string>();
@@ -291,10 +296,20 @@ namespace Login_System.Controllers
                 }
             }           
             await _context.SaveChangesAsync();
+            
+            foreach (var group in groupContext.Group)
+            {
+                if (group.name == groupName)
+                {
+                    groupId = group.id;
+                }
+            }
+
             TempData["ActionResult"] = "New goals set!";
             if (source == "create")
             {
-                return RedirectToAction(nameof(Index), "Groups");
+                TempData["ActionResult"] = "Goals set! Now add users to the group.";
+                return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  groupId, group = groupName});
             }
             return RedirectToAction(nameof(Index), new { name = groupName});
         }

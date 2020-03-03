@@ -84,7 +84,8 @@ namespace Login_System.Controllers
         }
 
         // GET: GroupMembers/Create
-        public IActionResult Create(int? id)
+#nullable enable
+        public IActionResult Create(string? group, string? source, int? id)
         {
             var member = UserMgr.Users.ToList();            
             if(id != null)
@@ -97,8 +98,9 @@ namespace Login_System.Controllers
                         Text = x.UserName
                     });//creating a list of dropdownlist elements                 
                     model.GroupID = (int)id;//assigning GroupID of the current group
-                    model.GroupName = TempData["GroupName"] as string;//assigning groupname that we saved as well
+                    model.GroupName = group;
                 };
+                TempData["Source"] = source;
                 return View(model);
             }
             else
@@ -115,7 +117,7 @@ namespace Login_System.Controllers
                     model.GroupName = TempData["GroupName"] as string;//assigning groupname that we saved as well
                     TempData.Keep();//so the data is not lost because it's TEMPdata (temporary)
                 };
-                
+                TempData["Source"] = source;
                 return View(model);
             }            
         }
@@ -125,17 +127,22 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,GroupID, UserName, GroupName")] GroupMember groupMember)
+        public async Task<IActionResult> Create(string source, [Bind("UserID,GroupID, UserName, GroupName")] GroupMember groupMember)
         {
             if (ModelState.IsValid)
             {
                 var user = await UserMgr.FindByNameAsync(groupMember.UserName);//creating a temp user through username selected in the view
                 groupMember.UserID = user.Id;//assinging UserID of the selected user
-                groupMember.GroupID = Convert.ToInt32(TempData["GroupID"]);//the id in the temp data is not int so we convert it
-                groupMember.GroupName = TempData["GroupName"] as string;//same as id
-                TempData.Keep();//keeping the temp data otherwise, groupMember won't have groupid and groupname
+                //groupMember.GroupID = Convert.ToInt32(TempData["GroupID"]);//the id in the temp data is not int so we convert it
+                //groupMember.GroupName = TempData["GroupName"] as string;//same as id
+                //TempData.Keep();//keeping the temp data otherwise, groupMember won't have groupid and groupname
                 _context.Add(groupMember);
                 await _context.SaveChangesAsync();
+                if (source == "create")
+                {
+                    TempData["ActionResult"] = "Group created successfully!";
+                    return RedirectToAction(nameof(Index), "Groups");
+                }
                 return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupMember.GroupID});//redirecting back to the list of group members,
                 // without specifying the id, an empty list is shown
             }

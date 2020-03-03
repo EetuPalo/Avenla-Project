@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>User Groups</h1>
+<h2>User Groups</h2>
+<h4 class="text-info">@TempData["ActionResult"]</h4>
 
 <form asp-controller="Groups" asp-action="Index">
     <div class="container-fluid p-0">

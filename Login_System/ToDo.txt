@@ -1,29 +1,32 @@
 ﻿TODO:
 
 //GENERAL
+/----------------------/
 - A ton of testing.
 - Comments
 - Clean up code
 - Clean UI
-- Add search feature to some places (mostly done, improve search in userskills (maybe replace with a calendar))
-- Delete confirmations to where it's useful to have
-- Some sort of a "Mass edit" system for AppUsers (only usable by admins)?
+/----------------------/
+- Add search feature to some places (mostly done, improve search in userskills (maybe replace with a calendar)) !
+- Delete confirmations to where it's useful to have !
+- Some sort of a "Mass edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
 
 - //COURSES
-- Course Enrollment for user
-- Listing if user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe))
-- Date when course has been completed.
-	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2)
+- Course Enrollment for user !!!
+- Listing if user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe)) !!
+- Date when course has been completed. !!
+	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
 
 //USERSKILLS
-- Add more useful info to the SkillList as it's now the "overview" page of the user
+- Add more useful info to the SkillList as it's now the "overview" page of the user !!
 
 //SKILLGOALS
-- Improve the tempdata showing the date at the top of the page (seems to be mostly working)
+- Improve the tempdata showing the date at the top of the page (seems to be mostly working) !
 
 //GROUPS
-- Adding users when creating a group (show list of users with checkboxes next to them)
+- Deleting a group should delete every skillgoal and member association of that group !
+- Adding group memeber should be handled via a multiple selection list of users, not a dropdown (because we want to add many users at once) !!!
 
 Levels: 
 0: I don't know and don't want to know!
@@ -34,6 +37,7 @@ Levels:
 5: I am a master of this topic!
 
 DONE:
+- //Adding users when creating a group (show list of users with checkboxes next to them)
 - //Show skillgoal creation when creating a new group
 - //Editing of goals for admins
 - //Handle duplicate skill name on one form

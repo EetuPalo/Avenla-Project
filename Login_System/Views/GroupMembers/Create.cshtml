@@ -5,9 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>GroupMember</h4>
+<h2>Create</h2>
+<h4>@TempData["ActionResult"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -41,9 +40,11 @@
             </div>*@
             <div class="form-group">
                 <input type="hidden" asp-for="UserID" class="form-control" />
+                <input type="hidden" asp-for="GroupID" />
+                <input type="hidden" asp-for="GroupName" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" asp-route-source="@TempData["Source"]" />
             </div>
         </form>
     </div>
