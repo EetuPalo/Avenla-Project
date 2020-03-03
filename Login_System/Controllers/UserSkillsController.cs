@@ -241,7 +241,7 @@ namespace Login_System.Controllers
                 var tempDateList = new List<DateTime>();
                 foreach (var skill in _context.UserSkills)
                 {
-                    if (!tempDateList.Contains(skill.Date))
+                    if (!tempDateList.Contains(skill.Date) && skill.UserID == id)
                     {
                         tempDateList.Add(skill.Date);
                     }
@@ -438,7 +438,7 @@ namespace Login_System.Controllers
             else
             {
                 TempData["ActionResult"] = "Can't add skills without adding goals first!";
-                return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = id });
+                return RedirectToAction(nameof(SkillList), "UserSkills", new { id = id, name = "latest" });
             }
         }
 
@@ -485,7 +485,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
 
             TempData.Keep();
-            return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = userId });
+            return RedirectToAction(nameof(SkillList), "UserSkills", new { id = userId, name = "latest" });
         }
 
         // GET: UserSkills/Edit/5

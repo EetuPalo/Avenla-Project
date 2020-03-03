@@ -18,20 +18,26 @@
             </div>
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create">Create New</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-primary" asp-action="Create">Create New</a>
+                }
             </div>
-            <div class="col-sm">
-                <div class="dropdown">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        Mass Edit
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Delete</a>
-                        <a class="dropdown-item" href="#">Set Active</a>
-                        <a class="dropdown-item" href="#">Add to Group</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-sm">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            Mass Edit
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Delete</a>
+                            <a class="dropdown-item" href="#">Set Active</a>
+                            <a class="dropdown-item" href="#">Add to Group</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>   
 </form>
@@ -39,7 +45,10 @@
     <table class="table table-sm table-hover">
         <thead>
             <tr>
-                <th></th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th></th>
+                }
                 <th>
                     First Name
                 </th>
@@ -68,43 +77,46 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+            <tr>
+                @if (User.IsInRole("Admin"))
+                {
                     <td>
-                        <input type="checkbox" class="form-check-input" value="1"/>
+                        <input type="checkbox" class="form-check-input" value="1" />
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpStatus)
+                </td>
+                @*Show different image based on activity status*@
+                @if (item.Active == "Active")
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        <img class="status-img mx-auto d-block" src="~/img/active.png" />
                     </td>
+                }
+                else
+                {
                     <td>
-                        @Html.DisplayFor(modelItem => item.EmpStatus)
+                        <img class="status-img mx-auto d-block" src="~/img/inactive.png" />
                     </td>
-                    @*Show different image based on activity status*@
-                    @if (item.Active == "Active")
-                    {
-                        <td>
-                            <img class="status-img mx-auto d-block" src="~/img/active.png" />
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <img class="status-img mx-auto d-block" src="~/img/inactive.png" />
-                        </td>
-                    }
+                }
                 <td>
                     @*Giving admin users access to every user's edit methods and the current user to his own*@
                     @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
@@ -118,7 +130,7 @@
                         }
                     }
                 </td>
-                </tr>
+            </tr>
             }
         </tbody>
     </table>

@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Login_System.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<AppUser> UserMgr;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager)
         {
             _logger = logger;
+            UserMgr = userManager;
         }
 
         public IActionResult Index()
         {
+            ViewBag.UserID = UserMgr.GetUserId(User);
             return View();
         }
 
