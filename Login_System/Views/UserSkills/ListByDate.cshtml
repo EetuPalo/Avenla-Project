@@ -20,7 +20,7 @@
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value="Filter" />
                 <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a>
-                <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back to List</a>
+                <a class="btn btn-danger" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">Back</a>
             </div>
         </div>
     </div>

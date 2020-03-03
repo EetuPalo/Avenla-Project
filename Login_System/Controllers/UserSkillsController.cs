@@ -193,6 +193,8 @@ namespace Login_System.Controllers
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             string userName = tempUser.UserName;
             TempData["UserName"] = userName;
+            TempData["UserId"] = id;
+            string tempName = "DATE_NOT_FOUND";
 
             //Getting the skillgoal info for user group
             var skillGoalList = goalContext.SkillGoals.ToList();
@@ -233,6 +235,24 @@ namespace Login_System.Controllers
                 }
             }
 
+            //If the skilllist is accessed directly from AppUser Index, the latest entries are automatically shown.
+            if (name == "latest")
+            {
+                var tempDateList = new List<DateTime>();
+                foreach (var skill in _context.UserSkills)
+                {
+                    if (!tempDateList.Contains(skill.Date))
+                    {
+                        tempDateList.Add(skill.Date);
+                    }
+                }
+                name = tempDateList.Max().ToString("dd/MM/yyyy+HH/mm");
+                tempName = tempDateList.Max().ToString("dd.MM.yyyy HH.mm");
+                TempData["Date"] = tempName;
+            }
+
+            
+
             foreach (var skill in _context.UserSkills)
             {               
                 var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
@@ -241,6 +261,9 @@ namespace Login_System.Controllers
 
                 if (date1 == date2 && skill.UserID == userId)
                 {
+                    tempName = skill.Date.ToString("dd.MM.yyyy HH.mm");
+                    TempData["Date"] = tempName;
+
                     var usrSkill = new UserSkillsVM();
 
                     usrSkill.Id = Convert.ToInt32(skill.Id);
