@@ -167,7 +167,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status")] SkillCourseMember skillCourseMember)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status, CompletionDate")] SkillCourseMember skillCourseMember)
         {
             if (id != skillCourseMember.Id)
             {
@@ -178,6 +178,10 @@ namespace Login_System.Controllers
             {
                 try
                 {
+                    if(skillCourseMember.Status == "Completed")
+                    {
+                        skillCourseMember.CompletionDate = DateTime.Now;
+                    }
                     _context.Update(skillCourseMember);
                     await _context.SaveChangesAsync();
                 }
