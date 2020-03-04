@@ -70,27 +70,7 @@ namespace Login_System.Controllers
         // GET: SkillCourseMembers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var skillCourseMember = await _context.SkillCourseMembers
-            //    .FirstOrDefaultAsync(m => m.UserID == id);
-            //if (skillCourseMember == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(skillCourseMember);
             var model = new List<SkillCourseMemberVM>();
-            //if (id == null)
-            //{
-            //    Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
-            //    id = Convert.ToInt32(UserMgr.GetUserId(User));
-            //}
-
-            //SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers)
             {
