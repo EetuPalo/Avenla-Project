@@ -177,9 +177,18 @@ namespace Login_System.Controllers
                 coursemember.UserName = skillCourseMember.UserName;
                 coursemember.Status = "In-progreess";
                 TempData.Keep();
-                _context.Add(skillCourseMember);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = coursemember.CourseID });//redirecting back to the list of group members,                                                                                                    // without specifying the id, an empty list is shown
+                if (_context.SkillCourseMembers.FirstOrDefault(m => m.UserID == skillCourseMember.UserID && m.CourseID == skillCourseMember.CourseID) == null)
+                {
+                    _context.Add(skillCourseMember);
+                    await _context.SaveChangesAsync();
+                    ViewBag.SCMError = null;
+                    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = coursemember.CourseID });//redirecting back to the list of group members,
+                }
+                else
+                {
+                    ViewBag.SCMError = "Error adding the user: User already exists";
+                    return View(skillCourseMember);
+                }
             }
             return View(skillCourseMember);
         }
