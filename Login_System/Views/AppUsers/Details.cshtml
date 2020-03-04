@@ -53,13 +53,21 @@
     <div class="row">
         <div class="col-sm">
             <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-            @if (TempData["Source"].ToString() != "shortcut")
+            @if (TempData["Source"].ToString() == "GroupMembers")
             {
-                <a class="btn btn-danger" asp-action="Index">Back</a>
+                <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back</a>
             }
-            else
+            else if (TempData["Source"].ToString() == "SkillCourseMembers")
+            {
+                <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">Back</a>
+            }
+            else if (TempData["Source"].ToString() == "shortcut")
             {
                 <a class="btn btn-danger" asp-action="Index" asp-controller="Home">Back</a>
+            }
+            else if (TempData["Source"].ToString() == "index")
+            {
+                <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back</a>
             }
         </div>
     </div>
