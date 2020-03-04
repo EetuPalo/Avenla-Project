@@ -25,13 +25,31 @@ namespace Login_System.Controllers
         }
 
         // GET: GroupMembers
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? id, string searchString)
         {
             var model = new List<GroupMemberVM>();
-
             Group tempGroup = await _gcontext.Group.FindAsync(id);
             TempData["GroupName"] = tempGroup.name;
             TempData["GroupID"] = tempGroup.id;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var members = from gm in _context.GroupMembers select gm;
+                members = members.Where(s => (s.GroupID == id) && (s.UserName.Contains(searchString)));
+                foreach (var member in members)
+                {
+                    var tempModel = new GroupMemberVM
+                    {
+                        UserName = member.UserName,
+                        UserID = member.UserID,
+                        GroupName = member.GroupName,
+                        Id = member.Id
+                    };
+                    model.Add(tempModel);
+                }
+                return View(model);
+            }
+           
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach(var member in _context.GroupMembers)
             {
@@ -57,7 +75,7 @@ namespace Login_System.Controllers
             {
                 //line 63 causes NullReference exception but doesn't actually prevent the program from working as intended, so the exception is just ignored
                 //someday would need to look into it.
-            }
+            }           
 
             return View(model);
         }
