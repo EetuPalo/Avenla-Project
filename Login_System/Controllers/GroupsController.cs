@@ -12,10 +12,14 @@ namespace Login_System.Controllers
     public class GroupsController : Controller
     {
         private readonly GroupsDataContext _context;
+        private readonly GroupMembersDataContext gMemContext;
+        private readonly SkillGoalContext goalContext;
 
-        public GroupsController(GroupsDataContext context)
+        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon)
         {
             _context = context;
+            gMemContext = gMemberCon;
+            goalContext = skillGoalCon;
         }
 
         // GET: Groups
@@ -144,6 +148,26 @@ namespace Login_System.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @group = await _context.Group.FindAsync(id);
+
+            //Removes all groupMember and skillgoals associations with the group, so we are not left with phantom data in the database
+
+            foreach (var groupMember in gMemContext.GroupMembers)
+            {
+                if (groupMember.GroupID == group.id)
+                {
+                    gMemContext.Remove(groupMember);
+                }
+            }
+            await gMemContext.SaveChangesAsync();
+            foreach (var goal in goalContext.SkillGoals)
+            {
+                if (goal.GroupName == group.name)
+                {
+                    goalContext.Remove(goal);
+                }
+            }
+            await goalContext.SaveChangesAsync();
+
             _context.Group.Remove(@group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

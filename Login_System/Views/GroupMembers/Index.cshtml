@@ -5,11 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h2>@TempData["GroupName"]</h2>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-sm">
+            <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit">Edit Members</a>
+            <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back</a>
+        </div>
+    </div>
+</div>
+<hr />
 <table class="table">
     <thead>
         <tr>
@@ -19,9 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.GroupName)
-            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -34,9 +36,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.GroupName)
-            </td*@>
         <td>
             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
             <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers">Details</a> |
@@ -46,7 +45,3 @@
 }
     </tbody>
 </table>
-
-<div>
-    <a asp-action="Index" asp-controller="Groups">Back to List</a>
-</div>

@@ -28,13 +28,10 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new List<GroupMemberVM>();
-            //if (id == null)
-            //{
-            //    Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
-            //    id = Convert.ToInt32(UserMgr.GetUserId(User));
-            //}
 
             Group tempGroup = await _gcontext.Group.FindAsync(id);
+            TempData["GroupName"] = tempGroup.name;
+            TempData["GroupID"] = tempGroup.id;
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach(var member in _context.GroupMembers)
             {
@@ -85,70 +82,93 @@ namespace Login_System.Controllers
 
         // GET: GroupMembers/Create
 #nullable enable
-        public IActionResult Create(string? group, string? source, int? id)
+        public IActionResult Create(string? group, string? source, int id)
         {
-            var member = UserMgr.Users.ToList();            
-            if(id != null)
+            var model = new List<GroupUser>();
+            var groupMemList = new List<GroupMember>();
+            foreach (var user in UserMgr.Users)
             {
-                var model = new GroupMember();
+                var tempUser = new GroupUser
                 {
-                    model.Uname = member.Select(x => new SelectListItem
-                    {
-                        Value = x.UserName,
-                        Text = x.UserName
-                    });//creating a list of dropdownlist elements                 
-                    model.GroupID = (int)id;//assigning GroupID of the current group
-                    model.GroupName = group;
+                    UserId = user.Id.ToString(),
+                    GroupId = (int)id,
+                    UserName = user.UserName,
+                    GroupName = group
                 };
-                TempData["Source"] = source;
-                return View(model);
+
+                foreach (var gMem in _context.GroupMembers)
+                {
+                    if (gMem.GroupID == id)
+                    {
+                        groupMemList.Add(gMem);
+                    }
+                }
+                int index = groupMemList.FindIndex(x => x.UserID == user.Id);
+                if (index >= 0)
+                {
+                    tempUser.IsSelected = true;
+                }
+                else
+                {
+                    tempUser.IsSelected = false;
+                }
+
+                model.Add(tempUser);
+            }
+
+            TempData["Source"] = source;
+            return View(model);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(string source, List<GroupUser> groupMembers)
+        {
+            int groupID = 0;
+           foreach (var member in groupMembers)
+            {
+                groupID = member.GroupId;
+                if (member.IsSelected)
+                {
+                    var tempMember = new GroupMember
+                    {
+                        UserName = member.UserName,
+                        UserID = Convert.ToInt32(member.UserId),
+                        GroupID = member.GroupId,
+                        GroupName = member.GroupName
+                    };
+                    foreach (var oldMem in _context.GroupMembers)
+                    {
+                        if (oldMem.GroupID == member.GroupId && oldMem.UserID == Convert.ToInt32(member.UserId))
+                        {
+                            _context.Remove(oldMem);
+                        }
+                        _context.Add(tempMember);
+                    }                    
+                }
+                else if (!member.IsSelected)
+                {
+                    foreach (var gMem in _context.GroupMembers)
+                    {
+                        if (gMem.GroupID == member.GroupId && gMem.UserID.ToString() == member.UserId)
+                        {
+                            _context.Remove(gMem);
+                        }
+                    }
+                }                
+            }
+            _context.SaveChanges();
+            if (source == "create")
+            {
+                return RedirectToAction(nameof(Index), "Groups");
             }
             else
             {
-                id = TempData["GroupID"] as int?;//using groupid we saved earlier in the Index if the id passed to the method is NULL
-                var model = new GroupMember();
-                {                    
-                    model.Uname = member.Select(x => new SelectListItem
-                    {
-                        Value = x.UserName,
-                        Text = x.UserName
-                    });                   
-                    model.GroupID = (int)id;//assigning GroupID of the current group
-                    model.GroupName = TempData["GroupName"] as string;//assigning groupname that we saved as well
-                    TempData.Keep();//so the data is not lost because it's TEMPdata (temporary)
-                };
-                TempData["Source"] = source;
-                return View(model);
-            }            
-        }
-
-        // POST: GroupMembers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string source, [Bind("UserID,GroupID, UserName, GroupName")] GroupMember groupMember)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await UserMgr.FindByNameAsync(groupMember.UserName);//creating a temp user through username selected in the view
-                groupMember.UserID = user.Id;//assinging UserID of the selected user
-                //groupMember.GroupID = Convert.ToInt32(TempData["GroupID"]);//the id in the temp data is not int so we convert it
-                //groupMember.GroupName = TempData["GroupName"] as string;//same as id
-                //TempData.Keep();//keeping the temp data otherwise, groupMember won't have groupid and groupname
-                _context.Add(groupMember);
-                await _context.SaveChangesAsync();
-                if (source == "create")
-                {
-                    TempData["ActionResult"] = "Group created successfully!";
-                    return RedirectToAction(nameof(Index), "Groups");
-                }
-                return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupMember.GroupID});//redirecting back to the list of group members,
-                // without specifying the id, an empty list is shown
+                return RedirectToAction(nameof(Index), "GroupMembers", new { id = groupID });
             }
-            return View(groupMember);
         }
-
+        
         // GET: GroupMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
