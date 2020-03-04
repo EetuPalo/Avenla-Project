@@ -94,7 +94,7 @@ namespace Login_System.Controllers
         // GET: SkillCourseMembers/Create
         public IActionResult Create(int? id)
         {
-            var member = UserMgr.Users.ToList();
+            var member = UserMgr.Users.ToList();            
             if (id != null)
             {
                 var model = new SkillCourseMember();
@@ -151,7 +151,38 @@ namespace Login_System.Controllers
             }
             return View(skillCourseMember);
         }
+        public async Task<IActionResult> Join(int? id)
+        {
+            var member = await UserMgr.FindByNameAsync(User.Identity.Name);
+            var coursemember = new SkillCourseMember();
+            coursemember.UserID = member.Id;
+            coursemember.CourseID = (int)id;
+            coursemember.UserName = member.UserName;
+            var tempcourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == (int)id);
+            coursemember.CourseName = tempcourse.CourseName;
+            coursemember.Status = "In-progreess";
+            return View(coursemember);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Join([Bind("CourseID, UserID,UserName, CourseName, Status, CompletionDate")] SkillCourseMember skillCourseMember)
+        {
+            if (ModelState.IsValid)
+            {
+                var coursemember = new SkillCourseMember();
+                coursemember.UserID = skillCourseMember.Id;
+                coursemember.CourseID = Convert.ToInt32(TempData["CourseID"]);
+                coursemember.CourseName = skillCourseMember.CourseName;
+                coursemember.UserName = skillCourseMember.UserName;
+                coursemember.Status = "In-progreess";
+                TempData.Keep();
+                _context.Add(skillCourseMember);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = coursemember.CourseID });//redirecting back to the list of group members,                                                                                                    // without specifying the id, an empty list is shown
+            }
+            return View(skillCourseMember);
+        }
         // GET: SkillCourseMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

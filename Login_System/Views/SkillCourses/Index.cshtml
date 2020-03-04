@@ -51,10 +51,15 @@
                 @Html.DisplayNameFor(model => model.Location)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.id">Details</a> |
                 <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                <a asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a> |
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> <span>|</span>
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                }
+
             </td>
         </tr>
 }

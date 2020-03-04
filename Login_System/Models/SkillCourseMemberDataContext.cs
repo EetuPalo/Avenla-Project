@@ -14,5 +14,6 @@ namespace Login_System.Models
             //Database.EnsureCreated();
         }       
         public virtual DbSet<SkillCourseMember> SkillCourseMembers { get; set; }
+        public DbSet<Login_System.Models.AppUser> AppUser { get; set; }
     }
 }
