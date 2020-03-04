@@ -70,19 +70,45 @@ namespace Login_System.Controllers
         // GET: SkillCourseMembers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            var skillCourseMember = await _context.SkillCourseMembers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (skillCourseMember == null)
-            {
-                return NotFound();
-            }
+            //var skillCourseMember = await _context.SkillCourseMembers
+            //    .FirstOrDefaultAsync(m => m.UserID == id);
+            //if (skillCourseMember == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(skillCourseMember);
+            //return View(skillCourseMember);
+            var model = new List<SkillCourseMemberVM>();
+            //if (id == null)
+            //{
+            //    Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
+            //    id = Convert.ToInt32(UserMgr.GetUserId(User));
+            //}
+
+            //SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+            //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
+            foreach (var member in _context.SkillCourseMembers)
+            {
+                if (member.UserID == id)
+                {
+                    var coursemember = new SkillCourseMemberVM();
+                    coursemember.Id = member.Id;
+                    coursemember.UserID = member.UserID;
+                    AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
+                    coursemember.UserName = tempUser.UserName;
+                    //coursemember.CourseName = TempData["CourseName"].ToString();
+                    var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
+                    coursemember.CourseName = user.CourseName;
+                    coursemember.Status = user.Status;
+                    model.Add(coursemember);
+                }
+            }
+            return View(model);
         }
 
         // GET: SkillCourseMembers/Create

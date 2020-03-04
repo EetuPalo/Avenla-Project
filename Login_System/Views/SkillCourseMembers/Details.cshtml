@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.SkillCourseMember
+﻿@model IEnumerable<Login_System.ViewModels.SkillCourseMemberVM>
 
 @{
     ViewData["Title"] = "Details";
@@ -7,30 +7,36 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>SkillCourseMember</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-    </dl>
-</div>
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm">
-            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-            <a class="btn btn-danger" asp-action="Index">Back to List</a>
-        </div>
-    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
 
 </div>
