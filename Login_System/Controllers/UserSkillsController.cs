@@ -308,6 +308,22 @@ namespace Login_System.Controllers
                 }
             }
 
+            //Getting some extra info from the data
+            var levelList = new Dictionary<string,int>();
+            foreach (var skill in model)
+            {
+                levelList.Add(skill.SkillName, skill.SkillLevel);
+            }
+            TempData["MinSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Key;
+            TempData["MaxSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Key;
+
+            TempData["MinSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Value;
+            TempData["MaxSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Value;
+
+            double avrg = levelList.Values.Average();
+            TempData["AverageScore"] = avrg.ToString();
+            //------
+
             TempData.Keep();
             return View(model);
         }

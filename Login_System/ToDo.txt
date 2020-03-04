@@ -15,7 +15,6 @@
 
 - //COURSES
 - Course Enrollment for user !!!
-
 	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
 
 //USERSKILLS
@@ -25,8 +24,6 @@
 - Improve the tempdata showing the date at the top of the page (seems to be mostly working) !
 
 //GROUPS
-- Deleting a group should delete every skillgoal and member association of that group !
-- Adding group memeber should be handled via a multiple selection list of users, not a dropdown (because we want to add many users at once) !!!
 
 Levels: 
 0: I don't know and don't want to know!
@@ -37,6 +34,8 @@ Levels:
 5: I am a master of this topic!
 
 DONE:
+- //Deleting a group should delete every skillgoal and member association of that group !
+- //Adding group memeber should be handled via a multiple selection list of users, not a dropdown (because we want to add many users at once) !!!
 - //Adding users when creating a group (show list of users with checkboxes next to them)
 - //Show skillgoal creation when creating a new group
 - //Editing of goals for admins
