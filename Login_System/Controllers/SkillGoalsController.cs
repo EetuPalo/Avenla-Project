@@ -42,46 +42,19 @@ namespace Login_System.Controllers
             TempData["GroupName"] = name;
             TempData["Group"] = name;
 
-            //This gets us the latest date an entry has been made and displays it at the top of the page
-            if (TempData["LatestDate"] == null)
-            {
-                var latestDate = GetLatestDate().ToString("dd.MM.yyyy");
-                TempData["LatestDate"] = latestDate;
-            }
-
             if (date == null && name != null)
             {
-                var model = new SkillGoalIndexVM();
-                var tempModel = new List<SkillGoals>();
-                var modelCheck = new List<string>();
-
-                foreach (var skillGoal in _context.SkillGoals)
-                {
-                    if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName))
-                    {
-                        skillGoal.LatestGoal = GetLatest(skillGoal);
-                        tempModel.Add(skillGoal);
-                        modelCheck.Add(skillGoal.SkillName);
-                    }
-                }
-
-                model.Goals = tempModel;
-                model.SkillDates = GetDates(_context.SkillGoals, name);
-                model.GroupName = name;
-
-                if (model != null)
-                {
-                    return View(model);
-                }
-                Console.WriteLine("No entries have been found!");
-                return View(_context.SkillGoals.ToList());
+                //We can't pass a date if we are accessing the view from the groups index
+                //So we have to get the latest date from the DB
+                date = GetLatestDate(name).ToString("dd.MM.yyyy");
+                TempData["LatestDate"] = GetLatestDate(name).ToString("dd.MM.yyyy");
             }
-            else if (date != null && name != null)
+
+            if (date != null && name != null)
             {
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
                 var modelCheck = new List<string>();
-
                 foreach (var skillGoal in _context.SkillGoals)
                 {
                     if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
@@ -308,7 +281,8 @@ namespace Login_System.Controllers
             TempData["ActionResult"] = "New goals set!";
             if (source == "create")
             {
-                TempData["ActionResult"] = "Goals set! Now add users to the group.";
+                TempData["ActionResult"] = "Goals set! Now you can add users to the group.";
+                TempData["ActionPhase"] = "[3/3]";
                 return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  groupId, group = groupName});
             }
             return RedirectToAction(nameof(Index), new { name = groupName});
@@ -473,6 +447,29 @@ namespace Login_System.Controllers
             foreach (var goal in goalList)
             {
                 if (!dateList.Contains(goal.Date))
+                {
+                    dateList.Add(goal.Date);
+                }
+            }
+            if (dateList.Count() != 0)
+            {
+                maxDate = dateList.Max();
+            }
+            else
+            {
+                maxDate = DateTime.Now;
+            }
+            return maxDate;
+        }
+
+        public DateTime GetLatestDate(string group)
+        {
+            var goalList = _context.SkillGoals.ToList();
+            var dateList = new List<DateTime>();
+            DateTime maxDate;
+            foreach (var goal in goalList)
+            {
+                if (!dateList.Contains(goal.Date) && goal.GroupName == group)
                 {
                     dateList.Add(goal.Date);
                 }

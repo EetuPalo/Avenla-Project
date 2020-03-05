@@ -12,6 +12,7 @@
 - Delete confirmations to where it's useful to have !
 - Some sort of a "Mass edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
+- Remove the register button, accounts should be added by the admin
 
 - //COURSES
 - Course Enrollment for user !!!
@@ -24,7 +25,12 @@
 - Improve the tempdata showing the date at the top of the page (seems to be mostly working) !
 
 //GROUPS
-
+- Statistics: !!
+	- Comparing the skill levels of group members to the skill goals set for the group
+	- SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)
+	- Maybe more
+- Improve the group creation UI !
+	- It's now a 3-step process, add indicators showing that !
 Levels: 
 0: I don't know and don't want to know!
 .

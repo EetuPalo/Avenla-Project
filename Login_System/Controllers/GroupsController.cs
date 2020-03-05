@@ -66,6 +66,7 @@ namespace Login_System.Controllers
                 _context.Add(@group);
                 await _context.SaveChangesAsync();
                 TempData["ActionResult"] = "Group created! Next you need to set up the group goals.";
+                TempData["ActionPhase"] = "[2/3]";
                 TempData["Source"] = "create";
                 return RedirectToAction(nameof(Create), "SkillGoals", new { name = group.name });
             }
