@@ -7,9 +7,13 @@
 - Clean up code
 - Clean UI
 - Add authorization to where it makes sense
+- Make sure there's no way a user/admin can break the application
+	- Make sure the last admin account cant be removed
+	- Make sure roles user and admin can't be removed
+	- Make sure removal of anything else doesn't break anything
 /-------------------------------------------------/
 - Add search feature to some places (mostly done, improve search in userskills (maybe replace with a calendar)) !
-- Delete confirmations to where it's useful to have !
+- Delete confirmations to where it's useful to have !!
 - Some sort of a "Mass edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
 - Remove the register button, accounts should be added by the admin
@@ -19,18 +23,16 @@
 - Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
 
 //USERSKILLS
-- Add more useful info to the SkillList as it's now the "overview" page of the user !!
+- Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
 
 //SKILLGOALS
-- Improve the tempdata showing the date at the top of the page (seems to be mostly working) !
 
 //GROUPS
 - Statistics: !!
 	- Comparing the skill levels of group members to the skill goals set for the group
 	- SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)
 	- Maybe more
-- Improve the group creation UI !
-	- It's now a 3-step process, add indicators showing that !
+
 Levels: 
 0: I don't know and don't want to know!
 .
@@ -85,3 +87,6 @@ DONE:
 - //Listing if user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe)) !!
 - //Date when course has been completed. !!
 - //Users can enroll to courses
+- //Improve the group creation UI !
+- //It's now a 3-step process, add indicators showing that !
+- //Improve the tempdata showing the date at the top of the page (seems to be mostly working) !

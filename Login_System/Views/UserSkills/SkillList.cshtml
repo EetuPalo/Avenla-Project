@@ -14,9 +14,11 @@
             <h4>@TempData["ActionResult"]</h4>
         </div>
         <div class="col-sm-4 border border-dark">
-            <p class="font-weight-bold">Best Skill: <span class="font-weight-lighter">@TempData["MaxSkillLabel"] - @TempData["MaxSkillVal"]</span></p>
-            <p class="font-weight-bold">Worst Skill: <span class="font-weight-lighter">@TempData["MinSkillLabel"] - @TempData["MinSkillVal"]</span></p>
-            <p class="font-weight-bold">Skill Average: <span class="font-weight-lighter">@TempData["AverageScore"]</span></p>
+            <p class="font-weight-bold">
+                Best Skill: <span class="font-weight-lighter">@TempData["MaxSkillLabel"] - @TempData["MaxSkillVal"]</span> <br />
+                Worst Skill: <span class="font-weight-lighter">@TempData["MinSkillLabel"] - @TempData["MinSkillVal"]</span><br />
+                Skill Average: <span class="font-weight-lighter">@TempData["AverageScore"]</span>
+            </p>
         </div>
     </div>  
 </div>

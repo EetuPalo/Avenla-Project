@@ -31,7 +31,7 @@ namespace Login_System.Controllers
 
         // GET: SkillGoals
 #nullable enable
-        public async Task<IActionResult> Index(string name, string? date)
+        public IActionResult Index(string name, string? date)
         {            
             if (name == null)
             {
@@ -80,12 +80,12 @@ namespace Login_System.Controllers
             return View();
         }
 #nullable disable
-        public async Task<IActionResult> RefreshIndex([Bind("GroupName, SelectedDate")]SkillGoalIndexVM goal)
+        public IActionResult RefreshIndex([Bind("GroupName, SelectedDate")]SkillGoalIndexVM goal)
         {
             TempData["LatestDate"] = goal.SelectedDate;
             return RedirectToAction(nameof(Index), "SkillGoals", new { name = goal.GroupName, date = goal.SelectedDate });
         }
-        public async Task<IActionResult> ListByDate(string name)
+        public IActionResult ListByDate(string name)
         {
             if (name == null)
             {
