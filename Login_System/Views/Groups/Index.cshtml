@@ -38,10 +38,10 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
                 <a asp-action="Index" asp-controller="GroupMembers" asp-route-id="@item.id">Members</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a> |
-                <a asp-action="Index" asp-controller="SkillGoals" asp-route-name="@item.name">Goals</a>
+                <a asp-action="Statistics" asp-route-id="@item.id">Statistics</a> |
+                <a asp-action="Index" asp-controller="SkillGoals" asp-route-name="@item.name">Goals</a> |
+                <a class="text-danger" asp-action="Delete" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>
 }

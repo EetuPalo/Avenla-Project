@@ -1,6 +1,6 @@
 ﻿TODO:
 
-//GENERAL
+//-----------------GENERAL-------------------------//
 /---------Low priority & ongoing work-------------/
 - A ton of testing.
 - Comments
@@ -17,17 +17,17 @@
 - Some sort of a "Mass edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
 - Remove the register button, accounts should be added by the admin
+- We might want to hide some unneccessary details pages
 
-- //COURSES
-
+//-----------COURSES----------//
 - Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
 
-//USERSKILLS
+//---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
 
-//SKILLGOALS
+//---------SKILLGOALS---------//
 
-//GROUPS
+//-----------GROUPS-----------//
 - Statistics: !!
 	- Comparing the skill levels of group members to the skill goals set for the group
 	- SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)

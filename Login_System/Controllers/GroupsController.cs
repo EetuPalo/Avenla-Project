@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Login_System.ViewModels;
 
 namespace Login_System.Controllers
 {
@@ -14,12 +15,14 @@ namespace Login_System.Controllers
         private readonly GroupsDataContext _context;
         private readonly GroupMembersDataContext gMemContext;
         private readonly SkillGoalContext goalContext;
+        private readonly UserSkillsDataContext userSkillsContext;
 
-        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon)
+        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon, UserSkillsDataContext userCon)
         {
             _context = context;
             gMemContext = gMemberCon;
             goalContext = skillGoalCon;
+            userSkillsContext = userCon;
         }
 
         // GET: Groups
@@ -177,6 +180,52 @@ namespace Login_System.Controllers
         private bool GroupExists(int id)
         {
             return _context.Group.Any(e => e.id == id);
+        }
+
+        public async Task<IActionResult> Statistics(int id)
+        {
+            var model = new List<GroupStatisticsVM>();
+            //Getting the required tables from the db
+            Group tempGroup = await _context.Group.FindAsync(id);
+            var memberList = gMemContext.GroupMembers.Where(g => g.GroupID == id).ToList();
+            var goalList = goalContext.SkillGoals.ToList();
+            var userSkillList = userSkillsContext.UserSkills.ToList();
+
+            //Messages that are shown at the top of the page
+            ViewBag.GroupName = tempGroup.name;
+            //General data about the group
+            ViewBag.MemberCount = memberList.Count(m => m.GroupID == id);
+
+            var dateList = new List<DateTime>();
+            foreach (var goal in goalList)
+            {
+                if (!dateList.Contains(goal.Date) && goal.GroupName == tempGroup.name)
+                {
+                    dateList.Add(goal.Date);
+                }
+            }
+            var latestDate = dateList.Max();
+            ViewBag.LatestGoal = dateList.Max().ToString("dd.MM.yyyy");
+
+            //The data to be displayed in the table
+
+
+
+            foreach (var goal in goalList)
+            {               
+                if (goal.GroupName == tempGroup.name && goal.Date == latestDate)
+                {
+                    var tempModel = new GroupStatisticsVM
+                    {
+                        SkillName = goal.SkillName,
+                        SkillGoal = goal.SkillGoal,
+                        Average = 0 //PLACEHOLDER UNTIL I FIGURE OUT HOW TO CALCULATE THIS
+                    };
+                    model.Add(tempModel);
+                }
+            }
+
+            return View(model);
         }
     }
 }
