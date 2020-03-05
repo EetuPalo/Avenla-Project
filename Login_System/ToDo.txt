@@ -20,7 +20,6 @@
 - We might want to hide some unneccessary details pages
 
 //-----------COURSES----------//
-- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
 
 //---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
@@ -90,3 +89,4 @@ DONE:
 - //Improve the group creation UI !
 - //It's now a 3-step process, add indicators showing that !
 - //Improve the tempdata showing the date at the top of the page (seems to be mostly working) !
+- //Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
