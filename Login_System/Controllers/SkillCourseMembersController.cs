@@ -27,14 +27,9 @@ namespace Login_System.Controllers
         // GET: SkillCourseMembers
         public async Task<IActionResult> Index(int? id)
         {
-            var model = new List<SkillCourseMemberVM>();
-            //if (id == null)
-            //{
-            //    Console.WriteLine("DEBUG: No ID has been passed to the controller. Listing the skills of the currently logged in user.");
-            //    id = Convert.ToInt32(UserMgr.GetUserId(User));
-            //}
-
+            var model = new List<SkillCourseMemberVM>();	   
             SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+	    
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers)
             {
@@ -151,6 +146,7 @@ namespace Login_System.Controllers
             }
             return View(skillCourseMember);
         }
+	
         public async Task<IActionResult> Join(int? id)
         {
             var member = await UserMgr.FindByNameAsync(User.Identity.Name);
@@ -170,19 +166,12 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                var coursemember = new SkillCourseMember();
-                coursemember.UserID = skillCourseMember.Id;
-                coursemember.CourseID = Convert.ToInt32(TempData["CourseID"]);
-                coursemember.CourseName = skillCourseMember.CourseName;
-                coursemember.UserName = skillCourseMember.UserName;
-                coursemember.Status = "In-progreess";
-                TempData.Keep();
                 if (_context.SkillCourseMembers.FirstOrDefault(m => m.UserID == skillCourseMember.UserID && m.CourseID == skillCourseMember.CourseID) == null)
                 {
                     _context.Add(skillCourseMember);
                     await _context.SaveChangesAsync();
                     ViewBag.SCMError = null;
-                    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = coursemember.CourseID });//redirecting back to the list of group members,
+                    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of group members,
                 }
                 else
                 {
