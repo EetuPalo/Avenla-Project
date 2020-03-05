@@ -30,7 +30,7 @@ namespace Login_System.Controllers
             var model = new List<SkillCourseMemberVM>();	   
             SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
 	    
-            //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
+            //For loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers)
             {
                 if (member.CourseID == id)
@@ -43,6 +43,8 @@ namespace Login_System.Controllers
                     coursemember.CourseName = tempCourse.CourseName;
                     var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
                     coursemember.Status = user.Status;
+                    coursemember.CompletionDate = user.CompletionDate;
+                    coursemember.DaysCompleted = user.DaysCompleted;
                     model.Add(coursemember);
                 }
             }
@@ -202,7 +204,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status, CompletionDate")] SkillCourseMember skillCourseMember)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status, CompletionDate, DaysCompleted")] SkillCourseMember skillCourseMember)
         {
             if (id != skillCourseMember.Id)
             {
@@ -216,6 +218,8 @@ namespace Login_System.Controllers
                     if(skillCourseMember.Status == "Completed")
                     {
                         skillCourseMember.CompletionDate = DateTime.Now;
+                        var lecourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
+                        skillCourseMember.DaysCompleted = lecourse.Length;
                     }
                     else
                     {

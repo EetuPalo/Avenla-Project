@@ -14,6 +14,8 @@ namespace Login_System.ViewModels
         public string UserName { get; set; }
 
         public string CourseName { get; set; }
+        public DateTime CompletionDate { get; set; }
+        public int DaysCompleted { get; set; }
         public string Status { get; set; }
     }
 }

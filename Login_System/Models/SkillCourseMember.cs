@@ -15,6 +15,7 @@ namespace Login_System.Models
         public string UserName { get; set; }
         public string CourseName { get; set; }
         public string Status { get; set; } //In-progress, Completed, Dropout, Planning
+	public int DaysCompleted { get; set; } //Days in the course user has completed
         public DateTime CompletionDate { get; set; }
         [NotMapped]
         public IEnumerable<SelectListItem> Uname { get; set; }

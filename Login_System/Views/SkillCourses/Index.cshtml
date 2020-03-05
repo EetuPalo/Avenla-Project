@@ -35,6 +35,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Location)
             </th>
+	    <th>
+                @Html.DisplayNameFor(model => model.Length)
+            </th>
+	    
             <th></th>
         </tr>
     </thead>
@@ -48,8 +52,11 @@
                 @Html.DisplayFor(modelItem => item.CourseContents)
             </td>
             <td>
-                @Html.DisplayNameFor(model => model.Location)
+                @Html.DisplayFor(modelItem => item.Location)
             </td>
+	    <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>	    
             <td>
                 <a asp-action="Details" asp-route-id="@item.id">Details</a> |
                 <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a> |

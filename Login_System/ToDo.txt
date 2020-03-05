@@ -14,8 +14,8 @@
 	- This could possibly be expanded to other menus as well
 
 - //COURSES
-- Course Enrollment for user !!!
-	- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
+
+- Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
 
 //USERSKILLS
 - Add more useful info to the SkillList as it's now the "overview" page of the user !!
@@ -78,3 +78,4 @@ DONE:
 	- Deal with cases where two different groups (user is part of) has set goals for the same skill
 - //Listing if user has completed a particular course (probably should be visible both in Course page, and somewhere in user profile (details/courses maybe)) !!
 - //Date when course has been completed. !!
+- //Users can enroll to courses
