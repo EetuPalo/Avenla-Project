@@ -44,7 +44,15 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CompletionDate)
+                @if (item.CompletionDate == DateTime.MinValue)
+
+                {
+                    <p>not completed</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.CompletionDate)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DaysCompleted)

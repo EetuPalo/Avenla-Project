@@ -239,7 +239,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of group members,
             }
             return View(skillCourseMember);
         }
