@@ -347,7 +347,7 @@ namespace Login_System.Controllers
         }
 
         // GET: UserSkills/Create
-        public async Task<IActionResult> Create(int id)
+        public IActionResult Create(int id)
         {
             TempData["UserId"] = id;
             //var model = new List<UserSkillsWithSkillVM>();
@@ -581,7 +581,7 @@ namespace Login_System.Controllers
 
         //GET
         [HttpGet]
-        public async Task<IActionResult> EditForm(string date, string name, int id)
+        public IActionResult EditForm(string date, string name, int id)
         {
             //Try to get the date to be shown in the view
             try
