@@ -45,6 +45,7 @@ namespace Login_System.Controllers
                     coursemember.Status = user.Status;
                     coursemember.CompletionDate = user.CompletionDate;
                     coursemember.DaysCompleted = user.DaysCompleted;
+                    coursemember.CourseLength = tempCourse.Length;
                     model.Add(coursemember);
                 }
             }
@@ -81,6 +82,10 @@ namespace Login_System.Controllers
                     //coursemember.CourseName = TempData["CourseName"].ToString();
                     var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
                     coursemember.CourseName = user.CourseName;
+                    coursemember.DaysCompleted = user.DaysCompleted;
+                    coursemember.CompletionDate = user.CompletionDate;
+                    var lacourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == user.CourseID);
+                    coursemember.CourseLength = lacourse.Length;
                     coursemember.Status = user.Status;
                     model.Add(coursemember);
                 }
