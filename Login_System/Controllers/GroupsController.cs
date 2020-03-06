@@ -18,14 +18,16 @@ namespace Login_System.Controllers
         private readonly SkillGoalContext goalContext;
         private readonly UserSkillsDataContext userSkillsContext;
         private readonly UserManager<AppUser> UsrMgr;
+        private readonly SkillDataContext skillContext;
 
-        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon, UserSkillsDataContext userCon, UserManager<AppUser> userManager)
+        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon, UserSkillsDataContext userCon, UserManager<AppUser> userManager, SkillDataContext skillCon)
         {
             _context = context;
             gMemContext = gMemberCon;
             goalContext = skillGoalCon;
             userSkillsContext = userCon;
             UsrMgr = userManager;
+            skillContext = skillCon;
         }
 
         // GET: Groups
@@ -192,7 +194,10 @@ namespace Login_System.Controllers
             Group tempGroup = await _context.Group.FindAsync(id);
             var memberList = gMemContext.GroupMembers.Where(g => g.GroupID == id).ToList();
             var goalList = goalContext.SkillGoals.Where(g => g.GroupName == tempGroup.name).ToList();
-            var userSkillList = new Dictionary<int, DateTime>();
+            var userSkills = userSkillsContext.UserSkills.ToList();           
+            var userSkillList = new Dictionary<int, List<DateTime>>();
+            var maxDateList = new Dictionary<int, DateTime>();
+            var skillAvgList = new Dictionary<string, List<int>>();
 
             //Messages that are shown at the top of the page
             ViewBag.GroupName = tempGroup.name;
@@ -213,19 +218,48 @@ namespace Login_System.Controllers
             //AVERAGE
             foreach (var member in memberList)
             {
-                foreach (var userSkill in userSkillsContext.UserSkills)
+                //Empties the list at the start of the loop
+                var userDateList = new List<DateTime>();
+                foreach (var userSkill in userSkills)
                 {
-                    if (userSkill.UserID == member.UserID)
+                    if (member.UserID == userSkill.UserID && !userDateList.Contains(userSkill.Date))
                     {
-                        userSkillList.Add(userSkill.UserID, userSkill.Date);
+                        userDateList.Add(userSkill.Date);
+                    }
+                }
+                userSkillList.Add(member.UserID, userDateList);
+            }
+            
+            foreach (var user in userSkillList)
+            {
+                if (user.Value != null)
+                {
+                    try
+                    {
+                        maxDateList.Add(user.Key, user.Value.Max());
+                    }
+                    catch
+                    {
+                        Console.WriteLine("No skills for this user.");
                     }
                 }
             }
-            
-            foreach (KeyValuePair<int, DateTime> entry in userSkillList)
+            foreach (var skill in skillContext.Skills.ToList())
             {
+                var tempSkills = new List<int>();
+                foreach (var uskill in userSkills)
+                {                    
+                    foreach (var entry in maxDateList)
+                    {
+                        if (uskill.UserID == entry.Key && uskill.Date == entry.Value && uskill.SkillName == skill.Skill)
+                        {
+                            tempSkills.Add(uskill.SkillLevel);
+                        }
+                    }
+                }
+                skillAvgList.Add(skill.Skill, tempSkills);
+            }          
 
-            }
 
             foreach (var goal in goalList)
             {               
@@ -235,8 +269,24 @@ namespace Login_System.Controllers
                     {
                         SkillName = goal.SkillName,
                         SkillGoal = goal.SkillGoal,
-                        Average = 0 //PLACEHOLDER UNTIL I FIGURE OUT HOW TO CALCULATE THIS
                     };
+
+                    foreach (var skill in skillAvgList)
+                    {
+                        if (tempModel.SkillName == skill.Key)
+                        {
+                            try
+                            {
+                                var avrg = skill.Value.Average();
+                                tempModel.Average = String.Format("{0:0.00}", avrg);
+                            }
+                            catch
+                            {
+                                tempModel.Average = "NO_DATA";
+                            }
+                        }
+                    }
+
                     model.Add(tempModel);
                 }
             }

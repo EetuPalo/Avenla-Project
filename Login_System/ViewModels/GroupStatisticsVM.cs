@@ -9,6 +9,6 @@ namespace Login_System.ViewModels
     {
         public string SkillName { get; set; }
         public int SkillGoal { get; set; }
-        public double Average { get; set; }
+        public string Average { get; set; }
     }
 }

@@ -304,7 +304,10 @@ namespace Login_System.Controllers
                     }
 
                     usrSkill.SkillGoal = skillGoal;
-                    model.Add(usrSkill);
+                    if (usrSkill != null)
+                    {
+                        model.Add(usrSkill);
+                    }
                 }
             }
 

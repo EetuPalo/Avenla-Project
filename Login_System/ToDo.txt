@@ -23,7 +23,6 @@
 
 //---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
-- Maybe user should be able to choose month for which he wants to see a graph
 
 //---------SKILLGOALS---------//
 
