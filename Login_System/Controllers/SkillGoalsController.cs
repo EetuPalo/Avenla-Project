@@ -42,6 +42,14 @@ namespace Login_System.Controllers
             TempData["GroupName"] = name;
             TempData["Group"] = name;
 
+            foreach (var group in groupContext.Group)
+            {
+                if (group.name == name)
+                {
+                    TempData["GroupID"] = group.id;
+                }
+            }
+
             if (date == null && name != null)
             {
                 //We can't pass a date if we are accessing the view from the groups index

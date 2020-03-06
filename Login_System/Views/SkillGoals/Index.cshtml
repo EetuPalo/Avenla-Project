@@ -27,7 +27,7 @@
                     Model.DateToDelete = TempData.Peek("LatestDate").ToString();
                     <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">Delete</a>
                 }
-                <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back to Groups</a>
+                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">Back</a>
             </div>
         </div>
     </div>    

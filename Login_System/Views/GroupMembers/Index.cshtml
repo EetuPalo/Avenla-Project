@@ -15,7 +15,7 @@
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value="Filter" asp-route-id="@TempData["GroupID"]" />
                 <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit">Edit Members</a>
-                <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back</a>
+                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">Back</a>
             </div>
         </div>
     </div>

@@ -197,7 +197,7 @@ namespace Login_System.Controllers
             var userSkills = userSkillsContext.UserSkills.ToList();           
             var userSkillList = new Dictionary<int, List<DateTime>>();
             var maxDateList = new Dictionary<int, DateTime>();
-            var skillAvgList = new Dictionary<string, List<int>>();
+            var skillAvgList = new Dictionary<string, List<int>>();           
 
             //Messages that are shown at the top of the page
             ViewBag.GroupName = tempGroup.name;
@@ -215,7 +215,10 @@ namespace Login_System.Controllers
             var latestDate = dateList.Max();
             ViewBag.LatestGoal = dateList.Max().ToString("dd.MM.yyyy");
 
-            //AVERAGE
+            TempData["GroupID"] = id;
+            TempData["GroupName"] = tempGroup.name;
+
+            //-------------AVERAGE------------
             foreach (var member in memberList)
             {
                 //Empties the list at the start of the loop
@@ -260,7 +263,6 @@ namespace Login_System.Controllers
                 skillAvgList.Add(skill.Skill, tempSkills);
             }          
 
-
             foreach (var goal in goalList)
             {               
                 if (goal.GroupName == tempGroup.name && goal.Date == latestDate)
@@ -268,7 +270,7 @@ namespace Login_System.Controllers
                     var tempModel = new GroupStatisticsVM
                     {
                         SkillName = goal.SkillName,
-                        SkillGoal = goal.SkillGoal,
+                        SkillGoal = goal.SkillGoal
                     };
 
                     foreach (var skill in skillAvgList)

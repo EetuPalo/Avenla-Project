@@ -23,6 +23,7 @@
 
 //---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
+- Fix the crash when user hasn't yet evaluated any skills and tries to access their skills page
 
 //---------SKILLGOALS---------//
 
