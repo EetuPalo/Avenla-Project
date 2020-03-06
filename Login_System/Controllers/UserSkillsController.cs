@@ -74,7 +74,7 @@ namespace Login_System.Controllers
             return View(model);
         }
 
-        public async Task <IActionResult> ListByDate(int? id, string searchString)
+        public async Task <IActionResult> ListByDate(int? id, string searchString, int month, int year)
         {
             if (id == null)
             {
@@ -120,7 +120,7 @@ namespace Login_System.Controllers
                             i++;
                             var tempModel = new DateListVM
                             {
-                                Date = item.Date.ToString("dd.MM.yyyy HH:mm"),
+                                Date = item.Date,
                                 AdminEval = item.AdminEval,
                                 TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
                                 Id = (int)id
@@ -129,7 +129,7 @@ namespace Login_System.Controllers
 
                         }
                         tempDate.Add(item.Date.ToString());      
-                        if(item.Date.Month == DateTime.Now.Month && item.Date.Year == DateTime.Now.Year)
+                        if(item.Date.Month == month && item.Date.Year == year)
                         {
                             skillnames.Add(item.SkillName);
                             dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss")); 
@@ -150,7 +150,7 @@ namespace Login_System.Controllers
                             i++;
                             var tempModel = new DateListVM
                             {
-                                Date = item.Date.ToString("dd.MM.yyyy HH:mm"),
+                                Date = item.Date,
                                 AdminEval = item.AdminEval,
                                 TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
                                 Id = (int)id
@@ -160,7 +160,7 @@ namespace Login_System.Controllers
                         }
                         tempDate.Add(item.Date.ToString());
 
-                        if (item.Date.Month == DateTime.Now.Month && item.Date.Year == DateTime.Now.Year)
+                        if (item.Date.Month == month && item.Date.Year == year)
                         {
                             skillnames.Add(item.SkillName);
                             dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));

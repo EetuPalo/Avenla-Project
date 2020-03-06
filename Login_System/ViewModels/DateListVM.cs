@@ -7,7 +7,7 @@ namespace Login_System.ViewModels
 {
     public class DateListVM
     {
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         public string AdminEval { get; set; }
 

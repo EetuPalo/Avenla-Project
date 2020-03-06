@@ -26,7 +26,7 @@
 <div class="container-fluid p-0 pb-4">
     <div class="row">
         <div class="col-sm">
-            <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" class="btn btn-info">View History</a>
+            <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" class="btn btn-info" asp-route-month="@DateTime.Now.Month" asp-route-year="@DateTime.Now.Year">View History</a>
             <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">Evaluate</a>
         </div>
     </div>
