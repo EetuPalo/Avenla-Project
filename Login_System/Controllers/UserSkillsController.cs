@@ -321,7 +321,7 @@ namespace Login_System.Controllers
             TempData["MaxSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Value;
 
             double avrg = levelList.Values.Average();
-            TempData["AverageScore"] = avrg.ToString();
+            TempData["AverageScore"] = String.Format("{0:0.00}", avrg);
             //------
 
             TempData.Keep();
