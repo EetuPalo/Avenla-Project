@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
@@ -16,13 +17,15 @@ namespace Login_System.Controllers
         private readonly GroupMembersDataContext gMemContext;
         private readonly SkillGoalContext goalContext;
         private readonly UserSkillsDataContext userSkillsContext;
+        private readonly UserManager<AppUser> UsrMgr;
 
-        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon, UserSkillsDataContext userCon)
+        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon, UserSkillsDataContext userCon, UserManager<AppUser> userManager)
         {
             _context = context;
             gMemContext = gMemberCon;
             goalContext = skillGoalCon;
             userSkillsContext = userCon;
+            UsrMgr = userManager;
         }
 
         // GET: Groups
@@ -188,8 +191,8 @@ namespace Login_System.Controllers
             //Getting the required tables from the db
             Group tempGroup = await _context.Group.FindAsync(id);
             var memberList = gMemContext.GroupMembers.Where(g => g.GroupID == id).ToList();
-            var goalList = goalContext.SkillGoals.ToList();
-            var userSkillList = userSkillsContext.UserSkills.ToList();
+            var goalList = goalContext.SkillGoals.Where(g => g.GroupName == tempGroup.name).ToList();
+            var userSkillList = new Dictionary<int, DateTime>();
 
             //Messages that are shown at the top of the page
             ViewBag.GroupName = tempGroup.name;
@@ -207,9 +210,22 @@ namespace Login_System.Controllers
             var latestDate = dateList.Max();
             ViewBag.LatestGoal = dateList.Max().ToString("dd.MM.yyyy");
 
-            //The data to be displayed in the table
+            //AVERAGE
+            foreach (var member in memberList)
+            {
+                foreach (var userSkill in userSkillsContext.UserSkills)
+                {
+                    if (userSkill.UserID == member.UserID)
+                    {
+                        userSkillList.Add(userSkill.UserID, userSkill.Date);
+                    }
+                }
+            }
+            
+            foreach (KeyValuePair<int, DateTime> entry in userSkillList)
+            {
 
-
+            }
 
             foreach (var goal in goalList)
             {               
