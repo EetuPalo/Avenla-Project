@@ -23,7 +23,7 @@
 
 //---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
-- Fix the crash when user hasn't yet evaluated any skills and tries to access their skills page
+- Clean the SkillList action
 
 //---------SKILLGOALS---------//
 
@@ -97,3 +97,4 @@ DONE:
 - //Statistics
 	- //Comparing the skill levels of group members to the skill goals set for the group
 	- //SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)
+- //Fix the crash when user hasn't yet evaluated any skills and tries to access their skills page
