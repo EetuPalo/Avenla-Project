@@ -12,6 +12,12 @@ tramp
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#folders and other files
+Migrations/
+*Snapshot.cs
+appsettings.json
+Avenla-Project.csproj
+
 # User-specific files
 *.rsuser
 *.suo
