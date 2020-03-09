@@ -161,9 +161,9 @@ namespace Login_System.Controllers
                         if (oldMem.GroupID == member.GroupId && oldMem.UserID == Convert.ToInt32(member.UserId))
                         {
                             _context.Remove(oldMem);
-                        }
-                        _context.Add(tempMember);
-                    }                    
+                        }                        
+                    }
+                    _context.Add(tempMember);
                 }
                 else if (!member.IsSelected)
                 {

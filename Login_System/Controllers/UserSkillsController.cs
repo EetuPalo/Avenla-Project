@@ -197,59 +197,72 @@ namespace Login_System.Controllers
             string tempName = "DATE_NOT_FOUND";
 
             //Getting the skillgoal info for user group
-            var skillGoalList = goalContext.SkillGoals.ToList();
-            var groupMemberList = gMemContext.GroupMembers.ToList();
+            //var skillGoalList = goalContext.SkillGoals.ToList();
+            //var groupMemberList = gMemContext.GroupMembers.ToList();
             var groupList = new List<Group>();
             var goalList = new List<GoalForSkillVM>();
             var dateList = new Dictionary<string, string>();
 
-            foreach (var member in groupMemberList)
+            try
             {
-                if (member.UserID == userId)
+                foreach (var member in gMemContext.GroupMembers.ToList())
                 {
-                    var tempGroup = new Group
+                    if (member.UserID == userId)
                     {
-                        id = member.GroupID,
-                        name = member.GroupName
-                    };
-
-                    groupList.Add(tempGroup);
-                }
-            }
-            foreach (var group in groupList)
-            {
-                foreach (var goal in skillGoalList)
-                {
-                    if (group.name == goal.GroupName)
-                    {
-                        var tempGoalList = new GoalForSkillVM
+                        var tempGroup = new Group
                         {
-                            SkillName = goal.SkillName,
-                            SkillGoal = goal.SkillGoal,
-                            Date = goal.Date.ToString(),
-                            GroupName = goal.GroupName
+                            id = member.GroupID,
+                            name = member.GroupName
                         };
-                        goalList.Add(tempGoalList);
+
+                        groupList.Add(tempGroup);
                     }
                 }
+                foreach (var group in groupList)
+                {
+                    foreach (var goal in goalContext.SkillGoals.ToList())
+                    {
+                        if (group.name == goal.GroupName)
+                        {
+                            var tempGoalList = new GoalForSkillVM
+                            {
+                                SkillName = goal.SkillName,
+                                SkillGoal = goal.SkillGoal,
+                                Date = goal.Date.ToString(),
+                                GroupName = goal.GroupName
+                            };
+                            goalList.Add(tempGoalList);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("ERROR");
             }          
             
             //If the skilllist is accessed directly from AppUser Index, the latest entries are automatically shown.
             if (name == "latest")
             {
-                var tempDateList = new List<DateTime>();
-                foreach (var skill in _context.UserSkills)
+                try
                 {
-                    if (!tempDateList.Contains(skill.Date) && skill.UserID == id)
+                    var tempDateList = new List<DateTime>();
+                    foreach (var skill in _context.UserSkills)
                     {
-                        tempDateList.Add(skill.Date);
+                        if (!tempDateList.Contains(skill.Date) && skill.UserID == id)
+                        {
+                            tempDateList.Add(skill.Date);
+                        }
                     }
+                    name = tempDateList.Max().ToString("dd/MM/yyyy+HH/mm");
+                    tempName = tempDateList.Max().ToString("dd.MM.yyyy HH.mm");
+                    TempData["Date"] = tempName;
                 }
-                name = tempDateList.Max().ToString("dd/MM/yyyy+HH/mm");
-                tempName = tempDateList.Max().ToString("dd.MM.yyyy HH.mm");
-                TempData["Date"] = tempName;
+                catch
+                {
+                    Console.WriteLine("ERROR");
+                }
             }
-
             
             if (_context.UserSkills != null)
             {
@@ -312,19 +325,31 @@ namespace Login_System.Controllers
                 }
 
                 //Getting some extra info from the data
-                var levelList = new Dictionary<string, int>();
-                foreach (var skill in model)
+                try
                 {
-                    levelList.Add(skill.SkillName, skill.SkillLevel);
+                    var levelList = new Dictionary<string, int>();
+                    foreach (var skill in model)
+                    {
+                        levelList.Add(skill.SkillName, skill.SkillLevel);
+                    }
+                    TempData["MinSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Key;
+                    TempData["MaxSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Key;
+
+                    TempData["MinSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Value;
+                    TempData["MaxSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Value;
+
+                    double avrg = levelList.Values.Average();
+                    TempData["AverageScore"] = String.Format("{0:0.00}", avrg);
                 }
-                TempData["MinSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Key;
-                TempData["MaxSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Key;
-
-                TempData["MinSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Value;
-                TempData["MaxSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Value;
-
-                double avrg = levelList.Values.Average();
-                TempData["AverageScore"] = String.Format("{0:0.00}", avrg);
+                catch
+                {
+                    Console.WriteLine("ERROR");
+                    TempData["MinSkillLabel"] = 0;
+                    TempData["MaxSkillLabel"] = 0;
+                    TempData["MinSkillVal"] = 0;
+                    TempData["MaxSkillVal"] = 0;
+                    TempData["AverageScore"] = 0;
+                }              
                 //------
 
                 TempData.Keep();
