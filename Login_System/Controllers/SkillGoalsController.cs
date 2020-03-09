@@ -49,7 +49,6 @@ namespace Login_System.Controllers
                     TempData["GroupID"] = group.id;
                 }
             }
-
             if (date == null && name != null)
             {
                 //We can't pass a date if we are accessing the view from the groups index
@@ -120,14 +119,12 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-
             var skillGoals = await _context.SkillGoals
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (skillGoals == null)
             {
                 return NotFound();
             }
-
             return View(skillGoals);
         }
 

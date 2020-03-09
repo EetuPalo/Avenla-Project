@@ -29,9 +29,8 @@
 
 //-----------GROUPS-----------//
 - Statistics: !!
-	- Comparing the skill levels of group members to the skill goals set for the group
-	- SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)
-	- Maybe more
+	- Graphs (fml)
+	- add any ideas here
 
 //---------CERTIFICATES---------//
 - Implement certificates
@@ -95,3 +94,6 @@ DONE:
 - //It's now a 3-step process, add indicators showing that !
 - //Improve the tempdata showing the date at the top of the page (seems to be mostly working) !
 - //Later we might want to add multi day courses (eg. user has completed day 1 of course but not day 2) !!
+- //Statistics
+	- //Comparing the skill levels of group members to the skill goals set for the group
+	- //SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)

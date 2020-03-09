@@ -203,7 +203,6 @@ namespace Login_System.Controllers
             var goalList = new List<GoalForSkillVM>();
             var dateList = new Dictionary<string, string>();
 
-            //Some complex stuff for fetching the correct skillgoal for the correct group for the correct skill for the correct user
             foreach (var member in groupMemberList)
             {
                 if (member.UserID == userId)
@@ -233,8 +232,8 @@ namespace Login_System.Controllers
                         goalList.Add(tempGoalList);
                     }
                 }
-            }
-
+            }          
+            
             //If the skilllist is accessed directly from AppUser Index, the latest entries are automatically shown.
             if (name == "latest")
             {
@@ -252,83 +251,90 @@ namespace Login_System.Controllers
             }
 
             
-
-            foreach (var skill in _context.UserSkills)
-            {               
-                var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
-                var date2 = name;
-                var skillGoal = 0;
-
-                if (date1 == date2 && skill.UserID == userId)
+            if (_context.UserSkills != null)
+            {
+                foreach (var skill in _context.UserSkills)
                 {
-                    tempName = skill.Date.ToString("dd.MM.yyyy HH.mm");
-                    TempData["Date"] = tempName;
+                    var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
+                    var date2 = name;
+                    var skillGoal = 0;
 
-                    var usrSkill = new UserSkillsVM();
-
-                    usrSkill.Id = Convert.ToInt32(skill.Id);
-                    usrSkill.UserID = skill.UserID;
-                    usrSkill.UserName = userName;
-                    usrSkill.SkillName = skill.SkillName;
-                    usrSkill.SkillLevel = skill.SkillLevel;
-                    usrSkill.Date = skill.Date.ToString("dd/MM/yyyy H:mm");
-                    usrSkill.AdminEval = skill.AdminEval;
-
-                    foreach (var goal in goalList)
+                    if (date1 == date2 && skill.UserID == userId)
                     {
-                        foreach (var group in groupList)
-                        {
-                            if (goal.SkillGoal > -1 && goal.GroupName == group.name)
-                            {
-                                if (dateList.ContainsKey(group.name))
-                                {
-                                    dateList[group.name] = goal.Date;
-                                }
-                                else if (!dateList.ContainsKey(group.name))
-                                {
-                                    dateList.Add(group.name, goal.Date);
-                                }
-                            }
-                        }                        
-                    }     
-                    
-                    foreach (var date in dateList.Values)
-                    {
+                        tempName = skill.Date.ToString("dd.MM.yyyy HH.mm");
+                        TempData["Date"] = tempName;
+
+                        var usrSkill = new UserSkillsVM();
+
+                        usrSkill.Id = Convert.ToInt32(skill.Id);
+                        usrSkill.UserID = skill.UserID;
+                        usrSkill.UserName = userName;
+                        usrSkill.SkillName = skill.SkillName;
+                        usrSkill.SkillLevel = skill.SkillLevel;
+                        usrSkill.Date = skill.Date.ToString("dd/MM/yyyy H:mm");
+                        usrSkill.AdminEval = skill.AdminEval;
+
                         foreach (var goal in goalList)
                         {
-                            if (date == goal.Date && goal.SkillName == skill.SkillName && goal.SkillGoal > skillGoal)
+                            foreach (var group in groupList)
                             {
-                                skillGoal = goal.SkillGoal;
+                                if (goal.SkillGoal > -1 && goal.GroupName == group.name)
+                                {
+                                    if (dateList.ContainsKey(group.name))
+                                    {
+                                        dateList[group.name] = goal.Date;
+                                    }
+                                    else if (!dateList.ContainsKey(group.name))
+                                    {
+                                        dateList.Add(group.name, goal.Date);
+                                    }
+                                }
                             }
                         }
-                    }
 
-                    usrSkill.SkillGoal = skillGoal;
-                    if (usrSkill != null)
-                    {
-                        model.Add(usrSkill);
+                        foreach (var date in dateList.Values)
+                        {
+                            foreach (var goal in goalList)
+                            {
+                                if (date == goal.Date && goal.SkillName == skill.SkillName && goal.SkillGoal > skillGoal)
+                                {
+                                    skillGoal = goal.SkillGoal;
+                                }
+                            }
+                        }
+
+                        usrSkill.SkillGoal = skillGoal;
+                        if (usrSkill != null)
+                        {
+                            model.Add(usrSkill);
+                        }
                     }
                 }
-            }
 
-            //Getting some extra info from the data
-            var levelList = new Dictionary<string,int>();
-            foreach (var skill in model)
+                //Getting some extra info from the data
+                var levelList = new Dictionary<string, int>();
+                foreach (var skill in model)
+                {
+                    levelList.Add(skill.SkillName, skill.SkillLevel);
+                }
+                TempData["MinSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Key;
+                TempData["MaxSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Key;
+
+                TempData["MinSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Value;
+                TempData["MaxSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Value;
+
+                double avrg = levelList.Values.Average();
+                TempData["AverageScore"] = String.Format("{0:0.00}", avrg);
+                //------
+
+                TempData.Keep();
+                return View(model);
+            }
+            else
             {
-                levelList.Add(skill.SkillName, skill.SkillLevel);
+                return View();
             }
-            TempData["MinSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Key;
-            TempData["MaxSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Key;
-
-            TempData["MinSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Value;
-            TempData["MaxSkillVal"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Value;
-
-            double avrg = levelList.Values.Average();
-            TempData["AverageScore"] = String.Format("{0:0.00}", avrg);
-            //------
-
-            TempData.Keep();
-            return View(model);
+            
         }
 
         // GET: UserSkills/Details/5

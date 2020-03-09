@@ -17,12 +17,14 @@ namespace Login_System.Controllers
         private SignInManager<AppUser> SignInMgr { get; }
 
         private readonly IdentityDataContext _context;
+        private readonly RoleManager<AppRole> roleMgr;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager)
         {
             UserMgr = userManager;
             SignInMgr = signInManager;
             _context = context;
+            roleMgr = roleManager;
         }
 
         public IActionResult Index()
@@ -73,7 +75,31 @@ namespace Login_System.Controllers
                     IdentityResult result;
                     IdentityResult roleResult;
                     result = await UserMgr.CreateAsync(user, newUser.Password);
-                    roleResult = await UserMgr.AddToRoleAsync(user, "User");
+
+                    //This is only for the case that DB roles is empty
+                    if (await roleMgr.RoleExistsAsync("User"))
+                    {
+                        roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                    }
+                    else
+                    {
+                        AppRole userRole = new AppRole
+                        {
+                            Name = "User"
+                        };
+                        await roleMgr.CreateAsync(userRole);
+                        await UserMgr.AddToRoleAsync(user, "User");
+                    }
+                    if (!await roleMgr.RoleExistsAsync("Admin"))
+                    {
+                        AppRole adminRole = new AppRole
+                        {
+                            Name = "Admin"
+                        };
+                        await roleMgr.CreateAsync(adminRole);
+                        await UserMgr.AddToRoleAsync(user, "Admin");
+                    }
+
                     ViewBag.Message = "User has been created!";
                     TempData["UserFullNames"] = user.FirstName + " " + user.LastName;
                     return View("Index");
