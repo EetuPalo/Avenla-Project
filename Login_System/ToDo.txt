@@ -36,6 +36,7 @@
 - Implement certificates
 	- At least (id), name, and the company who granted the certificate, possibly granting date as well (should be optional)
 	- These are user specific
+
 Levels: 
 0: I don't know and don't want to know!
 .

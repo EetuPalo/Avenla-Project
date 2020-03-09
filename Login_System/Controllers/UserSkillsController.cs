@@ -344,6 +344,11 @@ namespace Login_System.Controllers
                 catch
                 {
                     Console.WriteLine("ERROR");
+                    TempData["MinSkillLabel"] = 0;
+                    TempData["MaxSkillLabel"] = 0;
+                    TempData["MinSkillVal"] = 0;
+                    TempData["MaxSkillVal"] = 0;
+                    TempData["AverageScore"] = 0;
                 }              
                 //------
 
