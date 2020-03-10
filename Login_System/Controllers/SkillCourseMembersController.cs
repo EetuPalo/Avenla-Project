@@ -144,7 +144,7 @@ namespace Login_System.Controllers
                 skillCourseMember.CourseID = Convert.ToInt32(TempData["CourseID"]);//the id in the temp data is not int so we convert it
                 skillCourseMember.CourseName = TempData["CourseName"] as string;//same as id
                 //skillCourseMember.CompletionDate = DateTime.Now;
-                skillCourseMember.Status = "In-progress";
+                skillCourseMember.Status = skillCourseMember.Status;
                 TempData.Keep();//keeping the temp data otherwise, skillCourseMember won't have CourseID and CourseName
                 _context.Add(skillCourseMember);
                 await _context.SaveChangesAsync();
