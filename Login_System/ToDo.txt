@@ -35,9 +35,8 @@
 	- When there is only one skill set, line 43 in the Statistics.cshtml throws an exception
 
 //---------CERTIFICATES---------//
-- Implement certificates
-	- At least (id), name, and the company who granted the certificate, possibly granting date as well (should be optional)
-	- These are user specific
+- Bug fixes and testing
+- Improve the editing of certificates (edit should also automatically change the certificate name of existing entries as well)
 
 Levels: 
 0: I don't know and don't want to know!
@@ -101,3 +100,6 @@ DONE:
 	- //Comparing the skill levels of group members to the skill goals set for the group
 	- //SkillGoal of a specific skill vs the average of all group members (if unevaluated, treat it as 0)
 - //Fix the crash when user hasn't yet evaluated any skills and tries to access their skills page
+- //Implement certificates
+	- //At least (id), name, and the company who granted the certificate, possibly granting date as well (should be optional)
+	- //These are user specific

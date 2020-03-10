@@ -5,28 +5,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h2>@TempData["UserName"] - Certificates</h2>
+<form asp-controller="UserCertificates" asp-action="Index">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for certificates...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]">Add</a>
+            </div>
+        </div>
+    </div>
+</form>
+<hr />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-sm">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserID)
+                Certificate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CertificateID)
+                Grant Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CertificateName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GrantDate)
+                Granted By
             </th>
             <th></th>
         </tr>
@@ -35,24 +40,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CertificateID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.CertificateName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.GrantDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.Organization)
+            </td>
+            <td>
+                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

@@ -19,9 +19,16 @@ namespace Login_System.Controllers
         }
 
         // GET: Certificates
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Certificates.ToListAsync());
+            var certificates = from c in _context.Certificates select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                certificates = certificates.Where(s => (s.Name.Contains(searchString)) || (s.Organization.Contains(searchString)));
+            }
+            return View(await certificates.ToListAsync());
+
+            //return View(await _context.Certificates.ToListAsync());
         }
 
         // GET: Certificates/Details/5
