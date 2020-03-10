@@ -15,7 +15,8 @@ tramp
 #folders and other files
 Migrations/
 *Snapshot.cs
-#Avenla-Project.csproj
+Avenla-Project.csproj
+appsettings.json
 
 # User-specific files
 *.rsuser
