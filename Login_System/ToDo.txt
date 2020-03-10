@@ -34,6 +34,7 @@
 	- Graphs (fml)
 	- add any ideas here
 	- When there is only one skill set, line 43 in the Statistics.cshtml throws an exception
+		- KINDA FIXED
 
 //---------CERTIFICATES---------//
 - Bug fixes and testing
