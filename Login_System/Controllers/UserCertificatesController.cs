@@ -24,9 +24,23 @@ namespace Login_System.Controllers
         }
 
         // GET: UserCertificates
-        public async Task<IActionResult> Index(int? id, string searchString)
+        public async Task<IActionResult> Index(int? id, string searchString, string source)
         {
+            if (id == null)
+            {
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+
             TempData["UserID"] = id;
+            if (source != null)
+            {
+                TempData["Source"] = source;
+            }
+            else
+            {
+                TempData["Source"] = "appuser";
+            }
+
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserName"] = tempUser.FirstName + " " + tempUser.LastName;
 
@@ -49,7 +63,7 @@ namespace Login_System.Controllers
             {
                 foreach (var certificate in certificateContext.Certificates)
                 {
-                    if (userCertificate.CertificateID == certificate.Id)
+                    if (userCertificate.CertificateID == certificate.Id && userCertificate.UserID == id)
                     {
                         certificates.Remove(certificate);
                     }
