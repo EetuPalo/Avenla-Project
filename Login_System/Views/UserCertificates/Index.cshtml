@@ -15,6 +15,14 @@
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value="Filter" />
                 <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]">Add</a>
+                @if  (TempData["Source"].ToString() == "shortcut")
+                {
+                    <a class="btn btn-danger" asp-action="Index" asp-controller="Home">Back</a>
+                }
+                else
+                {
+                    <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back</a>
+                }
             </div>
         </div>
     </div>
@@ -43,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.CertificateName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GrantDate)
+                @item.GrantDate.ToShortDateString()
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Organization)

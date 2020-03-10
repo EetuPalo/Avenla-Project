@@ -25,6 +25,7 @@
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
 	- Make sure it works properly
 - Clean the SkillList action
+- Fix the info in SkillList not always working (for example when returning to the page with a back button from the history page)
 
 //---------SKILLGOALS---------//
 
