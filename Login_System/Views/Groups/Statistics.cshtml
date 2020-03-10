@@ -40,13 +40,23 @@
                     <tr>
                         <td>@item.SkillName</td>
                         <td>@item.SkillGoal</td>
-                        @if (Convert.ToDouble(item.Average) < item.SkillGoal)
+                        @if (item.Average != "0")
                         {
-                            <td class="text-danger font-weight-bold">@item.Average</td>
-                        }
-                        else if (Convert.ToDouble(item.Average) >= item.SkillGoal)
-                        {
-                            <td class="text-success font-weight-bold">@item.Average</td>
+                            try
+                            {
+                                if (Convert.ToDouble(item.Average) < item.SkillGoal)
+                                {
+                                    <td class="text-danger font-weight-bold">@item.Average</td>
+                                }
+                                else if (Convert.ToDouble(item.Average) >= item.SkillGoal)
+                                {
+                                    <td class="text-success font-weight-bold">@item.Average</td>
+                                }
+                            }
+                            catch
+                            {
+                                Console.WriteLine("ERROR");
+                            }
                         }
                     </tr>
                         }
