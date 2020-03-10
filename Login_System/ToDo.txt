@@ -23,6 +23,7 @@
 
 //---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
+	- Make sure it works properly
 - Clean the SkillList action
 
 //---------SKILLGOALS---------//
