@@ -135,7 +135,7 @@
                         <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">Profile</a>
                         <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-controller="SkillCourseMembers">Courses</a>
                         <a class="dropdown-item" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">Skills</a>
-                        <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates">Certificates</a>
+                        <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">Certificates</a>
                     </div>
                 </div>
             </td>                                      

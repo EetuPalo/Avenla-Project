@@ -5,11 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h2>Index</h2>
+<form asp-controller="Certificates" asp-action="Index">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search for certificates...">
+            </div>
+            <div class="col-sm">
+                <input class="btn btn-info" type="submit" value="Filter" />
+                <a class="btn btn-primary" asp-action="Create">Create New</a>
+            </div>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -33,7 +42,6 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

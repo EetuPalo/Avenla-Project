@@ -6,114 +6,95 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
     public class UserCertificatesController : Controller
     {
         private readonly UserCertificateDataContext _context;
+        private readonly CertificateDataContext certificateContext;
+        private UserManager<AppUser> UserMgr;
 
-        public UserCertificatesController(UserCertificateDataContext context)
+        public UserCertificatesController(UserCertificateDataContext context, CertificateDataContext certCon, UserManager<AppUser> userManager)
         {
             _context = context;
+            certificateContext = certCon;
+            UserMgr = userManager;
         }
 
         // GET: UserCertificates
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id, string searchString)
         {
-            return View(await _context.UserCertificates.ToListAsync());
-        }
+            TempData["UserID"] = id;
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            TempData["UserName"] = tempUser.FirstName + " " + tempUser.LastName;
 
-        // GET: UserCertificates/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            var certificates = from c in _context.UserCertificates.Where(c => c.UserID == id) select c;
+            if (!String.IsNullOrEmpty(searchString))
             {
-                return NotFound();
+                certificates = certificates.Where(s => (s.CertificateName.Contains(searchString))|| (s.Organization.Contains(searchString)));
             }
-
-            var userCertificate = await _context.UserCertificates
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (userCertificate == null)
-            {
-                return NotFound();
-            }
-
-            return View(userCertificate);
+            return View(await certificates.ToListAsync());
         }
 
         // GET: UserCertificates/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int id)
         {
-            return View();
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            var certificates = certificateContext.Certificates.ToList();
+
+            //This prevents the user from adding duplicates
+            foreach (var userCertificate in _context.UserCertificates)
+            {
+                foreach (var certificate in certificateContext.Certificates)
+                {
+                    if (userCertificate.CertificateID == certificate.Id)
+                    {
+                        certificates.Remove(certificate);
+                    }
+                }
+            }
+            var model = new UserCertificate
+            {
+                UserID = id,
+                UserName = tempUser.UserName,
+            };
+            model.CertificateList = certificates.Select(x => new SelectListItem
+            {
+               Value = x.Name,
+               Text = x.Name
+            });
+            return View(model);
         }
 
         // POST: UserCertificates/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserID,CertificateID,UserName,CertificateName,GrantDate")] UserCertificate userCertificate)
+        public async Task<IActionResult> Create([Bind("UserID,UserName,CertificateName")] UserCertificate userCertificate)
         {
             if (ModelState.IsValid)
             {
+                var certificate = certificateContext.Certificates.Where(c => c.Name == userCertificate.CertificateName).ToList();
+                if (certificate.Count == 1)
+                {
+                    userCertificate.CertificateID = certificate[0].Id;
+                    userCertificate.GrantDate = DateTime.Now;
+                    userCertificate.Organization = certificate[0].Organization;
+                }
+                else
+                {
+                    TempData["ActionResult"] = "An exception occured.";
+                    return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });
+                }
+
+                //Adding the complete model to the DB
                 _context.Add(userCertificate);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });
             }
             return View(userCertificate);
-        }
-
-        // GET: UserCertificates/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userCertificate = await _context.UserCertificates.FindAsync(id);
-            if (userCertificate == null)
-            {
-                return NotFound();
-            }
-            return View(userCertificate);
-        }
-
-        // POST: UserCertificates/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserID,CertificateID,UserName,CertificateName,GrantDate")] UserCertificate userCertificate)
-        {
-            if (id != userCertificate.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(userCertificate);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserCertificateExists(userCertificate.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userCertificate);
-        }
+        }       
 
         // GET: UserCertificates/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -141,7 +122,7 @@ namespace Login_System.Controllers
             var userCertificate = await _context.UserCertificates.FindAsync(id);
             _context.UserCertificates.Remove(userCertificate);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID});
         }
 
         private bool UserCertificateExists(int id)
