@@ -12,6 +12,7 @@
             <a class="btn btn-info" asp-action="Index" asp-controller="GroupMembers" asp-route-id="@TempData["GroupID"]">Members</a> 
             <a class="btn btn-info" asp-action="Index" asp-controller="SkillGoals" asp-route-name="@TempData["GroupName"]">Goals</a>
             <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]">Delete</a>
+	    <a class="btn btn-danger" asp-action="Index">Back</a>
         </div>
     </div>
 </div>
