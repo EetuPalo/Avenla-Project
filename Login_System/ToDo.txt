@@ -43,6 +43,7 @@
 
 //---------CERTIFICATES---------//
 - Bug fixes and testing
+- User should choose when he got the certificate instead of it being the date whent the user added the certificate to his account
 - Improve the editing of certificates (edit should also automatically change the certificate name of existing entries as well)
 
 Levels: 

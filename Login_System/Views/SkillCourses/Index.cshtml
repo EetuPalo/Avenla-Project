@@ -58,9 +58,8 @@
                 @Html.DisplayFor(modelItem => item.Length)
             </td>	    
             <td>
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a> |			    
                 <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a> |
-                <a asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a> |
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Edit" asp-route-id="@item.id">Edit</a> <span>|</span>
