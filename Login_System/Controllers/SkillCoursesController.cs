@@ -25,7 +25,7 @@ namespace Login_System.Controllers
             var courses = from c in _context.Courses select c;
             if(!String.IsNullOrEmpty(searchString))
             {
-                courses = courses.Where(s => s.CourseName.Contains(searchString));
+                courses = courses.Where(s => (s.CourseName.Contains(searchString) || s.CourseContents.Contains(searchString)));
             }
             return View(await courses.ToListAsync());
         }
