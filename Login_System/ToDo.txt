@@ -20,15 +20,21 @@
 - We might want to hide some unneccessary details pages
 
 //-----------COURSES----------//
+- WYSIWYG HTML Editor for Course Description? !
+- Fix the redirects !!
+- Improve the user experience !!
+	- Setting a course to completed
+	- Joining
 
 //---------USERSKILLS---------//
 - Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
-	- Make sure it works properly
-- Clean the SkillList action
+	- Make sure it works properly 
+- Clean the SkillList action !!!
 
 //---------SKILLGOALS---------//
 
 //-----------GROUPS-----------//
+- Fix redirects
 - Statistics: !!
 	- Graphs (fml)
 	- add any ideas here

@@ -14,58 +14,79 @@
             <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">Back to Courses</a>
         </div>
     </div>
-
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-              Username
-            </th>
-            <th>
-              Status
-            </th>
-            <th>
-              Completion date
-            </th>
-            <th>
-              Days completed
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @if (item.CompletionDate == DateTime.MinValue)
+<hr />
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-sm-8 border-right border-dark">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Completed
+                        </th>
+                        <th>
+                            Progress
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @if (item.CompletionDate == DateTime.MinValue)
 
-                {
-                    <p>not completed</p>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.CompletionDate)
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DaysCompleted) / @Html.DisplayFor(modelItem => item.CourseLength)
-            </td>
-            <td>
-	@if(User.IsInRole("Admin") || item.UserName == User.Identity.Name)
-	{
-	    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
-	}
-                <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                                {
+                                    <p>In Progress...</p>
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.CompletionDate)
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DaysCompleted) / @Html.DisplayFor(modelItem => item.CourseLength)
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                {
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
+                                }
+                                <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers">Details</a> |
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-4">
+            <h4>
+                @TempData["CourseName"] - Members
+            </h4>
+            <p>
+                This is a list of members currently attending the @TempData["CourseName"]-course. 
+                You can view, edit, and delete members from the course. 
+            </p>
+            <p>
+                <strong>Enrolled:</strong> @TempData["CourseMemberCount"] <br />
+                <strong>Completed:</strong> @TempData["CompletedCount"]
+            </p>
+        </div>
+    </div>
+</div>
+

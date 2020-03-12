@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ListRoles</h2>
+<h2>User Roles</h2>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
 
 <form asp-controller="Admin" asp-action="ListRoles">
@@ -20,42 +20,50 @@
         </div>
     </div>
 </form>
-
-@if (Model.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 border-right border-dark">
+            @if (Model.Any())
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @if (item.Name != "Admin" && item.Name != "User")
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Role
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
                         {
-                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Id">Edit | </a>
-                        <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">Delete</a>
-                        }
-                        
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @if (item.Name != "Admin" && item.Name != "User")
+                                    {
+                                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Id">Edit | </a>
+                                        <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">Delete</a>
+                                    }
 
-                    </td>
-                </tr>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
-        </tbody>
-    </table>
-}
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                List of Roles
+            </h4>
+            <p>
+                Roles "User" and "Admin" cannot be deleted as they are important for the application security.
+                You can add new roles but they don't have any functionality. In most cases it's a better idea to use <a asp-action="Index" asp-controller="Groups">GROUPS</a>.
+            </p>
+        </div>
+    </div>
+</div>

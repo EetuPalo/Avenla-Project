@@ -4,12 +4,9 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-<h4>@TempData["UserFullName"]</h4>
-
-<div>
-    <hr />
+<h2>@TempData["UserFullName"]</h2>
+<hr />
+<div class="container-fluid p-0">
     <dl class="row">
         <dt class="col-sm-2">
             First Name

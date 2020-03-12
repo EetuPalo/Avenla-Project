@@ -62,6 +62,8 @@ namespace Login_System.Controllers
                 //someday would need to look into it.
             }
 
+            TempData["CourseMemberCount"] = model.Count();
+            TempData["CompletedCount"] = model.Where(x => x.CompletionDate != DateTime.MinValue).Count();
             return View(model);
         }
 

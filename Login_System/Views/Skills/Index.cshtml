@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h2>Skills</h2>
 
 <form asp-controller="Skills" asp-action="Index">
     <div class="container-fluid p-0">
@@ -20,35 +20,42 @@
         </div>
     </div>
 </form>
+<hr />
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-sm-4 border-right border-dark">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Skill
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].Skill)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@Model[i].Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-8">
+            <h4>List of skills</h4>
+            <p>
+                Here are listed all the skills that can be set as goals for different user groups. You can add, remove, and edit them here.
+                If you want to edit skill goals for users, go to <a asp-action="Index" asp-controller="Groups">groups</a>.
+            </p>
+        </div>
+    </div>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Skill
-            </th>
-            <th>
-                Skill ID
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.Count; i++)           
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model[i].Skill)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model[i].Id)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@Model[i].Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@Model[i].Id">Delete</a>
-                    </td>
-                </tr>
-            }
-    </tbody>
-</table>

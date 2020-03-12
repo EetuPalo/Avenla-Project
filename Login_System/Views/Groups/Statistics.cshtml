@@ -7,13 +7,23 @@
 <h2>@ViewBag.GroupName - Statistics</h2>
 <div class="container-fluid p-0">
     <div class="row">
-        <div class="col-sm">
-            <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]">Edit</a> 
-            <a class="btn btn-info" asp-action="Index" asp-controller="GroupMembers" asp-route-id="@TempData["GroupID"]">Members</a> 
-            <a class="btn btn-info" asp-action="Index" asp-controller="SkillGoals" asp-route-name="@TempData["GroupName"]">Goals</a>
-            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]">Delete</a>
-	    <a class="btn btn-danger" asp-action="Index">Back</a>
-        </div>
+            <div class="">
+                <div class="p-1 mr-2 border border-light rounded">
+                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]">Delete</a>
+                </div>                
+            </div>
+            <div class="">
+                <div class="p-1 mr-2 border border-light rounded">
+                    <a class="btn btn-primary" asp-action="Index" asp-controller="GroupMembers" asp-route-id="@TempData["GroupID"]">Members</a>
+                    <a class="btn btn-primary" asp-action="Index" asp-controller="SkillGoals" asp-route-name="@TempData["GroupName"]">Goals</a>
+                </div>               
+            </div>
+            <div class="">
+                <div class="p-1 mr-2 border border-light rounded">
+                    <a class="btn btn-danger" asp-action="Index">Back</a>
+                </div>
+            </div>
     </div>
 </div>
 
