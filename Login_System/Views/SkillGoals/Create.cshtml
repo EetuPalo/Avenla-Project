@@ -12,7 +12,7 @@
 <fieldset>
     <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <div style="display:flex" id="skillForm[0]" class="row mb-4">
                 <input hidden asp-for="@Model.SkillGoals[0].GroupName" />
                 <div class="col-sm">
