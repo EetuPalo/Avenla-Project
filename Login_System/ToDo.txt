@@ -21,7 +21,6 @@
 
 //-----------COURSES----------//
 - WYSIWYG HTML Editor for Course Description? !
-- Fix the redirects !!
 - Improve the user experience !!
 	- Setting a course to completed
 	- Joining
@@ -34,7 +33,7 @@
 //---------SKILLGOALS---------//
 
 //-----------GROUPS-----------//
-- Fix redirects
+
 - Statistics: !!
 	- Graphs (fml)
 	- add any ideas here
@@ -112,3 +111,5 @@ DONE:
 	- //At least (id), name, and the company who granted the certificate, possibly granting date as well (should be optional)
 	- //These are user specific
 - //Fix the info in SkillList not always working (for example when returning to the page with a back button from the history page)
+- //Fix the redirects !!
+- //Fix redirects

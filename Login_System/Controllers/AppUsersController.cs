@@ -44,11 +44,15 @@ namespace Login_System.Controllers
 
         // GET: AppUsers/Details/5
 #nullable enable
-        public async Task<IActionResult> Details(string? source, int? id)
+        public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
         {
             if (source != null)
             {
                 TempData["Source"] = source;
+            }
+            if (sourceId != null)
+            {
+                TempData["SourceId"] = sourceId;
             }
             if (id == null)
             {

@@ -134,8 +134,14 @@ namespace Login_System.Controllers
         }
 
         // GET: Groups/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+#nullable enable
+        public async Task<IActionResult> Delete(int? id, string? source)
         {
+            if (source != null)
+            {
+                TempData["Source"] = source;
+            }
+
             if (id == null)
             {
                 return NotFound();

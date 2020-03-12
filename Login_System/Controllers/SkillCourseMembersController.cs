@@ -25,11 +25,22 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers
-        public async Task<IActionResult> Index(int? id)
+#nullable enable
+        public async Task<IActionResult> Index(int? id, string? courseName)
         {
-            var model = new List<SkillCourseMemberVM>();	   
-            SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
-	    
+            var model = new List<SkillCourseMemberVM>();
+            SkillCourse tempCourse = new SkillCourse();
+
+            if (id == null && courseName != null)
+            {
+                var findCourse = _sccontext.Courses.FirstOrDefault(x => x.CourseName == courseName);
+                id = findCourse.id;
+            }
+            if (id != null)
+            {
+                tempCourse = await _sccontext.Courses.FindAsync(id);
+            }
+
             //For loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers)
             {

@@ -10,7 +10,7 @@
             <div class="">
                 <div class="p-1 mr-2 border border-light rounded">
                     <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]">Edit</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]">Delete</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]" asp-route-source="stats">Delete</a>
                 </div>                
             </div>
             <div class="">
