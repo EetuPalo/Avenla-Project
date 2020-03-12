@@ -212,8 +212,16 @@ namespace Login_System.Controllers
                     dateList.Add(goal.Date);
                 }
             }
-            var latestDate = dateList.Max();
-            ViewBag.LatestGoal = dateList.Max().ToString("dd.MM.yyyy");
+            DateTime? latestDate = null;
+            if (dateList.Count() > 0)
+            {
+                latestDate = dateList.Max();
+                ViewBag.LatestGoal = dateList.Max().ToString("dd.MM.yyyy");
+            }
+            else
+            {
+                ViewBag.LatestGoal = "NO DATA";
+            }
 
             TempData["GroupID"] = id;
             TempData["GroupName"] = tempGroup.name;
