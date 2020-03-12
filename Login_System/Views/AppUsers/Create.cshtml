@@ -5,53 +5,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create a new user</h1>
-<hr />
-<fieldset>
-    <form asp-action="Create" asp-controller="AppUsers">
-        <div asp-validation-summary="All" class="input-validation-error"></div>
-        <p>
-            <label asp-for="EMail"></label>
-            <input asp-for="EMail" class="form-control" placeholder="E-Mail" autofocus />
-            <span asp-validation-for="EMail"></span>
-        </p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 border-right border-dark">
+            <fieldset>
+                <form asp-action="Create" asp-controller="AppUsers">
+                    <div asp-validation-summary="All" class="input-validation-error"></div>
+                    <div class="form-group">
+                        <label asp-for="EMail"></label>
+                        <input asp-for="EMail" class="form-control" placeholder="E-Mail" autofocus />
+                        <span asp-validation-for="EMail"></span>
+                    </div>
 
-        <p>
-            <label asp-for="FirstName"></label>
-            <input asp-for="FirstName" class="form-control" placeholder="First Name" />
-            <span asp-validation-for="FirstName"></span>
-        </p>
+                    <div class="form-group">
+                        <label asp-for="FirstName"></label>
+                        <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
 
-        <p>
-            <label asp-for="LastName"></label>
-            <input asp-for="LastName" class="form-control" placeholder="Last Name" />
-            <span asp-validation-for="LastName"></span>
-        </p>
-        <p>
-            <label asp-for="PhoneNumber"></label>
-            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
-            <span asp-validation-for="PhoneNumber"></span>
-        </p>
-        <p>
-            <label asp-for="Password"></label>
-            <input asp-for="Password" class="form-control" placeholder="Password" />
-            <span asp-validation-for="Password"></span>
-        </p>
-        <p>
-            <label asp-for="ConfirmPassword"></label>
-            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
-            <span asp-validation-for="ConfirmPassword"></span>
-        </p>
-        <p>
-            <button type="submit">Register</button>
-        </p>
+                    <div class="form-group">
+                        <label asp-for="LastName"></label>
+                        <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                        <span asp-validation-for="LastName"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber"></label>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
+                        <span asp-validation-for="PhoneNumber"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                        <span asp-validation-for="ConfirmPassword"></span>
+                    </div>
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm">
+                                <button class="btn btn-primary" type="submit">Register</button>
+                                <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                            </div>
+                        </div>
 
-    </form>
-</fieldset>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-sm-8">
+            <h4>Create a new user</h4>
+            <p>
+                To add a new user, please fill the following information first.
+                Note that you cannot select the username; it is created automatically from the first and last names of the user.
+            </p>
+        </div>
+    </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

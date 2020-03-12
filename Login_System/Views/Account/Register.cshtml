@@ -11,38 +11,38 @@
 <fieldset>
     <form asp-action="Register" asp-controller="Account">
         <div asp-validation-summary="All" class="input-validation-error"></div>
-        <p>
+        <div class="form-group">
             <label asp-for="EMail"></label>
             <input asp-for="EMail" class="form-control" placeholder="E-Mail" />
             <span asp-validation-for="EMail"></span>
-        </p>
-        <p>
+        </div>
+        <div class="form-group">
             <label asp-for="FirstName"></label>
             <input asp-for="FirstName" class="form-control" placeholder="First Name" />
             <span asp-validation-for="FirstName"></span>
-        </p>
-        <p>
+        </div>
+        <div class="form-group">
             <label asp-for="LastName"></label>
             <input asp-for="LastName" class="form-control" placeholder="Last Name" />
             <span asp-validation-for="LastName"></span>
-        </p>
-        <p>
+        </div>
+        <div class="form-group">
             <label asp-for="PhoneNumber"></label>
             <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
             <span asp-validation-for="PhoneNumber"></span>
-        </p>
-        <p>
+        </div>
+        <div class="form-group">
             <label asp-for="Password"></label>
             <input asp-for="Password" class="form-control" placeholder="Password" />
             <span asp-validation-for="Password"></span>
-        </p>
-        <p>
+        </div>
+        <div class="form-group">
             <label asp-for="ConfirmPassword"></label>
             <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
             <span asp-validation-for="ConfirmPassword"></span>
-        </p>
+        </div>
         <p>
-            <button type="submit">Register</button>
+            <button class="btn btn-primary" type="submit">Register</button>
         </p>
 
     </form>
