@@ -14,7 +14,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CourseName" class="control-label"></label>
+                <label asp-for="UserName" class="control-label"></label>
                 @Html.DropDownListFor(x => x.UserName, Model.Uname, "Select member", new { @class = "form-control", id = "name" })
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>

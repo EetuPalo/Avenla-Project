@@ -10,7 +10,10 @@
 <div class="container-fluid p-0">
     <div class="row mb-4">
         <div class="col-sm">
-            <a class="btn btn-primary" asp-action="Create">Create New</a>
+	@if(User.IsInRole("Admin"))
+	{
+	    <a class="btn btn-primary" asp-action="Create">Create New</a>
+	}        
             <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">Back to Courses</a>
         </div>
     </div>
@@ -84,7 +87,8 @@
             </p>
             <p>
                 <strong>Enrolled:</strong> @TempData["CourseMemberCount"] <br />
-                <strong>Completed:</strong> @TempData["CompletedCount"]
+                <strong>Completed:</strong> @TempData["CompletedCount"] <br />
+		<strong>Dropped out:</strong> @TempData["DropoutCount"] <br />
             </p>
         </div>
     </div>
