@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GroupsController : Controller
     {
         private readonly GroupsDataContext _context;

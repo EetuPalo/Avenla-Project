@@ -17,6 +17,8 @@
 - Some sort of a "Bulk edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
 - Remove the register button, accounts should be added by the admin
+- Authorize various admin only abilities like accessing Certificates so normal users can't access them by URL
+  -Groups and Certficates are restricted to admin only. Skills were already restricted
 
 
 //-----------COURSES----------//
