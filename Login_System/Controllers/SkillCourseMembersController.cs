@@ -186,7 +186,7 @@ namespace Login_System.Controllers
             coursemember.UserName = member.UserName;
             var tempcourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == (int)id);
             coursemember.CourseName = tempcourse.CourseName;
-            coursemember.Status = "In-progreess";
+            coursemember.Status = "In-progress";
             return View(coursemember);
         }
 

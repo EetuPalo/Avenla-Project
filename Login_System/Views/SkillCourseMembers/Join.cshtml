@@ -23,10 +23,9 @@
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <select class="form-control" asp-for="Status">
-                    <option value="In-progress">In-progress</option>
-                    
+                    <option value="In-progress">In-progress</option>                    
                     <option value="Planning">Plan to attend</option>
-                    <option selected="selected" value="-1">Select Status</option>
+                    <option selected="selected" value="In-progress">Select Status</option>
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
