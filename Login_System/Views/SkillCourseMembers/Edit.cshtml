@@ -4,6 +4,11 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+</script>
 
 <h1>Edit</h1>
 
@@ -29,7 +34,10 @@
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
-            <input type="number" asp-for="DaysCompleted" />
+	    <div class="form-group">
+                <p>Date: <input class="form-control" asp-for="CompletionDate" type="text" id="datepicker" value="@DateTime.Now"></p>
+                <span asp-validation-for="CompletionDate" class="text-danger"></span>
+            </div>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm">
