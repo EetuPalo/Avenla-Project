@@ -14,10 +14,12 @@ namespace Login_System.Controllers
     public class CertificatesController : Controller
     {
         private readonly CertificateDataContext _context;
+        private readonly UserCertificateDataContext userCertificateContext;
 
-        public CertificatesController(CertificateDataContext context)
+        public CertificatesController(CertificateDataContext context, UserCertificateDataContext userCertCon)
         {
             _context = context;
+            userCertificateContext = userCertCon;
         }
 
         // GET: Certificates
@@ -105,6 +107,14 @@ namespace Login_System.Controllers
             {
                 try
                 {
+                    //This updates the existing entries of usercertificates with the new name
+                    foreach (var userCertificate in userCertificateContext.UserCertificates.Where(x => x.CertificateID == id))
+                    {
+                        userCertificate.CertificateName = certificate.Name;
+                        userCertificateContext.Update(userCertificate);
+                    }
+                    await userCertificateContext.SaveChangesAsync();
+
                     _context.Update(certificate);
                     await _context.SaveChangesAsync();
                 }

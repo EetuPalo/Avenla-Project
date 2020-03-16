@@ -5,46 +5,60 @@
     int uId = 0;
 }
 
-<h1>Skill Entries for: @ViewBag.Date</h1>
-
-<fieldset>
+<h2>Skill Entries for: @ViewBag.Date</h2>
+<hr />
+<div class="container-fluid p-0">
     <div class="row">
-        <div class="col-md-4">
-            <form asp-action="EditForm">
-                <div asp-validation-summary="All" class="input-validation-error"></div>
-                @for (int i = 0; i < Model.UserSkills.Count(); i++)
-                {
-                    uId = Model.UserSkills[i].UserID;
-                    <div class="form-group">
-                        <label class="form-check-label">@Model.UserSkills[i].SkillName</label>
-                        <input hidden asp-for="@Model.UserSkills[i].SkillName" />
-                        <input hidden asp-for="@Model.UserSkills[i].UserID" />
-                        <input hidden asp-for="@Model.UserSkills[i].Id" />
-                        <input hidden asp-for="@Model.UserSkills[i].AdminEval" />
-                        <input hidden asp-for="@Model.UserSkills[i].Date" />
-                        <select class="form-control" asp-for="@Model.UserSkills[i].SkillLevel">
-                            <option value="0">0 - No interest</option>
-                            <option value="1">1 - Apprentice</option>
-                            <option value="2">2 - Journeyman</option>
-                            <option value="3">3 - Expert</option>
-                            <option value="4">4 - Artisan</option>
-                            <option value="5">5 - Master</option>
-                        </select>
-                        <span asp-validation-for="@Model.UserSkills[i].SkillLevel"></span>
+        <div class="col-md-6 border-right border-dark">
+            <fieldset>
+                <form asp-action="EditForm">
+                    <div asp-validation-summary="All" class="input-validation-error"></div>
+                    @for (int i = 0; i < Model.UserSkills.Count(); i++)
+                    {
+                        uId = Model.UserSkills[i].UserID;
+                        <div class="form-group">
+                            <div class="container-fluid p-0">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label class="col-form-label">@Model.UserSkills[i].SkillName</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" asp-for="@Model.UserSkills[i].SkillLevel">
+                                            <option value="0">0 - No interest</option>
+                                            <option value="1">1 - Apprentice</option>
+                                            <option value="2">2 - Journeyman</option>
+                                            <option value="3">3 - Expert</option>
+                                            <option value="4">4 - Artisan</option>
+                                            <option value="5">5 - Master</option>
+                                        </select>
+                                        <input hidden asp-for="@Model.UserSkills[i].SkillName" />
+                                        <input hidden asp-for="@Model.UserSkills[i].UserID" />
+                                        <input hidden asp-for="@Model.UserSkills[i].Id" />
+                                        <input hidden asp-for="@Model.UserSkills[i].AdminEval" />
+                                        <input hidden asp-for="@Model.UserSkills[i].Date" />
+                                        <span asp-validation-for="@Model.UserSkills[i].SkillLevel"></span>
+                                    </div>
+                                </div>
+                            </div>                                                                                                               
+                        </div>
+                    }
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm">
+                                <input type="submit" class="btn btn-primary" value="Update" />
+                                <a class="btn btn-danger" asp-action="ListByDate" asp-route-id="@uId">Back to List</a>
+                            </div>
+                        </div>
+
                     </div>
-        }
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <input type="submit" class="btn btn-primary" value="Update" />
-                        <a class="btn btn-danger" asp-action="ListByDate" asp-route-id="@uId">Back to List</a>
-                    </div>
-                </div>
-                
-            </div>               
-            </form>
+                </form>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <h4>Edit existing form</h4>
+            <p>Generally, you should be creating a new evaluation instead of editing an existing one.</p>
         </div>
     </div>
-    
-</fieldset>
+</div>
+
 

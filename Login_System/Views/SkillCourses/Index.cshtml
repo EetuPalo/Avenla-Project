@@ -5,11 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h2>Courses</h2>
 
-<p>
-    
-</p>
 <form asp-controller="SkillCourses" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -27,18 +24,17 @@
     <thead>
         <tr>
             <th>
-	      Course name
+	            Course name
             </th>
             <th>
-              Course contents
+                Course contents
             </th>
             <th>
-              Location
+                Location
             </th>
-	    <th>
-	      Length
-            </th>
-	    
+	        <th>
+	            Length
+            </th>	    
             <th></th>
         </tr>
     </thead>
@@ -54,7 +50,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
-	    <td>
+	        <td>
                 @Html.DisplayFor(modelItem => item.Length)
             </td>	    
             <td>

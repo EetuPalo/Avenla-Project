@@ -42,8 +42,7 @@
 
 
 //---------CERTIFICATES---------//
-- User should choose when he got the certificate instead of it being the date whent the user added the certificate to his account !
-- Improve the editing of certificates (edit should also automatically change the certificate name of existing entries as well) !!
+
 
 Levels: 
 0: I don't know and don't want to know!
@@ -118,3 +117,5 @@ DONE:
 - //Bug fixes and testing
 - //We might want to hide some unneccessary details pages
 - //When there is only one skill set, line 43 in the Statistics.cshtml throws an exception
+- //User should choose when he got the certificate instead of it being the date whent the user added the certificate to his account !
+- //Improve the editing of certificates (edit should also automatically change the certificate name of existing entries as well) !!

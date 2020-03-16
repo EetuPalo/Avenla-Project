@@ -51,18 +51,17 @@ namespace Login_System.Controllers
             }
            
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
-            foreach(var member in _context.GroupMembers)
+            foreach(var member in _context.GroupMembers.Where(x => x.GroupID == id))
             {
-                if (member.GroupID == id)
+                var grpmember = new GroupMemberVM
                 {
-                    var grpmember = new GroupMemberVM();
-                    grpmember.Id = member.Id;
-                    grpmember.UserID = member.UserID;
-                    AppUser tempUser = await UserMgr.FindByIdAsync(grpmember.UserID.ToString());
-                    grpmember.UserName = tempUser.UserName;
-                    grpmember.GroupName = tempGroup.name;
-                    model.Add(grpmember);
-                }
+                    Id = member.Id,
+                    UserID = member.UserID
+                };
+                AppUser tempUser = await UserMgr.FindByIdAsync(grpmember.UserID.ToString()).ConfigureAwait(false);
+                grpmember.UserName = tempUser.UserName;
+                grpmember.GroupName = tempGroup.name;
+                model.Add(grpmember);
             }
 
             //Information that is useful in other methods that is not always available
@@ -89,7 +88,7 @@ namespace Login_System.Controllers
             }
 
             var groupMember = await _context.GroupMembers
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == id).ConfigureAwait(false);
             if (groupMember == null)
             {
                 return NotFound();

@@ -124,13 +124,10 @@ namespace Login_System.Controllers
                 //This here updates the skill name to the userskills table. similar loop should be run for every table that uses skillnames
                 try
                 {
-                    foreach (var uSkill in userSkillsContext.UserSkills)
+                    foreach (var uSkill in userSkillsContext.UserSkills.Where(x => x.SkillName == skills.OldName))
                     {
-                        if (uSkill.SkillName == skills.OldName)
-                        {
-                            uSkill.SkillName = skills.Skill;
-                            userSkillsContext.Update(uSkill);
-                        }
+                        uSkill.SkillName = skills.Skill;
+                        userSkillsContext.Update(uSkill);
                     }
                     await userSkillsContext.SaveChangesAsync();
                 }
@@ -141,13 +138,10 @@ namespace Login_System.Controllers
                 //This here updates the skill name to the skillgoals table.
                 try
                 {
-                    foreach (var goal in goalContext.SkillGoals)
+                    foreach (var goal in goalContext.SkillGoals.Where(x => x.SkillName == skills.OldName))
                     {
-                        if (goal.SkillName == skills.OldName)
-                        {
-                            goal.SkillName = skills.Skill;
-                            goalContext.Update(goal);
-                        }
+                        goal.SkillName = skills.Skill;
+                        goalContext.Update(goal);
                     }
                     await goalContext.SaveChangesAsync();
                 }
