@@ -20,6 +20,8 @@
 - Authorize various admin only abilities like accessing Certificates so normal users can't access them by URL
   -Groups and Certficates are restricted to admin only. Skills were already restricted
 
+- Write a database seeder !
+
 
 //-----------COURSES----------//
 - WYSIWYG HTML Editor for Course Description? !

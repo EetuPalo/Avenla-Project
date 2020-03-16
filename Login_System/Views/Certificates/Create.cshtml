@@ -5,33 +5,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Certificate</h4>
+<h2>Add a new certificate</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Organization" class="control-label"></label>
-                <input asp-for="Organization" class="form-control" />
-                <span asp-validation-for="Organization" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-md-6 border-right border-dark">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Organization" class="control-label"></label>
+                    <input asp-for="Organization" class="form-control" />
+                    <span asp-validation-for="Organization" class="text-danger"></span>
+                </div>
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a class="btn btn-danger" asp-action="Index">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h4>Certificates</h4>
+            <p>
+                Certificate: This is the official name of the certificate. Please use the full name.
+            </p>
+            <p>
+                Organization: The organization granting the certificate. For example: Microsoft
+            </p>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

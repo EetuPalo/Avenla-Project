@@ -78,6 +78,8 @@ namespace Login_System.Controllers
                 TempData["ActionResult"] = "Group created! Next you need to set up the group goals.";
                 TempData["ActionPhase"] = "[2/3]";
                 TempData["Source"] = "create";
+                TempData["GroupName"] = group.name;
+                TempData["GroupId"] = group.id;
                 return RedirectToAction(nameof(Create), "SkillGoals", new { name = group.name });
             }
             TempData["ActionResult"] = "Error!";           

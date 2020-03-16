@@ -1,0 +1,39 @@
+﻿//------HOW TO GET THE DATABASE WORKING------//
+//Until we move to Azure/something else, we have to use localbd. That means that we have to manually set up the db on every new PC that wants to access this application.
+
+//Assuming you have a localdb, you need to create a new database inside it and run the following commands for each DataContext we have.
+
+Add-Migration  [Name] -Context [ContextName]
+Update-Database -Context [ContextName]
+
+//You need to have a working connection string set as "EmployeeConnection" conString in appsettings.json
+//Then you need to run all of the following
+
+
+Add-Migration certificateInit -Context CertificateDataContext
+Update-Database -Context CertificateDataContext
+
+Add-Migration gMemInit -Context GroupMembersDataContext
+Update-Database -Context GroupMembersDataContext
+
+Add-Migration groupInit -Context GroupsDataContext
+Update-Database -Context GroupsDataContext
+
+Add-Migration courseInit -Context SkillCourseDataContext
+Update-Database -Context SkillCourseDataContext
+
+Add-Migration courseMemberInit -Context SkillCourseMemberDataContext
+Update-Database -Context SkillCourseMemberDataContext
+
+Add-Migration skillInit -Context SkillDataContext
+Update-Database -Context SkillDataContext
+
+Add-Migration skillGoalInit -Context SkillGoalContext
+Update-Database -Context SkillGoalContext
+
+Add-Migration userCertificateInit -Context UserCertificateDataContext
+Update-Database -Context UserCertificateDataContext
+
+Add-Migration userSkillsInit -Context UserSkillsDataContext
+Update-Database -Context UserSkillsDataContext
+//

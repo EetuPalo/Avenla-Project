@@ -3,46 +3,29 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var gName = Model.SkillGoals[0].GroupName;
+    string gName = "NO_DATA";
+    if (Model.SkillGoals.Count() > 0)
+    {
+        gName = Model.SkillGoals[0].GroupName;
+    }
 }
 
 <h2>Skill Goals @TempData["ActionPhase"]</h2>
 <h4>@TempData["ActionResult"]</h4>
 <hr />
-<fieldset>
-    <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="container-fluid p-0">
-            <div style="display:flex" id="skillForm[0]" class="row mb-4">
-                <input hidden asp-for="@Model.SkillGoals[0].GroupName" />
-                <div class="col-sm">
-                    @Html.DropDownListFor(x => x.SkillGoals[0].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
-                </div>
-                <div class="col-sm">
-                    <select class="form-control" asp-for="@Model.SkillGoals[0].SkillGoal">
-                        <option value="0">0 - No interest</option>
-                        <option value="1">1 - Apprentice</option>
-                        <option value="2">2 - Journeyman</option>
-                        <option value="3">3 - Expert</option>
-                        <option value="4">4 - Artisan</option>
-                        <option value="5">5 - Master</option>
-                        <option selected="selected" value="-1">Select Goal</option>
-                    </select>
-                </div>
-                <div class="col-sm">
-                    <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">Add</button>
-                </div>
-                <span asp-validation-for="@Model.SkillGoals[0].SkillGoal"></span>
-            </div>
-            @for (int i = 1; i < Model.Skills.Count(); i++)
-            {
-                <div style="display:none" id="skillForm[@i]" class="row mb-4">
-                    <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
+@if (Model.SkillGoals.Count > 0 && Model.Skills.Count() > 0)
+{
+    <fieldset>
+        <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="container-fluid p-0">
+                <div style="display:flex" id="skillForm[0]" class="row mb-4">
+                    <input hidden asp-for="@Model.SkillGoals[0].GroupName" />
                     <div class="col-sm">
-                        @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
+                        @Html.DropDownListFor(x => x.SkillGoals[0].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
                     </div>
                     <div class="col-sm">
-                        <select class="form-control" asp-for="@Model.SkillGoals[i].SkillGoal" id="goal[@i]">
+                        <select class="form-control" asp-for="@Model.SkillGoals[0].SkillGoal">
                             <option value="0">0 - No interest</option>
                             <option value="1">1 - Apprentice</option>
                             <option value="2">2 - Journeyman</option>
@@ -53,26 +36,55 @@
                         </select>
                     </div>
                     <div class="col-sm">
-                        <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">Add</button>
+                        <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">Add</button>
                     </div>
-                    <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
+                    <span asp-validation-for="@Model.SkillGoals[0].SkillGoal"></span>
                 </div>
-            }
-            <p>
-                <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
-            </p>
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]">Submit</button>
-                        <a class="btn btn-danger" asp-action="Index" asp-route-name="@gName">Back to List</a>
+                @for (int i = 1; i < Model.Skills.Count(); i++)
+                {
+                    <div style="display:none" id="skillForm[@i]" class="row mb-4">
+                        <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
+                        <div class="col-sm">
+                            @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
+                        </div>
+                        <div class="col-sm">
+                            <select class="form-control" asp-for="@Model.SkillGoals[i].SkillGoal" id="goal[@i]">
+                                <option value="0">0 - No interest</option>
+                                <option value="1">1 - Apprentice</option>
+                                <option value="2">2 - Journeyman</option>
+                                <option value="3">3 - Expert</option>
+                                <option value="4">4 - Artisan</option>
+                                <option value="5">5 - Master</option>
+                                <option selected="selected" value="-1">Select Goal</option>
+                            </select>
+                        </div>
+                        <div class="col-sm">
+                            <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">Add</button>
+                        </div>
+                        <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
+                    </div>
+                }
+                <p>
+                    <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
+                </p>
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]">Submit</button>
+                            <a class="btn btn-danger" asp-action="Index" asp-route-name="@gName">Back to List</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </form>
-</fieldset>
+        </form>
+    </fieldset>
+}
+else
+{
+    <h4 class="text-info">No skills created yet!</h4>
+    <a class="btn btn-success" asp-action="Create" asp-controller="GroupMembers" asp-route-source="create" asp-route-id="@TempData["GroupId"]" asp-route-group="@TempData["GroupName"]">Next</a>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
