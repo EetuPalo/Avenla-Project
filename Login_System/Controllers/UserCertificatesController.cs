@@ -85,7 +85,7 @@ namespace Login_System.Controllers
         // POST: UserCertificates/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserName,CertificateName")] UserCertificate userCertificate)
+        public async Task<IActionResult> Create([Bind("UserID,UserName,CertificateName,GrantDate")] UserCertificate userCertificate)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +93,6 @@ namespace Login_System.Controllers
                 if (certificate.Count == 1)
                 {
                     userCertificate.CertificateID = certificate[0].Id;
-                    userCertificate.GrantDate = DateTime.Now;
                     userCertificate.Organization = certificate[0].Organization;
                 }
                 else

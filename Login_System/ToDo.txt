@@ -19,7 +19,6 @@
 - Remove the register button, accounts should be added by the admin
 - Authorize various admin only abilities like accessing Certificates so normal users can't access them by URL
   -Groups and Certficates are restricted to admin only. Skills were already restricted
-
 - Write a database seeder !
 
 
@@ -28,6 +27,8 @@
 - Improve the user experience !!
 	- Setting a course to completed
 	- Joining
+- Course length should not be just a number
+	- Change it to date-date (eg. 01.01.2020 - 02.02.2020) or just one date (03.03.2020)
 
 //---------USERSKILLS---------//
 
@@ -38,8 +39,7 @@
 - Statistics: !!
 	- Graphs (fml)
 	- add any ideas here
-	- When there is only one skill set, line 43 in the Statistics.cshtml throws an exception
-		- KINDA FIXED
+
 
 //---------CERTIFICATES---------//
 - User should choose when he got the certificate instead of it being the date whent the user added the certificate to his account !
@@ -117,3 +117,4 @@ DONE:
 - //Add more useful info to the SkillList as it's now the "overview" page of the user !! (mostly done)
 - //Bug fixes and testing
 - //We might want to hide some unneccessary details pages
+- //When there is only one skill set, line 43 in the Statistics.cshtml throws an exception
