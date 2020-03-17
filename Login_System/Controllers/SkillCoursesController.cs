@@ -39,7 +39,7 @@ namespace Login_System.Controllers
             }
 
             var skillCourse = await _context.Courses
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.id == id).ConfigureAwait(false);
             if (skillCourse == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(skillCourse);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction(nameof(Index));
             }
             return View(skillCourse);
@@ -93,7 +93,7 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,CourseName,CourseContents, Location, Length")] SkillCourse skillCourse)
         {
-            if (id != skillCourse.id)
+            if (skillCourse != null && id != skillCourse.id)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace Login_System.Controllers
                 try
                 {
                     _context.Update(skillCourse);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -113,12 +113,9 @@ namespace Login_System.Controllers
                     GroupName = group
                 };
 
-                foreach (var gMem in _context.GroupMembers)
+                foreach (var gMem in _context.GroupMembers.Where(x => x.GroupID == id))
                 {
-                    if (gMem.GroupID == id)
-                    {
-                        groupMemList.Add(gMem);
-                    }
+                    groupMemList.Add(gMem);
                 }
                 int index = groupMemList.FindIndex(x => x.UserID == user.Id);
                 if (index >= 0)
@@ -142,7 +139,7 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(string source, List<GroupUser> groupMembers)
         {
-            int groupID = 0;
+           int groupID = 0;
            foreach (var member in groupMembers)
             {
                 groupID = member.GroupId;
@@ -155,23 +152,17 @@ namespace Login_System.Controllers
                         GroupID = member.GroupId,
                         GroupName = member.GroupName
                     };
-                    foreach (var oldMem in _context.GroupMembers)
+                    foreach (var oldMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID == Convert.ToInt32(member.UserId))))
                     {
-                        if (oldMem.GroupID == member.GroupId && oldMem.UserID == Convert.ToInt32(member.UserId))
-                        {
-                            _context.Remove(oldMem);
-                        }                        
+                        _context.Remove(oldMem);                      
                     }
                     _context.Add(tempMember);
                 }
                 else if (!member.IsSelected)
                 {
-                    foreach (var gMem in _context.GroupMembers)
+                    foreach (var gMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID.ToString() == member.UserId)))
                     {
-                        if (gMem.GroupID == member.GroupId && gMem.UserID.ToString() == member.UserId)
-                        {
-                            _context.Remove(gMem);
-                        }
+                        _context.Remove(gMem);
                     }
                 }                
             }

@@ -84,34 +84,34 @@ namespace Login_System.Controllers
         {
             var model = new List<SkillCourseMemberVM>();
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
-            foreach (var member in _context.SkillCourseMembers)
+            foreach (var member in _context.SkillCourseMembers.Where(x => x.UserID == id))
             {
-		try
-		{
-		    if (member.UserID == id)
-		    {
-			var coursemember = new SkillCourseMemberVM();
-			coursemember.Id = member.Id;
-			coursemember.UserID = member.UserID;
-			AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
-			coursemember.UserName = tempUser.UserName;
-			//coursemember.CourseName = TempData["CourseName"].ToString();
-			var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
-			coursemember.CourseName = user.CourseName;
-			coursemember.DaysCompleted = user.DaysCompleted;
-			coursemember.CompletionDate = user.CompletionDate;
-			var lacourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == user.CourseID);
-			coursemember.CourseLength = lacourse.Length;
-			coursemember.Status = user.Status;
-			model.Add(coursemember);
-		    }
+		        try
+		        {
+                    var coursemember = new SkillCourseMemberVM
+                    {
+                        Id = member.Id,
+                        UserID = member.UserID
+                    };
+
+                    AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
+                    coursemember.UserName = tempUser.UserName;
+
+                    var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
+                    coursemember.CourseName = user.CourseName;
+                    coursemember.DaysCompleted = user.DaysCompleted;
+                    coursemember.CompletionDate = user.CompletionDate;
+
+                    var lacourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == user.CourseID);
+                    coursemember.CourseLength = lacourse.Length;
+                    coursemember.Status = user.Status;
+
+                    model.Add(coursemember);
+                }
+		        catch (NullReferenceException)
+		        {
 		    
-		}
-		catch (NullReferenceException)
-		{
-		    
-		}
-                		
+		        }               		
             }
             return View(model);
         }

@@ -170,23 +170,16 @@ namespace Login_System.Controllers
 
             //Removes all groupMember and skillgoals associations with the group, so we are not left with phantom data in the database
 
-            foreach (var groupMember in gMemContext.GroupMembers)
+            foreach (var groupMember in gMemContext.GroupMembers.Where(x => x.GroupID == group.id))
             {
-                if (groupMember.GroupID == group.id)
-                {
-                    gMemContext.Remove(groupMember);
-                }
+                gMemContext.Remove(groupMember);
             }
             await gMemContext.SaveChangesAsync();
-            foreach (var goal in goalContext.SkillGoals)
+            foreach (var goal in goalContext.SkillGoals.Where(x => x.GroupName == group.name))
             {
-                if (goal.GroupName == group.name)
-                {
-                    goalContext.Remove(goal);
-                }
+                goalContext.Remove(goal);
             }
             await goalContext.SaveChangesAsync();
-
             _context.Group.Remove(@group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -217,7 +210,7 @@ namespace Login_System.Controllers
             var dateList = new List<DateTime>();
             foreach (var goal in goalList)
             {
-                if (!dateList.Contains(goal.Date) && goal.GroupName == tempGroup.name)
+                if (!dateList.Contains(goal.Date))
                 {
                     dateList.Add(goal.Date);
                 }
@@ -268,49 +261,38 @@ namespace Login_System.Controllers
             foreach (var skill in skillContext.Skills.ToList())
             {
                 var tempSkills = new List<int>();
-                foreach (var uskill in userSkills)
+                foreach (var uskill in userSkills.Where(x => x.SkillName == skill.Skill))
                 {                    
-                    foreach (var entry in maxDateList)
+                    foreach (var entry in maxDateList.Where(x => (x.Key == uskill.UserID) && (x.Value == uskill.Date)))
                     {
-                        if (uskill.UserID == entry.Key && uskill.Date == entry.Value && uskill.SkillName == skill.Skill)
-                        {
-                            tempSkills.Add(uskill.SkillLevel);
-                        }
+                        tempSkills.Add(uskill.SkillLevel);
                     }
                 }
                 skillAvgList.Add(skill.Skill, tempSkills);
             }          
 
-            foreach (var goal in goalList)
-            {               
-                if (goal.GroupName == tempGroup.name && goal.Date == latestDate)
+            foreach (var goal in goalList.Where(x => (x.GroupName == tempGroup.name) && (x.Date == latestDate)))
+            {
+                var tempModel = new GroupStatisticsVM
                 {
-                    var tempModel = new GroupStatisticsVM
-                    {
-                        SkillName = goal.SkillName,
-                        SkillGoal = goal.SkillGoal
-                    };
+                    SkillName = goal.SkillName,
+                    SkillGoal = goal.SkillGoal
+                };
 
-                    foreach (var skill in skillAvgList)
+                foreach (var skill in skillAvgList.Where(x => x.Key == tempModel.SkillName))
+                {
+                    try
                     {
-                        if (tempModel.SkillName == skill.Key)
-                        {
-                            try
-                            {
-                                var avrg = skill.Value.Average();
-                                tempModel.Average = String.Format("{0:0.00}", avrg);
-                            }
-                            catch
-                            {
-                                tempModel.Average = "NO_DATA";
-                            }
-                        }
+                        var avrg = skill.Value.Average();
+                        tempModel.Average = String.Format("{0:0.00}", avrg);
                     }
-
-                    model.Add(tempModel);
+                    catch
+                    {
+                        tempModel.Average = "NO_DATA";
+                    }
                 }
+                model.Add(tempModel);
             }
-
             return View(model);
         }
     }

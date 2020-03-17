@@ -108,13 +108,15 @@ namespace Login_System.Controllers
                 {
                     try
                     {
-                        user = new AppUser();
-                        //we create a new user and set his credentials to the data received from the Register form.
-                        user.UserName = fixedUn;
-                        user.Email = appUser.EMail;
-                        user.FirstName = appUser.FirstName;
-                        user.LastName = appUser.LastName;
-                        user.PhoneNumber = appUser.PhoneNumber;
+                        user = new AppUser
+                        {
+                            //we create a new user and set his credentials to the data received from the Register form.
+                            UserName = fixedUn,
+                            Email = appUser.EMail,
+                            FirstName = appUser.FirstName,
+                            LastName = appUser.LastName,
+                            PhoneNumber = appUser.PhoneNumber
+                        };
                         //we then create a new user through usermanager
                         IdentityResult result;
                         IdentityResult roleResult;
@@ -319,12 +321,9 @@ namespace Login_System.Controllers
 
             foreach (var group in listGroups)
             {
-                foreach (var member in listMembers)
+                foreach (var member in listMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)))
                 {
-                    if (member.GroupName == group.name && member.UserID == tempUser.Id)
-                    {
-                        userMembership.Add(member);
-                    }
+                    userMembership.Add(member);
                 }               
             }
 
