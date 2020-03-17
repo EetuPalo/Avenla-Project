@@ -5,44 +5,51 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<script src="https://cdn.tiny.cloud/1/4i5x5wj11bwcuimuna5buqs1c5c0i68ltdpfz8enf9e8pggw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
-<h4>SkillCourse</h4>
+<script>
+    tinymce.init({
+        selector: '#courseDesc'
+    });
+</script>
+
+<h2>Create a new course</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CourseName" class="control-label"></label>
-                <input asp-for="CourseName" class="form-control" />
-                <span asp-validation-for="CourseName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseContents" class="control-label"></label>
-                <textarea asp-for="CourseContents" class="form-control"></textarea>
-                <span asp-validation-for="CourseContents" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <textarea asp-for="Location" class="form-control"></textarea>
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-	        <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <textarea asp-for="Length" class="form-control"></textarea>
-                <span asp-validation-for="Length" class="text-danger"></span>
-            </div>
-	        
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<div class="container-fluid p-0">
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-md-6 border-right border-secondary">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="CourseName" class="control-label">Course Name</label>
+                    <input asp-for="CourseName" class="form-control" />
+                    <span asp-validation-for="CourseName" class="text-danger"></span>
+                </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label">Course Location</label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Length" class="control-label">Course Length</label>
+                    <input asp-for="Length" class="form-control" />
+                    <span asp-validation-for="Length" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Index">Back</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CourseContents" class="control-label">Write a decription</label>
+                    <textarea asp-for="CourseContents" class="form-control" id="courseDesc"></textarea>
+                    <span asp-validation-for="CourseContents" class="text-danger"></span>
+                </div>
+            </div>
+        </div>        
+    </form>
 </div>
 
 @section Scripts {

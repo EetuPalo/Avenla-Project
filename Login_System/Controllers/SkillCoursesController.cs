@@ -27,7 +27,7 @@ namespace Login_System.Controllers
             {
                 courses = courses.Where(s => (s.CourseName.Contains(searchString) || s.CourseContents.Contains(searchString)));
             }
-            return View(await courses.ToListAsync());
+            return View(await courses.ToListAsync().ConfigureAwait(false));
         }
 
         // GET: SkillCourses/Details/5
