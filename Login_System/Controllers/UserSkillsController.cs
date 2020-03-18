@@ -141,8 +141,6 @@ namespace Login_System.Controllers
             }
 
             var model = new List<UserSkillsVM>();
-
-            int userId = (int)id;
             TempData.Keep();
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             string userName = tempUser.UserName;
@@ -151,34 +149,15 @@ namespace Login_System.Controllers
             string tempName = "DATE_NOT_FOUND";
 
             //Getting the skillgoal info for user group
-            var groupList = new List<Group>();
-            var goalList = new List<GoalForSkillVM>();
-            var dateList = new Dictionary<string, string>();
+            var groupList = gMemContext.GroupMembers.Where(x => x.UserID == id).ToList();
+            var goalList = new List<SkillGoals>();
+            var dateList = new Dictionary<string, DateTime>();
 
             try
-            {
-                foreach (var member in gMemContext.GroupMembers.Where(x => x.UserID == userId).ToList())
-                {
-                    var tempGroup = new Group
-                    {
-                        id = member.GroupID,
-                        name = member.GroupName
-                    };
-                    groupList.Add(tempGroup);
-                }
+            {                
                 foreach (var group in groupList)
                 {
-                    foreach (var goal in goalContext.SkillGoals.Where(x => x.GroupName == group.name).ToList())
-                    {
-                        var tempGoalList = new GoalForSkillVM
-                        {
-                            SkillName = goal.SkillName,
-                            SkillGoal = goal.SkillGoal,
-                            Date = goal.Date.ToString(),
-                            GroupName = goal.GroupName
-                        };
-                        goalList.Add(tempGoalList);
-                    }
+                    goalList = goalContext.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
                 }
             }
             catch
@@ -192,9 +171,9 @@ namespace Login_System.Controllers
                 try
                 {
                     var tempDateList = new List<DateTime>();
-                    foreach (var skill in _context.UserSkills)
+                    foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
                     {
-                        if (!tempDateList.Contains(skill.Date) && skill.UserID == id)
+                        if (!tempDateList.Contains(skill.Date))
                         {
                             tempDateList.Add(skill.Date);
                         }
@@ -211,7 +190,7 @@ namespace Login_System.Controllers
             //This fetches the correct entries and displays them in a list
             if (_context.UserSkills != null)
             {
-                foreach (var skill in _context.UserSkills.Where(x => x.UserID == userId))
+                foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
                 {
                     var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
                     var date2 = name;
@@ -235,15 +214,15 @@ namespace Login_System.Controllers
 
                         foreach (var goal in goalList.Where(x => x.SkillGoal > -1))
                         {
-                            foreach (var group in groupList.Where(x => x.name == goal.GroupName))
+                            foreach (var group in groupList.Where(x => x.GroupName == goal.GroupName))
                             {
-                                if (dateList.ContainsKey(group.name))
+                                if (dateList.ContainsKey(group.GroupName))
                                 {
-                                    dateList[group.name] = goal.Date;
+                                    dateList[group.GroupName] = goal.Date;
                                 }
-                                else if (!dateList.ContainsKey(group.name))
+                                else if (!dateList.ContainsKey(group.GroupName))
                                 {
-                                    dateList.Add(group.name, goal.Date);
+                                    dateList.Add(group.GroupName, goal.Date);
                                 }
                             }
                         }
@@ -262,7 +241,7 @@ namespace Login_System.Controllers
                     }
                 }
 
-                //Getting some extra info from the data
+                //Getting some extra info from the data if it's possible
                 try
                 {
                     var levelList = new Dictionary<string, int>();
@@ -287,17 +266,15 @@ namespace Login_System.Controllers
                     TempData["MinSkillVal"] = 0;
                     TempData["MaxSkillVal"] = 0;
                     TempData["AverageScore"] = 0;
-                }              
+                }
                 //------
-
                 TempData.Keep();
                 return View(model);
             }
             else
             {
                 return View();
-            }
-            
+            }           
         }
 
         // GET: UserSkills/Details/5
@@ -322,47 +299,20 @@ namespace Login_System.Controllers
         public IActionResult Create(int id)
         {
             TempData["UserId"] = id;
-            //var model = new List<UserSkillsWithSkillVM>();
-            var tempModel = new UserSkillsWithSkillVM();
+            var model = new UserSkillsWithSkillVM();
             var tempList = new Dictionary<int, string>();
 
-            //Code here for creating the form based on the skillgoals (if 0, not part of the form)
-            var skills = skillContext.Skills.ToList();
-            var goals = goalContext.SkillGoals.ToList();
-            var members = gMemContext.GroupMembers.ToList();
-            var groups = groupContext.Group.ToList();
-
+            //Code here for creating the form based on the skillgoals (if -1, not part of the form)
             var groupList = new List<Group>();
-            var memberList = new List<GroupMember>();
             var skillList = new List<Skills>();
             var goalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
 
-            //skillList.Add(skill);
-
-            foreach (var member in members)
+            foreach (var member in gMemContext.GroupMembers.Where(x => x.UserID == id))
             {
-                if (member.UserID == id)
-                {
-                    //Lists member entries relating to the current user
-                    memberList.Add(member);
-                }
-            }
-            foreach (var member in memberList)
+                foreach (var group in groupContext.Group.Where(x => x.name == member.GroupName))
             {
-                foreach (var group in groups)
-                {
-                    if (member.GroupName == group.name)
-                    {
-                        groupList.Add(group);
-                    }
-                }
-            }
-            foreach (var group in groupList)
-            {
-                foreach (var goal in goals)
-                {
-                    if (goal.GroupName == group.name)
+                    foreach (var goal in goalContext.SkillGoals.Where(x => x.GroupName == group.name))
                     {
                         DateTime value = goal.Date;
                         if (dateList.ContainsKey(group.name))
@@ -373,11 +323,11 @@ namespace Login_System.Controllers
                         {
                             dateList.Add(group.name, value);
                         }
-
                         goalList.Add(goal);
                     }
                 }
             }
+            
             DateTime latestDate = DateTime.Now;
             var latestDateList = new List<DateTime>();
             if (dateList.Count() != 0)
@@ -386,26 +336,21 @@ namespace Login_System.Controllers
                 {
                     latestDateList.Add(dateList[key]);
                 }
-                //latestDate = dateList.Max();
             }
             else
             {
                 latestDate = DateTime.Now;
             }
 
-
-            foreach (var goal in goalList)
+            foreach (var goal in goalList.Where(x => x.SkillGoal != -1))
             {
-                foreach (var skill in skills)
+                foreach (var skill in skillContext.Skills.Where(x => x.Skill == goal.SkillName))
                 {
-                    foreach (var date in latestDateList)
+                    foreach (var date in latestDateList.Where(x => x == goal.Date))
                     {
-                        if (goal.SkillName == skill.Skill && goal.SkillGoal != -1 && goal.Date == date)
+                        if (!skillList.Contains(skill))
                         {
-                            if (!skillList.Contains(skill))
-                            {
-                                skillList.Add(skill);
-                            }
+                            skillList.Add(skill);
                         }
                     }
                 }
@@ -419,13 +364,13 @@ namespace Login_System.Controllers
                     tempList.Add(dictKey, skill.Skill);
                     dictKey++;
                 }
-                tempModel.SkillList = tempList;
-                //model.Add(tempModel);
-                return View(tempModel);
+                model.SkillList = tempList;
+                return View(model);
             }
             else
             {
-                TempData["ActionResult"] = "Can't add skills without adding goals first!";
+                TempData["ActionResult"] = "Add the user to a group first.";
+                TempData["Status"] = "failed";
                 return RedirectToAction(nameof(SkillList), "UserSkills", new { id = id, name = "latest" });
             }
         }
@@ -564,14 +509,12 @@ namespace Login_System.Controllers
             {
                 ViewBag.Date = "INVALID_DATE";
             }
-
             //Getting the correct entries by date and userId
-            var userSkills = _context.UserSkills.ToList();
             var viewModel = new EditFormVM();
             var model = new List<UserSkills>();
-            foreach (var skill in userSkills)
+            foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
             {
-                if (skill.Date.ToString("dd/MM/yyyy+HH/mm") == name && skill.UserID == id)
+                if (skill.Date.ToString("dd/MM/yyyy+HH/mm") == name)
                 {
                     model.Add(skill);
                 }
