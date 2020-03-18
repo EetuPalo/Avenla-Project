@@ -62,9 +62,9 @@ namespace Login_System.Controllers
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
                 var modelCheck = new List<string>();
-                foreach (var skillGoal in _context.SkillGoals)
+                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == name) && (x.Date.ToString("dd.MM.yyyy") == date)))
                 {
-                    if (skillGoal.GroupName == name && !modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
+                    if (!modelCheck.Contains(skillGoal.SkillName))
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
@@ -100,13 +100,9 @@ namespace Login_System.Controllers
             }
 
             var model = new List<SkillGoals>();
-
-            foreach (var item in _context.SkillGoals)
+            foreach (var item in _context.SkillGoals.Where(x => x.SkillName == name))
             {
-                if (item.SkillName == name)
-                {
-                    model.Add(item);
-                }
+                model.Add(item);
             }
             TempData.Keep();
             return View(model);
@@ -178,109 +174,100 @@ namespace Login_System.Controllers
             var todayList = new List<SkillGoals>();
             var skillList = skillContext.Skills.ToList();
 
-            foreach (var goal in _context.SkillGoals)
+            foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == groupName))
             {
-                if (goal.Date.ToString("dd.MM.yyyy") == dateMinute && goal.GroupName == groupName)
+                if (goal.Date.ToString("dd.MM.yyyy") == dateMinute)
                 {
                     todayList.Add(goal);
                 }
             }
-            if(true)
+            for (int i = 0; i < goals.SkillCounter; i++)
             {
-                for (int i = 0; i < goals.SkillCounter; i++)
+                try
                 {
-                    try
+                    var tempModel = new SkillGoals
                     {
-                        var tempModel = new SkillGoals
-                        {
-                            GroupName = groupName,
-                            SkillName = goals.SkillGoals[i].SkillName,
-                            SkillGoal = goals.SkillGoals[i].SkillGoal,
-                            Date = date
-                        };
-                        model.Add(tempModel);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Error occured at loop " + i);
-                    }
-                }                
-                foreach (var skill in skillList)
-                {
-                    var skillName = model.FindIndex(item => item.SkillName == skill.Skill);
-                    if (skillName == -1)
-                    {
-                        var tempModel = new SkillGoals
-                        {
-                            GroupName = groupName,
-                            SkillName = skill.Skill,
-                            SkillGoal = -1,
-                            Date = date
-                        };
-                        model.Add(tempModel);
-                    }
+                        GroupName = groupName,
+                        SkillName = goals.SkillGoals[i].SkillName,
+                        SkillGoal = goals.SkillGoals[i].SkillGoal,
+                        Date = date
+                    };
+                    model.Add(tempModel);
                 }
-                var negModel = new List<SkillGoals>();
-                var plusModel = new List<SkillGoals>();
-                var combModel = new List<SkillGoals>();
-                foreach (var entry in model)
+                catch
                 {
-                    if (entry.SkillGoal == -1)
-                    {
-                        negModel.Add(entry);
-                    }
-                    else if (entry.SkillGoal >= 0)
-                    {
-                        plusModel.Add(entry);
-                    }
+                    Console.WriteLine("Error occured at loop " + i);
                 }
-                foreach (var negEntry in negModel)
+            }
+            foreach (var skill in skillList)
+            {
+                var skillName = model.FindIndex(item => item.SkillName == skill.Skill);
+                if (skillName == -1)
                 {
-                    var index = plusModel.FindIndex(item => item.SkillName == negEntry.SkillName);
-                    if (index == -1)
+                    var tempModel = new SkillGoals
                     {
-                        combModel.Add(negEntry);
-                    }
+                        GroupName = groupName,
+                        SkillName = skill.Skill,
+                        SkillGoal = -1,
+                        Date = date
+                    };
+                    model.Add(tempModel);
                 }
-                foreach (var entry in plusModel)
+            }
+            var negModel = new List<SkillGoals>();
+            var plusModel = new List<SkillGoals>();
+            var combModel = new List<SkillGoals>();
+            foreach (var entry in model)
+            {
+                if (entry.SkillGoal == -1)
                 {
-                    combModel.Add(entry);
+                    negModel.Add(entry);
                 }
+                else if (entry.SkillGoal >= 0)
+                {
+                    plusModel.Add(entry);
+                }
+            }
+            foreach (var negEntry in negModel)
+            {
+                var index = plusModel.FindIndex(item => item.SkillName == negEntry.SkillName);
+                if (index == -1)
+                {
+                    combModel.Add(negEntry);
+                }
+            }
+            foreach (var entry in plusModel)
+            {
+                combModel.Add(entry);
+            }
 
 
-                foreach (var entry in combModel)
+            foreach (var entry in combModel)
+            {
+                //This displays a warning if a skill has been selected more than once
+                if (duplicateCheck.Contains(entry.SkillName))
                 {
-                    //This displays a warning if a skill has been selected more than once
-                    if (duplicateCheck.Contains(entry.SkillName))
-                    {
-                        TempData["ActionWarning"] = "A skill has been selected multiple times. One of the selections may have been overridden.";
-                    }
-                    duplicateCheck.Add(entry.SkillName);
-                    _context.Add(entry);
+                    TempData["ActionWarning"] = "A skill has been selected multiple times. One of the selections may have been overridden.";
                 }
+                duplicateCheck.Add(entry.SkillName);
+                _context.Add(entry);
+            }
 
-                if (todayList != null)
+            if (todayList != null)
+            {
+                foreach (var skillGoal in _context.SkillGoals.Where(x => x.GroupName == groupName))
                 {
-                    foreach (var skillGoal in _context.SkillGoals)
+                    foreach (var todayEntry in todayList.Where(x => (x.Date == skillGoal.Date)))
                     {
-                        foreach (var todayEntry in todayList)
-                        {
-                            if (skillGoal.Date == todayEntry.Date && skillGoal.GroupName == groupName)
-                            {
-                                _context.Remove(skillGoal);
-                            }
-                        }
+                        _context.Remove(skillGoal);
                     }
                 }
-            }           
+            }
             await _context.SaveChangesAsync();
             
-            foreach (var group in groupContext.Group)
+            foreach (var group in groupContext.Group.Where(x => x.name == groupName))
             {
-                if (group.name == groupName)
-                {
-                    groupId = group.id;
-                }
+                groupId = group.id;
             }
 
             TempData["ActionResult"] = "New goals set!";

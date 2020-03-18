@@ -59,14 +59,11 @@ namespace Login_System.Controllers
             var certificates = certificateContext.Certificates.ToList();
 
             //This prevents the user from adding duplicates
-            foreach (var userCertificate in _context.UserCertificates)
+            foreach (var userCertificate in _context.UserCertificates.Where(x => x.UserID == id))
             {
-                foreach (var certificate in certificateContext.Certificates)
+                foreach (var certificate in certificateContext.Certificates.Where(x => x.Id == userCertificate.CertificateID))
                 {
-                    if (userCertificate.CertificateID == certificate.Id && userCertificate.UserID == id)
-                    {
-                        certificates.Remove(certificate);
-                    }
+                    certificates.Remove(certificate);
                 }
             }
             var model = new UserCertificate

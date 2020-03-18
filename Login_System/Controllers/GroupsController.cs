@@ -234,9 +234,9 @@ namespace Login_System.Controllers
             {
                 //Empties the list at the start of the loop
                 var userDateList = new List<DateTime>();
-                foreach (var userSkill in userSkills)
+                foreach (var userSkill in userSkills.Where(x => x.UserID == member.UserID))
                 {
-                    if (member.UserID == userSkill.UserID && !userDateList.Contains(userSkill.Date))
+                    if (!userDateList.Contains(userSkill.Date))
                     {
                         userDateList.Add(userSkill.Date);
                     }
@@ -244,18 +244,15 @@ namespace Login_System.Controllers
                 userSkillList.Add(member.UserID, userDateList);
             }
             
-            foreach (var user in userSkillList)
+            foreach (var user in userSkillList.Where(x => x.Value != null))
             {
-                if (user.Value != null)
+                try
                 {
-                    try
-                    {
-                        maxDateList.Add(user.Key, user.Value.Max());
-                    }
-                    catch
-                    {
-                        Console.WriteLine("No skills for this user.");
-                    }
+                    maxDateList.Add(user.Key, user.Value.Max());
+                }
+                catch
+                {
+                    Console.WriteLine("No skills for this user.");
                 }
             }
             foreach (var skill in skillContext.Skills.ToList())

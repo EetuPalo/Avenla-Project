@@ -5,6 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(function() {
+  $(".content").hide();
+
+  $('.expandable-row').click(function(e) {
+    $(this).next('.content').toggle();
+    //$(this).next('.content').slideToggle();
+  });
+
+    });
+</script>
+
 <h2>Courses</h2>
 
 <form asp-controller="SkillCourses" asp-action="Index">
@@ -20,14 +32,11 @@
         </div>
     </div>    
 </form>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
 	            Course name
-            </th>
-            <th>
-                Course contents
             </th>
             <th>
                 Location
@@ -40,13 +49,10 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="expandable-row" data-href="#">
             <td>
                 @Html.DisplayFor(modelItem => item.CourseName)
-            </td>
-            <td>
-                @Html.Raw(item.CourseContents)
-            </td>
+            </td>            
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
@@ -63,6 +69,9 @@
                 }
 
             </td>
+        </tr>
+        <tr class="content">
+            <td colspan="4">@Html.Raw(item.CourseContents)</td>
         </tr>
 }
     </tbody>

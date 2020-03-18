@@ -76,3 +76,8 @@ body {
     margin-top: 5px;
     height: auto;
 }
+
+/*     This is for the table rows in SkillCourses/Index      */
+.expandable-row {
+    cursor: pointer;
+}
