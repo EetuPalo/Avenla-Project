@@ -144,7 +144,7 @@ namespace Login_System.Controllers
                         Value = x.UserName,
                         Text = x.UserName
                     });
-                    model.CourseID= (int)id;//assigning CourseID of the current group
+                    model.CourseID = (int)id;//assigning CourseID of the current group
                     model.CourseName = TempData["CourseName"] as string;//assigning CourseName that we saved as well
                     TempData.Keep();//so the data is not lost because it's TEMPdata (temporary)
                 };

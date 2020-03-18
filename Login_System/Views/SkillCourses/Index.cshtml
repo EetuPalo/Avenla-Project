@@ -10,7 +10,8 @@
   $(".content").hide();
 
   $('.expandable-row').click(function(e) {
-    $(this).next('.content').toggle();
+      $(this).next('.content').toggle();
+      $(this).next('.content').css('background-color', '#F8F8FF');
     //$(this).next('.content').slideToggle();
   });
 

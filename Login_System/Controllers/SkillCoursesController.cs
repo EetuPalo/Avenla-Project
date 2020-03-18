@@ -13,10 +13,12 @@ namespace Login_System.Controllers
     public class SkillCoursesController : Controller
     {
         private readonly SkillCourseDataContext _context;
+        private readonly SkillCourseMemberDataContext memberContext;
 
-        public SkillCoursesController(SkillCourseDataContext context)
+        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon)
         {
             _context = context;
+            memberContext = memCon;
         }
 
         // GET: SkillCourses
@@ -100,6 +102,20 @@ namespace Login_System.Controllers
 
             if (ModelState.IsValid)
             {
+                try
+                {
+                    foreach (var member in memberContext.SkillCourseMembers.Where(x => x.CourseID == skillCourse.id))
+                    {
+                        member.CourseName = skillCourse.CourseName;
+                        memberContext.Update(member);
+                    }
+                    await memberContext.SaveChangesAsync().ConfigureAwait(false);
+                }
+                catch
+                {
+
+                }
+
                 try
                 {
                     _context.Update(skillCourse);
