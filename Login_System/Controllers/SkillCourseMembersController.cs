@@ -176,19 +176,45 @@ namespace Login_System.Controllers
             return View(skillCourseMember);
         }
 	
-        public async Task<IActionResult> Join(int? id)
+        public async Task<IActionResult> Join(int id)
         {
-            var member = await UserMgr.FindByNameAsync(User.Identity.Name);
-            var coursemember = new SkillCourseMember();
-            coursemember.UserID = member.Id;
-            coursemember.CourseID = (int)id;
-            coursemember.UserName = member.UserName;
-            var tempcourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == (int)id);
-            coursemember.CourseName = tempcourse.CourseName;
-            coursemember.Status = "In-progress";
-            return View(coursemember);
+            AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
+            SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+            int index = 0;
+
+            foreach (var member in _context.SkillCourseMembers.Where(x => (x.CourseID == id) && (x.UserName == User.Identity.Name)))
+            {
+                index++;
+            }
+            if (index == 0)
+            {
+                SkillCourseMember model = new SkillCourseMember
+                {
+                    UserName = User.Identity.Name,
+                    UserID = tempUser.Id,
+                    CourseID = id,
+                    CourseName = tempCourse.CourseName,
+                    DaysCompleted = 0,
+                    Status = "Enrolled",
+                    CompletionDate = DateTime.MinValue
+                };
+                try
+                {
+                    _context.Add(model);
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    Console.WriteLine("Cannot join the course: An exception occured!");
+                }
+                TempData["ActionResult"] = "Successfully joined the course " + tempCourse.CourseName + " !";
+                return RedirectToAction(nameof(Index), "SkillCourses");
+            }
+            TempData["ActionResult"] = "Could not join the course!";
+            return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Join([Bind("CourseID, UserID,UserName, CourseName, Status, CompletionDate")] SkillCourseMember skillCourseMember)
@@ -200,7 +226,7 @@ namespace Login_System.Controllers
                     _context.Add(skillCourseMember);
                     await _context.SaveChangesAsync();
                     ViewBag.SCMError = null;
-                    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of group members,
+                    return RedirectToAction(nameof(Index), "SkillCourses");//redirecting back to the list of group members,
                 }
                 else
                 {
@@ -210,6 +236,7 @@ namespace Login_System.Controllers
             }
             return View(skillCourseMember);
         }
+        */
         // GET: SkillCourseMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
