@@ -37,3 +37,24 @@ Update-Database -Context UserCertificateDataContext
 Add-Migration userSkillsInit -Context UserSkillsDataContext
 Update-Database -Context UserSkillsDataContext
 //
+//---------MacOS, Linux, *BSD, Solaris, whatever---------//
+dotnet ef migrations add course --context SkillCourseDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context SkillCourseDataContext
+dotnet ef migrations add groupmember --context GroupMembersDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context GroupMembersDataContext
+dotnet ef migrations add group --context GroupsDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context GroupsDataContext
+dotnet ef migrations add skillcoursemember --context SkillCourseMemberDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context SkillCourseMemberDataContext
+dotnet ef migrations add skillsdata --context SkillDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context SkillDataContext
+dotnet ef migrations add skillgoal --context SkillGoalContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context SkillGoalContext
+dotnet ef migrations add userskills --context UserSkillsDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context UserSkillsDataContext
+dotnet ef migrations add certificates --context CertificateDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context CertificateDataContext
+dotnet ef migrations add usercertificates --context UserCertificateDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
+dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context UserCertificateDataContext
+it's better to pass the whole path to the project file when adding migrations and updating the database.
