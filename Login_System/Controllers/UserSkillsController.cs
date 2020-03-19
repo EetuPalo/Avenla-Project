@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
@@ -10,6 +11,7 @@ using Login_System.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using ASPNET_MVC_Samples.Models;
 using Newtonsoft.Json;
+
 
 namespace Login_System.Controllers
 {
@@ -511,6 +513,7 @@ namespace Login_System.Controllers
         }
 
         //GET
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditForm(string date, string name, int id)
         {
@@ -562,6 +565,7 @@ namespace Login_System.Controllers
             return RedirectToAction(nameof(SkillList), "UserSkills", new { id = userSkills.UserID, name = userSkills.Date.ToString("dd/MM/yyyy+HH/mm") });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteForm(string name, int? id)
         {
             var userSkillList = _context.UserSkills.ToList();

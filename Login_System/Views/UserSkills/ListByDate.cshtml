@@ -65,9 +65,12 @@
                 }
             <td>
                 <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">View</a> |
-                <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">Delete</a> |
                 <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">View in Graph</a> |
-                <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">Edit</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">Edit</a> <span> | </span>
+                    <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">Delete</a>
+                }
             </td>
             </tr>
         }

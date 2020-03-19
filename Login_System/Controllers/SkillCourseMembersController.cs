@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
@@ -80,6 +81,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             var model = new List<SkillCourseMemberVM>();
@@ -117,6 +119,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(int? id)
         {
             var member = UserMgr.Users.ToList();            
@@ -158,6 +161,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("CourseID, UserID,UserName, CourseName, Status, CompletionDate")] SkillCourseMember skillCourseMember)
         {
             if (ModelState.IsValid)
@@ -214,29 +218,7 @@ namespace Login_System.Controllers
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
-        /*
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Join([Bind("CourseID, UserID,UserName, CourseName, Status, CompletionDate")] SkillCourseMember skillCourseMember)
-        {
-            if (ModelState.IsValid)
-            {
-                if (_context.SkillCourseMembers.FirstOrDefault(m => m.UserID == skillCourseMember.UserID && m.CourseID == skillCourseMember.CourseID) == null)
-                {
-                    _context.Add(skillCourseMember);
-                    await _context.SaveChangesAsync();
-                    ViewBag.SCMError = null;
-                    return RedirectToAction(nameof(Index), "SkillCourses");//redirecting back to the list of group members,
-                }
-                else
-                {
-                    ViewBag.SCMError = "Error adding the user: User already exists";
-                    return View(skillCourseMember);
-                }
-            }
-            return View(skillCourseMember);
-        }
-        */
+        [Authorize(Roles = "Admin")]
         // GET: SkillCourseMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -258,6 +240,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status, CompletionDate, DaysCompleted")] SkillCourseMember skillCourseMember)
         {
             if (id != skillCourseMember.Id)
@@ -299,6 +282,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -319,6 +303,7 @@ namespace Login_System.Controllers
         // POST: SkillCourseMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var skillCourseMember = await _context.SkillCourseMembers.FindAsync(id);

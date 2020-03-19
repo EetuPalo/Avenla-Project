@@ -12,7 +12,6 @@
 	- Make sure roles user and admin can't be removed
 	- Make sure removal of anything else doesn't break anything
 /-------------------------------------------------/
-- Replace search in UserSkills history with a calendar
 - Delete confirmations to where it's useful to have !!
 - Some sort of a "Bulk edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
@@ -21,12 +20,13 @@
   -Groups and Certficates are restricted to admin only. Skills were already restricted
 - Write a database seeder !
 - Date chooser autofills current hour and minute for the chosen date
+- Normal user can't see what groups he is part of
+	- Add this to AppUser/Details
 
 
 //-----------COURSES----------//
 - Improve the user experience !!
 	- Setting a course to completed
-	- Joining
 - Course length should not be just a number
 	- Change it to date-date (eg. 01.01.2020 - 02.02.2020) or just one date (03.03.2020)
 
@@ -35,7 +35,6 @@
 //---------SKILLGOALS---------//
 
 //-----------GROUPS-----------//
-
 - Statistics: !!
 	- Graphs (fml)
 	- add any ideas here
@@ -120,3 +119,4 @@ DONE:
 - //User should choose when he got the certificate instead of it being the date whent the user added the certificate to his account !
 - //Improve the editing of certificates (edit should also automatically change the certificate name of existing entries as well) !!
 - //WYSIWYG HTML Editor for Course Description? !
+- //Replace search in UserSkills history with a calendar
