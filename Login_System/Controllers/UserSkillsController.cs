@@ -38,8 +38,9 @@ namespace Login_System.Controllers
             groupContext = groupCon;
         }
 
-        public async Task <IActionResult> ListByDate(int? id, string searchString, int month, int year)
+        public async Task <IActionResult> ListByDate(int? id, string searchString, int? month, int? year)
         {
+            //NULL Handling
             if (id == null)
             {
                 //I dont understand tempdata lol
@@ -55,10 +56,18 @@ namespace Login_System.Controllers
             {
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
+            if (!month.HasValue)
+            {
+                month = DateTime.Now.Month;
+            }
+            if (!year.HasValue)
+            {
+                year = DateTime.Now.Year;
+            }
+            //
 
             uId = (int)id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            //string userName = tempUser.UserName;
             TempData["UserName"] = tempUser.UserName;
             ViewBag.UserNames = tempUser.FirstName + " " + tempUser.LastName;
 
@@ -69,12 +78,18 @@ namespace Login_System.Controllers
             List<string> skillnames = new List<string>();
             int i = 0;
 
+            //This is for the search
             var userSkills = from c in _context.UserSkills select c;
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))                
             {
-                userSkills = userSkills.Where(s => ((s.Date.Day.ToString().Contains(searchString)) || (s.Date.Month.ToString().Contains(searchString)) || (s.Date.Year.ToString().Contains(searchString)) || (s.Date.Hour.ToString().Contains(searchString)) || (s.Date.Minute.ToString().Contains(searchString))) && (s.UserID == id));
-                foreach (var item in userSkills.Where(x => x.UserID == id))
+                //Reformatting the string
+                //searchString = searchString.Replace('/', '.');
+                var splitDate = searchString.Split('/');
+
+                foreach (var item in userSkills.Where(x => (x.Date.Day == Convert.ToInt32(splitDate[1])) && (x.Date.Month == Convert.ToInt32(splitDate[0])) && (x.Date.Year == Convert.ToInt32(splitDate[2])) && (x.UserID == id)))
                 {
+                    month = item.Date.Month;
+                    year = item.Date.Year;
                     if (!tempDate.Contains(item.Date.ToString()))
                     {
                         i++;
@@ -86,7 +101,6 @@ namespace Login_System.Controllers
                             Id = (int)id
                         };
                         model.Add(tempModel);
-
                     }
                     tempDate.Add(item.Date.ToString());
                     if (item.Date.Month == month && item.Date.Year == year)

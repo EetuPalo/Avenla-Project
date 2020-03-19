@@ -8,6 +8,12 @@
         <script src="~/js/Chart.bundle.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
+    <script>
+        $(function () {
+            $("#dateSearch").datepicker();
+        });
+    </script>
+
 <h2>@ViewBag.UserNames - Skill Overview</h2>
 <h2 class="text-danger">@TempData["ActionResult"]</h2>
 
@@ -15,7 +21,7 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for dates...">
+                <input class="form-control" type="text" name="SearchString" id="dateSearch" placeholder="Search for dates...">
             </div>
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value="Filter" />
