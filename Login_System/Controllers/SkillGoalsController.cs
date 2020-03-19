@@ -62,9 +62,9 @@ namespace Login_System.Controllers
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
                 var modelCheck = new List<string>();
-                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == name) && (x.Date.ToString("dd.MM.yyyy") == date)))
+                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == name)))
                 {
-                    if (!modelCheck.Contains(skillGoal.SkillName))
+                    if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
