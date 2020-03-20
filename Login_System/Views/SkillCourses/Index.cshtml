@@ -18,7 +18,7 @@
     });
 </script>
 
-<h2>Courses</h2>
+<h2>Courses (click on the course to reveal the course's description</h2>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
 <form asp-controller="SkillCourses" asp-action="Index">
     <div class="container-fluid p-0">
@@ -28,7 +28,10 @@
             </div>
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create">Create New</a>
+		@if(User.IsInRole("Admin"))
+		{
+		<a class="btn btn-primary" asp-action="Create">Create New</a>
+		}                
             </div>
         </div>
     </div>    

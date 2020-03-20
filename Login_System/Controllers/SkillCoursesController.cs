@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
@@ -49,8 +50,9 @@ namespace Login_System.Controllers
 
             return View(skillCourse);
         }
-
+	
         // GET: SkillCourses/Create
+	[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();

@@ -88,8 +88,8 @@ namespace Login_System.Controllers
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers.Where(x => x.UserID == id))
             {
-		        try
-		        {
+		try
+		{
                     var coursemember = new SkillCourseMemberVM
                     {
                         Id = member.Id,
@@ -107,13 +107,13 @@ namespace Login_System.Controllers
                     var lacourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == user.CourseID);
                     coursemember.CourseLength = lacourse.Length;
                     coursemember.Status = user.Status;
-
+		    
                     model.Add(coursemember);
                 }
-		        catch (NullReferenceException)
-		        {
+		catch (NullReferenceException)
+		{
 		    
-		        }               		
+		}               		
             }
             return View(model);
         }
@@ -212,13 +212,12 @@ namespace Login_System.Controllers
                     Console.WriteLine("Cannot join the course: An exception occured!");
                 }
                 TempData["ActionResult"] = "Successfully joined the course " + tempCourse.CourseName + " !";
-                return RedirectToAction(nameof(Index), "SkillCourses");
+                return RedirectToAction(nameof(Index), "SKillCourseMembers", new { id = tempCourse.id });
             }
             TempData["ActionResult"] = "Could not join the course!";
-            return RedirectToAction(nameof(Index), "SkillCourses");
+            return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = tempCourse.id });
         }
 
-        [Authorize(Roles = "Admin")]
         // GET: SkillCourseMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -240,7 +239,6 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id, UserID, UserName, CourseName, CourseID, Status, CompletionDate, DaysCompleted")] SkillCourseMember skillCourseMember)
         {
             if (id != skillCourseMember.Id)
@@ -248,36 +246,40 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if(skillCourseMember.Status == "Completed")
-                    {
-                        skillCourseMember.CompletionDate = DateTime.Now;
-                        var lecourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
-                        skillCourseMember.DaysCompleted = lecourse.Length;
+	    if(User.IsInRole("Admin") || User.Identity.Name == skillCourseMember.UserName)
+	    {
+		if (ModelState.IsValid)
+		{
+		    try
+		    {
+			if(skillCourseMember.Status == "Completed")
+			{
+			    skillCourseMember.CompletionDate = DateTime.Now;
+			    var lecourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
+			    skillCourseMember.DaysCompleted = lecourse.Length;
                     }
-                    else
-                    {
-                        skillCourseMember.CompletionDate = DateTime.MinValue;
-                    }
-                    _context.Update(skillCourseMember);
+			else
+			{
+			    skillCourseMember.CompletionDate = DateTime.MinValue;
+			}
+			_context.Update(skillCourseMember);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SkillCourseMemberExists(skillCourseMember.Id))
-                    {
-                        return NotFound();
+		    }
+		    catch (DbUpdateConcurrencyException)
+		    {
+			if (!SkillCourseMemberExists(skillCourseMember.Id))
+			{
+			    return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of group members,
-            }
+			else
+			{
+			    throw;
+			}
+		    }
+		    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of course members,
+		}		
+	    }
+	    
             return View(skillCourseMember);
         }
 
