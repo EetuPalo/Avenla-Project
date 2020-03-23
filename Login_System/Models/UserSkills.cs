@@ -25,6 +25,7 @@ namespace Login_System.Models
 
         public string AdminEval { get; set; }
 
+        /*
         SqlDataReader dr;
         public string GetUserName(int? id)
         {
@@ -62,8 +63,7 @@ namespace Login_System.Models
             }
 
             return null;
-
         }
-
+        */
     }
 }
