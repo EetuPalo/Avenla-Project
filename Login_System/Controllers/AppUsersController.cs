@@ -312,26 +312,14 @@ namespace Login_System.Controllers
             ViewBag.UserId = id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["Source"] = source;
-
-            var listGroups = groupContext.Group;
-            var listMembers = memberContext.GroupMembers;
+            var model = new List<Group>();
             var userMembership = new List<GroupMember>();
 
-            var model = new List<Group>();
-
-            foreach (var group in listGroups)
+            foreach (var group in groupContext.Group)
             {
-                foreach (var member in listMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)))
-                {
-                    userMembership.Add(member);
-                }               
-            }
-
-            foreach (var group in listGroups)
-            {
+                userMembership = memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
                 model.Add(group);
                 int index = userMembership.FindIndex(f => f.GroupName == group.name);
-
                 if (index >= 0)
                 {
                     group.IsSelected = true;
@@ -340,11 +328,11 @@ namespace Login_System.Controllers
                 {
                     group.IsSelected = false;
                 }
-            }
-           
+            }          
             return View(model);
         }
    
+        //This stuff could probably use some rewriting, but I can't wrap my head around it anymore.
         [HttpPost]
         public async Task<IActionResult> EditGroupOfUser(List<Group> model, int? id)
         {

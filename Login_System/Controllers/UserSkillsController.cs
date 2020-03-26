@@ -568,11 +568,9 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteForm(string name, int? id)
         {
-            var userSkillList = _context.UserSkills.ToList();
-
-            foreach (var userSkill in userSkillList)
+            foreach (var userSkill in _context.UserSkills.Where(x => x.UserID == id).ToList())
             {
-                if (userSkill.Date.ToString("dd/MM/yyyy+HH/mm") == name && userSkill.UserID == id)
+                if (userSkill.Date.ToString("dd/MM/yyyy+HH/mm") == name)
                 {
                     _context.Remove(userSkill);
                 }
@@ -592,12 +590,9 @@ namespace Login_System.Controllers
             int entryCount = 0;
 
             int userId = Convert.ToInt32(TempData["UserId"]);
-            foreach (var skill in _context.UserSkills)
+            foreach (var skill in _context.UserSkills.Where(x => (x.SkillName == skillName) && (x.UserID == userId)))
             {
-                if (skill.SkillName == skillName && skill.UserID == userId)
-                {
-                    entryCount++;
-                }
+                entryCount++;
             }
 
             TempData.Keep();
@@ -610,12 +605,9 @@ namespace Login_System.Controllers
             List<DateTime> allDates = new List<DateTime>();
             int userId = Convert.ToInt32(TempData["UserId"]);
 
-            foreach (var skill in _context.UserSkills)
+            foreach (var skill in _context.UserSkills.Where(x => (x.SkillName == skillName) && (x.UserID == userId)))
             {
-                if (skill.SkillName == skillName && skill.UserID == userId)
-                {
-                    allDates.Add(skill.Date);
-                }
+                allDates.Add(skill.Date);
             }
             latestDate = allDates.Max();
             TempData.Keep();
@@ -626,15 +618,10 @@ namespace Login_System.Controllers
         {
             int latestEval = 0;
             int userId = Convert.ToInt32(TempData["UserId"]);
-
-            foreach (var skill in _context.UserSkills)
+            foreach (var skill in _context.UserSkills.Where(x => (x.SkillName == skillName) && (x.UserID == userId) && (x.Date == latestDate)))
             {
-                if (skill.SkillName == skillName && skill.UserID == userId && skill.Date == latestDate)
-                {
-                    latestEval = skill.SkillLevel;
-                }
+                latestEval = skill.SkillLevel;
             }
-
             TempData.Keep();
             return latestEval;
         }

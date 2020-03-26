@@ -43,23 +43,20 @@ namespace Login_System.Controllers
             }
 
             //For loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
-            foreach (var member in _context.SkillCourseMembers)
+            foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == id))
             {
-                if (member.CourseID == id)
-                {
-                    var coursemember = new SkillCourseMemberVM();
-                    coursemember.Id = member.Id;
-                    coursemember.UserID = member.UserID;
-                    AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
-                    coursemember.UserName = tempUser.UserName;
-                    coursemember.CourseName = tempCourse.CourseName;
-                    var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
-                    coursemember.Status = user.Status;
-                    coursemember.CompletionDate = user.CompletionDate;
-                    coursemember.DaysCompleted = user.DaysCompleted;
-                    coursemember.CourseLength = tempCourse.Length;
-                    model.Add(coursemember);
-                }
+                var coursemember = new SkillCourseMemberVM();
+                coursemember.Id = member.Id;
+                coursemember.UserID = member.UserID;
+                AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
+                coursemember.UserName = tempUser.UserName;
+                coursemember.CourseName = tempCourse.CourseName;
+                var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
+                coursemember.Status = user.Status;
+                coursemember.CompletionDate = user.CompletionDate;
+                coursemember.DaysCompleted = user.DaysCompleted;
+                coursemember.CourseLength = tempCourse.Length;
+                model.Add(coursemember);
             }
 
             //Information that is useful in other methods that is not always available
@@ -88,8 +85,8 @@ namespace Login_System.Controllers
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers.Where(x => x.UserID == id))
             {
-		try
-		{
+		        try
+		        {
                     var coursemember = new SkillCourseMemberVM
                     {
                         Id = member.Id,
@@ -110,10 +107,10 @@ namespace Login_System.Controllers
 		    
                     model.Add(coursemember);
                 }
-		catch (NullReferenceException)
-		{
+		        catch (NullReferenceException)
+		        {
 		    
-		}               		
+		        }               		
             }
             return View(model);
         }

@@ -102,7 +102,7 @@ namespace Login_System.Controllers
         public IActionResult Create(string? group, string? source, int id)
         {
             var model = new List<GroupUser>();
-            var groupMemList = new List<GroupMember>();
+            var groupMemList = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
             foreach (var user in UserMgr.Users)
             {
                 var tempUser = new GroupUser
@@ -112,11 +112,6 @@ namespace Login_System.Controllers
                     UserName = user.UserName,
                     GroupName = group
                 };
-
-                foreach (var gMem in _context.GroupMembers.Where(x => x.GroupID == id))
-                {
-                    groupMemList.Add(gMem);
-                }
                 int index = groupMemList.FindIndex(x => x.UserID == user.Id);
                 if (index >= 0)
                 {
@@ -126,10 +121,8 @@ namespace Login_System.Controllers
                 {
                     tempUser.IsSelected = false;
                 }
-
                 model.Add(tempUser);
             }
-
             TempData["Source"] = source;
             return View(model);
         }

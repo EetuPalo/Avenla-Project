@@ -42,12 +42,9 @@ namespace Login_System.Controllers
             TempData["GroupName"] = name;
             TempData["Group"] = name;
 
-            foreach (var group in groupContext.Group)
+            foreach (var group in groupContext.Group.Where(x => x.name == name))
             {
-                if (group.name == name)
-                {
-                    TempData["GroupID"] = group.id;
-                }
+                TempData["GroupID"] = group.id;
             }
             if (date == null && name != null)
             {
@@ -132,10 +129,9 @@ namespace Login_System.Controllers
             int dictKey = 0;
             model.SkillCounter = 0;
 
-            var skills = skillContext.Skills.ToList();
             var listModel = new List<SkillGoals>();
 
-            foreach (var skill in skills)
+            foreach (var skill in skillContext.Skills)
             {
                 var tempModel = new SkillGoals
                 {
@@ -148,7 +144,7 @@ namespace Login_System.Controllers
                 model.SkillCounter++;
             }
             model.SkillGoals = listModel;
-            model.Skills = skills.Select(x => new SelectListItem
+            model.Skills = skillContext.Skills.Select(x => new SelectListItem
             {
                 Value = x.Skill,
                 Text = x.Skill
@@ -172,7 +168,6 @@ namespace Login_System.Controllers
 
             //This is a complicated way to check if entries have already been made today
             var todayList = new List<SkillGoals>();
-            var skillList = skillContext.Skills.ToList();
 
             foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == groupName))
             {
@@ -199,10 +194,10 @@ namespace Login_System.Controllers
                     Console.WriteLine("Error occured at loop " + i);
                 }
             }
-            foreach (var skill in skillList)
+            foreach (var skill in skillContext.Skills)
             {
-                var skillName = model.FindIndex(item => item.SkillName == skill.Skill);
-                if (skillName == -1)
+                var index = model.FindIndex(item => item.SkillName == skill.Skill);
+                if (index == -1)
                 {
                     var tempModel = new SkillGoals
                     {
@@ -307,7 +302,6 @@ namespace Login_System.Controllers
         {
             if (id != skillGoals.Id)
             {
-
                 return NotFound();
             }
 
@@ -376,9 +370,9 @@ namespace Login_System.Controllers
             {
                 try
                 {
-                    foreach (var entry in _context.SkillGoals)
+                    foreach (var entry in _context.SkillGoals.Where(x => x.GroupName == group))
                     {
-                        if (entry.GroupName == group && entry.Date.ToString("dd.MM.yyyy") == date)
+                        if (entry.Date.ToString("dd.MM.yyyy") == date)
                         {
                             _context.Remove(entry);
                         }
@@ -415,10 +409,9 @@ namespace Login_System.Controllers
             List<SelectListItem> ls = new List<SelectListItem>();
             var dateList = new List<string>();
 
-
-            foreach (var item in skillList)
+            foreach (var item in skillList.Where(x => x.GroupName == groupName))
             {
-                if (!dateList.Contains(item.Date.ToString("dd.MM.yyyy")) && item.GroupName == groupName)
+                if (!dateList.Contains(item.Date.ToString("dd.MM.yyyy")))
                 {
                     dateList.Add(item.Date.ToString("dd.MM.yyyy"));
                 }               
@@ -456,12 +449,11 @@ namespace Login_System.Controllers
 
         public DateTime GetLatestDate(string group)
         {
-            var goalList = _context.SkillGoals.ToList();
             var dateList = new List<DateTime>();
             DateTime maxDate;
-            foreach (var goal in goalList)
+            foreach (var goal in _context.SkillGoals.Where(x => (x.GroupName == group)))
             {
-                if (!dateList.Contains(goal.Date) && goal.GroupName == group)
+                if (!dateList.Contains(goal.Date))
                 {
                     dateList.Add(goal.Date);
                 }
@@ -482,23 +474,15 @@ namespace Login_System.Controllers
             int currentGoal = 0;
             var dateList = new List<DateTime>();
 
-            foreach (var skillGoal in _context.SkillGoals)
+            foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == goal.GroupName) && (x.SkillName == goal.SkillName)))
             {
-                if (skillGoal.GroupName == goal.GroupName && skillGoal.SkillName == goal.SkillName)
-                {
-                    dateList.Add(skillGoal.Date);
-                }
+                dateList.Add(skillGoal.Date);
             }
             var dateResult = dateList.Max();
-
-            foreach (var skillGoal in _context.SkillGoals)
+            foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == goal.GroupName) && (x.SkillName == goal.SkillName) && (x.Date == dateResult)))
             {
-                if (skillGoal.GroupName == goal.GroupName && skillGoal.SkillName == goal.SkillName && skillGoal.Date == dateResult)
-                {
-                    currentGoal = skillGoal.SkillGoal;
-                }
+                currentGoal = skillGoal.SkillGoal;
             }
-
             return currentGoal;
         }
     }
