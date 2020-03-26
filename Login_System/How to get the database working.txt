@@ -8,6 +8,7 @@ Update-Database -Context [ContextName]
 
 //You need to have a working connection string set as "EmployeeConnection" conString in appsettings.json
 //Then you need to run all of the following
+//IN Visual Studio Packet Manager console.
 
 
 Add-Migration certificateInit -Context CertificateDataContext
