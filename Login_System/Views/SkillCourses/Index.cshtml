@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Login_System.Models.SkillCourse>
+﻿@model IEnumerable<Login_System.ViewModels.SkillCoursesVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -64,8 +64,15 @@
                 @Html.DisplayFor(modelItem => item.Length)
             </td>	    
             <td>
-                <a asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a> |			    
-                <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a> |
+                @if (item.MemberStatus == false)
+                {
+                    <a asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a>
+                }
+                else if (item.MemberStatus == true)
+                {
+                    <a asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Complete</a>
+                }
+                <span> | </span><a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a> |
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Edit" asp-route-id="@item.id">Edit</a> <span>|</span>

@@ -16,8 +16,7 @@
 - Some sort of a "Bulk edit" system for AppUsers (only usable by admins)? !
 	- This could possibly be expanded to other menus as well
 - Remove the register button, accounts should be added by the admin
-- Authorize various admin only abilities like accessing Certificates so normal users can't access them by URL
-  -Groups and Certficates are restricted to admin only. Skills were already restricted
+
 - Write a database seeder !
 - Date chooser autofills current hour and minute for the chosen date
 - Normal user can't see what groups he is part of
@@ -27,6 +26,7 @@
 //-----------COURSES----------//
 - Improve the user experience !!
 	- Setting a course to completed
+	- Complete course-action
 - Course length should not be just a number
 	- Change it to date-date (eg. 01.01.2020 - 02.02.2020) or just one date (03.03.2020)
 
@@ -120,3 +120,4 @@ DONE:
 - //Improve the editing of certificates (edit should also automatically change the certificate name of existing entries as well) !!
 - //WYSIWYG HTML Editor for Course Description? !
 - //Replace search in UserSkills history with a calendar
+- //Authorize various admin only abilities like accessing Certificates so normal users can't access them by URL

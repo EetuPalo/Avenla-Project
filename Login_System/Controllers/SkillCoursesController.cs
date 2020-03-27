@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Login_System.ViewModels;
 
 namespace Login_System.Controllers
 {
@@ -15,22 +17,54 @@ namespace Login_System.Controllers
     {
         private readonly SkillCourseDataContext _context;
         private readonly SkillCourseMemberDataContext memberContext;
+        private readonly UserManager<AppUser> UserMgr;
 
-        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon)
+        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon, UserManager<AppUser> userManager)
         {
             _context = context;
             memberContext = memCon;
+            UserMgr = userManager;
         }
 
         // GET: SkillCourses
         public async Task<IActionResult> Index(string searchString)
         {
+            var model = new List<SkillCoursesVM>();
             var courses = from c in _context.Courses select c;
             if(!String.IsNullOrEmpty(searchString))
             {
                 courses = courses.Where(s => (s.CourseName.Contains(searchString) || s.CourseContents.Contains(searchString)));
             }
-            return View(await courses.ToListAsync().ConfigureAwait(false));
+            //Checking if user has already enrolled on a course
+            AppUser tempUser = await UserMgr.GetUserAsync(User);
+            foreach (var course in courses)
+            {
+                var tempCourse = new SkillCoursesVM
+                {
+                    id = course.id,
+                    CourseName = course.CourseName,
+                    CourseContents = course.CourseContents,
+                    Location = course.Location,
+                    Length = course.Length,
+                    MemberStatus = false
+                };
+                foreach (var member in memberContext.SkillCourseMembers.Where(x => x.UserID == tempUser.Id))
+                {
+                    if (member.CourseID == course.id)
+                    {
+                        tempCourse.MemberStatus = true;
+                    }
+                    else
+                    {
+                        if (tempCourse.MemberStatus != true)
+                        {
+                            tempCourse.MemberStatus = false;
+                        }                        
+                    }
+                }
+                model.Add(tempCourse);
+            }
+            return View(model);
         }
 
         // GET: SkillCourses/Details/5
