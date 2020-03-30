@@ -238,6 +238,35 @@ namespace Login_System.Controllers
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Grade(int id)
+        {
+            var model = new CourseMemberVM
+            {
+                Id = id
+            };
+            return View(model);
+        }
+       
+        [HttpPost]
+        public async Task<IActionResult> Grade([Bind("Id, CourseGrade")]CourseMemberVM member)
+        {
+            try
+            {
+                var tempMember = _context.SkillCourseMembers.Find(member.Id);
+                tempMember.CourseGrade = member.CourseGrade;
+                _context.Update(tempMember);
+                await _context.SaveChangesAsync();
+                TempData["ActionResult"] = "Grading successful!";
+                return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = tempMember.CourseID, courseName = tempMember.CourseName });
+            }
+            catch
+            {
+                TempData["ActionResult"] = "Grading failed!";
+                return RedirectToAction(nameof(Index), "SkillCourses");
+            }
+        }
+        
         // GET: SkillCourseMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

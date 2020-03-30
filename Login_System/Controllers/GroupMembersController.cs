@@ -35,8 +35,7 @@ namespace Login_System.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 var members = from gm in _context.GroupMembers select gm;
-                members = members.Where(s => (s.GroupID == id) && (s.UserName.Contains(searchString)));
-                foreach (var member in members)
+                foreach (var member in members.Where(s => (s.GroupID == id) && (s.UserName.Contains(searchString))))
                 {
                     var tempModel = new GroupMemberVM
                     {
@@ -133,33 +132,30 @@ namespace Login_System.Controllers
         public IActionResult Create(string source, List<GroupUser> groupMembers)
         {
            int groupID = 0;
-           foreach (var member in groupMembers)
-            {
+           foreach (var member in groupMembers.Where(x => x.IsSelected))
+           {
                 groupID = member.GroupId;
-                if (member.IsSelected)
+                var tempMember = new GroupMember
                 {
-                    var tempMember = new GroupMember
-                    {
-                        UserName = member.UserName,
-                        UserID = Convert.ToInt32(member.UserId),
-                        GroupID = member.GroupId,
-                        GroupName = member.GroupName
-                    };
-                    foreach (var oldMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID == Convert.ToInt32(member.UserId))))
-                    {
-                        _context.Remove(oldMem);                      
-                    }
-                    _context.Add(tempMember);
+                    UserName = member.UserName,
+                    UserID = Convert.ToInt32(member.UserId),
+                    GroupID = member.GroupId,
+                    GroupName = member.GroupName
+                };
+                foreach (var oldMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID == Convert.ToInt32(member.UserId))))
+                {
+                    _context.Remove(oldMem);
                 }
-                else if (!member.IsSelected)
+                _context.Add(tempMember);               
+           }
+           foreach (var member in groupMembers.Where(x => !x.IsSelected))
+           {
+                foreach (var gMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID.ToString() == member.UserId)))
                 {
-                    foreach (var gMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID.ToString() == member.UserId)))
-                    {
-                        _context.Remove(gMem);
-                    }
-                }                
-            }
-            _context.SaveChanges();
+                    _context.Remove(gMem);
+                }
+           }
+           _context.SaveChanges();
             if (source == "create")
             {
                 TempData["ActionResult"] = "Group created successfully.";

@@ -1,0 +1,26 @@
+﻿@model Login_System.ViewModels.CourseMemberVM
+@{
+    ViewData["Title"] = "Grade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Grade</h2>
+<hr />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6"> 
+            <form asp-action="Grade">
+                <div class="form-group">
+                    <label asp-for="CourseGrade">Grade</label>
+                    <input asp-for="CourseGrade" class="form-control" type="number" min="0" max="5" />
+                    <span asp-validation-for="CourseGrade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Grade" class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6"></div>
+    </div>
+</div>

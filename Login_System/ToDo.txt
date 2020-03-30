@@ -29,6 +29,7 @@
 	- Complete course-action
 - Course length should not be just a number
 	- Change it to date-date (eg. 01.01.2020 - 02.02.2020) or just one date (03.03.2020)
+	- Rating
 
 //---------USERSKILLS---------//
 
