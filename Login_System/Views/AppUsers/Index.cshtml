@@ -73,6 +73,7 @@
                 </th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -126,8 +127,11 @@
                 <a class="" asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> | </span>
                 @if (User.IsInRole("Admin"))
                 {
-                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a><span> |</span>
+                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }                
+            </td>                                      
                 }
+            <td>
                 <div class="dropdown show">
                     <a class="dropdown-toggle" href="#" role="button" id="userDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Details
@@ -139,8 +143,7 @@
                         <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">Certificates</a>
                     </div>
                 </div>
-            </td>                                      
-                }            
+            </td>
             </tr>
             }
         </tbody>
