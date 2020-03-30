@@ -209,10 +209,33 @@ namespace Login_System.Controllers
                     Console.WriteLine("Cannot join the course: An exception occured!");
                 }
                 TempData["ActionResult"] = "Successfully joined the course " + tempCourse.CourseName + " !";
-                return RedirectToAction(nameof(Index), "SKillCourseMembers", new { id = tempCourse.id });
+                return RedirectToAction(nameof(Index), "SkillCourses");
             }
             TempData["ActionResult"] = "Could not join the course!";
-            return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = tempCourse.id });
+            return RedirectToAction(nameof(Index), "SkillCourses");
+        }
+
+        public async Task<IActionResult> Complete(int id)
+        {
+            AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
+            SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+
+            try
+            {
+                var member = _context.SkillCourseMembers.Where(x => (x.UserID == tempUser.Id) && (x.CourseID == id)).First();
+                member.CompletionDate = DateTime.Now;
+                member.Status = "Completed";
+                member.DaysCompleted = tempCourse.Length;
+                _context.Update(member);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                TempData["ActionResult"] = "Could not mark the course as completed.";
+                return RedirectToAction(nameof(Index), "SkillCourses");
+            }
+            TempData["ActionResult"] = "You have completed the course.";
+            return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
         // GET: SkillCourseMembers/Edit/5
