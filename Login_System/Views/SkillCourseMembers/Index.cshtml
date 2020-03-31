@@ -37,6 +37,9 @@
                         <th>
                             Progress
                         </th>
+                        <th>
+                            Grade
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -63,6 +66,16 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.DaysCompleted) / @Html.DisplayFor(modelItem => item.CourseLength)
+                            </td>
+                            <td>
+                                @if (item.CourseGrade != null)
+                                {
+                                    Html.DisplayFor(modelItem => item.CourseGrade);
+                                }
+                                else
+                                {
+                                    <span>NOT GRADED</span>
+                                }
                             </td>
                             <td>
                                 @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)

@@ -18,5 +18,6 @@ namespace Login_System.ViewModels
         public int DaysCompleted { get; set; }
         public int CourseLength { get; set; }
         public string Status { get; set; }
+        public string CourseGrade { get; set; }
     }
 }

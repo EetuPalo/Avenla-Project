@@ -45,12 +45,15 @@ namespace Login_System.Controllers
             //For loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == id))
             {
-                var coursemember = new SkillCourseMemberVM();
-                coursemember.Id = member.Id;
-                coursemember.UserID = member.UserID;
-                AppUser tempUser = await UserMgr.FindByIdAsync(coursemember.UserID.ToString());
-                coursemember.UserName = tempUser.UserName;
-                coursemember.CourseName = tempCourse.CourseName;
+                AppUser tempUser = await UserMgr.FindByIdAsync(member.UserID.ToString());
+                var coursemember = new SkillCourseMemberVM
+                {
+                    Id = member.Id,
+                    UserID = member.UserID,
+                    CourseGrade = member.CourseGrade,
+                    UserName = tempUser.UserName,
+                    CourseName = tempCourse.CourseName
+                };
                 var user = await _context.SkillCourseMembers.FirstOrDefaultAsync(m => m.UserID == coursemember.UserID && m.CourseID == member.CourseID);
                 coursemember.Status = user.Status;
                 coursemember.CompletionDate = user.CompletionDate;
