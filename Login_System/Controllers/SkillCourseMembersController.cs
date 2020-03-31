@@ -122,12 +122,12 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create(int? id)
         {
-            var member = UserMgr.Users.ToList();            
+            var members = UserMgr.Users.ToList();            
             if (id != null)
             {
                 var model = new SkillCourseMember();
                 {
-                    model.Uname = member.Select(x => new SelectListItem
+                    model.Uname = members.Select(x => new SelectListItem
                     {
                         Value = x.UserName,
                         Text = x.UserName
@@ -142,7 +142,7 @@ namespace Login_System.Controllers
                 id = TempData["CourseID"] as int?;//using CourseID we saved earlier in the Index if the id passed to the method is NULL
                 var model = new SkillCourseMember();
                 {
-                    model.Uname = member.Select(x => new SelectListItem
+                    model.Uname = members.Select(x => new SelectListItem
                     {
                         Value = x.UserName,
                         Text = x.UserName

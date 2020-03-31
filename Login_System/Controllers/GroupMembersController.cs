@@ -27,46 +27,24 @@ namespace Login_System.Controllers
         // GET: GroupMembers
         public async Task<IActionResult> Index(int? id, string searchString)
         {
-            var model = new List<GroupMemberVM>();
+            var model = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
+
             Group tempGroup = await _gcontext.Group.FindAsync(id);
-            TempData["GroupName"] = tempGroup.name;
             TempData["GroupID"] = tempGroup.id;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                var members = from gm in _context.GroupMembers select gm;
-                foreach (var member in members.Where(s => (s.GroupID == id) && (s.UserName.Contains(searchString))))
+                model.Clear();
+                foreach (var member in _context.GroupMembers.Where(s => (s.GroupID == id) && (s.UserName.Contains(searchString))))
                 {
-                    var tempModel = new GroupMemberVM
-                    {
-                        UserName = member.UserName,
-                        UserID = member.UserID,
-                        GroupName = member.GroupName,
-                        Id = member.Id
-                    };
-                    model.Add(tempModel);
+                    model.Add(member);
                 }
                 return View(model);
-            }
-           
-            //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
-            foreach(var member in _context.GroupMembers.Where(x => x.GroupID == id))
-            {
-                var grpmember = new GroupMemberVM
-                {
-                    Id = member.Id,
-                    UserID = member.UserID
-                };
-                AppUser tempUser = await UserMgr.FindByIdAsync(grpmember.UserID.ToString()).ConfigureAwait(false);
-                grpmember.UserName = tempUser.UserName;
-                grpmember.GroupName = tempGroup.name;
-                model.Add(grpmember);
-            }
+            }           
 
-            //Information that is useful in other methods that is not always available
-            TempData["GroupID"] = id;
             try
             {
+                TempData["GroupID"] = id;
                 TempData["GroupName"] = tempGroup.name;
             }
             catch(NullReferenceException)
