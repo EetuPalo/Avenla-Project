@@ -37,6 +37,12 @@ Update-Database -Context UserCertificateDataContext
 
 Add-Migration userSkillsInit -Context UserSkillsDataContext
 Update-Database -Context UserSkillsDataContext
+
+Add-Migration lessonInit -Context LessonDataContext
+Update-Database -Context LessonDataContext
+
+Add-Migration lessonUserInit -Context LessonUserDataContext
+Update-Database -Context LessonUserDataContext
 //
 //---------MacOS, Linux, *BSD, Solaris, whatever---------//
 dotnet ef migrations add course --context SkillCourseDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"

@@ -1,0 +1,47 @@
+﻿@model Login_System.Models.LessonUser
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>LessonUser</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="LessonID" class="control-label"></label>
+                <input asp-for="LessonID" class="form-control" />
+                <span asp-validation-for="LessonID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberID" class="control-label"></label>
+                <input asp-for="MemberID" class="form-control" />
+                <span asp-validation-for="MemberID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberName" class="control-label"></label>
+                <input asp-for="MemberName" class="form-control" />
+                <span asp-validation-for="MemberName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Attending" /> @Html.DisplayNameFor(model => model.Attending)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -102,6 +102,18 @@ namespace Login_System
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddDbContext<LessonDataContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddDbContext<LessonUserDataContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
+                options.UseSqlServer(connectionString);
+            });
+
             services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, opt =>
             {
                 opt.LoginPath = "/Account/Login";
