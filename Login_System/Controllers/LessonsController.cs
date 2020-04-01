@@ -6,16 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Microsoft.AspNetCore.Identity;
+using Login_System.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
     public class LessonsController : Controller
     {
         private readonly LessonDataContext _context;
+	private readonly LessonUserDataContext _ucontext;
+	private readonly UserManager<AppUser> UserMgr;
 
-        public LessonsController(LessonDataContext context)
+        public LessonsController(LessonDataContext context, LessonUserDataContext ucontext, UserManager<AppUser> userManager)
         {
             _context = context;
+	    _ucontext = ucontext;
+	    UserMgr = userManager;
         }
 
         // GET: Lessons
@@ -24,6 +31,41 @@ namespace Login_System.Controllers
             return View(await _context.Lessons.ToListAsync());
         }
 
+	public async Task<IActionResult> Attend(int id)
+	{
+	    AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
+            Lesson tempLesson = await _context.Lessons.FindAsync(id);
+            int index = 0;
+	    
+            foreach (var member in _ucontext.LessonUsers.Where(x => (x.LessonID == id) && (x.MemberName == User.Identity.Name)))
+            {
+                index++;
+            }
+            if (index == 0)
+            {
+                LessonUser model = new LessonUser
+                {
+                    MemberName = User.Identity.Name,
+                    MemberID = tempUser.Id,
+                    LessonID = id,
+                    Attending = true
+                };
+                try
+                {
+                    _ucontext.Add(model);
+                    await _ucontext.SaveChangesAsync();
+                }
+                catch
+                {
+                    Console.WriteLine("SOME SHIT HAPPENED PANIC");
+                }
+                TempData["ActionResult"] = "Successfully attended the lesson " + tempLesson.LessonName + " !";
+                return RedirectToAction(nameof(Index), "SkillCourses");
+            }
+            TempData["ActionResult"] = "Could not attend the lesson!";
+            return RedirectToAction(nameof(Index), "SkillCourses");
+	}
+	
         // GET: Lessons/Details/5
         public async Task<IActionResult> Details(int? id)
         {
