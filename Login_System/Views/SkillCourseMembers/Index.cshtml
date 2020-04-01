@@ -44,69 +44,110 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @if (User.IsInRole("Admin"))
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Status)
-                            </td>
-                            <td>
-                                @if (item.CompletionDate == DateTime.MinValue)
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @if (item.CompletionDate == DateTime.MinValue)
 
-                                {
-                                    <p> - </p>
-                                }
-                                else
-                                {
-                                    @Html.DisplayFor(modelItem => item.CompletionDate)
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DaysCompleted) / @Html.DisplayFor(modelItem => item.CourseLength)
-                            </td>
-                            <td>
-                                @if (item.CourseGrade != null)
-                                {
-                                    Html.DisplayFor(modelItem => item.CourseGrade);
-                                }
-                                else
-                                {
-                                    <span>NOT GRADED</span>
-                                }
-                            </td>
-                            <td>
-                                @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
-                                {
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
-                                    <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">Details</a> <span> |</span>
-                                    <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    @if (User.IsInRole("Admin"))
                                     {
-                                        <a class="text-info" asp-action="Grade" asp-route-id="@item.Id">Grade</a>
+                                        <p> - </p>
                                     }
-                                }
-                            </td>
-                        </tr>
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.CompletionDate)
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DaysCompleted) / @Html.DisplayFor(modelItem => item.CourseLength)
+                                </td>
+                                <td>
+                                    @item.CourseGrade
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
+                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">Details</a> <span> |</span>
+                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a class="text-info" asp-action="Grade" asp-route-id="@item.Id">Grade</a>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.Where(x => x.UserName == User.Identity.Name))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @if (item.CompletionDate == DateTime.MinValue)
+
+                                    {
+                                        <p> - </p>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.CompletionDate)
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DaysCompleted) / @Html.DisplayFor(modelItem => item.CourseLength)
+                                </td>
+                                <td>
+                                    @item.CourseGrade
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
         </div>
         <div class="col-sm-4">
-            <h4>
-                @TempData["CourseName"] - Members
-            </h4>
-            <p>
-                This is a list of members currently attending the @TempData["CourseName"]-course. 
-                You can view, edit, and delete members from the course. 
-            </p>
-            <p>
-                <strong>Enrolled:</strong> @TempData["CourseMemberCount"] <br />
-                <strong>Completed:</strong> @TempData["CompletedCount"] <br />
-		<strong>Dropped out:</strong> @TempData["DropoutCount"] <br />
-            </p>
+            @if (User.IsInRole("Admin"))
+            {
+                <h4>
+                    @TempData["CourseName"] - Members
+                </h4>
+                <p>
+                    This is a list of members currently attending the @TempData["CourseName"]-course.
+                    You can view, edit, and delete members from the course.
+                </p>
+                <p>
+                    <strong>Enrolled:</strong> @TempData["CourseMemberCount"] <br />
+                    <strong>Completed:</strong> @TempData["CompletedCount"] <br />
+                    <strong>Dropped out:</strong> @TempData["DropoutCount"] <br />
+                </p>
+            }
+            else
+            {
+                <h4>
+                    @TempData["CourseName"]
+                </h4>
+                <p>
+                    You are currently viewing your membership information. You are not an administrator, and can only see your personal information.
+                </p>
+            }
         </div>
     </div>
 </div>
