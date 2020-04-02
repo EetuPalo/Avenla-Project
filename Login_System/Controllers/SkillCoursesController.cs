@@ -18,18 +18,20 @@ namespace Login_System.Controllers
         private readonly SkillCourseDataContext _context;
         private readonly SkillCourseMemberDataContext memberContext;
         private readonly UserManager<AppUser> UserMgr;
+        private readonly LessonDataContext lessonContext;
 
-        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon, UserManager<AppUser> userManager)
+        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon, UserManager<AppUser> userManager, LessonDataContext lesCon)
         {
             _context = context;
             memberContext = memCon;
             UserMgr = userManager;
+            lessonContext = lesCon;
         }
 
         // GET: SkillCourses
         public async Task<IActionResult> Index(string searchString)
         {
-            var model = new List<SkillCoursesVM>();
+            var model = new SkillCoursesVM();
             var courses = from c in _context.Courses select c;
             if(!String.IsNullOrEmpty(searchString))
             {
@@ -39,31 +41,24 @@ namespace Login_System.Controllers
             AppUser tempUser = await UserMgr.GetUserAsync(User);
             foreach (var course in courses)
             {
-                var tempCourse = new SkillCoursesVM
-                {
-                    id = course.id,
-                    CourseName = course.CourseName,
-                    CourseContents = course.CourseContents,
-                    Location = course.Location,
-                    Length = course.Length,
-                    MemberStatus = false
-                };
                 foreach (var member in memberContext.SkillCourseMembers.Where(x => x.UserID == tempUser.Id))
                 {
                     if (member.CourseID == course.id)
                     {
-                        tempCourse.MemberStatus = true;
+                        course.MemberStatus = true;
                     }
                     else
                     {
-                        if (tempCourse.MemberStatus != true)
+                        if (course.MemberStatus != true)
                         {
-                            tempCourse.MemberStatus = false;
+                            course.MemberStatus = false;
                         }                        
                     }
                 }
-                model.Add(tempCourse);
             }
+            model.Courses = courses.ToList();
+            var lessons = lessonContext.Lessons.ToList();
+            model.Lessons = lessons;
             return View(model);
         }
 

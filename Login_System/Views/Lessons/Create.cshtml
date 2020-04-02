@@ -5,27 +5,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<script>
+  $( function() {
+    $( "#lessonDate" ).datepicker();
+  } );
+</script>
 
-<h4>Lesson</h4>
+<h2>Add Lesson</h2>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CourseName" class="control-label"></label>
-                <input asp-for="CourseName" class="form-control" />
-                <span asp-validation-for="CourseName" class="text-danger"></span>
-            </div>
+            <input hidden asp-for="CourseID" value="@Model.CourseID" />
             <div class="form-group">
                 <label asp-for="LessonName" class="control-label"></label>
                 <input asp-for="LessonName" class="form-control" />
                 <span asp-validation-for="LessonName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <p>Date <input class="form-control" asp-for="Date" type="text" id="lessonDate" value="@DateTime.Now" /></p>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">

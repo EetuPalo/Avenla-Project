@@ -15,14 +15,16 @@ namespace Login_System.Controllers
     public class LessonsController : Controller
     {
         private readonly LessonDataContext _context;
-	private readonly LessonUserDataContext _ucontext;
-	private readonly UserManager<AppUser> UserMgr;
+	    private readonly LessonUserDataContext _ucontext;
+	    private readonly UserManager<AppUser> UserMgr;
+        private readonly SkillCourseDataContext courseContext;
 
-        public LessonsController(LessonDataContext context, LessonUserDataContext ucontext, UserManager<AppUser> userManager)
+        public LessonsController(LessonDataContext context, LessonUserDataContext ucontext, UserManager<AppUser> userManager, SkillCourseDataContext courseCon)
         {
             _context = context;
-	    _ucontext = ucontext;
-	    UserMgr = userManager;
+	        _ucontext = ucontext;
+	        UserMgr = userManager;
+            courseContext = courseCon;
         }
 
         // GET: Lessons
@@ -85,9 +87,13 @@ namespace Login_System.Controllers
         }
 
         // GET: Lessons/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            return View();
+            var model = new Lesson
+            {
+                CourseID = id
+            };
+            return View(model);
         }
 
         // POST: Lessons/Create
@@ -95,13 +101,15 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseID,CourseName,LessonName,Date,Location")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("CourseID,LessonName,Date,Location")] Lesson lesson)
         {
             if (ModelState.IsValid)
             {
+                var tempCourse = courseContext.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
+                lesson.CourseName = tempCourse.CourseName;
                 _context.Add(lesson);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "SkillCourses");
             }
             return View(lesson);
         }

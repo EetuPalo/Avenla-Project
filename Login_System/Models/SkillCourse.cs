@@ -18,5 +18,7 @@ namespace Login_System.Models
 	public int Length {get; set;} //course length in days
         [NotMapped]
         public bool IsSelected { get; set; }
+        [NotMapped]
+        public bool MemberStatus { get; set; }
     }
 }

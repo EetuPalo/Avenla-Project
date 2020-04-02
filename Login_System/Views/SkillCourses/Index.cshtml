@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Login_System.ViewModels.SkillCoursesVM>
+﻿@model Login_System.ViewModels.SkillCoursesVM
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,8 @@
 
 <script>
     $(function() {
-  $(".content").hide();
+        $(".content").hide();
+        $('.content2').css('background-color', '#F8F8FF');
 
   $('.expandable-row').click(function(e) {
       $(this).next('.content').toggle();
@@ -52,7 +53,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Courses) {
         <tr class="expandable-row">
             <td>
                 @Html.DisplayFor(modelItem => item.CourseName)
@@ -82,12 +83,48 @@
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a><span> |</span>
                     <a asp-action="Edit" asp-route-id="@item.id">Edit</a> <span>|</span>
                     <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    <a asp-action="Create" asp-controller="Lessons" asp-route-id="@item.id">Add Lesson</a>
                 }
 
             </td>
         </tr>
         <tr class="content">
             <td colspan="4">@Html.Raw(item.CourseContents)</td>
+        </tr>
+        <tr class="content2">
+            @foreach (var lesson in Model.Lessons.Where(x => x.CourseID == item.id))
+            {
+            <td>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Lesson
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Location
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                @lesson.LessonName
+                            </td>
+                            <td colspan="1">
+                                @lesson.Date
+                            </td>
+                            <td colspan="1">
+                                @lesson.Location
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>                
+            }
         </tr>
 }
     </tbody>
