@@ -88,43 +88,49 @@
 
             </td>
         </tr>
-        <tr class="content">
-            <td colspan="4">@Html.Raw(item.CourseContents)</td>
-        </tr>
-        <tr class="content2">
-            @foreach (var lesson in Model.Lessons.Where(x => x.CourseID == item.id))
-            {
-            <td>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Lesson
-                            </th>
-                            <th>
-                                Date
-                            </th>
-                            <th>
-                                Location
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">
-                                @lesson.LessonName
-                            </td>
-                            <td colspan="1">
-                                @lesson.Date
-                            </td>
-                            <td colspan="1">
-                                @lesson.Location
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>                
-            }
+        <tr class="content border border-secondary">
+            <td colspan="4">
+            <div class="container-fluid p-2 ">
+                <div class="row">
+                    <div class="col-sm">
+                        @Html.Raw(item.CourseContents)
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Lesson
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Location
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var lesson in Model.Lessons.Where(x => x.CourseID == item.id))
+                            {
+                                <tr>
+                                    <td colspan="1">
+                                        @lesson.LessonName
+                                    </td>
+                                    <td colspan="1">
+                                        @lesson.Date.ToShortDateString()
+                                    </td>
+                                    <td colspan="1">
+                                        @lesson.Location
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           </td>
         </tr>
 }
     </tbody>

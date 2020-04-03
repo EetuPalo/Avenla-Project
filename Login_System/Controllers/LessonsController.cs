@@ -9,6 +9,7 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
 
 namespace Login_System.Controllers
 {
@@ -101,10 +102,13 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseID,LessonName,Date,Location")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("CourseID,LessonName,DateString,Location")] Lesson lesson)
         {
             if (ModelState.IsValid)
             {
+                //We need to do some stuff with the string to get it to work as datetime. Thanks to the american date format
+                lesson.Date = DateTime.ParseExact(lesson.DateString, "MM/dd/yyyy", CultureInfo.CurrentCulture);
+                //
                 var tempCourse = courseContext.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
                 lesson.CourseName = tempCourse.CourseName;
                 _context.Add(lesson);
