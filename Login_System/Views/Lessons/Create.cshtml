@@ -4,14 +4,18 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script type="text/javascript" src="~/lib/jquery/dist/datepicker-en-GB.js">
+</script>
 <script>
   $( function() {
-    $( "#lessonDate" ).datepicker();
-  } );
+      $("#lessonDate").datepicker({
+          dateFormat: "dd.mm.yy"
+      });
+  });
+
 </script>
 
-<h2>Add Lesson</h2>
+<h2>Add a lesson</h2>
 
 <hr />
 <div class="row">
@@ -20,13 +24,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input hidden asp-for="CourseID" value="@Model.CourseID" />
             <div class="form-group">
-                <label asp-for="LessonName" class="control-label"></label>
+                <label asp-for="LessonName" class="control-label">Name</label>
                 <input asp-for="LessonName" class="form-control" />
                 <span asp-validation-for="LessonName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <p>Date <input class="form-control" asp-for="Date" type="text" id="lessonDate" value="@DateTime.Now" /></p>
-                <span asp-validation-for="Date" class="text-danger"></span>
+                <p>Date <input class="form-control" asp-for="DateString" type="text" id="lessonDate" /></p>
+                <span asp-validation-for="DateString" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Location" class="control-label"></label>
