@@ -107,8 +107,9 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
                 //We need to do some stuff with the string to get it to work as datetime. Thanks to the american date format
-                lesson.Date = DateTime.ParseExact(lesson.DateString, "MM/dd/yyyy", CultureInfo.CurrentCulture);
+                lesson.Date = DateTime.ParseExact(lesson.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture);
                 //
+
                 var tempCourse = courseContext.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
                 lesson.CourseName = tempCourse.CourseName;
                 _context.Add(lesson);
