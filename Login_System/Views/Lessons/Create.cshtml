@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.Lesson
+﻿@model Login_System.ViewModels.CreateLessonVM
 
 @{
     ViewData["Title"] = "Create";
@@ -36,12 +36,16 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-
+                            <label asp-for="HourString" class="control-label">Hour</label>
+                            <input type="number" min="0" max="23" asp-for="HourString" class="form-control" />
+                            <span asp-validation-for="HourString" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="form-group">
-
+                            <label asp-for="MinuteString" class="control-label">Minute</label>
+                            <input type="number" min="0" max="59" asp-for="MinuteString" class="form-control" />
+                            <span asp-validation-for="MinuteString" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

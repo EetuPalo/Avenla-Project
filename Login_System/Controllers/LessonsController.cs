@@ -90,7 +90,7 @@ namespace Login_System.Controllers
         // GET: Lessons/Create
         public IActionResult Create(int id)
         {
-            var model = new Lesson
+            var model = new CreateLessonVM
             {
                 CourseID = id
             };
@@ -103,17 +103,24 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 	[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("CourseID,LessonName,DateString,Location")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("CourseID,LessonName,DateString,HourString,MinuteString,Location")] CreateLessonVM lesson)
         {
             if (ModelState.IsValid)
             {
+                Lesson tempLesson = new Lesson
+                {
+                    CourseID = lesson.CourseID,
+                    LessonName = lesson.LessonName,
+                    Location = lesson.Location
+                };
                 //We need to do some stuff with the string to get it to work as datetime. Thanks to the american date format
-                lesson.Date = DateTime.ParseExact(lesson.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture);
+                string tempDate = DateTime.ParseExact(lesson.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture).ToShortDateString();
                 //
-
+                tempDate += ' ' + lesson.HourString + ':' + lesson.MinuteString + ':' + "00";
+                tempLesson.Date = DateTime.Parse(tempDate, CultureInfo.CurrentCulture);
                 var tempCourse = courseContext.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
-                lesson.CourseName = tempCourse.CourseName;
-                _context.Add(lesson);
+                tempLesson.CourseName = tempCourse.CourseName;
+                _context.Add(tempLesson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
