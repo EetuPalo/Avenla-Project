@@ -61,8 +61,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
-	        <td>
-                @Model.Lessons.Where(x => x.CourseID == item.id).Count()
+	    <td>
+                @Model.Lessons.Where(x => x.CourseID == item.id).Count() / @item.Length
             </td>	    
             <td>
                 @if (item.MemberStatus == false)

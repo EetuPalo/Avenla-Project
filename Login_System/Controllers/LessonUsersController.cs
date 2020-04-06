@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Microsoft.AspNetCore.Identity;
+using Login_System.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Globalization;
 
 namespace Login_System.Controllers
 {
@@ -43,6 +47,7 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers/Create
+	[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -116,6 +121,7 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers/Delete/5
+	[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,6 +142,7 @@ namespace Login_System.Controllers
         // POST: LessonUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+	[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lessonUser = await _context.LessonUsers.FindAsync(id);
