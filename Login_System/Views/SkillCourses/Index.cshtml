@@ -46,8 +46,8 @@
             <th>
                 Location
             </th>
-	        <th>
-	            Length
+	    <th>
+	        Lessons
             </th>	    
             <th></th>
         </tr>
@@ -125,6 +125,11 @@
                                         @lesson.Location
                                     </td>
                                 </tr>
+				<tr>
+				    <td>
+					<a style="background-color: #4CAF50; padding: 6px;" asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">Attend</a>
+				    </td>
+				</tr>
                             }
                         </tbody>
                     </table>
