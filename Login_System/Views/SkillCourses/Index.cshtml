@@ -46,8 +46,8 @@
             <th>
                 Location
             </th>
-	        <th>
-	            Length
+	    <th>
+	        Lessons
             </th>	    
             <th></th>
         </tr>
@@ -81,9 +81,9 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a><span> |</span>
+		    <a asp-action="Create" asp-controller="Lessons" asp-route-id="@item.id">Add Lesson</a> <span>|</span>
                     <a asp-action="Edit" asp-route-id="@item.id">Edit</a> <span>|</span>
-                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-                    <a asp-action="Create" asp-controller="Lessons" asp-route-id="@item.id">Add Lesson</a>
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>                    
                 }
 
             </td>
@@ -125,6 +125,11 @@
                                         @lesson.Location
                                     </td>
                                 </tr>
+				<tr>
+				    <td>
+					<a style="background-color: #4CAF50; padding: 6px;" asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">Attend</a>
+				    </td>
+				</tr>
                             }
                         </tbody>
                     </table>
