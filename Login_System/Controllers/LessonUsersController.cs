@@ -16,10 +16,12 @@ namespace Login_System.Controllers
     public class LessonUsersController : Controller
     {
         private readonly LessonUserDataContext _context;
+        private readonly UserManager<AppUser> UserMgr;
 
-        public LessonUsersController(LessonUserDataContext context)
+        public LessonUsersController(LessonUserDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            UserMgr = userManager;
         }
 
         // GET: LessonUsers
@@ -48,9 +50,30 @@ namespace Login_System.Controllers
 
         // GET: LessonUsers/Create
 	[Authorize(Roles = "Admin")]
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            return View();
+            var model = new List<LessonUser>();
+            var userList = _context.LessonUsers.Where(x => x.LessonID == id).ToList();
+            foreach (var user in UserMgr.Users)
+            {
+                var tempUser = new LessonUser
+                {
+                    MemberID = user.Id,
+                    LessonID = (int)id,
+                    MemberName = user.UserName
+                };
+                int index = userList.FindIndex(x => x.MemberID == user.Id);
+                if (index >= 0)
+                {
+                    tempUser.IsSelected = true;
+                }
+                else
+                {
+                    tempUser.IsSelected = false;
+                }
+                model.Add(tempUser);
+            }
+            return View(model);
         }
 
         // POST: LessonUsers/Create
@@ -58,15 +81,34 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LessonID,MemberID,MemberName,Attending")] LessonUser lessonUser)
+        public async Task<IActionResult> Create(List<LessonUser> lessonUsers)
         {
-            if (ModelState.IsValid)
+            int lessonID = 0;
+            foreach (var member in lessonUsers.Where(x => x.IsSelected))
             {
-                _context.Add(lessonUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                lessonID = member.LessonID;
+                var tempMember = new LessonUser
+                {
+                    MemberName = member.MemberName,
+                    LessonID = member.LessonID,
+                    MemberID = member.MemberID,
+                    Attending = true
+                };
+                foreach (var oldMem in _context.LessonUsers.Where(x => (x.LessonID == member.LessonID) && (x.MemberID == member.MemberID)))
+                {
+                    _context.Remove(oldMem);
+                }
+                _context.Add(tempMember);
             }
-            return View(lessonUser);
+            foreach (var member in lessonUsers.Where(x => !x.IsSelected))
+            {
+                foreach (var gMem in _context.LessonUsers.Where(x => (x.LessonID == member.LessonID) && (x.MemberID == member.MemberID)))
+                {
+                    _context.Remove(gMem);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
         // GET: LessonUsers/Edit/5

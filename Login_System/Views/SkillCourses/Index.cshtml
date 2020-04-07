@@ -95,7 +95,7 @@
             </td>
         </tr>
         <tr class="content border border-secondary">
-            <td colspan="4">
+            <td colspan="5">
             <div class="container-fluid p-2 ">
                 <div class="row">
                     <div class="col-sm">
@@ -135,7 +135,8 @@
                                     </td>
                                     <td>
                                         <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">Attend</a> <span>| </span>
-                                        <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Members</a>
+                                        <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Members</a> <span>| </span>
+                                        <a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Add Members</a>
                                     </td>
                                 </tr>
                             }
