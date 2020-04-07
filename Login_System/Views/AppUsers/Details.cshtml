@@ -69,6 +69,11 @@
             {
                 <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back</a>
             }
+            else if (TempData["Source"].ToString() == "lesson")
+            {
+                <a class="btn btn-danger" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]">Back</a>
+            }
+
         </div>
     </div>
 </div>

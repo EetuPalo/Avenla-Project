@@ -23,9 +23,9 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            return View(await _context.LessonUsers.ToListAsync());
+            return View(await _context.LessonUsers.Where(x => x.LessonID == id).ToListAsync());
         }
 
         // GET: LessonUsers/Details/5
