@@ -11,5 +11,6 @@ namespace Login_System.ViewModels
     {
         public List<SkillCourse> Courses { get; set; }
         public List<Lesson> Lessons { get; set; }
+        public Dictionary<int, string?> Durations { get; set; }
     }
 }

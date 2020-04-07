@@ -30,7 +30,6 @@
                                 @Html.DisplayFor(modelItem => item.MemberName)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                                 <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.MemberID" asp-route-source="lesson" asp-route-sourceId="@item.LessonID">Details</a> |
                                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                             </td>

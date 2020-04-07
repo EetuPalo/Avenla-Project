@@ -31,6 +31,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             var model = new SkillCoursesVM();
+            var tempDuration = new Dictionary<int, string>();
             var courses = from c in _context.Courses select c;
             if(!String.IsNullOrEmpty(searchString))
             {
@@ -40,6 +41,8 @@ namespace Login_System.Controllers
             AppUser tempUser = await UserMgr.GetUserAsync(User);
             foreach (var course in courses)
             {
+                var dateList = new List<DateTime>();
+                dateList.Clear();
                 foreach (var member in memberContext.SkillCourseMembers.Where(x => x.UserID == tempUser.Id))
                 {
                     if (member.CourseID == course.id)
@@ -54,10 +57,26 @@ namespace Login_System.Controllers
                         }                        
                     }
                 }
+                foreach (var tempLesson in lessonContext.Lessons.Where(x => x.CourseID == course.id))
+                {
+                    dateList.Add(tempLesson.Date);
+                }
+                if (dateList.Count > 0)
+                {
+                    string minDate = dateList.Min().ToShortDateString();
+                    string maxDate = dateList.Max().ToShortDateString();
+                    string duration = minDate + " - " + maxDate;
+                    tempDuration.Add(course.id, duration);
+                }
+                else
+                {
+                    tempDuration.Add(course.id, "No duration set");
+                }              
             }
             model.Courses = courses.ToList();
             var lessons = lessonContext.Lessons.ToList();
             model.Lessons = lessons;
+            model.Durations = tempDuration;
             return View(model);
         }
 
