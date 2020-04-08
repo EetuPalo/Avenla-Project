@@ -22,5 +22,8 @@ namespace Login_System.Models
         [NotMapped]
         public IEnumerable<SelectListItem> Uname { get; set; }
 
+        [NotMapped]
+        public bool IsSelected { get; set; }
+
     }
 }

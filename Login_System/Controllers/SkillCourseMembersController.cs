@@ -179,6 +179,66 @@ namespace Login_System.Controllers
             }
             return View(skillCourseMember);
         }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddUsers(int id)
+        {
+            var model = new List<SkillCourseMember>();
+            var userList = _context.SkillCourseMembers.Where(x => x.CourseID == id).ToList();
+            foreach (var user in UserMgr.Users)
+            {
+                var tempUser = new SkillCourseMember
+                {
+                    UserID = user.Id,
+                    CourseID = (int)id,
+                    UserName = user.UserName
+                };
+                int index = userList.FindIndex(x => x.UserID == user.Id);
+                if (index >= 0)
+                {
+                    tempUser.IsSelected = true;
+                }
+                else
+                {
+                    tempUser.IsSelected = false;
+                }
+                model.Add(tempUser);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddUsers(List<SkillCourseMember> courseMembers)
+        {
+            int courseID = 0;
+            foreach (var member in courseMembers.Where(x => x.IsSelected))
+            {
+                courseID = member.CourseID;
+                var tempMember = new SkillCourseMember
+                {
+                    UserName = member.UserName,
+                    CourseID = member.CourseID,
+                    UserID = member.UserID,
+                    Status = "Enrolled"
+                };
+                foreach (var oldMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
+                {
+                    _context.Remove(oldMem);
+                }
+                _context.Add(tempMember);
+            }
+            foreach (var member in courseMembers.Where(x => !x.IsSelected))
+            {
+                foreach (var gMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
+                {
+                    _context.Remove(gMem);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), "SkillCourses");
+        }
 	
         public async Task<IActionResult> Join(int id)
         {
