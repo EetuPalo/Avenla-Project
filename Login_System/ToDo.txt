@@ -1,5 +1,4 @@
 ﻿TODO:
-
 //-----------------GENERAL-------------------------//
 /---------Low priority & ongoing work-------------/
 - A ton of testing.
@@ -24,12 +23,7 @@
 
 
 //-----------COURSES----------//
-- Improve the user experience !!
-	- Setting a course to completed
-	- Complete course-action
-- Course length should not be just a number
-	- Change it to date-date (eg. 01.01.2020 - 02.02.2020) or just one date (03.03.2020)
-	- Rating
+
 
 //---------USERSKILLS---------//
 
@@ -122,3 +116,8 @@ DONE:
 - //WYSIWYG HTML Editor for Course Description? !
 - //Replace search in UserSkills history with a calendar
 - //Authorize various admin only abilities like accessing Certificates so normal users can't access them by URL
+	- //Change it to date-date (eg. 01.01.2020 - 02.02.2020) or just one date (03.03.2020)
+	- //Rating
+- //Improve the user experience !!
+	- //Setting a course to completed
+	- //Complete course-action

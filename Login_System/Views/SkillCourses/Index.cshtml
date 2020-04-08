@@ -145,7 +145,7 @@
                                     <td>
                                         <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">Attend</a> <span>| </span>
                                         <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Members</a> <span>| </span>
-                                        <a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Add Members</a>
+                                        <a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">Add Members</a>
                                     </td>
                                 </tr>
                             }

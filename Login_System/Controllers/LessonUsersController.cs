@@ -17,11 +17,13 @@ namespace Login_System.Controllers
     {
         private readonly LessonUserDataContext _context;
         private readonly UserManager<AppUser> UserMgr;
+        private readonly SkillCourseMemberDataContext courseMemberContext;
 
-        public LessonUsersController(LessonUserDataContext context, UserManager<AppUser> userManager)
+        public LessonUsersController(LessonUserDataContext context, UserManager<AppUser> userManager, SkillCourseMemberDataContext courseMemCon)
         {
             _context = context;
             UserMgr = userManager;
+            courseMemberContext = courseMemCon;
         }
 
         // GET: LessonUsers
@@ -50,11 +52,11 @@ namespace Login_System.Controllers
 
         // GET: LessonUsers/Create
 	[Authorize(Roles = "Admin")]
-        public IActionResult Create(int id)
+        public IActionResult Create(int id, int courseId)
         {
             var model = new List<LessonUser>();
             var userList = _context.LessonUsers.Where(x => x.LessonID == id).ToList();
-            foreach (var user in UserMgr.Users)
+            foreach (var user in courseMemberContext.SkillCourseMembers.Where(x => x.CourseID == courseId))
             {
                 var tempUser = new LessonUser
                 {
