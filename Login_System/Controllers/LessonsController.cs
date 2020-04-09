@@ -19,13 +19,15 @@ namespace Login_System.Controllers
 	    private readonly LessonUserDataContext _ucontext;
 	    private readonly UserManager<AppUser> UserMgr;
         private readonly SkillCourseDataContext courseContext;
+        private readonly SkillCourseMemberDataContext courseMemberContext;
 
-        public LessonsController(LessonDataContext context, LessonUserDataContext ucontext, UserManager<AppUser> userManager, SkillCourseDataContext courseCon)
+        public LessonsController(LessonDataContext context, LessonUserDataContext ucontext, UserManager<AppUser> userManager, SkillCourseDataContext courseCon, SkillCourseMemberDataContext cMemCon)
         {
             _context = context;
 	        _ucontext = ucontext;
 	        UserMgr = userManager;
             courseContext = courseCon;
+            courseMemberContext = cMemCon;
         }
 
         // GET: Lessons
@@ -39,12 +41,16 @@ namespace Login_System.Controllers
 	    AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
             Lesson tempLesson = await _context.Lessons.FindAsync(id);
             int index = 0;
-	    
+            int memberIndex = 0;
+            foreach (var courseMember in courseMemberContext.SkillCourseMembers.Where(x => (x.CourseID == tempLesson.CourseID) && (x.UserID == tempUser.Id)))
+            {
+                memberIndex++;
+            }	    
             foreach (var member in _ucontext.LessonUsers.Where(x => (x.LessonID == id) && (x.MemberName == User.Identity.Name)))
             {
                 index++;
             }
-            if (index == 0)
+            if (index == 0 && memberIndex != 0)
             {
                 LessonUser model = new LessonUser
                 {
