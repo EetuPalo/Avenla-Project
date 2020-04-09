@@ -75,16 +75,20 @@
             <td>
                 @if (item.MemberStatus == false)
                 {
-                    <a asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a> <span> | </span>
+                    <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Join</a> <span> | </span>
                 }
-                else if (item.MemberStatus == true && !User.IsInRole("Admin"))
+                else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus != true)
                 {
                     <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Complete</a><span> | </span>
-                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a><span> | </span>
+                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Details</a><span> | </span>
                 }
-                else if (item.MemberStatus == true && User.IsInRole("Admin"))
+                else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus == true)
                 {
-                    <a asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Complete</a><span> | </span>
+                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Details</a>
+                }
+                else if (item.MemberStatus == true && User.IsInRole("Admin") && item.CompleteStatus != true)
+                {
+                    <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Complete</a><span> | </span>
                 }
                 @if (User.IsInRole("Admin"))
                 {
@@ -143,9 +147,15 @@
                                         @lesson.Location
                                     </td>
                                     <td>
-                                        <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">Attend</a> <span>| </span>
-                                        <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Members</a> <span>| </span>
-                                        <a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">Add Members</a>
+                                        @if (lesson.LessonStatus != true)
+                                        {
+                                            <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">Attend</a> <span>| </span>
+                                        }                                      
+                                        <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">Members</a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <span>| </span><a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">Attending</a>
+                                        }
                                     </td>
                                 </tr>
                             }

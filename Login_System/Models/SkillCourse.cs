@@ -20,5 +20,7 @@ namespace Login_System.Models
         public bool IsSelected { get; set; }
         [NotMapped]
         public bool MemberStatus { get; set; }
+        [NotMapped]
+        public bool CompleteStatus { get; set; }
     }
 }

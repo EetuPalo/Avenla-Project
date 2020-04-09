@@ -5,39 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h2>Edit Attendees</h2>
 
-<h4>LessonUser</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-        <div class="form-group container-fluid pl-4">
-            <input hidden asp-for="@Model[i].MemberID" />
-            <input hidden asp-for="@Model[i].LessonID" />
-            <input hidden asp-for="@Model[i].MemberName" />
-            <input hidden asp-for="@Model[i].Attending" />
-            <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-            <label class="form-check-label" asp-for="@Model[i].IsSelected">
-                @Model[i].MemberName
-            </label>
-        </div>
-            }
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <input asp-route-id="@Model[0].LessonID" type="submit" value="Create" class="btn btn-primary" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="form-group container-fluid pl-4">
+                        <input hidden asp-for="@Model[i].MemberID" />
+                        <input hidden asp-for="@Model[i].LessonID" />
+                        <input hidden asp-for="@Model[i].MemberName" />
+                        <input hidden asp-for="@Model[i].Attending" />
+                        <input asp-for="@Model[i].IsSelected" class="form-check-input" />
+                        <label class="form-check-label" asp-for="@Model[i].IsSelected">
+                            @Model[i].MemberName
+                        </label>
+                    </div>
+                }
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input asp-route-id="@Model[0].LessonID" type="submit" value="Create" class="btn btn-primary" />
+                            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">Back</a>
+                        </div>
                     </div>
                 </div>
-            </div> 
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

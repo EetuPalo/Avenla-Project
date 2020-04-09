@@ -18,13 +18,15 @@ namespace Login_System.Controllers
         private readonly SkillCourseMemberDataContext memberContext;
         private readonly UserManager<AppUser> UserMgr;
         private readonly LessonDataContext lessonContext;
+        private readonly LessonUserDataContext lessonUserContext;
 
-        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon, UserManager<AppUser> userManager, LessonDataContext lesCon)
+        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon, UserManager<AppUser> userManager, LessonDataContext lesCon, LessonUserDataContext lesUsrCon)
         {
             _context = context;
             memberContext = memCon;
             UserMgr = userManager;
             lessonContext = lesCon;
+            lessonUserContext = lesUsrCon;
         }
 
         // GET: SkillCourses
@@ -48,13 +50,19 @@ namespace Login_System.Controllers
                     if (member.CourseID == course.id)
                     {
                         course.MemberStatus = true;
+                        if (member.Status == "Completed")
+                        {
+                            course.CompleteStatus = true;
+                        }
                     }
                     else
                     {
                         if (course.MemberStatus != true)
                         {
                             course.MemberStatus = false;
-                        }                        
+                            course.CompleteStatus = false;
+                        }
+                        course.CompleteStatus = false;
                     }
                 }
                 foreach (var tempLesson in lessonContext.Lessons.Where(x => x.CourseID == course.id))
@@ -73,8 +81,25 @@ namespace Login_System.Controllers
                     tempDuration.Add(course.id, "No duration set");
                 }              
             }
-            model.Courses = courses.ToList();
+            model.Courses = courses.ToList();            
             var lessons = lessonContext.Lessons.ToList();
+            foreach (var lesson in lessons)
+            {
+                foreach (var user in lessonUserContext.LessonUsers.Where(x => x.MemberID == tempUser.Id))
+                {
+                    if (user.LessonID == lesson.Id)
+                    {
+                        lesson.LessonStatus = true;
+                    }
+                    else
+                    {
+                        if (lesson.LessonStatus != true)
+                        {
+                            lesson.LessonStatus = false;
+                        }
+                    }
+                }
+            }
             model.Lessons = lessons;
             model.Durations = tempDuration;
             return View(model);

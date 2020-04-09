@@ -18,5 +18,7 @@ namespace Login_System.Models
 
         [NotMapped]
         public string DateString { get; set; }
+        [NotMapped]
+        public bool LessonStatus { get; set; }
     }
 }
