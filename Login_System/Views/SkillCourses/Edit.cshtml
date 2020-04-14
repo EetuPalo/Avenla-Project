@@ -5,47 +5,59 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<script src="https://cdn.tiny.cloud/1/4i5x5wj11bwcuimuna5buqs1c5c0i68ltdpfz8enf9e8pggw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
-<h4>SkillCourse</h4>
+<script>
+    tinymce.init({
+        selector: '#courseDescEdit'
+    });
+</script>
+
+<h2>Edit Course</h2>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="CourseName" class="control-label"></label>
-                <input asp-for="CourseName" class="form-control" />
-                <span asp-validation-for="CourseName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseContents" class="control-label"></label>
-                <textarea asp-for="CourseContents" class="form-control"></textarea>
-                <span asp-validation-for="CourseContents" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <textarea asp-for="Location" class="form-control"></textarea>
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-	    <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <textarea asp-for="Length" class="form-control"></textarea>
-                <span asp-validation-for="Length" class="text-danger"></span>
-            </div>
-	    
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                        <a class="btn btn-danger" asp-action="Index">Back to List</a>
+<div class="container-fluid p-0">
+    <form asp-action="Edit">
+        <div class="row">
+            <div class="col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="id" />
+                <div class="form-group">
+                    <label asp-for="CourseName" class="control-label"></label>
+                    <input asp-for="CourseName" class="form-control" />
+                    <span asp-validation-for="CourseName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label"></label>
+                    <textarea asp-for="Location" class="form-control"></textarea>
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Length" class="control-label"></label>
+                    <textarea asp-for="Length" class="form-control"></textarea>
+                    <span asp-validation-for="Length" class="text-danger"></span>
+                </div>
+
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="CourseContents" class="control-label"></label>
+                    <textarea asp-for="CourseContents" class="form-control" id="courseDescEdit"></textarea>
+                    <span asp-validation-for="CourseContents" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+
 
 <div>
 
