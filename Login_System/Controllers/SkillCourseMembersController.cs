@@ -88,7 +88,7 @@ namespace Login_System.Controllers
             }
 
             TempData["CourseMemberCount"] = model.Count();
-            TempData["CompletedCount"] = model.Where(x => x.CompletionDate != DateTime.MinValue).Count();
+            TempData["CompletedCount"] = model.Where(x => x.Status == "Completed").Count();
 	    TempData["DropoutCount"] = model.Where(x => x.Status == "Dropout").Count();
             return View(model);
         }

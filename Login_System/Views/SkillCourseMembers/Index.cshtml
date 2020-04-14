@@ -80,7 +80,7 @@
                                         <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <a class="text-info" asp-action="Grade" asp-route-id="@item.Id">Grade</a>
+                                            <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">Grade</a>
                                         }
                                     }
                                 </td>

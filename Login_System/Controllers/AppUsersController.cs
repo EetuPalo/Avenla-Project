@@ -45,7 +45,7 @@ namespace Login_System.Controllers
         // GET: AppUsers/Details/5
 #nullable enable
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
-        {
+        {           
             if (source != null)
             {
                 TempData["Source"] = source;
@@ -70,7 +70,26 @@ namespace Login_System.Controllers
             TempData["UserId"] = id;
             TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
 
-            return View(appUser);
+            AppUserVM model = new AppUserVM
+            {
+                FirstName = appUser.FirstName,
+                LastName = appUser.LastName,
+                Active = appUser.Active,
+                EmpStatus = appUser.EmpStatus,
+                UserName = appUser.UserName,
+                Email = appUser.Email,
+                PhoneNumber = appUser.PhoneNumber,
+                Id = appUser.Id
+            };
+
+            var tempList = new List<string>();
+            foreach (var groupMember in memberContext.GroupMembers.Where(x => x.UserID == id))
+            {
+                tempList.Add(groupMember.GroupName);
+            }
+            model.UserGroups = tempList;
+
+            return View(model);
         }
 
         [HttpGet]
