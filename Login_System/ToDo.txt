@@ -12,18 +12,11 @@
 	- Make sure removal of anything else doesn't break anything
 /-------------------------------------------------/
 - Delete confirmations to where it's useful to have !!
-- Some sort of a "Bulk edit" system for AppUsers (only usable by admins)? !
-	- This could possibly be expanded to other menus as well
 - Remove the register button, accounts should be added by the admin
-
-- Write a database seeder !
-- Date chooser autofills current hour and minute for the chosen date
-- Normal user can't see what groups he is part of
-	- Add this to AppUser/Details
-
+	- Leave this for last
 
 //-----------COURSES----------//
-
+- Fix duplicate members
 
 //---------USERSKILLS---------//
 
@@ -31,7 +24,6 @@
 
 //-----------GROUPS-----------//
 - Statistics: !!
-	- Graphs (fml)
 	- add any ideas here
 
 
@@ -121,3 +113,5 @@ DONE:
 - //Improve the user experience !!
 	- //Setting a course to completed
 	- //Complete course-action
+- //Details page shows what groups user is part of
+- //Security to edit password in AppUsers/Edit
