@@ -90,6 +90,10 @@
                 {
                     <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Complete</a><span> | </span>
                 }
+                else if (item.MemberStatus == true && item.CompleteStatus == true)
+                {
+                    <span class="text-success">Completed</span><span> | </span>
+                }
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">Members</a><span> |</span>
