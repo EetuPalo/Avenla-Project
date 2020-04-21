@@ -17,7 +17,6 @@
 
 //-----------COURSES----------//
 - Fix duplicate members
-- Complete button should not show after the course has already been completed
 
 //---------USERSKILLS---------//
 
@@ -120,3 +119,4 @@ DONE:
 	- //Complete course-action
 - //Details page shows what groups user is part of
 - //Security to edit password in AppUsers/Edit
+- //Complete button should not show after the course has already been completed

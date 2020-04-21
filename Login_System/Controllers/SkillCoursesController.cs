@@ -55,15 +55,6 @@ namespace Login_System.Controllers
                             course.CompleteStatus = true;
                         }
                     }
-                    else
-                    {
-                        if (course.MemberStatus != true)
-                        {
-                            course.MemberStatus = false;
-                            course.CompleteStatus = false;
-                        }
-                        course.CompleteStatus = false;
-                    }
                 }
                 foreach (var tempLesson in lessonContext.Lessons.Where(x => x.CourseID == course.id))
                 {
