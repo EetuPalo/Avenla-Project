@@ -17,8 +17,13 @@
 
 //-----------COURSES----------//
 - Fix duplicate members
+- Complete button should not show after the course has already been completed
 
 //---------USERSKILLS---------//
+
+//---------ROLES--------------//
+- Allow adding members to roles from roles page for roles User and admin
+	- Make sure delete and edit methods are still not accessible
 
 //---------SKILLGOALS---------//
 
