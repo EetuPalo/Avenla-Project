@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
+using Resources;
 
 namespace Login_System.ViewModels
 {
@@ -16,33 +17,46 @@ namespace Login_System.ViewModels
         [DataType(DataType.Text)]
         public string UserName { get; set; }
 
-        [Required]
         [DataType(DataType.EmailAddress)]
-        [DisplayName("E-Mail")]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+              ErrorMessageResourceName = "EmailRequired")]
+        [RegularExpression(".+@.+\\..+", ErrorMessageResourceType = typeof(Resources.Resources),
+                                     ErrorMessageResourceName = "EmailInvalid")]
         public string EMail { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        [DisplayName("Phone Number")]
+        [Display(Name = "Phone", ResourceType = typeof(Resources.Resources))]
+        [StringLength(20, ErrorMessageResourceType = typeof(Resources.Resources),
+                      ErrorMessageResourceName = "PhoneLong")]
         public string PhoneNumber { get; set; }
 
-        [Required]
         [DataType(DataType.Text)]
-        [DisplayName("First Name")]
+        [Display(Name = "FirstName", ResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+              ErrorMessageResourceName = "FirstNameRequired")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources),
+                      ErrorMessageResourceName = "FirstNameLong")]
         public string FirstName { get; set; }
 
-        [Required]
         [DataType(DataType.Text)]
-        [DisplayName("Last Name")]
+        [Display(Name = "LastName", ResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+              ErrorMessageResourceName = "LastNameRequired")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Resources.Resources),
+                      ErrorMessageResourceName = "LastNameLong")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+            ErrorMessageResourceName = "PasswordRequired")]
         [DataType(DataType.Password)]
-        [DisplayName("Password")]
+        [Display(Name = "Password", ResourceType = typeof(Resources.Resources))]
         public string Password { get; set; }
-       
-        [Required]
+
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+           ErrorMessageResourceName = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(Resources.Resources))]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
         
