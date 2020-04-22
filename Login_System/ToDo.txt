@@ -17,14 +17,14 @@
 - Remove username, use email instead !!!
 
 //-----------FRONTPAGE/LAYOUT--------//
-- Remove "Welcome, Guest!"
+///////////- Remove "Welcome, Guest!"
 	- Some pic (dont know what, let's not add anything for now)
 	- Title and description of what the application is
-- Remove the register button, accounts should be added by the admin
+///////////- Remove the register button, accounts should be added by the admin
 	- Just hide it for now
 //////////- Remove Privacy from the menu
 //////////	- Remove the image in privacy
-- Remove Avenla logo
+/////////- Remove Avenla logo
 	- Will be replaced with something else at some point
 ////////- Footer rights
 	- "Piilaakso Academy Oy c 2020"
@@ -32,14 +32,14 @@
 //-----------LOGIN------------//
 - Add "Forgot your password?" feature
   -It's available by default in the Identity. It used to be here, we should be able to bring it back
-- Welcome to piilaakso
+///////- Welcome to piilaakso
 
 //------LOGGED IN HOMEPAGE----//
 ////////- Remove the bear
 - Some general info dashboard style
 //////////- Remove the "home button"
 	- Logo is the home shortcut
-- Move "log out" to the user dropdown
+//////////- Move "log out" to the user dropdown
 
 //----------EMPLOYEES---------//
 - Filter text disappears after the filter button is pressed, the text should remain
