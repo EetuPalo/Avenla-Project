@@ -124,27 +124,31 @@ namespace Login_System.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM user)
         {
-            var result = await SignInMgr.PasswordSignInAsync(user.UserName, user.Password, false, false);
-            if (result.Succeeded)
+            var tempUser = UserMgr.Users.FirstOrDefault(x => x.Email == user.Email);
+            if (tempUser != null)
             {
-                /* After User logs in, that user's "Active" field's value is changed to 'Active' */
-                var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == user.UserName);//find the user in the db
-                appUser.Active = "Active";//set the value to active
-                _context.Users.Attach(appUser);//attach to the user object
-                _context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
-                _context.SaveChanges();//save changes to the DB
+                var result = await SignInMgr.PasswordSignInAsync(tempUser.UserName, user.Password, false, false);
+                if (result.Succeeded)
+                {
+                    /* After User logs in, that user's "Active" field's value is changed to 'Active' */
+                    var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == tempUser.UserName);//find the user in the db
+                                                                                                          //appUser.Active = "Active";//set the value to active
+                    _context.Users.Attach(appUser);//attach to the user object
+                    _context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
+                    _context.SaveChanges();//save changes to the DB
 
-                //Constructs a string from users first and last names to be shown in loginpartial
-                TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;                
-                //Sends the userID in viewbag to the view
-                ViewBag.UserID = appUser.Id;                
-                return RedirectToAction("Index", "Home");
+                    //Constructs a string from users first and last names to be shown in loginpartial
+                    TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
+                    //Sends the userID in viewbag to the view
+                    ViewBag.UserID = appUser.Id;
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.Result = "result is: " + result.ToString();
+                }               
             }
-            else
-            {
-                ViewBag.Result = "result is: " + result.ToString();
-            }
-            return View();
+            return View(user);
         }        
 
         [HttpGet]

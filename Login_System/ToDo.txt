@@ -14,7 +14,7 @@
 - Delete confirmations to where it's useful to have !!
 - Remove the register button, accounts should be added by the admin
 	- Leave this for last
-- Remove username, use email instead !!!
+- //Remove username, use email instead !!!
 
 //-----------FRONTPAGE/LAYOUT--------//
 ///////////- Remove "Welcome, Guest!"
@@ -31,7 +31,7 @@
 
 //-----------LOGIN------------//
 - Add "Forgot your password?" feature
-  -It's available by default in the Identity. It used to be here, we should be able to bring it back
+  - It's available by default in the Identity. It used to be here, we should be able to bring it back
 ///////- Welcome to piilaakso
 
 //------LOGGED IN HOMEPAGE----//
@@ -66,10 +66,10 @@
 - The button in employee table should bring here instead of edit and this page should have edit and delete and everything else
 - All group, course, (possibly userskills too?), etc... info of the users should be as tabs in this page
 
-//-----------COURSES----------//
+//----------COURSES----------//
 - Fix duplicate members
 
-//---------USERSKILLS---------//
+//--------USERSKILLS---------//
 
 //---------ROLES--------------//
 - Allow adding members to roles from roles page for roles User and admin
