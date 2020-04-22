@@ -45,6 +45,7 @@
 - How to remove filtering?
 	- Add a X button that will remove it
 - Remove username column
+	- Do not remove username from database!!! WE'D NEED TO REDO SO MANY CONTROLLERS. WELL JUST REMOVE IT FROM THE FRONTEND
 - Remove "Online" status
 - Edit and delete into bootstrap buttons
 - Create new button to the right, not so close to the filter
