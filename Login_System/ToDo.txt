@@ -14,6 +14,55 @@
 - Delete confirmations to where it's useful to have !!
 - Remove the register button, accounts should be added by the admin
 	- Leave this for last
+- Remove username, use email instead !!!
+
+//-----------FRONTPAGE/LAYOUT--------//
+- Remove "Welcome, Guest!"
+	- Some pic (dont know what, let's not add anything for now)
+	- Title and description of what the application is
+- Remove the register button, accounts should be added by the admin
+	- Just hide it for now
+- Remove Privacy from the menu
+	- Remove the image in privacy
+- Remove Avenla logo
+	- Will be replaced with something else at some point
+- Footer rights
+	- "Piilaakso Academy Oy c 2020"
+
+//-----------LOGIN------------//
+- Add "Forgot your password?" feature
+- Welcome to piilaakso
+
+//------LOGGED IN HOMEPAGE----//
+- Remove the bear
+- Some general info dashboard style
+- Remove the "home button"
+	- Logo is the home shortcut
+- Move "log out" to the user dropdown
+
+//----------EMPLOYEES---------//
+- Filter text disappears after the filter button is pressed, the text should remain
+- How to remove filtering?
+	- Add a X button that will remove it
+- Remove username column
+- Remove "Online" status
+- Edit and delete into bootstrap buttons
+- Create new button to the right, not so close to the filter
+	- Rename to "Create new employee"
+
+//-------EMPLOYEE EDIT--------//
+- Status should have preselected the current employee status and not the "Select status"
+- Status should only be "Active" and "Deactive"
+	- Deactive cant log in to the system
+- Role and group editing should all be on this same form
+
+//------EMPLOYEE DELETE-------//
+- Back to list should be a button, not a text
+- If user has any info in the system (courses, etc...) they shouldn't be able to be deleted
+
+//------EMPLOYEE DETAILS------//
+- The button in employee table should bring here instead of edit and this page should have edit and delete and everything else
+- All group, course, (possibly userskills too?), etc... info of the users should be as tabs in this page
 
 //-----------COURSES----------//
 - Fix duplicate members
