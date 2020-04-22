@@ -3,13 +3,8 @@
 }
 
     <div class="text-center">
-        @if (!User.Identity.IsAuthenticated)
-        {
-            <h1 class="display-4">Welcome, Guest!</h1>
-        }
-        else if (User.Identity.IsAuthenticated)
+        @if(User.Identity.IsAuthenticated)
         {
             <h1 class="display-4">Welcome, @TempData.Peek("UserFullNames")!</h1>
-            <img src="~/img/welcome.jpg" />
         }
     </div>

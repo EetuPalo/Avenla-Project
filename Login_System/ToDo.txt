@@ -22,21 +22,22 @@
 	- Title and description of what the application is
 - Remove the register button, accounts should be added by the admin
 	- Just hide it for now
-- Remove Privacy from the menu
-	- Remove the image in privacy
+//////////- Remove Privacy from the menu
+//////////	- Remove the image in privacy
 - Remove Avenla logo
 	- Will be replaced with something else at some point
-- Footer rights
+////////- Footer rights
 	- "Piilaakso Academy Oy c 2020"
 
 //-----------LOGIN------------//
 - Add "Forgot your password?" feature
+  -It's available by default in the Identity. It used to be here, we should be able to bring it back
 - Welcome to piilaakso
 
 //------LOGGED IN HOMEPAGE----//
-- Remove the bear
+////////- Remove the bear
 - Some general info dashboard style
-- Remove the "home button"
+//////////- Remove the "home button"
 	- Logo is the home shortcut
 - Move "log out" to the user dropdown
 
@@ -44,16 +45,16 @@
 - Filter text disappears after the filter button is pressed, the text should remain
 - How to remove filtering?
 	- Add a X button that will remove it
-- Remove username column
-	- Do not remove username from database!!! WE'D NEED TO REDO SO MANY CONTROLLERS. WELL JUST REMOVE IT FROM THE FRONTEND
-- Remove "Online" status
+//////- Remove username column
+//////	- Do not remove username from database!!! WE'D NEED TO REDO SO MANY CONTROLLERS. WELL JUST REMOVE IT FROM THE FRONTEND
+//////- Remove "Online" status
 - Edit and delete into bootstrap buttons
 - Create new button to the right, not so close to the filter
 	- Rename to "Create new employee"
 
 //-------EMPLOYEE EDIT--------//
-- Status should have preselected the current employee status and not the "Select status"
-- Status should only be "Active" and "Deactive"
+//- Status should have preselected the current employee status and not the "Select status"
+//- Status should only be "Active" and "Deactive"
 	- Deactive cant log in to the system
 - Role and group editing should all be on this same form
 
