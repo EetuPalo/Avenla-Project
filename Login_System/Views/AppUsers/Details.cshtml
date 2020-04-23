@@ -12,37 +12,31 @@
             <div class="container-fluid p-0">
                 <dl class="row">
                     <dt class="col-sm-4">
-                        First Name
+                        @Resources.Resources.FirstName
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.FirstName)
                     </dd>
                     <dt class="col-sm-4">
-                        Last Name
+                        @Resources.Resources.LastName
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.LastName)
                     </dd>
                     <dt class="col-sm-4">
-                        Username
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.UserName)
-                    </dd>
-                    <dt class="col-sm-4">
-                        Email Address
+                        @Resources.Resources.Email
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.Email)
                     </dd>
                     <dt class="col-sm-4">
-                        Phone Number
+                        @Resources.Resources.Phone
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.PhoneNumber)
                     </dd>
                     <dt class="col-sm-4">
-                        Employment Status
+                        @Resources.Resources.Employee_Edit_Status
                     </dt>
                     <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.EmpStatus)
@@ -51,7 +45,7 @@
             </div>           
         </div>
         <div class="col-sm-6">
-            <h4>@TempData["UserFullName"] - Groups</h4>
+            <h4>@TempData["UserFullName"] @Resources.Resources.Employee_Details_GroupTitle</h4>
             <ul class="list-group list-group-flush">
                 @foreach (var group in Model.UserGroups)
                 {
@@ -66,27 +60,27 @@
         <div class="col-sm">
             @if (User.IsInRole("Admin") || User.Identity.Name == Model.UserName)
             {
-                <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">@Resources.Resources.Employee_Index_Edit</a>
             }
             @if (TempData["Source"].ToString() == "GroupMembers")
             {
-                <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">Back</a>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="Groups">@Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "SkillCourseMembers")
             {
-                <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-courseName="@TempData["SourceId"]">Back</a>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-courseName="@TempData["SourceId"]">@Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "shortcut")
             {
-                <a class="btn btn-danger" asp-action="Index" asp-controller="Home">Back</a>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="Home">@Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "index")
             {
-                <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back</a>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">@Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "lesson")
             {
-                <a class="btn btn-danger" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]">Back</a>
+        <a class="btn btn-danger" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]">@Resources.Resources.GENERAL_Back</a>
             }
 
         </div>

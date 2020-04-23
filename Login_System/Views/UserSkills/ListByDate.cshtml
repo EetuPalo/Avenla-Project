@@ -14,19 +14,19 @@
         });
     </script>
 
-<h2>@ViewBag.UserNames - Skill Overview</h2>
+<h2>@ViewBag.UserNames @Resources.Resources.UserSkills_ListByDate_Title</h2>
 <h2 class="text-danger">@TempData["ActionResult"]</h2>
 
 <form asp-controller="UserSkills" asp-action="ListByDate">
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" id="dateSearch" placeholder="Search for dates...">
+                <input class="form-control" type="text" name="SearchString" id="dateSearch" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">Create New</a>
-                <a class="btn btn-danger" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">Back</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Resources.GENERAL_Search />
+                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">@Resources.Resources.UserSkills_ListByDate_Create</a>
+                <a class="btn btn-danger" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">@Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>
@@ -36,10 +36,10 @@
     <thead>
         <tr>
             <th>
-                Date
+                @Resources.Resources.UserSkills_ListByDate_Date
             </th>
             <th>
-                Evaluation Type
+                @Resources.Resources.UserSkills_ListByDate_EvaluationType
             </th>
             <th></th>
         </tr>
@@ -64,20 +64,20 @@
                     </td>
                 }
             <td>
-                <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">View</a> |
-                <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">View in Graph</a> |
+                <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
+                <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
                 @if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">Edit</a> <span> | </span>
-                    <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
+                <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
                 }
             </td>
             </tr>
         }
     </tbody>
 </table>
-<h1>Skill progression graph for the chosen date</h1>
-<h3>X: day of the month, Y: SKill level. Hover on the point to reveal details</h3>
+<h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
+<h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
 <canvas id="myChart" width="1000" height="500"></canvas>
 
 <script>

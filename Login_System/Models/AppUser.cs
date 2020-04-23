@@ -12,8 +12,10 @@ namespace Login_System.Models
     public class AppUser : IdentityUser<int>
     {
 
+        [Display(Name = "FirstName", ResourceType = typeof(Resources.Resources))]
         public string FirstName { get; set; }
 
+        [Display(Name = "LastName", ResourceType = typeof(Resources.Resources))]
         public string LastName { get; set; }
 
         public string Active { get; set; }

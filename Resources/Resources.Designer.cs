@@ -79,6 +79,69 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        public static string CourseMem_Details_Completed {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Course.
+        /// </summary>
+        public static string CourseMem_Details_Course {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_Course", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a list of courses you have enrolled in or have completed in the past..
+        /// </summary>
+        public static string CourseMem_Details_Desc {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your courses.
+        /// </summary>
+        public static string CourseMem_Details_DescTitle {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_DescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ongoing.
+        /// </summary>
+        public static string CourseMem_Details_NotCompleted {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_NotCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string CourseMem_Details_Status {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Courses.
+        /// </summary>
+        public static string CourseMem_Details_Title {
+            get {
+                return ResourceManager.GetString("CourseMem_Details_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
@@ -106,6 +169,177 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Employee_Create_Back {
+            get {
+                return ResourceManager.GetString("Employee_Create_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To add a new user, please fill the following information first..
+        /// </summary>
+        public static string Employee_Create_Desc {
+            get {
+                return ResourceManager.GetString("Employee_Create_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new user.
+        /// </summary>
+        public static string Employee_Create_DescTitle {
+            get {
+                return ResourceManager.GetString("Employee_Create_DescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string Employee_Create_Register {
+            get {
+                return ResourceManager.GetString("Employee_Create_Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Information.
+        /// </summary>
+        public static string Employee_Create_Title {
+            get {
+                return ResourceManager.GetString("Employee_Create_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Groups.
+        /// </summary>
+        public static string Employee_Details_GroupTitle {
+            get {
+                return ResourceManager.GetString("Employee_Details_GroupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Groups.
+        /// </summary>
+        public static string Employee_Edit_EGroups {
+            get {
+                return ResourceManager.GetString("Employee_Edit_EGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Roles.
+        /// </summary>
+        public static string Employee_Edit_ERoles {
+            get {
+                return ResourceManager.GetString("Employee_Edit_ERoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Password.
+        /// </summary>
+        public static string Employee_Edit_NewPass {
+            get {
+                return ResourceManager.GetString("Employee_Edit_NewPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Employee_Edit_Save {
+            get {
+                return ResourceManager.GetString("Employee_Edit_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Employee_Edit_Status {
+            get {
+                return ResourceManager.GetString("Employee_Edit_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create new employee.
+        /// </summary>
+        public static string Employee_Index_Create {
+            get {
+                return ResourceManager.GetString("Employee_Index_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Employee_Index_Delete {
+            get {
+                return ResourceManager.GetString("Employee_Index_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Employee_Index_Details {
+            get {
+                return ResourceManager.GetString("Employee_Index_Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Employee_Index_Edit {
+            get {
+                return ResourceManager.GetString("Employee_Index_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Employee_Index_Filter {
+            get {
+                return ResourceManager.GetString("Employee_Index_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for employees....
+        /// </summary>
+        public static string Employee_Index_SearchPholder {
+            get {
+                return ResourceManager.GetString("Employee_Index_SearchPholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Employee_Index_Status {
+            get {
+                return ResourceManager.GetString("Employee_Index_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee List.
+        /// </summary>
+        public static string Employee_Index_Title {
+            get {
+                return ResourceManager.GetString("Employee_Index_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Name.
         /// </summary>
         public static string FirstName {
@@ -129,6 +363,24 @@ namespace Resources {
         public static string FirstNameRequired {
             get {
                 return ResourceManager.GetString("FirstNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string GENERAL_Back {
+            get {
+                return ResourceManager.GetString("GENERAL_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string GENERAL_Search {
+            get {
+                return ResourceManager.GetString("GENERAL_Search", resourceCulture);
             }
         }
         
@@ -259,6 +511,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please log in with your email and password. If you have forgotten your password, click &quot;Forgot your password?&quot; link to get instructions..
+        /// </summary>
+        public static string Login_Desc {
+            get {
+                return ResourceManager.GetString("Login_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login_Login {
+            get {
+                return ResourceManager.GetString("Login_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to Avenla Employee Management System.
+        /// </summary>
+        public static string Login_Title {
+            get {
+                return ResourceManager.GetString("Login_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -291,6 +570,186 @@ namespace Resources {
         public static string PhoneLong {
             get {
                 return ResourceManager.GetString("PhoneLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New.
+        /// </summary>
+        public static string UserSkills_ListByDate_Create {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string UserSkills_ListByDate_Date {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string UserSkills_ListByDate_Delete {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string UserSkills_ListByDate_Edit {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluation Type.
+        /// </summary>
+        public static string UserSkills_ListByDate_EvaluationType {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_EvaluationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to X: day of the month, Y: SKill level. Hover on the point to reveal details.
+        /// </summary>
+        public static string UserSkills_ListByDate_GraphDesc {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_GraphDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill progression graph for the chosen date.
+        /// </summary>
+        public static string UserSkills_ListByDate_GraphTitle {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_GraphTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for dates....
+        /// </summary>
+        public static string UserSkills_ListByDate_SearchPHolder {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_SearchPHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Skill Overview.
+        /// </summary>
+        public static string UserSkills_ListByDate_Title {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string UserSkills_ListByDate_View {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View in Graph.
+        /// </summary>
+        public static string UserSkills_ListByDate_ViewGraph {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_ViewGraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Average:.
+        /// </summary>
+        public static string UserSkills_SkillList_Average {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Best Skill:.
+        /// </summary>
+        public static string UserSkills_SkillList_Best {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Best", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluate.
+        /// </summary>
+        public static string UserSkills_SkillList_Evaluate {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Evaluate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Goal.
+        /// </summary>
+        public static string UserSkills_SkillList_Goal {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Goal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View History.
+        /// </summary>
+        public static string UserSkills_SkillList_History {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_History", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Level.
+        /// </summary>
+        public static string UserSkills_SkillList_Level {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Name.
+        /// </summary>
+        public static string UserSkills_SkillList_Name {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Skills.
+        /// </summary>
+        public static string UserSkills_SkillList_Title {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Worst Skill:.
+        /// </summary>
+        public static string UserSkills_SkillList_Worst {
+            get {
+                return ResourceManager.GetString("UserSkills_SkillList_Worst", resourceCulture);
             }
         }
     }

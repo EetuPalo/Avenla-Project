@@ -123,6 +123,27 @@
   <data name="ConfirmPasswordRequired" xml:space="preserve">
     <value>Vahvista salasanasi!</value>
   </data>
+  <data name="CourseMem_Details_Completed" xml:space="preserve">
+    <value>Suoritettu</value>
+  </data>
+  <data name="CourseMem_Details_Course" xml:space="preserve">
+    <value>Kurssi</value>
+  </data>
+  <data name="CourseMem_Details_Desc" xml:space="preserve">
+    <value>Tämä on lista kursseista joille olet ilmoittautunut tai jotka olet suorittanut.</value>
+  </data>
+  <data name="CourseMem_Details_DescTitle" xml:space="preserve">
+    <value>Sinun kurssisi</value>
+  </data>
+  <data name="CourseMem_Details_NotCompleted" xml:space="preserve">
+    <value>Kesken</value>
+  </data>
+  <data name="CourseMem_Details_Status" xml:space="preserve">
+    <value>Tila</value>
+  </data>
+  <data name="CourseMem_Details_Title" xml:space="preserve">
+    <value>Kurssit</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Sähköposti</value>
   </data>
@@ -132,6 +153,63 @@
   <data name="EmailRequired" xml:space="preserve">
     <value>Sähköposti vaaditaan!</value>
   </data>
+  <data name="Employee_Create_Back" xml:space="preserve">
+    <value>Peruuta</value>
+  </data>
+  <data name="Employee_Create_Desc" xml:space="preserve">
+    <value>Luodaksesi uuden käyttäjän, täytä vaaditut tiedot.</value>
+  </data>
+  <data name="Employee_Create_DescTitle" xml:space="preserve">
+    <value>Uuden käyttäjän luonti</value>
+  </data>
+  <data name="Employee_Create_Register" xml:space="preserve">
+    <value>Luo</value>
+  </data>
+  <data name="Employee_Create_Title" xml:space="preserve">
+    <value>Käyttäjätiedot</value>
+  </data>
+  <data name="Employee_Details_GroupTitle" xml:space="preserve">
+    <value>- Ryhmät</value>
+  </data>
+  <data name="Employee_Edit_EGroups" xml:space="preserve">
+    <value>Muokkaa Ryhmiä</value>
+  </data>
+  <data name="Employee_Edit_ERoles" xml:space="preserve">
+    <value>Muokkaa Rooleja</value>
+  </data>
+  <data name="Employee_Edit_NewPass" xml:space="preserve">
+    <value>Uusi Salasana</value>
+  </data>
+  <data name="Employee_Edit_Save" xml:space="preserve">
+    <value>Tallenna</value>
+  </data>
+  <data name="Employee_Edit_Status" xml:space="preserve">
+    <value>Tila</value>
+  </data>
+  <data name="Employee_Index_Create" xml:space="preserve">
+    <value>Lisää uusi työntekijä</value>
+  </data>
+  <data name="Employee_Index_Delete" xml:space="preserve">
+    <value>Poista</value>
+  </data>
+  <data name="Employee_Index_Details" xml:space="preserve">
+    <value>Tiedot</value>
+  </data>
+  <data name="Employee_Index_Edit" xml:space="preserve">
+    <value>Muokkaa</value>
+  </data>
+  <data name="Employee_Index_Filter" xml:space="preserve">
+    <value>Hae</value>
+  </data>
+  <data name="Employee_Index_SearchPholder" xml:space="preserve">
+    <value>Hae työntekijöistä...</value>
+  </data>
+  <data name="Employee_Index_Status" xml:space="preserve">
+    <value>Tila</value>
+  </data>
+  <data name="Employee_Index_Title" xml:space="preserve">
+    <value>Työntekijät</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>Etunimi</value>
   </data>
@@ -140,6 +218,12 @@
   </data>
   <data name="FirstNameRequired" xml:space="preserve">
     <value>Etunimi vaaditaan!</value>
+  </data>
+  <data name="GENERAL_Back" xml:space="preserve">
+    <value>Peruuta</value>
+  </data>
+  <data name="GENERAL_Search" xml:space="preserve">
+    <value>Hae</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Sukunimi</value>
@@ -183,6 +267,15 @@
   <data name="Layout_Skills" xml:space="preserve">
     <value>Osaaminen</value>
   </data>
+  <data name="Login_Desc" xml:space="preserve">
+    <value>Kirjaudu sisään käyttäen sähköpostiasi ja salasanaasi. Jos olet unohtanut salasanasi, klikkaa "Unohdin salasanani" linkkiä saadaksesi lisäohjeita.</value>
+  </data>
+  <data name="Login_Login" xml:space="preserve">
+    <value>Kirjaudu Sisään</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Tervetuloa Oppimisportaaliin</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Salasana</value>
   </data>
@@ -194,5 +287,65 @@
   </data>
   <data name="PhoneLong" xml:space="preserve">
     <value>Puhelinnumero on liian pitkä!</value>
+  </data>
+  <data name="UserSkills_ListByDate_Create" xml:space="preserve">
+    <value>Luo Uusi</value>
+  </data>
+  <data name="UserSkills_ListByDate_Date" xml:space="preserve">
+    <value>Päivämäärä</value>
+  </data>
+  <data name="UserSkills_ListByDate_Delete" xml:space="preserve">
+    <value>Poista</value>
+  </data>
+  <data name="UserSkills_ListByDate_Edit" xml:space="preserve">
+    <value>Muokkaa</value>
+  </data>
+  <data name="UserSkills_ListByDate_EvaluationType" xml:space="preserve">
+    <value>Arvion tyyppi</value>
+  </data>
+  <data name="UserSkills_ListByDate_GraphDesc" xml:space="preserve">
+    <value>X: Päivä, Y: Osaamistaso.</value>
+  </data>
+  <data name="UserSkills_ListByDate_GraphTitle" xml:space="preserve">
+    <value>Osaamistaulukko</value>
+  </data>
+  <data name="UserSkills_ListByDate_SearchPHolder" xml:space="preserve">
+    <value>Hae päivämäärää...</value>
+  </data>
+  <data name="UserSkills_ListByDate_Title" xml:space="preserve">
+    <value>- Osaamisen yleisnäkymä</value>
+  </data>
+  <data name="UserSkills_ListByDate_View" xml:space="preserve">
+    <value>Näytä</value>
+  </data>
+  <data name="UserSkills_ListByDate_ViewGraph" xml:space="preserve">
+    <value>Näytä taulukossa</value>
+  </data>
+  <data name="UserSkills_SkillList_Average" xml:space="preserve">
+    <value>Keskiarvo:</value>
+  </data>
+  <data name="UserSkills_SkillList_Best" xml:space="preserve">
+    <value>Paras taito:</value>
+  </data>
+  <data name="UserSkills_SkillList_Evaluate" xml:space="preserve">
+    <value>Arvioi</value>
+  </data>
+  <data name="UserSkills_SkillList_Goal" xml:space="preserve">
+    <value>Tavoite</value>
+  </data>
+  <data name="UserSkills_SkillList_History" xml:space="preserve">
+    <value>Näytä historia</value>
+  </data>
+  <data name="UserSkills_SkillList_Level" xml:space="preserve">
+    <value>Taitotaso</value>
+  </data>
+  <data name="UserSkills_SkillList_Name" xml:space="preserve">
+    <value>Taidon nimi</value>
+  </data>
+  <data name="UserSkills_SkillList_Title" xml:space="preserve">
+    <value>- Osaaminen</value>
+  </data>
+  <data name="UserSkills_SkillList_Worst" xml:space="preserve">
+    <value>Heikoin taito:</value>
   </data>
 </root>

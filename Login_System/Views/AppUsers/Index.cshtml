@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Employee List</h2>
+<h2>@Resources.Resources.Employee_Index_Title</h2>
 <h4 class="text-danger">@TempData["CreateStatus"]</h4>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
 <hr />
@@ -14,13 +14,13 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for employees...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Resources.Employee_Index_SearchPholder>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
+                <input class="btn btn-info" type="submit" value=@Resources.Resources.Employee_Index_Filter />
                 @if (User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-primary" asp-action="Create">Create New</a>
+            <a class="btn btn-primary" asp-action="Create">@Resources.Resources.Employee_Index_Create</a>
                 }
             </div>
         </div>
@@ -31,20 +31,20 @@
         <thead>
             <tr>
                 <th>
-                    First Name
+                    @Resources.Resources.FirstName
                 </th>
                 <th>
-                    Last Name
+                    @Resources.Resources.LastName
                 </th>
                 <th>
-                    Email
+                    @Resources.Resources.Email
                 </th>
 
                 <th>
-                    Phone Nbr.
+                    @Resources.Resources.Phone
                 </th>
                 <th>
-                    Status
+                    @Resources.Resources.Employee_Index_Status
                 </th>
                 <th></th>
                 <th></th>
@@ -75,10 +75,10 @@
                 <td colspan="2">
                     @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
                     {
-                        <a class="" asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> | </span>
+                    <a class="" asp-action="Edit" asp-route-id="@item.Id">@Resources.Resources.Employee_Index_Edit</a><span> | </span>
                         @if (User.IsInRole("Admin"))
                         {
-                            <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.Resources.Employee_Index_Delete</a>
                         }
                     }
                 </td>
@@ -87,13 +87,13 @@
                     {
                         <div class="dropdown show">
                             <a class="dropdown-toggle" href="#" role="button" id="userDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Details
+                                @Resources.Resources.Employee_Index_Details
                             </a>
                             <div class="dropdown-menu" aria-labelledby="userDropDown">
-                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">Profile</a>
-                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-controller="SkillCourseMembers">Courses</a>
-                                <a class="dropdown-item" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">Skills</a>
-                                <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">Certificates</a>
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">@Resources.Resources.Layout_Profile</a>
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-controller="SkillCourseMembers">@Resources.Resources.Layout_Courses</a>
+                                <a class="dropdown-item" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
+                                <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">@Resources.Resources.Layout_Certificates</a>
                             </div>
                         </div>
                     }

@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Courses</h2>
+<h2>@Resources.Resources.CourseMem_Details_Title</h2>
 <div class="container-fluid p-0">
     <div class="row">
         <div class="col-sm-8 border-right border-dark">
@@ -13,13 +13,13 @@
                 <thead>
                     <tr>
                         <th>
-                            Course
+                            @Resources.Resources.CourseMem_Details_Course
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Status)
+                            @Resources.Resources.Employee_Edit_Status
                         </th>
                         <th>
-                            Completed
+                            @Resources.Resources.CourseMem_Details_Completed
                         </th>
                     </tr>
                 </thead>
@@ -33,11 +33,11 @@
                             <td>
                                 @if (item.Status == "Completed")
                                 {
-                                    <span class="text-success"><strong>@Html.DisplayFor(modelItem => item.Status)</strong></span>
+                                    <span class="text-success"><strong>@Resources.Resources.CourseMem_Details_Completed</strong></span>
                                 }
                                 else
                                 {
-                                    @Html.DisplayFor(modelItem => item.Status)
+                                    @Resources.Resources.CourseMem_Details_NotCompleted
                                 }
                             </td>
                             <td>
@@ -49,12 +49,12 @@
             </table>
         </div>
         <div class="col-sm-4">
-            <h4>Your courses</h4>
+            <h4>@Resources.Resources.CourseMem_Details_DescTitle</h4>
             <p>
-                This is a list of courses you have enrolled in or have completed in the past.
+                @Resources.Resources.CourseMem_Details_Desc
             </p>
         </div>
     </div>
 </div>
 
-<a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back</a>
+<a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">@Resources.Resources.GENERAL_Back</a>

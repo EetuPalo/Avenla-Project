@@ -123,6 +123,27 @@
   <data name="ConfirmPasswordRequired" xml:space="preserve">
     <value>Confirm your password!</value>
   </data>
+  <data name="CourseMem_Details_Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="CourseMem_Details_Course" xml:space="preserve">
+    <value>Course</value>
+  </data>
+  <data name="CourseMem_Details_Desc" xml:space="preserve">
+    <value>This is a list of courses you have enrolled in or have completed in the past.</value>
+  </data>
+  <data name="CourseMem_Details_DescTitle" xml:space="preserve">
+    <value>Your courses</value>
+  </data>
+  <data name="CourseMem_Details_NotCompleted" xml:space="preserve">
+    <value>Ongoing</value>
+  </data>
+  <data name="CourseMem_Details_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="CourseMem_Details_Title" xml:space="preserve">
+    <value>Courses</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -132,6 +153,63 @@
   <data name="EmailRequired" xml:space="preserve">
     <value>An email address is required!</value>
   </data>
+  <data name="Employee_Create_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Employee_Create_Desc" xml:space="preserve">
+    <value>To add a new user, please fill the following information first.</value>
+  </data>
+  <data name="Employee_Create_DescTitle" xml:space="preserve">
+    <value>Create a new user</value>
+  </data>
+  <data name="Employee_Create_Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Employee_Create_Title" xml:space="preserve">
+    <value>User Information</value>
+  </data>
+  <data name="Employee_Details_GroupTitle" xml:space="preserve">
+    <value>- Groups</value>
+  </data>
+  <data name="Employee_Edit_EGroups" xml:space="preserve">
+    <value>Edit Groups</value>
+  </data>
+  <data name="Employee_Edit_ERoles" xml:space="preserve">
+    <value>Edit Roles</value>
+  </data>
+  <data name="Employee_Edit_NewPass" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Employee_Edit_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Employee_Edit_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Employee_Index_Create" xml:space="preserve">
+    <value>Create new employee</value>
+  </data>
+  <data name="Employee_Index_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Employee_Index_Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Employee_Index_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Employee_Index_Filter" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Employee_Index_SearchPholder" xml:space="preserve">
+    <value>Search for employees...</value>
+  </data>
+  <data name="Employee_Index_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Employee_Index_Title" xml:space="preserve">
+    <value>Employee List</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
   </data>
@@ -140,6 +218,12 @@
   </data>
   <data name="FirstNameRequired" xml:space="preserve">
     <value>First name is required!</value>
+  </data>
+  <data name="GENERAL_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="GENERAL_Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
@@ -183,6 +267,15 @@
   <data name="Layout_Skills" xml:space="preserve">
     <value>Skills</value>
   </data>
+  <data name="Login_Desc" xml:space="preserve">
+    <value>Please log in with your email and password. If you have forgotten your password, click "Forgot your password?" link to get instructions.</value>
+  </data>
+  <data name="Login_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Welcome to Avenla Employee Management System</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -194,5 +287,65 @@
   </data>
   <data name="PhoneLong" xml:space="preserve">
     <value>Phone number is too long!</value>
+  </data>
+  <data name="UserSkills_ListByDate_Create" xml:space="preserve">
+    <value>Create New</value>
+  </data>
+  <data name="UserSkills_ListByDate_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="UserSkills_ListByDate_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="UserSkills_ListByDate_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="UserSkills_ListByDate_EvaluationType" xml:space="preserve">
+    <value>Evaluation Type</value>
+  </data>
+  <data name="UserSkills_ListByDate_GraphDesc" xml:space="preserve">
+    <value>X: day of the month, Y: SKill level. Hover on the point to reveal details</value>
+  </data>
+  <data name="UserSkills_ListByDate_GraphTitle" xml:space="preserve">
+    <value>Skill progression graph for the chosen date</value>
+  </data>
+  <data name="UserSkills_ListByDate_SearchPHolder" xml:space="preserve">
+    <value>Search for dates...</value>
+  </data>
+  <data name="UserSkills_ListByDate_Title" xml:space="preserve">
+    <value>- Skill Overview</value>
+  </data>
+  <data name="UserSkills_ListByDate_View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="UserSkills_ListByDate_ViewGraph" xml:space="preserve">
+    <value>View in Graph</value>
+  </data>
+  <data name="UserSkills_SkillList_Average" xml:space="preserve">
+    <value>Skill Average:</value>
+  </data>
+  <data name="UserSkills_SkillList_Best" xml:space="preserve">
+    <value>Best Skill:</value>
+  </data>
+  <data name="UserSkills_SkillList_Evaluate" xml:space="preserve">
+    <value>Evaluate</value>
+  </data>
+  <data name="UserSkills_SkillList_Goal" xml:space="preserve">
+    <value>Skill Goal</value>
+  </data>
+  <data name="UserSkills_SkillList_History" xml:space="preserve">
+    <value>View History</value>
+  </data>
+  <data name="UserSkills_SkillList_Level" xml:space="preserve">
+    <value>Skill Level</value>
+  </data>
+  <data name="UserSkills_SkillList_Name" xml:space="preserve">
+    <value>Skill Name</value>
+  </data>
+  <data name="UserSkills_SkillList_Title" xml:space="preserve">
+    <value>- Skills</value>
+  </data>
+  <data name="UserSkills_SkillList_Worst" xml:space="preserve">
+    <value>Worst Skill:</value>
   </data>
 </root>
