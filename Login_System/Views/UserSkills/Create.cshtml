@@ -7,7 +7,7 @@
     var counter = 0;
 }
 
-<h2>Skill Evaluation</h2>
+<h2>@Resources.Resources.UserSkills_Create_Title</h2>
 <hr />
 <fieldset>
     <form asp-action="Create" asp-controller="UserSkills">
@@ -23,12 +23,12 @@
                     </div>
                     <div class="col-sm-10">
                         <select class="form-control" asp-for="@Model.SkillLevel[i]">
-                            <option value="0">0 - No interest</option>
-                            <option value="1">1 - Apprentice</option>
-                            <option value="2">2 - Journeyman</option>
-                            <option value="3">3 - Expert</option>
-                            <option value="4">4 - Artisan</option>
-                            <option value="5">5 - Master</option>
+                            <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                            <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                            <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                            <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                            <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                            <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
                         </select>
                         <input hidden asp-for="@Model.SkillList[i]" />
                         <span asp-validation-for="@Model.SkillLevel[i]"></span>
@@ -43,8 +43,8 @@
         <div class="container-fluid p-0">
             <div class="row">
                 <div class="col-sm">
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                    <a class="btn btn-danger" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">Back</a>
+                    <button class="btn btn-primary" type="submit">@Resources.Resources.UserSkills_Create_Submit</button>
+                    <a class="btn btn-danger" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">@Resources.Resources.GENERAL_Back</a>
                 </div>
             </div>
         </div>

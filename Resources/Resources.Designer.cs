@@ -340,6 +340,60 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0 - No interest.
+        /// </summary>
+        public static string EVAL_DROPDOWN_0 {
+            get {
+                return ResourceManager.GetString("EVAL_DROPDOWN_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 - Apprentice.
+        /// </summary>
+        public static string EVAL_DROPDOWN_1 {
+            get {
+                return ResourceManager.GetString("EVAL_DROPDOWN_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2 - Journeyman.
+        /// </summary>
+        public static string EVAL_DROPDOWN_2 {
+            get {
+                return ResourceManager.GetString("EVAL_DROPDOWN_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3 - Expert.
+        /// </summary>
+        public static string EVAL_DROPDOWN_3 {
+            get {
+                return ResourceManager.GetString("EVAL_DROPDOWN_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 4 - Artisan.
+        /// </summary>
+        public static string EVAL_DROPDOWN_4 {
+            get {
+                return ResourceManager.GetString("EVAL_DROPDOWN_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5 - Master.
+        /// </summary>
+        public static string EVAL_DROPDOWN_5 {
+            get {
+                return ResourceManager.GetString("EVAL_DROPDOWN_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Name.
         /// </summary>
         public static string FirstName {
@@ -570,6 +624,42 @@ namespace Resources {
         public static string PhoneLong {
             get {
                 return ResourceManager.GetString("PhoneLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string UserSkills_Create_Submit {
+            get {
+                return ResourceManager.GetString("UserSkills_Create_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Evaluation.
+        /// </summary>
+        public static string UserSkills_Create_Title {
+            get {
+                return ResourceManager.GetString("UserSkills_Create_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Level.
+        /// </summary>
+        public static string UserSkills_Edit_SkillLevel {
+            get {
+                return ResourceManager.GetString("UserSkills_Edit_SkillLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string UserSkills_Edit_Title {
+            get {
+                return ResourceManager.GetString("UserSkills_Edit_Title", resourceCulture);
             }
         }
         

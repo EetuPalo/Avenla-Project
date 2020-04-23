@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>@Resources.Resources.UserSkills_Edit_Title</h2>
 
-<h2>@Model.SkillName</h2>
+<h4>@Model.SkillName</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,7 +19,7 @@
             <input type="hidden" asp-for="SkillName" class="form-control" />
 
             <div class="form-group">
-                <label asp-for="SkillLevel" class="control-label"></label>
+                <label asp-for="SkillLevel" class="control-label">@Resources.Resources.UserSkills_Edit_SkillLevel</label>
                 <input type="number" min="0" max="5" asp-for="SkillLevel" class="form-control" />
                 <span asp-validation-for="SkillLevel" class="text-danger"></span>
             </div>
@@ -27,14 +27,11 @@
                 <input type="hidden" asp-for="Date" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value=@Resources.Resources.UserSkills_Create_Submit class="btn btn-primary" />
+                <a asp-action="SkillList" asp-route-id="@Model.UserID" asp-route-name="@Model.Date.ToString("dd/MM/yyyy+HH/mm")" class="btn btn-danger">@Resources.Resources.GENERAL_Back</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="SkillList" asp-route-id="@Model.UserID" asp-route-name="@Model.Date.ToString("dd/MM/yyyy+HH/mm")" class="btn btn-danger">Back to List</a>
 </div>
 
 @section Scripts {
