@@ -150,6 +150,39 @@
   <data name="LastNameRequired" xml:space="preserve">
     <value>Last name is required!</value>
   </data>
+  <data name="Layout_Admin" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Layout_Certificates" xml:space="preserve">
+    <value>Certificates</value>
+  </data>
+  <data name="Layout_Courses" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="Layout_Employees" xml:space="preserve">
+    <value>Employees</value>
+  </data>
+  <data name="Layout_Groups" xml:space="preserve">
+    <value>Groups</value>
+  </data>
+  <data name="Layout_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Layout_Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Layout_Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Layout_Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Layout_Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Layout_Skills" xml:space="preserve">
+    <value>Skills</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>

@@ -26,10 +26,10 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li>
-                                <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">Employees</a>
+                                <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a>
                             </li>
                             <li>
-                                <a class="text-dark btn" asp-area="" asp-controller="SkillCourses" asp-action="Index">Courses</a>
+                                <a class="text-dark btn" asp-area="" asp-controller="SkillCourses" asp-action="Index">@Resources.Resources.Layout_Courses</a>
                             </li>
 
                         }
@@ -40,13 +40,13 @@
                         {
                             <li class="nav-item dropdown show">
                                 <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Admininstrator
+                                    @Resources.Resources.Layout_Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="ListRoles">Roles</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">Groups</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Skills" asp-action="Index">Skills</a>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Certificates" asp-action="Index">Certificates</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="ListRoles">@Resources.Resources.Layout_Roles</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">@Resources.Resources.Layout_Groups</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Skills" asp-action="Index">@Resources.Resources.Layout_Skills</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Certificates" asp-action="Index">@Resources.Resources.Layout_Certificates</a>
                                 </div>
                             </li>
                         }
@@ -63,7 +63,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-             Piilaakso Academy Oy &copy; 2020 <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+             Piilaakso Academy Oy &copy; 2020 <a asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Resources.Layout_Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

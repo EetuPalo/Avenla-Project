@@ -160,6 +160,105 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Administrator.
+        /// </summary>
+        public static string Layout_Admin {
+            get {
+                return ResourceManager.GetString("Layout_Admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificates.
+        /// </summary>
+        public static string Layout_Certificates {
+            get {
+                return ResourceManager.GetString("Layout_Certificates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Courses.
+        /// </summary>
+        public static string Layout_Courses {
+            get {
+                return ResourceManager.GetString("Layout_Courses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employees.
+        /// </summary>
+        public static string Layout_Employees {
+            get {
+                return ResourceManager.GetString("Layout_Employees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Groups.
+        /// </summary>
+        public static string Layout_Groups {
+            get {
+                return ResourceManager.GetString("Layout_Groups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Layout_Login {
+            get {
+                return ResourceManager.GetString("Layout_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Layout_Logout {
+            get {
+                return ResourceManager.GetString("Layout_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy.
+        /// </summary>
+        public static string Layout_Privacy {
+            get {
+                return ResourceManager.GetString("Layout_Privacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        public static string Layout_Profile {
+            get {
+                return ResourceManager.GetString("Layout_Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roles.
+        /// </summary>
+        public static string Layout_Roles {
+            get {
+                return ResourceManager.GetString("Layout_Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skills.
+        /// </summary>
+        public static string Layout_Skills {
+            get {
+                return ResourceManager.GetString("Layout_Skills", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {

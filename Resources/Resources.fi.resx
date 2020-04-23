@@ -150,6 +150,39 @@
   <data name="LastNameRequired" xml:space="preserve">
     <value>Sukunimi vaaditaan!</value>
   </data>
+  <data name="Layout_Admin" xml:space="preserve">
+    <value>Ylläpito</value>
+  </data>
+  <data name="Layout_Certificates" xml:space="preserve">
+    <value>Certifikaatit</value>
+  </data>
+  <data name="Layout_Courses" xml:space="preserve">
+    <value>Kurssit</value>
+  </data>
+  <data name="Layout_Employees" xml:space="preserve">
+    <value>Työntekijät</value>
+  </data>
+  <data name="Layout_Groups" xml:space="preserve">
+    <value>Ryhmät</value>
+  </data>
+  <data name="Layout_Login" xml:space="preserve">
+    <value>Kirjaudu Sisään</value>
+  </data>
+  <data name="Layout_Logout" xml:space="preserve">
+    <value>Kirjaudu Ulos</value>
+  </data>
+  <data name="Layout_Privacy" xml:space="preserve">
+    <value>Yksityisyys</value>
+  </data>
+  <data name="Layout_Profile" xml:space="preserve">
+    <value>Profiili</value>
+  </data>
+  <data name="Layout_Roles" xml:space="preserve">
+    <value>Roolit</value>
+  </data>
+  <data name="Layout_Skills" xml:space="preserve">
+    <value>Osaaminen</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Salasana</value>
   </data>
