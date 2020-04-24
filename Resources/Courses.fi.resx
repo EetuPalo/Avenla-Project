@@ -169,10 +169,10 @@
     <value>Oppitunnit</value>
   </data>
   <data name="Index_Lesson_Attend" xml:space="preserve">
-    <value>Osallistu</value>
+    <value>Ilmoittaudu</value>
   </data>
   <data name="Index_Lesson_Attending" xml:space="preserve">
-    <value>Osallistujat</value>
+    <value>Lisää osallistujia</value>
   </data>
   <data name="Index_Lesson_Date" xml:space="preserve">
     <value>Ajankohta</value>
