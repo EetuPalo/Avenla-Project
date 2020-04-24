@@ -13,7 +13,7 @@
     });
 </script>
 
-<h2>Create a new course</h2>
+<h2>@Resources.Courses.Create_Title</h2>
 <hr />
 <div class="container-fluid p-0">
     <form asp-action="Create">
@@ -21,28 +21,28 @@
             <div class="col-md-6 border-right border-secondary">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="CourseName" class="control-label">Course Name</label>
+                    <label asp-for="CourseName" class="control-label">@Resources.Courses.Create_CourseName</label>
                     <input asp-for="CourseName" class="form-control" />
                     <span asp-validation-for="CourseName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Location" class="control-label">Course Location (City/Country/Organization)</label>
+                    <label asp-for="Location" class="control-label">@Resources.Courses.Create_Location</label>
                     <input asp-for="Location" class="form-control" />
                     <span asp-validation-for="Location" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Length" class="control-label">Course Length (amount of lessons)</label>
+                    <label asp-for="Length" class="control-label">@Resources.Courses.Create_Length</label>
                     <input asp-for="Length" class="form-control" />
                     <span asp-validation-for="Length" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                    <a class="btn btn-danger" asp-action="Index">Back</a>
+                    <input type="submit" value=@Resources.Courses.Create_BTN_Create class="btn btn-primary" />
+                    <a class="btn btn-danger" asp-action="Index">@Resources.Resources.GENERAL_Back</a>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="CourseContents" class="control-label">Write a decription</label>
+                    <label asp-for="CourseContents" class="control-label">@Resources.Courses.Create_Desc</label>
                     <textarea asp-for="CourseContents" class="form-control" id="courseDesc"></textarea>
                     <span asp-validation-for="CourseContents" class="text-danger"></span>
                 </div>

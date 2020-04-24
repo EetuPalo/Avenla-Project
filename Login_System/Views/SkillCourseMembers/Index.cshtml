@@ -5,16 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData.Peek("CourseName"): Members</h2>
+<h2>@TempData.Peek("CourseName")@Resources.CourseMembers.Index_Title</h2>
 
 <div class="container-fluid p-0">
     <div class="row mb-4">
         <div class="col-sm">
 	@if(User.IsInRole("Admin"))
 	{
-	    <a class="btn btn-primary" asp-action="Create">Create New</a>
+            <a class="btn btn-primary" asp-action="Create">@Resources.CourseMembers.Index_Create</a>
 	}        
-            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">Back to Courses</a>
+            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">@Resources.CourseMembers.Index_BackCourse</a>
         </div>
     </div>
 </div>
@@ -26,19 +26,19 @@
                 <thead>
                     <tr>
                         <th>
-                            User
+                            @Resources.CourseMembers.Index_User
                         </th>
                         <th>
-                            Status
+                            @Resources.CourseMembers.Index_Status
                         </th>
                         <th>
-                            Completed
+                            @Resources.CourseMembers.Index_Completed
                         </th>
                         <th>
-                            Progress
+                            @Resources.CourseMembers.Index_Progress
                         </th>
                         <th>
-                            Grade
+                            @Resources.CourseMembers.Index_Grade
                         </th>
                         <th></th>
                     </tr>
@@ -75,12 +75,12 @@
                                 <td>
                                     @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
                                     {
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a><span> |</span>
-                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">Details</a> <span> |</span>
-                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">@Resources.CourseMembers.Index_BTN_Edit</a><span> |</span>
+                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">@Resources.CourseMembers.Index_BTN_Details</a> <span> |</span>
+                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.CourseMembers.Index_BTN_Delete</a>
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">Grade</a>
+                                            <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">@Resources.CourseMembers.Index_Grade</a>
                                         }
                                     }
                                 </td>
@@ -126,17 +126,16 @@
         <div class="col-sm-4">
             @if (User.IsInRole("Admin"))
             {
-                <h4>
-                    @TempData["CourseName"] - Members
-                </h4>
+            <h4>
+                @TempData["CourseName"] @Resources.CourseMembers.Index_SubTitle
+            </h4>
+            <p>
+                @Resources.CourseMembers.Index_SubDescStart @TempData["CourseName"]@Resources.CourseMembers.Index_SubDescEnd
+            </p>
                 <p>
-                    This is a list of members currently attending the @TempData["CourseName"]-course.
-                    You can view, edit, and delete members from the course.
-                </p>
-                <p>
-                    <strong>Enrolled:</strong> @TempData["CourseMemberCount"] <br />
-                    <strong>Completed:</strong> @TempData["CompletedCount"] <br />
-                    <strong>Dropped out:</strong> @TempData["DropoutCount"] <br />
+                    <strong>@Resources.CourseMembers.Index_Enrolled</strong> @TempData["CourseMemberCount"] <br />
+                    <strong>@Resources.CourseMembers.Index_CompletedStatus</strong> @TempData["CompletedCount"] <br />
+                    <strong>@Resources.CourseMembers.Index_DroppedOut</strong> @TempData["DropoutCount"] <br />
                 </p>
             }
             else
@@ -145,7 +144,7 @@
                     @TempData["CourseName"]
                 </h4>
                 <p>
-                    You are currently viewing your membership information. You are not an administrator, and can only see your personal information.
+                    @Resources.CourseMembers.Index_NotAdmin
                 </p>
             }
         </div>

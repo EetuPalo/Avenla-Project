@@ -5,6 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="CourseMembers.fi.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="CourseMembers.fi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CourseMembers.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CourseMembers.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CourseMembers.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Courses.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Courses.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources.fi.Designer.cs">
       <DependentUpon>Resources.fi.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -18,6 +39,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="CourseMembers.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CourseMembers.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Courses.fi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Courses.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Courses.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources.fi.resx">
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
