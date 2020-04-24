@@ -5,23 +5,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData["UserName"] - Certificates</h2>
+<h2>@TempData["UserName"] @Resources.Resources.UCertificates_Index_Title</h2>
 <form asp-controller="UserCertificates" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for certificates...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Resources.UCertificates_Index_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]">Add</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Resources.Employee_Index_Filter />
+                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]">@Resources.Resources.UCertificates_Index_Add</a>
                 @if  (TempData["Source"].ToString() == "shortcut")
                 {
-                    <a class="btn btn-danger" asp-action="Index" asp-controller="Home">Back</a>
+                    <a class="btn btn-danger" asp-action="Index" asp-controller="Home">@Resources.Resources.GENERAL_Back</a>
                 }
                 else
                 {
-                    <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">Back</a>
+                    <a class="btn btn-danger" asp-action="Index" asp-controller="AppUsers">@Resources.Resources.GENERAL_Back</a>
                 }
             </div>
         </div>
@@ -33,13 +33,13 @@
     <thead>
         <tr>
             <th>
-                Certificate
+                @Resources.Resources.UCertificates_Index_Cert
             </th>
             <th>
-                Grant Date
+                @Resources.Resources.UCertificates_Index_GrantDate
             </th>
             <th>
-                Granted By
+                @Resources.Resources.UCertificates_Index_Granter
             </th>
             <th></th>
         </tr>
@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Organization)
             </td>
             <td>
-                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.Resources.DELETE_Button</a>
             </td>
         </tr>
 }

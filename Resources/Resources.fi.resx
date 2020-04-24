@@ -144,6 +144,15 @@
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Kurssit</value>
   </data>
+  <data name="DELETE_Button" xml:space="preserve">
+    <value>Poista</value>
+  </data>
+  <data name="DELETE_Desc" xml:space="preserve">
+    <value>Haluatko varmasti poistaa tämän?</value>
+  </data>
+  <data name="DELETE_Title" xml:space="preserve">
+    <value>Poista</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Sähköposti</value>
   </data>
@@ -306,11 +315,53 @@
   <data name="PhoneLong" xml:space="preserve">
     <value>Puhelinnumero on liian pitkä!</value>
   </data>
+  <data name="UCertificates_Create_Add" xml:space="preserve">
+    <value>Lisää</value>
+  </data>
+  <data name="UCertificates_Create_DateTitle" xml:space="preserve">
+    <value>Päivämäärä:</value>
+  </data>
+  <data name="UCertificates_Create_DropDownDefault" xml:space="preserve">
+    <value>Valitse sertifikaatti</value>
+  </data>
+  <data name="UCertificates_Create_Title" xml:space="preserve">
+    <value>Lisää sertifikaatti</value>
+  </data>
+  <data name="UCertificates_Index_Add" xml:space="preserve">
+    <value>Lisää</value>
+  </data>
+  <data name="UCertificates_Index_Cert" xml:space="preserve">
+    <value>Sertifikaatti</value>
+  </data>
+  <data name="UCertificates_Index_GrantDate" xml:space="preserve">
+    <value>Myöntämispäivä</value>
+  </data>
+  <data name="UCertificates_Index_Granter" xml:space="preserve">
+    <value>Myöntäjä</value>
+  </data>
+  <data name="UCertificates_Index_Search" xml:space="preserve">
+    <value>Hae sertifikaatteja...</value>
+  </data>
+  <data name="UCertificates_Index_Title" xml:space="preserve">
+    <value>- Sertifikaatit</value>
+  </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Arvioi</value>
   </data>
   <data name="UserSkills_Create_Title" xml:space="preserve">
     <value>Osaamisen Arviointi</value>
+  </data>
+  <data name="UserSkills_EditForm_Desc" xml:space="preserve">
+    <value>Useimmissa tapauksissa olisi parempi idea luoda uusi arvio vanhan muokkaamisen sijaan.</value>
+  </data>
+  <data name="UserSkills_EditForm_DescTitle" xml:space="preserve">
+    <value>Muokkaa aiempia arvioita</value>
+  </data>
+  <data name="UserSkills_EditForm_Title" xml:space="preserve">
+    <value>Arviointipäivä:</value>
+  </data>
+  <data name="UserSkills_EditForm_Update" xml:space="preserve">
+    <value>Päivitä</value>
   </data>
   <data name="UserSkills_Edit_SkillLevel" xml:space="preserve">
     <value>Taitotaso</value>

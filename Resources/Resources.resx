@@ -144,6 +144,15 @@
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Courses</value>
   </data>
+  <data name="DELETE_Button" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DELETE_Desc" xml:space="preserve">
+    <value>Are you sure you want to delete this?</value>
+  </data>
+  <data name="DELETE_Title" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
@@ -306,11 +315,53 @@
   <data name="PhoneLong" xml:space="preserve">
     <value>Phone number is too long!</value>
   </data>
+  <data name="UCertificates_Create_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="UCertificates_Create_DateTitle" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+  <data name="UCertificates_Create_DropDownDefault" xml:space="preserve">
+    <value>Select Certificate</value>
+  </data>
+  <data name="UCertificates_Create_Title" xml:space="preserve">
+    <value>Add a certificate</value>
+  </data>
+  <data name="UCertificates_Index_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="UCertificates_Index_Cert" xml:space="preserve">
+    <value>Certificate</value>
+  </data>
+  <data name="UCertificates_Index_GrantDate" xml:space="preserve">
+    <value>Grant Date</value>
+  </data>
+  <data name="UCertificates_Index_Granter" xml:space="preserve">
+    <value>Granted By</value>
+  </data>
+  <data name="UCertificates_Index_Search" xml:space="preserve">
+    <value>Search for certificates...</value>
+  </data>
+  <data name="UCertificates_Index_Title" xml:space="preserve">
+    <value>- Certificates</value>
+  </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
   <data name="UserSkills_Create_Title" xml:space="preserve">
     <value>Skill Evaluation</value>
+  </data>
+  <data name="UserSkills_EditForm_Desc" xml:space="preserve">
+    <value>Generally, you should be creating a new evaluation instead of editing an existing one.</value>
+  </data>
+  <data name="UserSkills_EditForm_DescTitle" xml:space="preserve">
+    <value>Edit existing form</value>
+  </data>
+  <data name="UserSkills_EditForm_Title" xml:space="preserve">
+    <value>Skill Entries for:</value>
+  </data>
+  <data name="UserSkills_EditForm_Update" xml:space="preserve">
+    <value>Update</value>
   </data>
   <data name="UserSkills_Edit_SkillLevel" xml:space="preserve">
     <value>Skill Level</value>

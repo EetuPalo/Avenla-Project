@@ -142,6 +142,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string DELETE_Button {
+            get {
+                return ResourceManager.GetString("DELETE_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this?.
+        /// </summary>
+        public static string DELETE_Desc {
+            get {
+                return ResourceManager.GetString("DELETE_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string DELETE_Title {
+            get {
+                return ResourceManager.GetString("DELETE_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Email {
@@ -628,6 +655,96 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string UCertificates_Create_Add {
+            get {
+                return ResourceManager.GetString("UCertificates_Create_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date:.
+        /// </summary>
+        public static string UCertificates_Create_DateTitle {
+            get {
+                return ResourceManager.GetString("UCertificates_Create_DateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Certificate.
+        /// </summary>
+        public static string UCertificates_Create_DropDownDefault {
+            get {
+                return ResourceManager.GetString("UCertificates_Create_DropDownDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a certificate.
+        /// </summary>
+        public static string UCertificates_Create_Title {
+            get {
+                return ResourceManager.GetString("UCertificates_Create_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string UCertificates_Index_Add {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate.
+        /// </summary>
+        public static string UCertificates_Index_Cert {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_Cert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grant Date.
+        /// </summary>
+        public static string UCertificates_Index_GrantDate {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_GrantDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Granted By.
+        /// </summary>
+        public static string UCertificates_Index_Granter {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_Granter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for certificates....
+        /// </summary>
+        public static string UCertificates_Index_Search {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - Certificates.
+        /// </summary>
+        public static string UCertificates_Index_Title {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string UserSkills_Create_Submit {
@@ -660,6 +777,42 @@ namespace Resources {
         public static string UserSkills_Edit_Title {
             get {
                 return ResourceManager.GetString("UserSkills_Edit_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generally, you should be creating a new evaluation instead of editing an existing one..
+        /// </summary>
+        public static string UserSkills_EditForm_Desc {
+            get {
+                return ResourceManager.GetString("UserSkills_EditForm_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit existing form.
+        /// </summary>
+        public static string UserSkills_EditForm_DescTitle {
+            get {
+                return ResourceManager.GetString("UserSkills_EditForm_DescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Entries for:.
+        /// </summary>
+        public static string UserSkills_EditForm_Title {
+            get {
+                return ResourceManager.GetString("UserSkills_EditForm_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string UserSkills_EditForm_Update {
+            get {
+                return ResourceManager.GetString("UserSkills_EditForm_Update", resourceCulture);
             }
         }
         

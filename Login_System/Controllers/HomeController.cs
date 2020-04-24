@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
+using Login_System.Helpers;
+using System.Web;
 
 namespace Login_System.Controllers
 {
@@ -37,5 +39,6 @@ namespace Login_System.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
