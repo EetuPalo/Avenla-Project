@@ -115,6 +115,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Edit_BTN_Save {
+            get {
+                return ResourceManager.GetString("Edit_BTN_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Course.
+        /// </summary>
+        public static string Edit_Title {
+            get {
+                return ResourceManager.GetString("Edit_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Lesson.
         /// </summary>
         public static string Index_BTN_AddLesson {
@@ -309,6 +327,42 @@ namespace Resources {
         public static string Index_TitleDesc {
             get {
                 return ResourceManager.GetString("Index_TitleDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Course Contents.
+        /// </summary>
+        public static string MODEL_CourseContents {
+            get {
+                return ResourceManager.GetString("MODEL_CourseContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Course Name.
+        /// </summary>
+        public static string MODEL_CourseName {
+            get {
+                return ResourceManager.GetString("MODEL_CourseName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length.
+        /// </summary>
+        public static string MODEL_LENGTH {
+            get {
+                return ResourceManager.GetString("MODEL_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string MODEL_LOCATION {
+            get {
+                return ResourceManager.GetString("MODEL_LOCATION", resourceCulture);
             }
         }
     }

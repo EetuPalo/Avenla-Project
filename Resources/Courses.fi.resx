@@ -135,6 +135,12 @@
   <data name="Create_Title" xml:space="preserve">
     <value>Luo uusi kurssi</value>
   </data>
+  <data name="Edit_BTN_Save" xml:space="preserve">
+    <value>Tallenna</value>
+  </data>
+  <data name="Edit_Title" xml:space="preserve">
+    <value>Muokkaa kurssia</value>
+  </data>
   <data name="Index_BTN_AddLesson" xml:space="preserve">
     <value>Lisää oppitunti</value>
   </data>
@@ -200,5 +206,17 @@
   </data>
   <data name="Index_TitleDesc" xml:space="preserve">
     <value>Klikkaa kurssia nähdäksesi lisätietoa.</value>
+  </data>
+  <data name="MODEL_CourseContents" xml:space="preserve">
+    <value>Kurssin sisältö</value>
+  </data>
+  <data name="MODEL_CourseName" xml:space="preserve">
+    <value>Kurssin nimi</value>
+  </data>
+  <data name="MODEL_LENGTH" xml:space="preserve">
+    <value>Pituus</value>
+  </data>
+  <data name="MODEL_LOCATION" xml:space="preserve">
+    <value>Sijainti</value>
   </data>
 </root>

@@ -135,6 +135,12 @@
   <data name="Create_Title" xml:space="preserve">
     <value>Create a new course</value>
   </data>
+  <data name="Edit_BTN_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Edit_Title" xml:space="preserve">
+    <value>Edit Course</value>
+  </data>
   <data name="Index_BTN_AddLesson" xml:space="preserve">
     <value>Add Lesson</value>
   </data>
@@ -200,5 +206,17 @@
   </data>
   <data name="Index_TitleDesc" xml:space="preserve">
     <value>Click on the course to view details.</value>
+  </data>
+  <data name="MODEL_CourseContents" xml:space="preserve">
+    <value>Course Contents</value>
+  </data>
+  <data name="MODEL_CourseName" xml:space="preserve">
+    <value>Course Name</value>
+  </data>
+  <data name="MODEL_LENGTH" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="MODEL_LOCATION" xml:space="preserve">
+    <value>Location</value>
   </data>
 </root>

@@ -5,16 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData.Peek("CourseName")@Resources.CourseMembers.Index_Title</h2>
+<h2>@TempData.Peek("CourseName")@Resources.SkillCourseMembers.Index_Title</h2>
 
 <div class="container-fluid p-0">
     <div class="row mb-4">
         <div class="col-sm">
 	@if(User.IsInRole("Admin"))
 	{
-            <a class="btn btn-primary" asp-action="Create">@Resources.CourseMembers.Index_Create</a>
+            <a class="btn btn-primary" asp-action="Create">@Resources.SkillCourseMembers.Index_Create</a>
 	}        
-            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">@Resources.CourseMembers.Index_BackCourse</a>
+            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">@Resources.SkillCourseMembers.Index_BackCourse</a>
         </div>
     </div>
 </div>
@@ -26,19 +26,19 @@
                 <thead>
                     <tr>
                         <th>
-                            @Resources.CourseMembers.Index_User
+                            @Resources.SkillCourseMembers.Index_User
                         </th>
                         <th>
-                            @Resources.CourseMembers.Index_Status
+                            @Resources.SkillCourseMembers.Index_Status
                         </th>
                         <th>
-                            @Resources.CourseMembers.Index_Completed
+                            @Resources.SkillCourseMembers.Index_Completed
                         </th>
                         <th>
-                            @Resources.CourseMembers.Index_Progress
+                            @Resources.SkillCourseMembers.Index_Progress
                         </th>
                         <th>
-                            @Resources.CourseMembers.Index_Grade
+                            @Resources.SkillCourseMembers.Index_Grade
                         </th>
                         <th></th>
                     </tr>
@@ -75,12 +75,12 @@
                                 <td>
                                     @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
                                     {
-                                        <a asp-action="Edit" asp-route-id="@item.Id">@Resources.CourseMembers.Index_BTN_Edit</a><span> |</span>
-                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">@Resources.CourseMembers.Index_BTN_Details</a> <span> |</span>
-                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.CourseMembers.Index_BTN_Delete</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Edit</a><span> |</span>
+                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">@Resources.SkillCourseMembers.Index_BTN_Details</a> <span> |</span>
+                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Delete</a>
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">@Resources.CourseMembers.Index_Grade</a>
+                                            <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_Grade</a>
                                         }
                                     }
                                 </td>
@@ -127,15 +127,15 @@
             @if (User.IsInRole("Admin"))
             {
             <h4>
-                @TempData["CourseName"] @Resources.CourseMembers.Index_SubTitle
+                @TempData["CourseName"] @Resources.SkillCourseMembers.Index_SubTitle
             </h4>
             <p>
-                @Resources.CourseMembers.Index_SubDescStart @TempData["CourseName"]@Resources.CourseMembers.Index_SubDescEnd
+                @Resources.SkillCourseMembers.Index_SubDescStart @TempData["CourseName"]@Resources.SkillCourseMembers.Index_SubDescEnd
             </p>
                 <p>
-                    <strong>@Resources.CourseMembers.Index_Enrolled</strong> @TempData["CourseMemberCount"] <br />
-                    <strong>@Resources.CourseMembers.Index_CompletedStatus</strong> @TempData["CompletedCount"] <br />
-                    <strong>@Resources.CourseMembers.Index_DroppedOut</strong> @TempData["DropoutCount"] <br />
+                    <strong>@Resources.SkillCourseMembers.Index_Enrolled</strong> @TempData["CourseMemberCount"] <br />
+                    <strong>@Resources.SkillCourseMembers.Index_CompletedStatus</strong> @TempData["CompletedCount"] <br />
+                    <strong>@Resources.SkillCourseMembers.Index_DroppedOut</strong> @TempData["DropoutCount"] <br />
                 </p>
             }
             else
@@ -144,7 +144,7 @@
                     @TempData["CourseName"]
                 </h4>
                 <p>
-                    @Resources.CourseMembers.Index_NotAdmin
+                    @Resources.SkillCourseMembers.Index_NotAdmin
                 </p>
             }
         </div>

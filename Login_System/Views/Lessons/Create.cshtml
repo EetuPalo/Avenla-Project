@@ -15,7 +15,7 @@
 
 </script>
 
-<h2>Add a lesson</h2>
+<h2>@Resources.Lessons.Create_Title</h2>
 
 <hr />
 <div class="row">
@@ -24,26 +24,26 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input hidden asp-for="CourseID" value="@Model.CourseID" />
             <div class="form-group">
-                <label asp-for="LessonName" class="control-label">Name</label>
+                <label asp-for="LessonName" class="control-label">@Resources.Lessons.Create_Name</label>
                 <input asp-for="LessonName" class="form-control" />
                 <span asp-validation-for="LessonName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <p>Date <input class="form-control" asp-for="DateString" type="text" id="lessonDate" /></p>
+                <p>@Resources.Lessons.Create_Date <input class="form-control" asp-for="DateString" type="text" id="lessonDate" /></p>
                 <span asp-validation-for="DateString" class="text-danger"></span>
             </div>
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
                         <div class="form-group">
-                            <label asp-for="HourString" class="control-label">Hour</label>
+                            <label asp-for="HourString" class="control-label">@Resources.Lessons.Create_Hour</label>
                             <input type="number" min="0" max="23" asp-for="HourString" class="form-control" />
                             <span asp-validation-for="HourString" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="form-group">
-                            <label asp-for="MinuteString" class="control-label">Minute</label>
+                            <label asp-for="MinuteString" class="control-label">@Resources.Lessons.Create_Minute</label>
                             <input type="number" min="0" max="59" asp-for="MinuteString" class="form-control" />
                             <span asp-validation-for="MinuteString" class="text-danger"></span>
                         </div>
@@ -51,15 +51,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
+                <label asp-for="Location" class="control-label">@Resources.Lessons.Create_Location</label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        <a asp-action="Index" asp-controller="SkillCourses" class="btn btn-danger">Back</a>
+                        <input type="submit" value=@Resources.Lessons.Create_BTN_Create class="btn btn-primary" />
+                        <a asp-action="Index" asp-controller="SkillCourses" class="btn btn-danger">@Resources.Resources.GENERAL_Back</a>
                     </div>
                 </div>
             </div>
