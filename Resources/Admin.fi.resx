@@ -126,6 +126,24 @@
   <data name="CreateRole_Title" xml:space="preserve">
     <value>Luo uusi rooli</value>
   </data>
+  <data name="EditRole_BTN_AddOrRemove" xml:space="preserve">
+    <value>Lisää tai poista käyttäjiä</value>
+  </data>
+  <data name="EditRole_BTN_Cancel" xml:space="preserve">
+    <value>Peruuta</value>
+  </data>
+  <data name="EditRole_BTN_Update" xml:space="preserve">
+    <value>Päivitä</value>
+  </data>
+  <data name="EditRole_NoUsers" xml:space="preserve">
+    <value>Roolilla ei ole käyttäjiä</value>
+  </data>
+  <data name="EditRole_SubTitle" xml:space="preserve">
+    <value>Roolin käyttäjät</value>
+  </data>
+  <data name="EditRole_Title" xml:space="preserve">
+    <value>Muokkaa roolia</value>
+  </data>
   <data name="ListRoles_BTN_Create" xml:space="preserve">
     <value>Lisää uusi</value>
   </data>

@@ -88,7 +88,16 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Add or remove users.
+        /// </summary>
+        public static string EditRole_BTN_AddOrRemove {
+            get {
+                return ResourceManager.GetString("EditRole_BTN_AddOrRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string EditRole_BTN_Cancel {
             get {
@@ -97,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Update.
         /// </summary>
         public static string EditRole_BTN_Update {
             get {
@@ -106,7 +115,25 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to No users in role.
+        /// </summary>
+        public static string EditRole_NoUsers {
+            get {
+                return ResourceManager.GetString("EditRole_NoUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users in this role.
+        /// </summary>
+        public static string EditRole_SubTitle {
+            get {
+                return ResourceManager.GetString("EditRole_SubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Role.
         /// </summary>
         public static string EditRole_Title {
             get {

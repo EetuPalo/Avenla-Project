@@ -16,6 +16,7 @@ namespace Login_System.Models
         public string Id { get; set; }
 
         [Required]
+        [Display(Name = "MODEL_CreateRole_RoleName", ResourceType = typeof(Resources.Admin))]
         public string RoleName { get; set; }
 
         public List<string> Users { get; set; }

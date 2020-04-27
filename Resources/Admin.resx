@@ -126,14 +126,23 @@
   <data name="CreateRole_Title" xml:space="preserve">
     <value>Create New Role</value>
   </data>
+  <data name="EditRole_BTN_AddOrRemove" xml:space="preserve">
+    <value>Add or remove users</value>
+  </data>
   <data name="EditRole_BTN_Cancel" xml:space="preserve">
-    <value />
+    <value>Cancel</value>
   </data>
   <data name="EditRole_BTN_Update" xml:space="preserve">
-    <value />
+    <value>Update</value>
+  </data>
+  <data name="EditRole_NoUsers" xml:space="preserve">
+    <value>No users in role</value>
+  </data>
+  <data name="EditRole_SubTitle" xml:space="preserve">
+    <value>Users in this role</value>
   </data>
   <data name="EditRole_Title" xml:space="preserve">
-    <value />
+    <value>Edit Role</value>
   </data>
   <data name="ListRoles_BTN_Create" xml:space="preserve">
     <value>Create New</value>

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit Role</h2>
+<h2>@Resources.Admin.EditRole_Title</h2>
 
 <form method="post" class="mt-3">
     <div class="form-group row">
@@ -25,14 +25,14 @@
 
     <div class="form-group row">
         <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a asp-action="ListRoles" class="btn btn-primary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@Resources.Admin.EditRole_BTN_Update</button>
+            <a asp-action="ListRoles" class="btn btn-primary">@Resources.Admin.EditRole_BTN_Cancel</a>
         </div>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <h3>Users in this role</h3>
+            <h3>@Resources.Admin.EditRole_SubTitle</h3>
         </div>
         <div class="card-body">
             @if (Model.Users.Any())
@@ -44,11 +44,11 @@
             }
             else
             {
-                <h5 class="card-title">No users in role</h5>
+        <h5 class="card-title">@Resources.Admin.EditRole_NoUsers</h5>
             }
         </div>
         <div class="card-footer">
-            <a asp-action="EditUsersInRole" asp-controller="Admin" asp-route-roleId="@Model.Id" class="btn btn-primary" style="width:auto">Add or remove users</a>
+            <a asp-action="EditUsersInRole" asp-controller="Admin" asp-route-roleId="@Model.Id" class="btn btn-primary" style="width:auto">@Resources.Admin.EditRole_BTN_AddOrRemove</a>
         </div>
     </div>
 </form>
