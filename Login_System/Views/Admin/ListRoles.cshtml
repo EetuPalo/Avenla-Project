@@ -4,18 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>User Roles</h2>
+<h2>@Resources.Admin.ListRoles_Title</h2>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
 
 <form asp-controller="Admin" asp-action="ListRoles">
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for roles...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Admin.ListRoles_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="CreateRole">Create New</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Admin.ListRoles_BTN_Search />
+                <a class="btn btn-primary" asp-action="CreateRole">@Resources.Admin.ListRoles_BTN_Create</a>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
                     <thead>
                         <tr>
                             <th>
-                                Role
+                                @Resources.Admin.ListRoles_Role
                             </th>
                             <th></th>
                         </tr>
@@ -44,8 +44,8 @@
                                 <td>
                                     @if (item.Name != "Admin" && item.Name != "User")
                                     {
-                                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Id">Edit | </a>
-                                        <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">Delete</a>
+                                        <a asp-action="EditRole" asp-controller="Admin" asp-route-id="@item.Id">@Resources.Admin.ListRoles_BTN_Edit | </a>
+                                        <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">@Resources.Admin.ListRoles_BTN_Delete</a>
                                     }
 
 
@@ -58,11 +58,10 @@
         </div>
         <div class="col-sm-8">
             <h4>
-                List of Roles
+                @Resources.Admin.ListRoles_SubTitle
             </h4>
             <p>
-                Roles "User" and "Admin" cannot be deleted as they are important for the application security.
-                You can add new roles but they don't have any functionality. In most cases it's a better idea to use <a asp-action="Index" asp-controller="Groups">GROUPS</a>.
+                @Resources.Admin.ListRoles_SubDesc <a asp-action="Index" asp-controller="Groups">@Resources.Admin.ListRoles_Groups</a>.
             </p>
         </div>
     </div>

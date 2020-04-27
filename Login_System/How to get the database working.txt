@@ -10,6 +10,8 @@ Update-Database -Context [ContextName]
 //Then you need to run all of the following
 //IN Visual Studio Packet Manager console.
 
+Add-Migration identityInit -Context IdentityDataContext
+Update-Database -Context IdentityDataContext
 
 Add-Migration certificateInit -Context CertificateDataContext
 Update-Database -Context CertificateDataContext

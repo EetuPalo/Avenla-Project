@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create New Role</h2>
+<h2>@Resources.Admin.CreateRole_Title</h2>
 <hr />
 <fieldset>
     <form asp-action="CreateRole" asp-controller="Admin">
@@ -15,7 +15,7 @@
             <div class="row mb-4">
                 <div class="col-sm-4">
                     <label class="form-check-label" asp-for="RoleName"></label>
-                    <input asp-for="RoleName" class="form-control" placeholder="Role Name" />
+                    <input asp-for="RoleName" class="form-control" placeholder=@Resources.Admin.CreateRole_RoleName />
                     <span asp-validation-for="RoleName"></span>
                 </div>
                 <div class="col-sm-8"></div>
@@ -25,8 +25,8 @@
         <div class="container-fluid p-0">
             <div class="row">
                 <div class="col-sm">
-                    <button class="btn btn-primary" type="submit">Create Role</button>
-                    <a class="btn btn-danger" asp-action="ListRoles" asp-controller="Admin">Back to List</a>
+                    <button class="btn btn-primary" type="submit">@Resources.Admin.CreateRole_BTN_Create</button>
+                    <a class="btn btn-danger" asp-action="ListRoles" asp-controller="Admin">@Resources.Resources.GENERAL_Back</a>
                 </div>
             </div>
         </div>
