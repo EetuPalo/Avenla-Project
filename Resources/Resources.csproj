@@ -30,6 +30,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Courses.resx</DependentUpon>
     </Compile>
+    <Compile Update="Groups.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Groups.resx</DependentUpon>
+    </Compile>
     <Compile Update="Lessons.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -49,6 +54,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>SkillCourseMembers.resx</DependentUpon>
+    </Compile>
+    <Compile Update="SkillGoals.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SkillGoals.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -71,6 +81,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Courses.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Groups.fi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Groups.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Groups.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Lessons.fi.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -92,6 +109,13 @@
     <EmbeddedResource Update="SkillCourseMembers.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SkillCourseMembers.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkillGoals.fi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SkillGoals.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SkillGoals.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -5,18 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>User Groups</h2>
+<h2>@Resources.Groups.Index_Title</h2>
 <h4>@TempData["ActionResult"]</h4>
 
 <form asp-controller="Groups" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for user groups...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Groups.Index_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create">Create New</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Groups.Index_BTN_Search />
+                <a class="btn btn-primary" asp-action="Create">@Resources.Groups.Index_BTN_Create</a>
             </div>
         </div>
     </div>   
@@ -29,7 +29,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Group
+                            @Resources.Groups.Index_Group
                         </th>
                         <th></th>
                     </tr>
@@ -42,8 +42,8 @@
                                 @Html.DisplayFor(modelItem => item.name)
                             </td>
                             <td>
-                                <a asp-action="Statistics" asp-route-id="@item.id">View</a> |
-                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                                <a asp-action="Statistics" asp-route-id="@item.id">@Resources.Groups.Index_View</a> |
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.id">@Resources.Resources.DELETE_Button</a>
                             </td>
                         </tr>
                     }
@@ -51,9 +51,9 @@
             </table>
         </div>
         <div class="col-sm-6">
-            <h4>User Groups</h4>
+            <h4>@Resources.Groups.Index_SubTitle</h4>
             <p>
-                Add, edit, and view groups from here. Be careful, as deleting a user group will also remove any skillgoals for the users belonging to said group.
+                @Resources.Groups.Index_SubDesc
             </p>
         </div>
     </div>

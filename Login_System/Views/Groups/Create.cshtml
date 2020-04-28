@@ -5,11 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Groups [1/3]</h2>
-<h4>Welcome to group creation!</h4>
-<p>Group creation will have 3 parts: Creating the group, setting skillgoals for the group, and adding users to it.<br />
-    You can abort the process at any point (for example, if you don't want to add skillgoals or users right away) and the group will still be created. <br />
-    Goals and users can be added later.
+<h2>@Resources.Groups.Create_Title</h2>
+<h4>@Resources.Groups.Create_SubTitle</h4>
+<p>
+    @Resources.Groups.Create_Desc1<br />
+    @Resources.Groups.Create_Desc2 <br />
+    @Resources.Groups.Create_Desc3
 </p>
 <hr />
 <div class="row">
@@ -17,15 +18,15 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="name" class="control-label">Group Name</label>
+                <label asp-for="name" class="control-label"></label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        <a class="btn btn-danger" asp-action="Index">Exit</a>
+                        <input type="submit" value=@Resources.Groups.Create_BTN_Create class="btn btn-primary" />
+                        <a class="btn btn-danger" asp-action="Index">@Resources.Groups.Create_BTN_Exit</a>
                     </div>
                 </div>
             </div>
