@@ -5,16 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Certificates</h2>
+<h2>@Resources.Certificates.Index_Title</h2>
 <form asp-controller="Certificates" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for certificates...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Certificates.Index_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create">Create New</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Certificates.Index_BTN_Search />
+                <a class="btn btn-primary" asp-action="Create">@Resources.Certificates.Index_BTN_Create</a>
             </div>
         </div>
     </div>
@@ -45,8 +45,8 @@
                                 @Html.DisplayFor(modelItem => item.Organization)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Edit</a> |
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }
@@ -54,9 +54,9 @@
             </table>
         </div>
         <div class="col-sm-6">
-            <h4>Certificates</h4>
-            <p>Certificate is a document serving as evidence of certain qualifications.</p>
-            <p>Here you can add, edit, and delete certificates for users to choose from.</p>
+            <h4>@Resources.Certificates.Index_SubTitle</h4>
+            <p>@Resources.Certificates.Index_SubDesc1</p>
+            <p>@Resources.Certificates.Index_SubDesc2</p>
         </div>
     </div>
 </div>

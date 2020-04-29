@@ -5,17 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Skills</h2>
+<h2>@Resources.Skills.Index_Title</h2>
 
 <form asp-controller="Skills" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for skills...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Skills.Index_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" />
-                <a class="btn btn-primary" asp-action="Create">Create New</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Skills.Index_BTN_Search />
+                <a class="btn btn-primary" asp-action="Create">@Resources.Skills.Index_BTN_Create</a>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Skill
+                            @Resources.Skills.Index_Skill
                         </th>
                         <th></th>
                     </tr>
@@ -41,8 +41,8 @@
                                 @Html.DisplayFor(modelItem => Model[i].Skill)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@Model[i].Id">Edit</a> |
-                                <a class="text-danger" asp-action="Delete" asp-route-id="@Model[i].Id">Delete</a>
+                                <a asp-action="Edit" asp-route-id="@Model[i].Id">@Resources.Skills.Index_BTN_Edit</a> |
+                                <a class="text-danger" asp-action="Delete" asp-route-id="@Model[i].Id">@Resources.Skills.Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }
@@ -50,10 +50,9 @@
             </table>
         </div>
         <div class="col-sm-8">
-            <h4>List of skills</h4>
+            <h4>@Resources.Skills.Index_SubTitle</h4>
             <p>
-                Here are listed all the skills that can be set as goals for different user groups. You can add, remove, and edit them here.
-                If you want to edit skill goals for users, go to <a asp-action="Index" asp-controller="Groups">groups</a>.
+                @Resources.Skills.Index_SubDesc <a asp-action="Index" asp-controller="Groups">@Resources.Skills.Index_SubLink</a>
             </p>
         </div>
     </div>
