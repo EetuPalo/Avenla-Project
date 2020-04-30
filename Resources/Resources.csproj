@@ -5,16 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="CourseMembers.fi.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="CourseMembers.fi.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Admin.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -24,11 +14,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Certificates.resx</DependentUpon>
-    </Compile>
-    <Compile Update="CourseMembers.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CourseMembers.resx</DependentUpon>
     </Compile>
     <Compile Update="Courses.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -86,10 +71,6 @@
     <EmbeddedResource Update="Certificates.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Certificates.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="CourseMembers.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CourseMembers.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Courses.fi.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -14,6 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Localization;
 
 namespace Login_System
 {
@@ -118,6 +122,23 @@ namespace Login_System
             {
                 opt.LoginPath = "/Account/Login";
             });
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            //services.AddLocalization(options => options.ResourcesPath = "");
+            //services.TryAddSingleton<IStringLocalizer, ZLocalizer>();
+            services.Configure<RequestLocalizationOptions>(
+            options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                {
+               new CultureInfo("en-GB"),
+               new CultureInfo("fi-FI"),
+                };
+                options.DefaultRequestCulture = new RequestCulture(culture: "fi-FI", uiCulture: "fi-FI");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                services.AddSingleton(options);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -134,6 +155,24 @@ namespace Login_System
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //LOCALIZATION STUFF
+            /*
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("fi-FI")
+            };
+
+            var requestLocalizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            app.UseRequestLocalization(requestLocalizationOptions);
+            */
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -149,6 +188,7 @@ namespace Login_System
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+           
         }
     }
 }

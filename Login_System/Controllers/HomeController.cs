@@ -9,6 +9,8 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Login_System.Helpers;
 using System.Web;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace Login_System.Controllers
 {
@@ -39,6 +41,26 @@ namespace Login_System.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(1),
+                    //IsEssential = true,  //critical settings to apply new culture 
+                    //Path = "/",
+                    //HttpOnly = false,
+                }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
+
 
     }
 }
