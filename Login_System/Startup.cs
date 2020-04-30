@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Options;
 
 namespace Login_System
 {
@@ -134,7 +136,7 @@ namespace Login_System
                new CultureInfo("en-GB"),
                new CultureInfo("fi-FI"),
                 };
-                options.DefaultRequestCulture = new RequestCulture(culture: "fi-FI", uiCulture: "fi-FI");
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-GB", uiCulture: "en-GB");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
                 services.AddSingleton(options);
@@ -173,6 +175,28 @@ namespace Login_System
 
             app.UseRequestLocalization(requestLocalizationOptions);
             */
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(localizationOptions.Value);
+
+            /*
+            app.UseRouter(routes =>
+            {
+                routes.MapMiddlewareRoute("{culture=hu-HU}/{*mvcRoute}", subApp =>
+                {
+                    #region Multilanguage
+                    subApp.UseRequestLocalization(localizationOptions.Value);
+                    #endregion
+
+                    subApp.UseEndpoints(endpoints =>
+                    {
+
+                        endpoints.MapControllerRoute(
+                            name: "default",
+                            pattern: "{culture=en-GB}/{controller=Home}/{action=Index}/{id?}");
+                    });
+                });
+            });
+            */
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -181,11 +205,12 @@ namespace Login_System
             app.UseAuthentication();
             app.UseAuthorization();
 
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{culture=fi_FI}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
            

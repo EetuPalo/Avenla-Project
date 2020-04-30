@@ -32,9 +32,11 @@
             <form id="selectLanguage" asp-controller="Home"
                   asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
                   method="post" class="form-horizontal" role="form">
-                <select name="culture"
+                <select class="form-control" name="culture"
                         onchange="this.form.submit();"
-                        asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+                        asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+                    <option selected value="fi-FI">Select Language</option>
+                </select>
             </form>
         </li>
     }
