@@ -100,13 +100,13 @@ namespace Login_System.Controllers
                         await UserMgr.AddToRoleAsync(user, "Admin");
                     }
 
-                    ViewBag.Message = "User has been created!";
+                    ViewBag.Message = Resources.ActionMessages.ActionResult_UserCreated;
                     TempData["UserFullNames"] = user.FirstName + " " + user.LastName;
                     return View("Index");
                 }
                 else
                 {
-                    ViewBag.Message = "Username taken!";
+                    ViewBag.Message = Resources.ActionMessages.ActionResult_UserTaken;
                     return View("Index");
                 }
             }
