@@ -14,7 +14,7 @@
 	{
             <a class="btn btn-primary" asp-action="Create">@Resources.SkillCourseMembers.Index_Create</a>
 	}        
-            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">@Resources.SkillCourseMembers.Index_BackCourse</a>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses">@Resources.SkillCourseMembers.Index_BackCourse</a>
         </div>
     </div>
 </div>
@@ -75,9 +75,15 @@
                                 <td>
                                     @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
                                     {
-                                        <a asp-action="Edit" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Edit</a><span> |</span>
-                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">@Resources.SkillCourseMembers.Index_BTN_Details</a> <span> |</span>
+                                        <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Edit</a><span> </span>
+                                        </td>
+                                        <td>
+                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">@Resources.SkillCourseMembers.Index_BTN_Details</a> <span> </span>
+                                        </td>
+                                        <td>
                                         <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Delete</a>
+                                        </td>
                                         @if (User.IsInRole("Admin"))
                                         {
                                             <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_Grade</a>

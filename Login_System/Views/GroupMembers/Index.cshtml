@@ -15,7 +15,7 @@
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value=@Resources.Groups.Members_Index_BTN_Search asp-route-id="@TempData["GroupID"]" />
                 <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit">@Resources.Groups.Members_Index_BTN_EditMembers</a>
-                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">@Resources.Resources.GENERAL_Back</a>
+                <a class="btn btn-primary" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">@Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>
@@ -41,8 +41,8 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers">@Resources.Groups.Members_Index_BTN_Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Groups.Members_Index_BTN_Delete</a>
+                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers">@Resources.Groups.Members_Index_BTN_Details</a> 
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">@Resources.Groups.Members_Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }

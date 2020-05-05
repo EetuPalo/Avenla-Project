@@ -45,8 +45,8 @@
                                 @Html.DisplayFor(modelItem => item.Organization)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Edit</a> |
-                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Delete</a>
+                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Edit</a> 
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }

@@ -9,7 +9,7 @@
 <hr />
 <p>
     <a class="btn btn-info" asp-action="Create">@Resources.Lessons.User_Index_BTN_Create</a>
-    <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">@Resources.Resources.GENERAL_Back</a>
+    <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses">@Resources.Resources.GENERAL_Back</a>
 </p>
 <div class="container-fluid p-0">
     <div class="row">
@@ -31,8 +31,8 @@
                                 @Html.DisplayFor(modelItem => item.MemberName)
                             </td>
                             <td>
-                                <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.MemberID" asp-route-source="lesson" asp-route-sourceId="@item.LessonID">@Resources.Lessons.User_Index_BTN_Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Lessons.User_Index_BTN_Delete</a>
+                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.MemberID" asp-route-source="lesson" asp-route-sourceId="@item.LessonID">@Resources.Lessons.User_Index_BTN_Details</a> 
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">@Resources.Lessons.User_Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }

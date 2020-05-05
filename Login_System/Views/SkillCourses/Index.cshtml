@@ -75,28 +75,41 @@
             <td>
                 @if (item.MemberStatus == false)
                 {
-                    <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> | </span>
+                    <td>
+                    <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> </span>
+                    </td>
                 }
                 else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus != true)
                 {
-                    <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span> | </span>
-                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a><span> | </span>
+                    <td>
+                    <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
+                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a><span>  </span>
+                        </td>
                 }
                 else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus == true)
                 {
+                    <td>
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a>
+                        </td>
                 }
                 else if (item.MemberStatus == true && User.IsInRole("Admin") && item.CompleteStatus != true)
                 {
-                    <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span> | </span>
+                    <td>
+                    <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
+                        </td>
                 }
                 else if (item.MemberStatus == true && item.CompleteStatus == true)
                 {
-                    <span class="text-success">@Resources.Courses.Index_Status_Completed</span><span> | </span>
+                    <td>
+                    <span class="text-success">@Resources.Courses.Index_Status_Completed</span><span>  </span>
+                        </td>
                 }
                 @if (User.IsInRole("Admin"))
                 {
-                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Members</a><span> |</span>
+                    <td>
+                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Members</a><span> </span>
+                        </td>
+                        <td>
                     <div class="dropdown show">
                         <a class="dropdown-toggle" href="#" role="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             @Resources.Courses.Index_BTN_Edit
@@ -108,6 +121,7 @@
                             <a class="dropdown-item" asp-action="AddUsers" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddMembers</a>
                         </div>
                     </div>		            
+                      </td>
                 }
             </td>
         </tr>
@@ -152,13 +166,18 @@
                                     </td>
                                     <td>
                                         @if (lesson.LessonStatus != true)
-                                        {
-                                            <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Attend</a> <span>| </span>
-                                        }                                      
+                                        {   <td>
+                                            <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Attend</a> <span> </span>
+                                            </td>
+                                        }   
+                                            <td>
                                             <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Members</a>
+                                            </td>
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <span>| </span><a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">@Resources.Courses.Index_Lesson_Attending</a>
+                                            <td>
+                                            <span> </span><a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">@Resources.Courses.Index_Lesson_Attending</a>
+                                            </td>
                                         }
                                     </td>
                                 </tr>
