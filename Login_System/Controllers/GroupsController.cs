@@ -223,7 +223,7 @@ namespace Login_System.Controllers
             }
             else
             {
-                ViewBag.LatestGoal = "NO DATA";
+                ViewBag.LatestGoal = Resources.ActionMessages.Stats_Avg_NoData;
             }
 
             TempData["GroupID"] = id;
@@ -285,7 +285,7 @@ namespace Login_System.Controllers
                     }
                     catch
                     {
-                        tempModel.Average = "NO_DATA";
+                        tempModel.Average = Resources.ActionMessages.Stats_Avg_NoData;
                     }
                 }
                 model.Add(tempModel);

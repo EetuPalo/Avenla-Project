@@ -152,15 +152,15 @@ namespace Login_System.Controllers
                     catch
                     {
                         //Console.WriteLine("An error occured but the account may have still been created. Check the account list!");
-                        TempData["CreateStatus"] = "An error occured but the account may have still been created. Check the account list!";
+                        TempData["CreateStatus"] = Resources.ActionMessages.CreateStatus_Error;
                     }
                    
-                    TempData["ActionResult"] = "User " + fixedUn + " created successfully!";
+                    TempData["ActionResult"] = Resources.ActionMessages.CreateStatus_Success1 + fixedUn + Resources.ActionMessages.CreateStatus_Success2;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["CreateStatus"] = "Username taken!";
+                    TempData["CreateStatus"] = Resources.ActionMessages.CreateStatus_UserTaken;
                     return RedirectToAction("Index");
                 }
             }
@@ -243,7 +243,7 @@ namespace Login_System.Controllers
                     catch
                     {
                         Console.WriteLine("Updating user information failed!");
-                        TempData["ActionResult"] = "User edit failed!";
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
                         return View(appUser);
                     }
                 }
@@ -257,20 +257,20 @@ namespace Login_System.Controllers
                         var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
                         var result = await UserMgr.UpdateAsync(user);
 
-                        TempData["ActionResult"] = "User edited!";
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditSuccess;
                         return RedirectToAction(nameof(Index));
                     }
                     catch
                     {
                         Console.WriteLine("Updating user information with password failed!");
-                        TempData["ActionResult"] = "User edit failed!";
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
                         return View(appUser);
                     }
                 }                  
                 else
                 {
                     Console.WriteLine("You do not have the permission to edit this user!");
-                    TempData["ActionResult"] = "User edit failed!";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -310,7 +310,7 @@ namespace Login_System.Controllers
             var appUser = await _context.Users.FindAsync(id);
             _context.Users.Remove(appUser);
             await _context.SaveChangesAsync();
-            TempData["ActionResult"] = "User has been deleted!";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;
             return RedirectToAction(nameof(Index));
         }
 

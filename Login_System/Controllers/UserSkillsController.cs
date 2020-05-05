@@ -385,8 +385,8 @@ namespace Login_System.Controllers
             }
             else
             {
-                TempData["ActionResult"] = "Add the user to a group first.";
-                TempData["Status"] = "failed";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AddToGroup;
+                TempData["Status"] = Resources.ActionMessages.ActionResult_GeneralFail;
                 return RedirectToAction(nameof(SkillList), "UserSkills", new { id = id, name = "latest" });
             }
         }
@@ -524,7 +524,7 @@ namespace Login_System.Controllers
             }
             catch
             {
-                ViewBag.Date = "INVALID_DATE";
+                ViewBag.Date = Resources.ActionMessages.ViewBag_InvalidDate;
             }
             //Getting the correct entries by date and userId
             var viewModel = new EditFormVM();

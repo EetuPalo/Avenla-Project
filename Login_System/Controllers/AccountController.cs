@@ -144,11 +144,12 @@ namespace Login_System.Controllers
                     // _context.SaveChanges();//save changes to the DB
 
                     // check if person who is trying to log in is inactive
+                    
                     if (appUser.EmpStatus == "Inactive") 
                     {
                         await SignInMgr.SignOutAsync();
                         ViewBag.Message = "Your account has been locked due inactivity";
-                        return View("Index");
+                        return View();
                     }
                     
                     
