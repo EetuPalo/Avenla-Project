@@ -29,6 +29,7 @@ namespace Login_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -118,6 +119,9 @@ namespace Login_System
             {
                 opt.LoginPath = "/Account/Login";
             });
+
+            //Token lifetime configurations
+            services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromSeconds(30));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
