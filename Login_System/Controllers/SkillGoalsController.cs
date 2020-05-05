@@ -239,7 +239,7 @@ namespace Login_System.Controllers
                 //This displays a warning if a skill has been selected more than once
                 if (duplicateCheck.Contains(entry.SkillName))
                 {
-                    TempData["ActionWarning"] = "A skill has been selected multiple times. One of the selections may have been overridden.";
+                    TempData["ActionWarning"] = Resources.ActionMessages.ActionWarning_MultipleSkillSelect;
                 }
                 duplicateCheck.Add(entry.SkillName);
                 _context.Add(entry);
@@ -262,10 +262,10 @@ namespace Login_System.Controllers
                 groupId = group.id;
             }
 
-            TempData["ActionResult"] = "New goals set!";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSet;
             if (source == "create")
             {
-                TempData["ActionResult"] = "Goals set! Now you can add users to the group.";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSetAddUser;
                 TempData["ActionPhase"] = "[3/3]";
                 return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  groupId, group = groupName});
             }
@@ -320,7 +320,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                TempData["ActionResult"] = "Goals edited successfully!";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalEdited;
                 return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
             }
             return View(skillGoals);
@@ -353,7 +353,7 @@ namespace Login_System.Controllers
             _context.SkillGoals.Remove(skillGoals);
             await _context.SaveChangesAsync();
 
-            TempData["ActionResult"] = "Goals deleted successfully!";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalDeleted;
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
@@ -375,11 +375,11 @@ namespace Login_System.Controllers
                         }
                     }
                     await _context.SaveChangesAsync();
-                    TempData["ActionResult"] = "Goals deleted successfully!";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalDeleted;
                 }
                 catch
                 {
-                    TempData["ActionResult"] = "An exception occured when deleting goals!";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalDeletedFail;
                 }
             }
             return RedirectToAction(nameof(Index), new { name = group });

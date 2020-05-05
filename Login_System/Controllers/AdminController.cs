@@ -42,7 +42,7 @@ namespace Login_System.Controllers
 
                 if (result.Succeeded)
                 {
-                    TempData["ActionResult"] = "Role created successfully!";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleSuccessful;
                     return RedirectToAction("ListRoles", "Admin");
                 }
 
@@ -272,7 +272,7 @@ namespace Login_System.Controllers
         {
             if (id == null)
             {
-                TempData["ActionResult"] = "No role deleted. This is likely an error.";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteFail;
                 return RedirectToAction(nameof(ListRoles));
             }
             else
@@ -281,12 +281,12 @@ namespace Login_System.Controllers
                 var result = await roleManager.DeleteAsync(tempRole);
                 if (result.Succeeded)
                 {
-                    TempData["ActionResult"] = "Role deleted successfully!";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteSuccess;
                     return RedirectToAction(nameof(ListRoles));
                 }
                 else if (!result.Succeeded)
                 {
-                    TempData["ActionResult"] = "An exception occured while deleting role. Check the list!";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteException;
                     return RedirectToAction(nameof(ListRoles));
                 }
                 return RedirectToAction(nameof(ListRoles));

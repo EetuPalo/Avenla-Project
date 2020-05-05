@@ -82,6 +82,7 @@ namespace Login_System.Controllers
 
             //This is for the search
             var userSkills = from c in _context.UserSkills select c;
+            TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))                
             {
                 //Reformatting the string
@@ -112,6 +113,7 @@ namespace Login_System.Controllers
                         dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                     }
                 }
+                TempData["SearchValue"] = searchString;
             }
             else
             {
@@ -385,8 +387,8 @@ namespace Login_System.Controllers
             }
             else
             {
-                TempData["ActionResult"] = "Add the user to a group first.";
-                TempData["Status"] = "failed";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AddToGroup;
+                TempData["Status"] = Resources.ActionMessages.ActionResult_GeneralFail;
                 return RedirectToAction(nameof(SkillList), "UserSkills", new { id = id, name = "latest" });
             }
         }
@@ -524,7 +526,7 @@ namespace Login_System.Controllers
             }
             catch
             {
-                ViewBag.Date = "INVALID_DATE";
+                ViewBag.Date = Resources.ActionMessages.ViewBag_InvalidDate;
             }
             //Getting the correct entries by date and userId
             var viewModel = new EditFormVM();

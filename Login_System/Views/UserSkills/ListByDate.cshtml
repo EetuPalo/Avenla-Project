@@ -21,7 +21,7 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" id="dateSearch" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder>
+                <input readonly class="form-control" type="text" name="SearchString" id="dateSearch" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder value=@TempData["SearchValue"]>
             </div>
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value=@Resources.Resources.GENERAL_Search />
