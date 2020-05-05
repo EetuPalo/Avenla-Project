@@ -246,6 +246,15 @@
   <data name="FirstNameRequired" xml:space="preserve">
     <value>First name is required!</value>
   </data>
+  <data name="ForgotPassword_Desc" xml:space="preserve">
+    <value>Insert your email address where reset password link will be sent.</value>
+  </data>
+  <data name="ForgotPassword_EmailSent" xml:space="preserve">
+    <value>Password Email has been sent to given E-mail address.</value>
+  </data>
+  <data name="ForgotPassword_Title" xml:space="preserve">
+    <value>Forget your password?</value>
+  </data>
   <data name="GENERAL_Back" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -297,6 +306,9 @@
   <data name="Login_Desc" xml:space="preserve">
     <value>Please log in with your email and password. If you have forgotten your password, click "Forgot your password?" link to get instructions.</value>
   </data>
+  <data name="Login_ForgotPassword" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
   <data name="Login_Login" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -314,6 +326,18 @@
   </data>
   <data name="PhoneLong" xml:space="preserve">
     <value>Phone number is too long!</value>
+  </data>
+  <data name="ResetPassword_Desc" xml:space="preserve">
+    <value>Give new password.</value>
+  </data>
+  <data name="ResetPassword_PasswordChanged" xml:space="preserve">
+    <value>Password has been changed.</value>
+  </data>
+  <data name="ResetPassword_Submit" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="ResetPassword_Title" xml:space="preserve">
+    <value>Change your password</value>
   </data>
   <data name="UCertificates_Create_Add" xml:space="preserve">
     <value>Add</value>

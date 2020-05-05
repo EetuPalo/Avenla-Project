@@ -5,30 +5,37 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="ActionMessages.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ActionMessages.resx</DependentUpon>
-    </Compile>
+    <EmbeddedResource Remove="CourseMembers.fi.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="CourseMembers.fi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Admin.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Admin.resx</DependentUpon>
     </Compile>
-    <Compile Update="Certificates.Designer.cs">
+    <Compile Update="CourseMembers.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Certificates.resx</DependentUpon>
+      <DependentUpon>CourseMembers.resx</DependentUpon>
     </Compile>
     <Compile Update="Courses.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Courses.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Groups.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Groups.resx</DependentUpon>
     </Compile>
     <Compile Update="Lessons.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -50,26 +57,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SkillCourseMembers.resx</DependentUpon>
     </Compile>
-    <Compile Update="SkillGoals.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SkillGoals.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Skills.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Skills.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ActionMessages.fi.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="ActionMessages.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ActionMessages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Admin.fi.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
@@ -77,12 +67,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Admin.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Certificates.fi.resx">
+    <EmbeddedResource Update="CourseMembers.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Certificates.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Certificates.Designer.cs</LastGenOutput>
+      <LastGenOutput>CourseMembers.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Courses.fi.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -90,13 +77,6 @@
     <EmbeddedResource Update="Courses.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Courses.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Groups.fi.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Groups.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Groups.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Lessons.fi.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -119,20 +99,6 @@
     <EmbeddedResource Update="SkillCourseMembers.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SkillCourseMembers.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="SkillGoals.fi.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="SkillGoals.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SkillGoals.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Skills.fi.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Skills.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Skills.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

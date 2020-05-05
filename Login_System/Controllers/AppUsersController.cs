@@ -34,6 +34,13 @@ namespace Login_System.Controllers
         // GET: AppUsers
         public async Task<IActionResult> Index(string searchString)
         {
+
+            //  Stores the search input to preserve it in the text field
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                TempData["LastSearch"] = searchString;
+            }
+
             var employees = from e in _context.Users select e;
             if(!String.IsNullOrEmpty(searchString))
             {                

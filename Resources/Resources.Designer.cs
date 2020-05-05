@@ -448,6 +448,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Insert your email address where reset password link will be sent..
+        /// </summary>
+        public static string ForgotPassword_Desc {
+            get {
+                return ResourceManager.GetString("ForgotPassword_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password Email has been sent to given E-mail address..
+        /// </summary>
+        public static string ForgotPassword_EmailSent {
+            get {
+                return ResourceManager.GetString("ForgotPassword_EmailSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forget your password?.
+        /// </summary>
+        public static string ForgotPassword_Title {
+            get {
+                return ResourceManager.GetString("ForgotPassword_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string GENERAL_Back {
@@ -601,6 +628,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forgot Password?.
+        /// </summary>
+        public static string Login_ForgotPassword {
+            get {
+                return ResourceManager.GetString("Login_ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login_Login {
@@ -651,6 +687,42 @@ namespace Resources {
         public static string PhoneLong {
             get {
                 return ResourceManager.GetString("PhoneLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Give new password..
+        /// </summary>
+        public static string ResetPassword_Desc {
+            get {
+                return ResourceManager.GetString("ResetPassword_Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password has been changed..
+        /// </summary>
+        public static string ResetPassword_PasswordChanged {
+            get {
+                return ResourceManager.GetString("ResetPassword_PasswordChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword_Submit {
+            get {
+                return ResourceManager.GetString("ResetPassword_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change your password.
+        /// </summary>
+        public static string ResetPassword_Title {
+            get {
+                return ResourceManager.GetString("ResetPassword_Title", resourceCulture);
             }
         }
         

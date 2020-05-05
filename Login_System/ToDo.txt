@@ -30,7 +30,7 @@
 	- "Piilaakso Academy Oy c 2020"
 
 //-----------LOGIN------------//
-- Add "Forgot your password?" feature
+///////- Add "Forgot your password?" feature
   - It's available by default in the Identity. It used to be here, we should be able to bring it back
 ///////- Welcome to piilaakso
 

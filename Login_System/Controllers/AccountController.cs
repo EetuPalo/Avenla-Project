@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.ViewModels;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Logging;
 
 namespace Login_System.Controllers
 {
@@ -75,6 +80,7 @@ namespace Login_System.Controllers
                     IdentityResult result;
                     IdentityResult roleResult;
                     result = await UserMgr.CreateAsync(user, newUser.Password);
+                    
 
                     //This is only for the case that DB roles is empty
                     if (await roleMgr.RoleExistsAsync("User"))
@@ -112,7 +118,6 @@ namespace Login_System.Controllers
             }
             return View(newUser);
 
-            
         }
 
         [HttpGet]
@@ -127,21 +132,32 @@ namespace Login_System.Controllers
             var tempUser = UserMgr.Users.FirstOrDefault(x => x.Email == user.Email);
             if (tempUser != null)
             {
+                
                 var result = await SignInMgr.PasswordSignInAsync(tempUser.UserName, user.Password, false, false);
                 if (result.Succeeded)
                 {
                     /* After User logs in, that user's "Active" field's value is changed to 'Active' */
                     var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == tempUser.UserName);//find the user in the db
                                                                                                           //appUser.Active = "Active";//set the value to active
-                    _context.Users.Attach(appUser);//attach to the user object
-                    _context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
-                    _context.SaveChanges();//save changes to the DB
+                    //_context.Users.Attach(appUser);//attach to the user object
+                    //_context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
+                    // _context.SaveChanges();//save changes to the DB
 
+                    // check if person who is trying to log in is inactive
+                    if (appUser.EmpStatus == "Inactive") 
+                    {
+                        await SignInMgr.SignOutAsync();
+                        ViewBag.Message = "Your account has been locked due inactivity";
+                        return View("Index");
+                    }
+                    
+                    
                     //Constructs a string from users first and last names to be shown in loginpartial
                     TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
                     //Sends the userID in viewbag to the view
                     ViewBag.UserID = appUser.Id;
                     return RedirectToAction("Index", "Home");
+                    
                 }
                 else
                 {
@@ -171,6 +187,98 @@ namespace Login_System.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordVM user)
+        {
+
+        
+       //checks for the emailaddress given by the user, if doesn't exist, error.
+            if(UserMgr.Users.FirstOrDefault(x => x.Email == user.Email) == null)
+            {
+                 ModelState.AddModelError("", "Invalid Email");
+            }
+            //if no errors were given...
+            if (ModelState.IsValid)
+            {
+                var tempUser = await UserMgr.FindByEmailAsync(user.Email);
+
+                if (tempUser != null)
+                {
+                     var token = await UserMgr.GeneratePasswordResetTokenAsync(tempUser);
+
+                    //This token is required to actually reset the password. Should be sent by email, or straight up used in next page
+                    await UserMgr.SetAuthenticationTokenAsync(tempUser, "MyApp", "RefreshToken", token);
+
+                     var passwordResetLink = Url.Action("ResetPassword", "Account", new { Email = user.Email, token = token }, Request.Scheme);
+
+                    SendEmail(passwordResetLink);
+                  
+                    return View("PasswordEmailSent");
+
+                }
+                return View(user);
+            }
+            return View(user);
+        }
+            
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            //Check for real token, instead of anything
+            if (email == null || token == null)
+            {
+              
+                ModelState.AddModelError("", "Invalid token");
+            }
+
+            else
+            {
+                return View("ResetPassword");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM user)
+        {
+           
+            
+            if (ModelState.IsValid)
+            {
+                //search user by email
+                var tempUser = await UserMgr.FindByEmailAsync(user.Email);
+
+                var token = await UserMgr.GetAuthenticationTokenAsync(tempUser, "MyApp", "RefreshToken");
+                
+                if (tempUser != null)
+                {
+                    var result = await UserMgr.ResetPasswordAsync(tempUser, token, user.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await UserMgr.RemoveAuthenticationTokenAsync(tempUser, "MyApp", "RefreshToken");
+                        return View("ResetPasswordConfirmation");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(user);
+                }
+            }
+            return View(user);
+        }
+
         public static string RemoveSpecialCharacters(string str)
         {
             StringBuilder sb = new StringBuilder();
@@ -183,5 +291,36 @@ namespace Login_System.Controllers
             }
             return sb.ToString();
         }
+
+        public static void SendEmail(string link)
+        {
+            try
+            {
+                MailMessage mailMessage = new MailMessage("otto.kyllonen@hotmail.com", "otto.kyllonen94@gmail.com", "aihe", "Click this link to reset your password: " + link);
+
+
+                SmtpClient smptClient = new SmtpClient();
+                smptClient.Host = "smtp-mail.outlook.com";
+                smptClient.Port = 587;
+                smptClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                smptClient.UseDefaultCredentials = false;
+                System.Net.NetworkCredential credentials =
+                new System.Net.NetworkCredential("", "");
+               
+                smptClient.EnableSsl = true;
+                smptClient.Credentials = credentials;
+                smptClient.Send(mailMessage);
+            }
+
+            catch(Exception ex)
+            {
+                 string error = ex.StackTrace.ToString();
+            }
+
+          
+
+        }
+
+       
     }
 }
