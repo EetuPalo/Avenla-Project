@@ -35,9 +35,12 @@ namespace Login_System.Controllers
             var model = new SkillCoursesVM();
             var tempDuration = new Dictionary<int, string>();
             var courses = from c in _context.Courses select c;
-            if(!String.IsNullOrEmpty(searchString))
+            TempData["SearchString"] = Resources.Courses.Index_Search;
+            TempData["SearchValue"] = null;
+            if (!String.IsNullOrEmpty(searchString))
             {
                 courses = courses.Where(s => (s.CourseName.Contains(searchString) || s.CourseContents.Contains(searchString)));
+                TempData["SearchValue"] = searchString;
             }
             //Checking if user has already enrolled on a course
             AppUser tempUser = await UserMgr.GetUserAsync(User);

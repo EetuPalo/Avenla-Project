@@ -26,9 +26,12 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             var certificates = from c in _context.Certificates select c;
+            TempData["SearchString"] = Resources.Certificates.Index_Search;
+            TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))
             {
                 certificates = certificates.Where(s => (s.Name.Contains(searchString)) || (s.Organization.Contains(searchString)));
+                TempData["SearchValue"] = searchString;
             }
             return View(await certificates.ToListAsync());
 

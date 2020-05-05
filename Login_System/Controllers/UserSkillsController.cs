@@ -82,6 +82,7 @@ namespace Login_System.Controllers
 
             //This is for the search
             var userSkills = from c in _context.UserSkills select c;
+            TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))                
             {
                 //Reformatting the string
@@ -112,6 +113,7 @@ namespace Login_System.Controllers
                         dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                     }
                 }
+                TempData["SearchValue"] = searchString;
             }
             else
             {

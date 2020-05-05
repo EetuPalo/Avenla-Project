@@ -42,10 +42,13 @@ namespace Login_System.Controllers
             }
 
             var employees = from e in _context.Users select e;
-            if(!String.IsNullOrEmpty(searchString))
+            TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
+            TempData["SearchValue"] = null;
+            if (!String.IsNullOrEmpty(searchString))
             {                
                 employees = employees.Where(s => (s.UserName.Contains(searchString)) || (s.FirstName.Contains(searchString)) || (s.LastName.Contains(searchString)) || (s.Email.Contains(searchString)) || (s.PhoneNumber.Contains(searchString)));
-            }
+                TempData["SearchValue"] = searchString;
+            }           
             return View(await employees.ToListAsync());
         }
 
