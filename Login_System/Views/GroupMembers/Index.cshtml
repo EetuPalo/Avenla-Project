@@ -10,12 +10,12 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder="Search for users...">
+                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Groups.Members_Index_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value="Filter" asp-route-id="@TempData["GroupID"]" />
-                <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit">Edit Members</a>
-                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">Back</a>
+                <input class="btn btn-info" type="submit" value=@Resources.Groups.Members_Index_BTN_Search asp-route-id="@TempData["GroupID"]" />
+                <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit">@Resources.Groups.Members_Index_BTN_EditMembers</a>
+                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">@Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>
@@ -41,8 +41,8 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers">@Resources.Groups.Members_Index_BTN_Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">@Resources.Groups.Members_Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }
@@ -50,8 +50,8 @@
             </table>
         </div>
         <div class="col-sm-6">
-            <h4>List of employees in @TempData["GroupName"]</h4>
-            <p>Members: @Model.Count()</p>
+            <h4>@Resources.Groups.Members_Index_SubTitle @TempData["GroupName"]</h4>
+            <p>@Resources.Groups.Members_Index_SubDesc @Model.Count()</p>
         </div>
     </div>
 </div>

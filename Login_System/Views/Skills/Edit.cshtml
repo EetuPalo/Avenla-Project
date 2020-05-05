@@ -5,9 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h2>@Resources.Skills.Edit_Title</h2>
 
-<h4>Skills</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,13 +15,13 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="OldName" />
             <div class="form-group">
-                <label asp-for="Skill" class="control-label"></label>
+                <label asp-for="Skill" class="control-label">@Resources.Skills.Edit_SkillName</label>
                 <input asp-for="Skill" class="form-control" />
                 <span asp-validation-for="Skill" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-danger" asp-action="Index">Back to List</a>
+                <input type="submit" value=@Resources.Skills.Edit_BTN_Submit class="btn btn-primary" />
+                <a class="btn btn-danger" asp-action="Index">@Resources.Resources.GENERAL_Back</a>
             </div>
         </form>
     </div>

@@ -10,7 +10,7 @@
     }
 }
 
-<h2>Skill Goals @TempData["ActionPhase"]</h2>
+<h2>@Resources.SkillGoals.Create_Title @TempData["ActionPhase"]</h2>
 <h4>@TempData["ActionResult"]</h4>
 <hr />
 @if (Model.SkillGoals.Count > 0 && Model.Skills.Count() > 0)
@@ -22,21 +22,21 @@
                 <div style="display:flex" id="skillForm[0]" class="row mb-4">
                     <input hidden asp-for="@Model.SkillGoals[0].GroupName" />
                     <div class="col-sm">
-                        @Html.DropDownListFor(x => x.SkillGoals[0].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
+                        @Html.DropDownListFor(x => x.SkillGoals[0].SkillName, Model.Skills, Resources.SkillGoals.Create_SelectDropdown, new { @class = "form-control" })
                     </div>
                     <div class="col-sm">
                         <select class="form-control" asp-for="@Model.SkillGoals[0].SkillGoal">
-                            <option value="0">0 - No interest</option>
-                            <option value="1">1 - Apprentice</option>
-                            <option value="2">2 - Journeyman</option>
-                            <option value="3">3 - Expert</option>
-                            <option value="4">4 - Artisan</option>
-                            <option value="5">5 - Master</option>
-                            <option selected="selected" value="-1">Select Goal</option>
+                            <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                            <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                            <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                            <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                            <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                            <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
+                            <option selected="selected" value="-1">@Resources.SkillGoals.Create_SelectGoal</option>
                         </select>
                     </div>
                     <div class="col-sm">
-                        <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">Add</button>
+                        <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">@Resources.SkillGoals.Create_Add</button>
                     </div>
                     <span asp-validation-for="@Model.SkillGoals[0].SkillGoal"></span>
                 </div>
@@ -45,21 +45,21 @@
                     <div style="display:none" id="skillForm[@i]" class="row mb-4">
                         <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
                         <div class="col-sm">
-                            @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, "Select skill", new { @class = "form-control" })
+                            @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, Resources.SkillGoals.Create_SelectDropdown, new { @class = "form-control" })
                         </div>
                         <div class="col-sm">
                             <select class="form-control" asp-for="@Model.SkillGoals[i].SkillGoal" id="goal[@i]">
-                                <option value="0">0 - No interest</option>
-                                <option value="1">1 - Apprentice</option>
-                                <option value="2">2 - Journeyman</option>
-                                <option value="3">3 - Expert</option>
-                                <option value="4">4 - Artisan</option>
-                                <option value="5">5 - Master</option>
-                                <option selected="selected" value="-1">Select Goal</option>
+                                <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                                <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                                <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                                <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                                <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                                <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
+                                <option selected="selected" value="-1">@Resources.SkillGoals.Create_SelectGoal</option>
                             </select>
                         </div>
                         <div class="col-sm">
-                            <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">Add</button>
+                            <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">@Resources.SkillGoals.Create_Add</button>
                         </div>
                         <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
                     </div>
@@ -70,8 +70,8 @@
                 <div class="container-fluid p-0">
                     <div class="row">
                         <div class="col-sm">
-                            <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]">Submit</button>
-                            <a class="btn btn-danger" asp-action="Index" asp-route-name="@gName">Back to List</a>
+                            <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]">@Resources.SkillGoals.Create_BTN_Submit</button>
+                            <a class="btn btn-danger" asp-action="Index" asp-route-name="@gName">@Resources.Resources.GENERAL_Back</a>
                         </div>
                     </div>
                 </div>
@@ -82,8 +82,8 @@
 }
 else
 {
-    <h4 class="text-info">No skills created yet!</h4>
-    <a class="btn btn-success" asp-action="Create" asp-controller="GroupMembers" asp-route-source="create" asp-route-id="@TempData["GroupId"]" asp-route-group="@TempData["GroupName"]">Next</a>
+    <h4 class="text-info">@Resources.SkillGoals.Create_Error_NoSkills</h4>
+    <a class="btn btn-success" asp-action="Create" asp-controller="GroupMembers" asp-route-source="create" asp-route-id="@TempData["GroupId"]" asp-route-group="@TempData["GroupName"]">@Resources.SkillGoals.Create_BTN_Next</a>
 }
 
 @section Scripts {

@@ -117,70 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddUsers_Add" xml:space="preserve">
+  <data name="Create_Add" xml:space="preserve">
     <value>Lisää</value>
   </data>
-  <data name="AddUsers_Title" xml:space="preserve">
-    <value>Lisää käyttäjiä kurssille</value>
+  <data name="Create_BTN_Next" xml:space="preserve">
+    <value>Seuraava</value>
   </data>
-  <data name="AddUsers_User" xml:space="preserve">
-    <value>Käyttäjä</value>
+  <data name="Create_BTN_Submit" xml:space="preserve">
+    <value>Lähetä</value>
   </data>
-  <data name="Index_BackCourse" xml:space="preserve">
-    <value>Takasin kursseihin</value>
+  <data name="Create_Error_NoSkills" xml:space="preserve">
+    <value>Taitoja ei ole vielä lisätty!</value>
+  </data>
+  <data name="Create_SelectDropdown" xml:space="preserve">
+    <value>Valitse taito</value>
+  </data>
+  <data name="Create_SelectGoal" xml:space="preserve">
+    <value>Valitse tavoitetaso</value>
+  </data>
+  <data name="Create_Title" xml:space="preserve">
+    <value>Tavoitetasot</value>
+  </data>
+  <data name="Edit_Goal" xml:space="preserve">
+    <value>Tavoitetaso -</value>
+  </data>
+  <data name="Edit_Save" xml:space="preserve">
+    <value>Tallenna</value>
+  </data>
+  <data name="Index_BTN_Create" xml:space="preserve">
+    <value>Lisää uusi</value>
   </data>
   <data name="Index_BTN_Delete" xml:space="preserve">
     <value>Poista</value>
   </data>
-  <data name="Index_BTN_Details" xml:space="preserve">
-    <value>Tietoja</value>
-  </data>
   <data name="Index_BTN_Edit" xml:space="preserve">
     <value>Muokkaa</value>
   </data>
-  <data name="Index_BTN_Grade" xml:space="preserve">
-    <value>Arvioi</value>
+  <data name="Index_Goal" xml:space="preserve">
+    <value>Tavoite</value>
   </data>
-  <data name="Index_Completed" xml:space="preserve">
-    <value>Suorittanut</value>
+  <data name="Index_NoGoal" xml:space="preserve">
+    <value>EI TAVOITETTA</value>
   </data>
-  <data name="Index_CompletedStatus" xml:space="preserve">
-    <value>Suorittanut:</value>
+  <data name="Index_SelectDropdown" xml:space="preserve">
+    <value>Päivämäärä</value>
   </data>
-  <data name="Index_Create" xml:space="preserve">
-    <value>Lisää uusi</value>
-  </data>
-  <data name="Index_DroppedOut" xml:space="preserve">
-    <value>Keskeyttänyt:</value>
-  </data>
-  <data name="Index_Enrolled" xml:space="preserve">
-    <value>Osallistujamäärä:</value>
-  </data>
-  <data name="Index_Grade" xml:space="preserve">
-    <value>Arvosana</value>
-  </data>
-  <data name="Index_NotAdmin" xml:space="preserve">
-    <value>Katselet tällä hetkellä jäsenyystietojasi. Et ole ylläpitäjä joten et voi tarkastella muiden käyttäjien tietoja.</value>
-  </data>
-  <data name="Index_Progress" xml:space="preserve">
-    <value>Edistys</value>
-  </data>
-  <data name="Index_Status" xml:space="preserve">
-    <value>Tila</value>
-  </data>
-  <data name="Index_SubDescEnd" xml:space="preserve">
-    <value>-kurssille osallistuvista jäsenistä. Voit katsella, muokata, ja poistaa jäseniä kurssilta.</value>
-  </data>
-  <data name="Index_SubDescStart" xml:space="preserve">
-    <value>Tämä on lista</value>
-  </data>
-  <data name="Index_SubTitle" xml:space="preserve">
-    <value>- Jäsenet</value>
+  <data name="Index_Skill" xml:space="preserve">
+    <value>Taito</value>
   </data>
   <data name="Index_Title" xml:space="preserve">
-    <value>: Jäsenet</value>
+    <value>Tavoitetasot:</value>
   </data>
-  <data name="Index_User" xml:space="preserve">
-    <value>Käyttäjä</value>
+  <data name="MODEL_Date" xml:space="preserve">
+    <value>Päivämäärä</value>
+  </data>
+  <data name="MODEL_GroupName" xml:space="preserve">
+    <value>Ryhmän nimi</value>
+  </data>
+  <data name="MODEL_SkillGoal" xml:space="preserve">
+    <value>Tavoitetaso</value>
+  </data>
+  <data name="MODEL_SkillName" xml:space="preserve">
+    <value>Taidon nimi</value>
   </data>
 </root>

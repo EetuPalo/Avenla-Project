@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Certificate</h4>
+<h2>@Resources.Certificates.Edit_Title</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,14 +23,11 @@
                 <span asp-validation-for="Organization" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value=@Resources.Certificates.Edit_BTN_Submit class="btn btn-primary" />
+                <a class="btn btn-danger" asp-action="Index">@Resources.Resources.GENERAL_Back</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

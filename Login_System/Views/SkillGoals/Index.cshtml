@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData.Peek("GroupName"): Goals for @TempData.Peek("LatestDate")</h2>
+<h2>@TempData.Peek("GroupName"): @Resources.SkillGoals.Index_Title @TempData.Peek("LatestDate")</h2>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
 <h4 class="text-danger">@TempData["ActionWarning"]</h4>
 
@@ -13,21 +13,21 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), "Select Date", new { @class = "form-control col-sm", @onchange = "reloadPage()" })
+                @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), Resources.SkillGoals.Index_SelectDropdown, new { @class = "form-control col-sm", @onchange = "reloadPage()" })
                 <input hidden asp-for="@Model.GroupName" value="@TempData.Peek("GroupName")" />
             </div>
             <div class="col-sm">
-                <a class="btn btn-primary" asp-action="Create" asp-route-name="@TempData.Peek("GroupName")">Create New</a>
+                <a class="btn btn-primary" asp-action="Create" asp-route-name="@TempData.Peek("GroupName")">@Resources.SkillGoals.Index_BTN_Create</a>
                 @if (Model.DateToDelete != null)
                 {
-                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">Delete</a>
+            <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">@Resources.SkillGoals.Index_BTN_Delete</a>
                 }
                 else
                 {
                     Model.DateToDelete = TempData.Peek("LatestDate").ToString();
-                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">Delete</a>
+            <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")">@Resources.SkillGoals.Index_BTN_Delete</a>
                 }
-                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">Back</a>
+                <a class="btn btn-danger" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]">@Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>    
@@ -37,10 +37,10 @@
     <thead>
         <tr>
             <th>
-                Skill
+                @Resources.SkillGoals.Index_Skill
             </th>
             <th>
-                Goal
+                @Resources.SkillGoals.Index_Goal
             </th>
             <th></th>
         </tr>
@@ -55,7 +55,7 @@
                 <td>
                     @if (item.LatestGoal == -1)
                     {
-                        <span class="text-danger">NO GOAL</span>
+                    <span class="text-danger">@Resources.SkillGoals.Index_NoGoal</span>
                     }
                     else
                     {
@@ -63,7 +63,7 @@
                     }
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">@Resources.SkillGoals.Index_BTN_Edit</a>
                 </td>
             </tr>
         }
