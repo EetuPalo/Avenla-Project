@@ -145,7 +145,7 @@ namespace Login_System.Controllers
                 }
                 else
                 {
-                    ViewBag.Result = "result is: " + result.ToString();
+                    ViewBag.Result = result.ToString();
                 }               
             }
             return View(user);
