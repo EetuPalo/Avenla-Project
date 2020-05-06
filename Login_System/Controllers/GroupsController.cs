@@ -36,9 +36,11 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             var groups = from g in _context.Group select g;
+            TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))
             {
                 groups = groups.Where(s => s.name.Contains(searchString));
+                TempData["SearchValue"] = searchString;
             }
             return View(await groups.ToListAsync());
         }

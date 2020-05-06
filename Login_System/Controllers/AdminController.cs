@@ -58,9 +58,11 @@ namespace Login_System.Controllers
         public IActionResult ListRoles(string searchString)
         {
             var roles = from c in roleManager.Roles select c;
+            TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))
             {
                 roles = roles.Where(s => s.Name.Contains(searchString));
+                TempData["SearchValue"] = searchString;
             }
             return View(roles.ToList());
         }
