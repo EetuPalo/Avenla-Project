@@ -180,6 +180,9 @@
   <data name="ActionResult_GroupCreatedNoGoal" xml:space="preserve">
     <value>Ryhmä luotu!</value>
   </data>
+  <data name="ActionResult_NoPermissionRole" xml:space="preserve">
+    <value>Et voi muokata tätä roolia!</value>
+  </data>
   <data name="ActionResult_RoleDeleteException" xml:space="preserve">
     <value>Virhe tapahtui roolia poistettaessa!</value>
   </data>

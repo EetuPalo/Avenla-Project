@@ -58,9 +58,11 @@ namespace Login_System.Controllers
         public IActionResult ListRoles(string searchString)
         {
             var roles = from c in roleManager.Roles select c;
+            TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))
             {
                 roles = roles.Where(s => s.Name.Contains(searchString));
+                TempData["SearchValue"] = searchString;
             }
             return View(roles.ToList());
         }
@@ -79,7 +81,8 @@ namespace Login_System.Controllers
             var model = new EditRole
             {
                 Id = role.Id.ToString(),
-                RoleName = role.Name
+                RoleName = role.Name,
+                OldName = role.Name
             };
 
             foreach(var user in userManager.Users)
@@ -96,28 +99,41 @@ namespace Login_System.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRole roleModel)
         {
-            var role = await roleManager.FindByIdAsync(roleModel.Id);
-
-            if (role == null)
+            if (roleModel.OldName != "Admin" && roleModel.OldName != "User")
             {
-                return RedirectToAction("Error");
+                var role = await roleManager.FindByIdAsync(roleModel.Id);
+
+                if (role == null)
+                {
+                    return RedirectToAction("Error");
+                }
+                else
+                {
+                    role.Name = roleModel.RoleName;
+                    var result = await roleManager.UpdateAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ListRoles");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+
+                    return View(roleModel);
+                }
+            }
+            else if (roleModel.OldName == "Admin" || roleModel.OldName == "User")
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_NoPermissionRole;
+                return RedirectToAction("ListRoles");
             }
             else
             {
-                role.Name = roleModel.RoleName;
-                var result = await roleManager.UpdateAsync(role);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ListRoles");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-                return View(roleModel);
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GeneralException;
+                return RedirectToAction("ListRoles");
             }
         }
 
