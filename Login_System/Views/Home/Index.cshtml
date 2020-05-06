@@ -3,8 +3,19 @@
 }
 
     <div class="text-center">
-        @if(User.Identity.IsAuthenticated)
+        <h1 class="display-3">
+            @Resources.Home.Index_Title
+        </h1>
+        @if (!User.Identity.IsAuthenticated)
         {
-            <h1 class="display-4">Welcome to piilaakso</h1>
+            <h4 class="mt-4">
+                @Resources.Home.Index_NoLogin
+            </h4>
+        }
+        else if (User.Identity.IsAuthenticated)
+        {
+            <h4 class="mt-4">
+                @Resources.Home.Index_Login
+            </h4>
         }
     </div>

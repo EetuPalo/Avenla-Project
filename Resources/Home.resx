@@ -117,112 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ActionResult_AddToGroup" xml:space="preserve">
-    <value>Add the user to a group first.</value>
+  <data name="Index_Login" xml:space="preserve">
+    <value>Welcome to your homepage!</value>
   </data>
-  <data name="ActionResult_AttendFail" xml:space="preserve">
-    <value>Could not attend the lesson!</value>
+  <data name="Index_NoLogin" xml:space="preserve">
+    <value>Please log in with your email and password.</value>
   </data>
-  <data name="ActionResult_AttendSuccess" xml:space="preserve">
-    <value>Successfully attended the lesson</value>
-  </data>
-  <data name="ActionResult_CourseCompleteFail" xml:space="preserve">
-    <value>Could not mark the course as completed.</value>
-  </data>
-  <data name="ActionResult_CourseCompleteSuccess" xml:space="preserve">
-    <value>You have completed the course.</value>
-  </data>
-  <data name="ActionResult_CourseJoinFail" xml:space="preserve">
-    <value>Could not join the course!</value>
-  </data>
-  <data name="ActionResult_CourseJoinSuccess" xml:space="preserve">
-    <value>Successfully joined the course</value>
-  </data>
-  <data name="ActionResult_EditFail" xml:space="preserve">
-    <value>User edit failed!</value>
-  </data>
-  <data name="ActionResult_EditSuccess" xml:space="preserve">
-    <value>User edited!</value>
-  </data>
-  <data name="ActionResult_Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="ActionResult_GeneralException" xml:space="preserve">
-    <value>An exception occured!</value>
-  </data>
-  <data name="ActionResult_GeneralFail" xml:space="preserve">
-    <value>Failed</value>
-  </data>
-  <data name="ActionResult_GoalDeleted" xml:space="preserve">
-    <value>Goals deleted successfully!</value>
-  </data>
-  <data name="ActionResult_GoalDeletedFail" xml:space="preserve">
-    <value>An exception occured when deleting goals!</value>
-  </data>
-  <data name="ActionResult_GoalEdited" xml:space="preserve">
-    <value>Goals edited successfully!</value>
-  </data>
-  <data name="ActionResult_GoalSet" xml:space="preserve">
-    <value>New goals set!</value>
-  </data>
-  <data name="ActionResult_GoalSetAddUser" xml:space="preserve">
-    <value>Goals set! Now you can add users to the group.</value>
-  </data>
-  <data name="ActionResult_GradeFail" xml:space="preserve">
-    <value>Grading failed!</value>
-  </data>
-  <data name="ActionResult_GradeSuccess" xml:space="preserve">
-    <value>Grading successful!</value>
-  </data>
-  <data name="ActionResult_GroupCreated" xml:space="preserve">
-    <value>Group created! Next you need to set up the group goals.</value>
-  </data>
-  <data name="ActionResult_GroupCreatedNoGoal" xml:space="preserve">
-    <value>Group created successfully!</value>
-  </data>
-  <data name="ActionResult_NoPermissionRole" xml:space="preserve">
-    <value>No permission to edit this role!</value>
-  </data>
-  <data name="ActionResult_RoleDeleteException" xml:space="preserve">
-    <value>An exception occured while deleting role. Check the list!</value>
-  </data>
-  <data name="ActionResult_RoleDeleteFail" xml:space="preserve">
-    <value>No role deleted. This is likely an error.</value>
-  </data>
-  <data name="ActionResult_RoleDeleteSuccess" xml:space="preserve">
-    <value>Role deleted successfully!</value>
-  </data>
-  <data name="ActionResult_RoleSuccessful" xml:space="preserve">
-    <value>Role created successfully!</value>
-  </data>
-  <data name="ActionResult_UserCreated" xml:space="preserve">
-    <value>User has been created!</value>
-  </data>
-  <data name="ActionResult_UserDeleted" xml:space="preserve">
-    <value>User has been deleted!</value>
-  </data>
-  <data name="ActionResult_UserTaken" xml:space="preserve">
-    <value>Username taken!</value>
-  </data>
-  <data name="ActionWarning_MultipleSkillSelect" xml:space="preserve">
-    <value>A skill has been selected multiple times. One of the selections may have been overridden.</value>
-  </data>
-  <data name="CreateStatus_Error" xml:space="preserve">
-    <value>An error occured but the account may have still been created. Check the account list!</value>
-  </data>
-  <data name="CreateStatus_Success1" xml:space="preserve">
-    <value>User </value>
-  </data>
-  <data name="CreateStatus_Success2" xml:space="preserve">
-    <value>created successfully!</value>
-  </data>
-  <data name="CreateStatus_UserTaken" xml:space="preserve">
-    <value>Username taken!</value>
-  </data>
-  <data name="Stats_Avg_NoData" xml:space="preserve">
-    <value>NO_DATA</value>
-  </data>
-  <data name="ViewBag_InvalidDate" xml:space="preserve">
-    <value>INVALID_DATE</value>
+  <data name="Index_Title" xml:space="preserve">
+    <value>Employee Learning Portal</value>
   </data>
 </root>

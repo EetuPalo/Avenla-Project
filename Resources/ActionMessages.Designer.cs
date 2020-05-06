@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No permission to edit this role!.
+        /// </summary>
+        public static string ActionResult_NoPermissionRole {
+            get {
+                return ResourceManager.GetString("ActionResult_NoPermissionRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An exception occured while deleting role. Check the list!.
         /// </summary>
         public static string ActionResult_RoleDeleteException {
