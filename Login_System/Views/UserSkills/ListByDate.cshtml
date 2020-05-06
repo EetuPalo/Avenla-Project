@@ -24,9 +24,9 @@
                 <input readonly class="form-control" type="text" name="SearchString" id="dateSearch" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder value=@TempData["SearchValue"]>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value=@Resources.Resources.GENERAL_Search />
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button>
                 <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">@Resources.Resources.UserSkills_ListByDate_Create</a>
-                <a class="btn btn-primary" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">@Resources.Resources.GENERAL_Back</a>
+                <a class="btn btn-primary" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>

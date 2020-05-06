@@ -12,9 +12,9 @@
         <div class="col-sm">
 	@if(User.IsInRole("Admin"))
 	{
-            <a class="btn btn-primary" asp-action="Create">@Resources.SkillCourseMembers.Index_Create</a>
+            <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
 	}        
-            <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses">@Resources.SkillCourseMembers.Index_BackCourse</a>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.SkillCourseMembers.Index_BackCourse</a>
         </div>
     </div>
 </div>
@@ -76,17 +76,17 @@
                                     @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
                                     {
                                         <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Edit</a><span> </span>
+                                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Edit</a><span> </span>
                                         </td>
                                         <td>
-                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName">@Resources.SkillCourseMembers.Index_BTN_Details</a> <span> </span>
+                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName"><i class="fas fa-user-circle fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Details</a> <span> </span>
                                         </td>
                                         <td>
-                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_BTN_Delete</a>
+                                        <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Delete</a>
                                         </td>
                                         @if (User.IsInRole("Admin"))
                                         {
-                                            <span>| </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id">@Resources.SkillCourseMembers.Index_Grade</a>
+                                            <span> </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id"><i class="fas fa-award fa-fw"> </i> @Resources.SkillCourseMembers.Index_Grade</a>
                                         }
                                     }
                                 </td>

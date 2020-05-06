@@ -41,8 +41,8 @@
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
-                        <input asp-route-id="@Model[0].CourseID" type="submit" value=@Resources.SkillCourseMembers.AddUsers_Add class="btn btn-primary" />
-                        <a asp-action="Index" asp-controller="SkillCourses" class="btn btn-primary">Back</a>
+                        <button asp-route-id="@Model[0].CourseID" type="submit" class="btn btn-primary" ><i class="fas fa-user-plus fa-fw"> </i> @Resources.SkillCourseMembers.AddUsers_Add</button>
+                        <a asp-action="Index" asp-controller="SkillCourses" class="btn btn-primary"><i class="fas fa-arrow-left fa-fw"> </i> Back</a>
                     </div>
                 </div>
             </div>

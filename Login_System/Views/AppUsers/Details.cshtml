@@ -60,27 +60,27 @@
         <div class="col-sm">
             @if (User.IsInRole("Admin") || User.Identity.Name == Model.UserName)
             {
-            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">@Resources.Resources.Employee_Index_Edit</a>
+            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
             }
             @if (TempData["Source"].ToString() == "GroupMembers")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="Groups">@Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-primary" asp-action="Index" asp-controller="Groups"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "SkillCourseMembers")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-courseName="@TempData["SourceId"]">@Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-courseName="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "shortcut")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="Home">@Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-primary" asp-action="Index" asp-controller="Home"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "index")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="AppUsers">@Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-primary" asp-action="Index" asp-controller="AppUsers"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "lesson")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]">@Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-primary" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
 
         </div>

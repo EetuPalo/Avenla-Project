@@ -29,11 +29,11 @@
                 <input class="form-control" type="text" name="SearchString" placeholder=@TempData["SearchString"] value=@TempData["SearchValue"]>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value=@Resources.Resources.Employee_Index_Filter />
-		        @if(User.IsInRole("Admin"))
-		        {
-                    <a class="btn btn-primary" asp-action="Create">@Resources.Courses.Index_Create</a>
-		        }                
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
+                }
             </div>
         </div>
     </div>    
@@ -107,12 +107,12 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <td>
-                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Members</a><span> </span>
+                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a><span> </span>
                         </td>
                         <td>
                     <div class="dropdown show">
                         <a class="dropdown-toggle" href="#" role="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @Resources.Courses.Index_BTN_Edit
+                            <i class="fas fa-edit fa-fw"> </i> @Resources.Courses.Index_BTN_Edit
                         </a>
                         <div class="dropdown-menu" aria-labelledby="courseDropdown">
                             <a class="dropdown-item" asp-action="Create" asp-controller="Lessons" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddLesson</a>

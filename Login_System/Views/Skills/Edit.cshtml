@@ -15,13 +15,13 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="OldName" />
             <div class="form-group">
-                <label asp-for="Skill" class="control-label">@Resources.Skills.Edit_SkillName</label>
+                <label asp-for="Skill" class="control-label"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Edit_SkillName</label>
                 <input asp-for="Skill" class="form-control" />
                 <span asp-validation-for="Skill" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value=@Resources.Skills.Edit_BTN_Submit class="btn btn-primary" />
-                <a class="btn btn-primary" asp-action="Index">@Resources.Resources.GENERAL_Back</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Skills.Edit_BTN_Submit</button>
+                <a class="btn btn-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             </div>
         </form>
     </div>
