@@ -14,7 +14,12 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
+                <div class="input-group">
+                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
@@ -25,7 +30,7 @@
                 }
             </div>
         </div>
-    </div>   
+    </div>
 </form>
 <div class="table-responsive">
     <table class="table table-hover">
@@ -55,55 +60,63 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpStatus)
-                </td>
-                @*Giving admin users access to every user's edit methods and the current user to his own*@
-            <td colspan="2">
-                @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
-                {
-                    <a class="btn btn-info btn-sm" type="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a><span> </span>
-                    @if (User.IsInRole("Admin"))
-                    {   
-                 
-                <a class="btn btn-danger btn-sm" type="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.Employee_Index_Delete</a>
-                    
-                }
-                }
-</td>
-                <td>
-                    @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
-                    {
-                        <div class="dropdown show">
-                            <a class="dropdown-toggle" href="#" role="button" id="userDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @Resources.Resources.Employee_Index_Details
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="userDropDown">
-                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">@Resources.Resources.Layout_Profile</a>
-                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-controller="SkillCourseMembers">@Resources.Resources.Layout_Courses</a>
-                                <a class="dropdown-item" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
-                                <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">@Resources.Resources.Layout_Certificates</a>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmpStatus)
+                    </td>
+                    @*Giving admin users access to every user's edit methods and the current user to his own*@
+                    <td colspan="2">
+                        @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+                        {
+                            <a class="btn btn-info btn-sm" type="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a><span> </span>
+                            @if (User.IsInRole("Admin"))
+                            {
+
+                                <a class="btn btn-danger btn-sm" type="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.Employee_Index_Delete</a>
+
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+                        {
+                            <div class="dropdown show">
+                                <a class="dropdown-toggle" href="#" role="button" id="userDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Resources.Resources.Employee_Index_Details
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="userDropDown">
+                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">@Resources.Resources.Layout_Profile</a>
+                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-controller="SkillCourseMembers">@Resources.Resources.Layout_Courses</a>
+                                    <a class="dropdown-item" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">@Resources.Resources.Layout_Certificates</a>
+                                </div>
                             </div>
-                        </div>
-                    }
-                </td>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-
+@section Scripts {
+    <script type="text/javascript">
+        function clearForm() {
+            var search = document.getElementById('search-bar');
+            search.value = '';
+            document.forms[0].submit();
+        }
+    </script>
+}
