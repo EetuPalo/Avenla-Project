@@ -12,14 +12,19 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Groups.Index_Search value=@TempData["SearchValue"]>
+                <div class="input-group">
+                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Groups.Index_Search value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value=@Resources.Groups.Index_BTN_Search />
                 <a class="btn btn-primary" asp-action="Create">@Resources.Groups.Index_BTN_Create</a>
             </div>
         </div>
-    </div>   
+    </div>
 </form>
 <hr />
 <div class="container-fluid p-0">
@@ -42,7 +47,7 @@
                                 @Html.DisplayFor(modelItem => item.name)
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Statistics" asp-route-id="@item.id">@Resources.Groups.Index_View</a> 
+                                <a class="btn btn-primary btn-sm" asp-action="Statistics" asp-route-id="@item.id">@Resources.Groups.Index_View</a>
                                 <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.id">@Resources.Resources.DELETE_Button</a>
                             </td>
                         </tr>
@@ -58,5 +63,13 @@
         </div>
     </div>
 </div>
-
+@section Scripts {
+    <script type="text/javascript">
+        function clearForm() {
+            var search = document.getElementById('search-bar');
+            search.value = '';
+            document.forms[0].submit();
+        }
+    </script>
+}
 

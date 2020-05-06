@@ -11,7 +11,12 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Admin.ListRoles_Search value=@TempData["SearchValue"]>
+                <div class="input-group">
+                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Admin.ListRoles_Search value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="col-sm">
                 <input class="btn btn-info" type="submit" value=@Resources.Admin.ListRoles_BTN_Search />
@@ -66,3 +71,12 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script type="text/javascript">
+        function clearForm() {
+            var search = document.getElementById('search-bar');
+            search.value = '';
+            document.forms[0].submit();
+        }
+    </script>
+}
