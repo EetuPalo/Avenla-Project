@@ -13,8 +13,8 @@
                 <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Resources.UCertificates_Index_Search>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value=@Resources.Resources.Employee_Index_Filter />
-                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]"><i class="fas fa-certificate fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter </button>
+                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
                 @if  (TempData["Source"].ToString() == "shortcut")
                 {
                     <a class="btn btn-primary" asp-action="Index" asp-controller="Home"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>

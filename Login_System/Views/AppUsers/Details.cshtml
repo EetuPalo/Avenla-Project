@@ -64,7 +64,7 @@
             }
             @if (TempData["Source"].ToString() == "GroupMembers")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="Groups"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Groups"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "SkillCourseMembers")
             {
@@ -72,15 +72,15 @@
             }
             else if (TempData["Source"].ToString() == "shortcut")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="Home"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Home"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "index")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="AppUsers"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="AppUsers"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
             else if (TempData["Source"].ToString() == "lesson")
             {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             }
 
         </div>

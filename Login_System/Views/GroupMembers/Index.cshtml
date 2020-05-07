@@ -15,7 +15,7 @@
             <div class="col-sm">
                 <button class="btn btn-info" type="submit" asp-route-id ="@TempData["GroupID"]"><i class="fas fa-search fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Search </button>
                 <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Members_Index_BTN_EditMembers</a>
-                <a class="btn btn-primary" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                <a class="btn btn-outline-primary" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers">@Resources.Groups.Members_Index_BTN_Details</a> 
+                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="GroupMembers"> <i class="fas fa-user-circle fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Details</a> 
                                 <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Delete</a>
                             </td>
                         </tr>
