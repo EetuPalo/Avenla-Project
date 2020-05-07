@@ -5,23 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData.Peek("CourseName")@Resources.SkillCourseMembers.Index_Title</h2>
 
-<div class="container-fluid p-0">
-    <div class="row mb-4">
-        <div class="col-sm">
-	@if(User.IsInRole("Admin"))
-	{
-            <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
-	}        
-            <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.SkillCourseMembers.Index_BackCourse</a>
+
+@if (User.IsInRole("Admin"))
+{
+    <h2>
+        @TempData["CourseName"] @Resources.SkillCourseMembers.Index_SubTitle
+    </h2>
+    <p>
+        @Resources.SkillCourseMembers.Index_SubDescStart @TempData["CourseName"]@Resources.SkillCourseMembers.Index_SubDescEnd
+    </p>
+    <p>
+        <strong>@Resources.SkillCourseMembers.Index_Enrolled</strong> @TempData["CourseMemberCount"] <br />
+        <strong>@Resources.SkillCourseMembers.Index_CompletedStatus</strong> @TempData["CompletedCount"] <br />
+        <strong>@Resources.SkillCourseMembers.Index_DroppedOut</strong> @TempData["DropoutCount"] <br />
+    </p>
+
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
+                }
+                <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.SkillCourseMembers.Index_BackCourse</a>
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <h4>
+        @TempData["CourseName"]
+    </h4>
+    <p>
+        @Resources.SkillCourseMembers.Index_NotAdmin
+    </p>
+}
+
 <hr />
 <div class="container-fluid p-0">
     <div class="row">
-        <div class="col-sm-8 border-right border-dark">
+        <div class="col-sm-12 border-right border-dark">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -40,6 +65,9 @@
                         <th>
                             @Resources.SkillCourseMembers.Index_Grade
                         </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -75,19 +103,25 @@
                                 <td>
                                     @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
                                     {
-                                        <td>
                                         <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Edit</a><span> </span>
-                                        </td>
-                                        <td>
-                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName"><i class="fas fa-user-circle fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Details</a> <span> </span>
-                                        </td>
-                                        <td>
+                                    }
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                    {
+                                        <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName"><i class="fas fa-user-circle fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Details</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                    {
                                         <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Delete</a>
-                                        </td>
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <span> </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id"><i class="fas fa-award fa-fw"> </i> @Resources.SkillCourseMembers.Index_Grade</a>
-                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <span> </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id"><i class="fas fa-award fa-fw"> </i> @Resources.SkillCourseMembers.Index_Grade</a>
                                     }
                                 </td>
                             </tr>
@@ -128,31 +162,6 @@
                     }
                 </tbody>
             </table>
-        </div>
-        <div class="col-sm-4">
-            @if (User.IsInRole("Admin"))
-            {
-            <h4>
-                @TempData["CourseName"] @Resources.SkillCourseMembers.Index_SubTitle
-            </h4>
-            <p>
-                @Resources.SkillCourseMembers.Index_SubDescStart @TempData["CourseName"]@Resources.SkillCourseMembers.Index_SubDescEnd
-            </p>
-                <p>
-                    <strong>@Resources.SkillCourseMembers.Index_Enrolled</strong> @TempData["CourseMemberCount"] <br />
-                    <strong>@Resources.SkillCourseMembers.Index_CompletedStatus</strong> @TempData["CompletedCount"] <br />
-                    <strong>@Resources.SkillCourseMembers.Index_DroppedOut</strong> @TempData["DropoutCount"] <br />
-                </p>
-            }
-            else
-            {
-                <h4>
-                    @TempData["CourseName"]
-                </h4>
-                <p>
-                    @Resources.SkillCourseMembers.Index_NotAdmin
-                </p>
-            }
         </div>
     </div>
 </div>
