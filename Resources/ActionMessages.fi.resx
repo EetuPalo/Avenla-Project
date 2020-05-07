@@ -120,6 +120,9 @@
   <data name="ActionResult_AddToGroup" xml:space="preserve">
     <value>Lisää käyttäjä ensin johonkin ryhmään.</value>
   </data>
+  <data name="ActionResult_AdminRemove" xml:space="preserve">
+    <value>Et voi poistaa kaikkia admin-käyttäjiä!</value>
+  </data>
   <data name="ActionResult_AttendFail" xml:space="preserve">
     <value>Ei voitu osallistua!</value>
   </data>

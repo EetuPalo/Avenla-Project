@@ -120,6 +120,9 @@
   <data name="ActionResult_AddToGroup" xml:space="preserve">
     <value>Add the user to a group first.</value>
   </data>
+  <data name="ActionResult_AdminRemove" xml:space="preserve">
+    <value>Cannot remove all admin users!</value>
+  </data>
   <data name="ActionResult_AttendFail" xml:space="preserve">
     <value>Could not attend the lesson!</value>
   </data>

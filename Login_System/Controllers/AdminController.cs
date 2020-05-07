@@ -178,6 +178,23 @@ namespace Login_System.Controllers
         {
             var role = await roleManager.FindByIdAsync(roleId);
 
+            //Protects from removing all admin users
+            if (role.Name == "Admin")
+            {
+                int counter = 0;
+                foreach (var user in model.Where(x => x.IsSelected))
+                {
+                    counter++;
+                }
+                
+                if (counter == 0)
+                {
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
+                    return RedirectToAction("ListRoles");
+                }
+            }
+            //
+
             if (role == null)
             {
                 return RedirectToAction("Error");
@@ -246,7 +263,20 @@ namespace Login_System.Controllers
 
             for (int i = 0; i < model.Count; i++)
             {
-                var role = await roleManager.FindByIdAsync(model[i].Id.ToString());
+                AppRole role = await roleManager.FindByIdAsync(model[i].Id.ToString());
+
+                //PROTECTS USERS IN ROLE
+                if (role.Name == "Admin")
+                {
+                    //var tempList = new List<AppRole>();
+                    var tempList = await userManager.GetUsersInRoleAsync(role.Name);
+                    if (tempList.Count == 1)
+                    {
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
+                        return RedirectToAction("Edit", "AppUsers", new { Id = id });
+                    }
+                }
+                //
 
                 IdentityResult result = null;
 
@@ -294,18 +324,28 @@ namespace Login_System.Controllers
             else
             {
                 AppRole tempRole = await roleManager.FindByIdAsync(id.ToString());
-                var result = await roleManager.DeleteAsync(tempRole);
-                if (result.Succeeded)
+
+                if (tempRole.Name != "Admin" && tempRole.Name != "User")
                 {
-                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteSuccess;
+                    var result = await roleManager.DeleteAsync(tempRole);
+                    if (result.Succeeded)
+                    {
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteSuccess;
+                        return RedirectToAction(nameof(ListRoles));
+                    }
+                    else if (!result.Succeeded)
+                    {
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteException;
+                        return RedirectToAction(nameof(ListRoles));
+                    }
                     return RedirectToAction(nameof(ListRoles));
                 }
-                else if (!result.Succeeded)
+                else
                 {
                     TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteException;
                     return RedirectToAction(nameof(ListRoles));
                 }
-                return RedirectToAction(nameof(ListRoles));
+               
             }
         }
     }

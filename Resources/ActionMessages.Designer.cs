@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot remove all admin users!.
+        /// </summary>
+        public static string ActionResult_AdminRemove {
+            get {
+                return ResourceManager.GetString("ActionResult_AdminRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not attend the lesson!.
         /// </summary>
         public static string ActionResult_AttendFail {
