@@ -56,6 +56,7 @@ namespace Login_System.Controllers
                     Id = member.Id,
                     UserID = member.UserID,
                     CourseGrade = member.CourseGrade,
+                    CourseID = member.CourseID,
                     UserName = tempUser.UserName,
                     CourseName = tempCourse.CourseName
                 };

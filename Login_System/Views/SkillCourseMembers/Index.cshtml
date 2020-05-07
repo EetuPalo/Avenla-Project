@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Login_System.ViewModels.SkillCourseMemberVM>
+﻿@model List<Login_System.ViewModels.SkillCourseMemberVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -26,7 +26,7 @@
             <div class="col-sm">
                 @if (User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
+                    <a class="btn btn-primary" asp-action="AddUsers" asp-route-id="@Model[0].CourseID"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
                 }
                 <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.SkillCourseMembers.Index_BackCourse</a>
             </div>
