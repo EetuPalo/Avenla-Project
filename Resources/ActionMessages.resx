@@ -204,6 +204,9 @@
   <data name="ActionResult_UserDeleted" xml:space="preserve">
     <value>User has been deleted!</value>
   </data>
+  <data name="ActionResult_UserDeleteFailInfo" xml:space="preserve">
+    <value>User can't be deleted because they have info stored in the system.</value>
+  </data>
   <data name="ActionResult_UserTaken" xml:space="preserve">
     <value>Username taken!</value>
   </data>
