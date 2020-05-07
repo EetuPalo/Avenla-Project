@@ -21,14 +21,18 @@ namespace Login_System.Controllers
         private SignInManager<AppUser> SignInMgr { get; }
         private GroupsDataContext groupContext { get; }
         private GroupMembersDataContext memberContext { get; }
+        private UserSkillsDataContext userSkillContext { get; }
+        private SkillCourseMemberDataContext courseMemberContext { get; }
 
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext)
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon)
         {
             _context = context;
             UserMgr = userManager;
             SignInMgr = signInManager;
             groupContext = gContext;
             memberContext = memContext;
+            userSkillContext = uskillCon;
+            courseMemberContext = cMemCon;
         }
 
         // GET: AppUsers
@@ -311,6 +315,25 @@ namespace Login_System.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var appUser = await _context.Users.FindAsync(id);
+
+            //Checking for user info in the DB
+            if (memberContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+                return RedirectToAction("Index");
+            }
+            if (userSkillContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+                return RedirectToAction("Index");
+            }
+            if (courseMemberContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+                return RedirectToAction("Index");
+            }
+            //
+
             _context.Users.Remove(appUser);
             await _context.SaveChangesAsync();
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;

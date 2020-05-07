@@ -322,6 +322,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User can&apos;t be deleted because they have info stored in the system..
+        /// </summary>
+        public static string ActionResult_UserDeleteFailInfo {
+            get {
+                return ResourceManager.GetString("ActionResult_UserDeleteFailInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username taken!.
         /// </summary>
         public static string ActionResult_UserTaken {

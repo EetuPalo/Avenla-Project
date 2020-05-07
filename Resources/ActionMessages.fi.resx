@@ -204,6 +204,9 @@
   <data name="ActionResult_UserDeleted" xml:space="preserve">
     <value>Käyttäjä poistettu!</value>
   </data>
+  <data name="ActionResult_UserDeleteFailInfo" xml:space="preserve">
+    <value>Käyttäjällä on dataa järjestelmässä, poisto epäonnistui.</value>
+  </data>
   <data name="ActionResult_UserTaken" xml:space="preserve">
     <value>Käyttäjänimi on jo käytössä.</value>
   </data>
@@ -224,6 +227,9 @@
   </data>
   <data name="Stats_Avg_NoData" xml:space="preserve">
     <value>EI_DATAA</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
   <data name="ViewBag_InvalidDate" xml:space="preserve">
     <value>VIRHEELLINEN PÄIVÄMÄÄRÄ</value>

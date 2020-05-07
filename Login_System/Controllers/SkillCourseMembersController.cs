@@ -56,6 +56,7 @@ namespace Login_System.Controllers
                     Id = member.Id,
                     UserID = member.UserID,
                     CourseGrade = member.CourseGrade,
+                    CourseID = member.CourseID,
                     UserName = tempUser.UserName,
                     CourseName = tempCourse.CourseName
                 };
@@ -236,19 +237,26 @@ namespace Login_System.Controllers
                     UserID = member.UserID,
                     Status = "Enrolled"
                 };
+                /*
                 foreach (var oldMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
                 {
                     _context.Remove(oldMem);
                 }
-                _context.Add(tempMember);
+                */
+                if (_context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)).Count() == 0)
+                {
+                    _context.Add(tempMember);
+                }
             }
+            /*
             foreach (var member in courseMembers.Where(x => !x.IsSelected))
             {
-                foreach (var gMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
+                foreach (var gMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)))
                 {
                     _context.Remove(gMem);
                 }
             }
+            */
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
