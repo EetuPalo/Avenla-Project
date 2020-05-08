@@ -42,46 +42,98 @@
                         @Html.DisplayFor(model => model.EmpStatus)
                     </dd>
                 </dl>
+                <div class="row mt-2">
+                    @if (User.IsInRole("Admin") || User.Identity.Name == Model.UserName)
+                    {
+                        <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                    }
+                    @if (TempData["Source"].ToString() == "GroupMembers")
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Groups"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    }
+                    else if (TempData["Source"].ToString() == "SkillCourseMembers")
+                    {
+                        <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-courseName="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    }
+                    else if (TempData["Source"].ToString() == "shortcut")
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Home"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    }
+                    else if (TempData["Source"].ToString() == "index")
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="AppUsers"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    }
+                    else if (TempData["Source"].ToString() == "lesson")
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="AppUsers"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    }
+                </div>
             </div>           
         </div>
         <div class="col-sm-6">
-            <h4>@TempData["UserFullName"] @Resources.Resources.Employee_Details_GroupTitle</h4>
-            <ul class="list-group list-group-flush">
-                @foreach (var group in Model.UserGroups)
-                {
-                    <li class="list-group-item pl-0">@group</li>
-                }
+            <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="true">@Resources.Resources.Layout_Groups</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="courses-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">@Resources.Resources.Layout_Courses</a>
+                </li>
             </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="groups" role="tabpanel" aria-labelledby="groups-tab">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var group in Model.UserGroups)
+                        {
+                            <li class="list-group-item pl-0">@group</li>
+                        }
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Resources.Resources.CourseMem_Details_Course
+                                </th>
+                                <th>
+                                    @Resources.Resources.Employee_Edit_Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.UserCourses)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CourseName)
+                                    </td>
+                                    <td>
+                                        @if (item.Status == "Completed")
+                                        {
+                                            <span class="text-success"><strong>@Resources.Resources.CourseMem_Details_Completed</strong></span>
+                                        }
+                                        else
+                                        {
+                                            @Resources.Resources.CourseMem_Details_NotCompleted
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div class="container-fluid p-0">
     <div class="row">
         <div class="col-sm">
-            @if (User.IsInRole("Admin") || User.Identity.Name == Model.UserName)
-            {
-            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
-            }
-            @if (TempData["Source"].ToString() == "GroupMembers")
-            {
-        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Groups"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
-            }
-            else if (TempData["Source"].ToString() == "SkillCourseMembers")
-            {
-        <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-courseName="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
-            }
-            else if (TempData["Source"].ToString() == "shortcut")
-            {
-        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="Home"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
-            }
-            else if (TempData["Source"].ToString() == "index")
-            {
-        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="AppUsers"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
-            }
-            else if (TempData["Source"].ToString() == "lesson")
-            {
-        <a class="btn btn-outline-primary" asp-action="Index" asp-controller="LessonUsers" asp-route-id="@TempData["SourceId"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
-            }
+            
 
         </div>
     </div>

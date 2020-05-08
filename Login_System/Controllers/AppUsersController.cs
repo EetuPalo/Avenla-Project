@@ -59,7 +59,11 @@ namespace Login_System.Controllers
         // GET: AppUsers/Details/5
 #nullable enable
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
-        {           
+        {
+            if (source == null)
+            {
+                TempData["Source"] = "AppUser";
+            }
             if (source != null)
             {
                 TempData["Source"] = source;
@@ -97,11 +101,17 @@ namespace Login_System.Controllers
             };
 
             var tempList = new List<string>();
+            var courseList = new List<SkillCourseMember>();
             foreach (var groupMember in memberContext.GroupMembers.Where(x => x.UserID == id))
             {
                 tempList.Add(groupMember.GroupName);
             }
+            foreach (var courseMember in courseMemberContext.SkillCourseMembers.Where(x => x.UserID == id))
+            {
+                courseList.Add(courseMember);
+            }
             model.UserGroups = tempList;
+            model.UserCourses = courseList;
 
             return View(model);
         }

@@ -23,10 +23,11 @@
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
-
+            </div>
+            <div class="col-sm float-right">
                 @if (User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Employee_Index_Create</a>
+                    <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Employee_Index_Create</a>
                 }
             </div>
         </div>
@@ -81,7 +82,7 @@
                     <td colspan="2">
                         @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
                         {
-                            <a class="btn btn-info btn-sm" type="button" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a><span> </span>
+                            <a class="btn btn-info btn-sm" type="button" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Employee_Index_Details</a><span> </span>
                             @if (User.IsInRole("Admin"))
                             {
 
