@@ -10,6 +10,7 @@ namespace Login_System.ViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
         public string Email { get; set; }
     }
 }

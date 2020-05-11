@@ -252,8 +252,11 @@
   <data name="ForgotPassword_EmailSent" xml:space="preserve">
     <value>Password Email has been sent to given E-mail address.</value>
   </data>
+  <data name="ForgotPassword_Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
   <data name="ForgotPassword_Title" xml:space="preserve">
-    <value>Forget your password?</value>
+    <value>Forgot your password?</value>
   </data>
   <data name="GENERAL_Back" xml:space="preserve">
     <value>Back</value>

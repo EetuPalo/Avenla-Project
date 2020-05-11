@@ -13,9 +13,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using System.Web;
+using Microsoft.AspNetCore.ResponseCaching;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Login_System.Controllers
 {
+   
+
     public class AccountController : Controller
     {
         private UserManager<AppUser> UserMgr { get; }
@@ -24,12 +30,15 @@ namespace Login_System.Controllers
         private readonly IdentityDataContext _context;
         private readonly RoleManager<AppRole> roleMgr;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager)
+        private IMemoryCache _cache;
+
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager, IMemoryCache memoryCache)
         {
             UserMgr = userManager;
             SignInMgr = signInManager;
             _context = context;
             roleMgr = roleManager;
+            _cache = memoryCache;
         }
 
         public IActionResult Index()
@@ -152,7 +161,6 @@ namespace Login_System.Controllers
                         return View();
                     }
                     
-                    
                     //Constructs a string from users first and last names to be shown in loginpartial
                     TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
                     //Sends the userID in viewbag to the view
@@ -194,11 +202,10 @@ namespace Login_System.Controllers
         {
             return View();
         }
-
+       
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordVM user)
         {
-
         
        //checks for the emailaddress given by the user, if doesn't exist, error.
             if(UserMgr.Users.FirstOrDefault(x => x.Email == user.Email) == null)
@@ -217,10 +224,11 @@ namespace Login_System.Controllers
                     //This token is required to actually reset the password. Should be sent by email, or straight up used in next page
                     await UserMgr.SetAuthenticationTokenAsync(tempUser, "MyApp", "RefreshToken", token);
 
-                     var passwordResetLink = Url.Action("ResetPassword", "Account", new { Email = user.Email, token = token }, Request.Scheme);
+                    var passwordResetLink = Url.Action("ResetPassword", "Account", new { Email = user.Email, token = token }, Request.Scheme);
 
-                    SendEmail(passwordResetLink);
-                  
+
+                    SendEmail(passwordResetLink, user);
+
                     return View("PasswordEmailSent");
 
                 }
@@ -261,7 +269,7 @@ namespace Login_System.Controllers
                 var token = await UserMgr.GetAuthenticationTokenAsync(tempUser, "MyApp", "RefreshToken");
                 
                 if (tempUser != null)
-                {
+                { 
                     var result = await UserMgr.ResetPasswordAsync(tempUser, token, user.Password);
 
                     if (result.Succeeded)
@@ -274,7 +282,6 @@ namespace Login_System.Controllers
                     {
                         ModelState.AddModelError("", error.Description);
                     }
-                    return View(user);
                 }
             }
             return View(user);
@@ -293,11 +300,11 @@ namespace Login_System.Controllers
             return sb.ToString();
         }
 
-        public static void SendEmail(string link)
+        public static void SendEmail(string link, ForgotPasswordVM user)
         {
             try
             {
-                MailMessage mailMessage = new MailMessage("otto.kyllonen@hotmail.com", "otto.kyllonen94@gmail.com", "aihe", "Click this link to reset your password: " + link);
+                MailMessage mailMessage = new MailMessage("otto.kyllonen@hotmail.com", user.Email, "aihe", "Click this link to reset your password: " + link);
 
 
                 SmtpClient smptClient = new SmtpClient();
@@ -307,7 +314,6 @@ namespace Login_System.Controllers
                 smptClient.UseDefaultCredentials = false;
                 System.Net.NetworkCredential credentials =
                 new System.Net.NetworkCredential("", "");
-               
                 smptClient.EnableSsl = true;
                 smptClient.Credentials = credentials;
                 smptClient.Send(mailMessage);
@@ -324,4 +330,6 @@ namespace Login_System.Controllers
 
        
     }
+
+
 }
