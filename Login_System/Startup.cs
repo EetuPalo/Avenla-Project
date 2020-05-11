@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http; // For Caching
 
 namespace Login_System
 {
@@ -35,6 +36,8 @@ namespace Login_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddResponseCaching();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -175,6 +178,7 @@ namespace Login_System
 
             app.UseRequestLocalization(requestLocalizationOptions);
             */
+
             var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(localizationOptions.Value);
 
@@ -202,6 +206,8 @@ namespace Login_System
 
             app.UseRouting();
 
+
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -212,8 +218,7 @@ namespace Login_System
                     name: "default",
                     pattern: "{culture=fi_FI}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-            });
-           
+            });  
         }
     }
 }

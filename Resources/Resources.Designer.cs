@@ -466,7 +466,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Forget your password?.
+        ///   Looks up a localized string similar to Forgot your password?.
         /// </summary>
         public static string ForgotPassword_Title {
             get {
