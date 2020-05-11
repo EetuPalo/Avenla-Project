@@ -61,11 +61,182 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add the user to a group first..
+        /// </summary>
+        public static string ActionResult_AddToGroup {
+            get {
+                return ResourceManager.GetString("ActionResult_AddToGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot remove all admin users!.
+        /// </summary>
+        public static string ActionResult_AdminRemove {
+            get {
+                return ResourceManager.GetString("ActionResult_AdminRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not attend the lesson!.
+        /// </summary>
+        public static string ActionResult_AttendFail {
+            get {
+                return ResourceManager.GetString("ActionResult_AttendFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully attended the lesson.
+        /// </summary>
+        public static string ActionResult_AttendSuccess {
+            get {
+                return ResourceManager.GetString("ActionResult_AttendSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not mark the course as completed..
+        /// </summary>
+        public static string ActionResult_CourseCompleteFail {
+            get {
+                return ResourceManager.GetString("ActionResult_CourseCompleteFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have completed the course..
+        /// </summary>
+        public static string ActionResult_CourseCompleteSuccess {
+            get {
+                return ResourceManager.GetString("ActionResult_CourseCompleteSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not join the course!.
+        /// </summary>
+        public static string ActionResult_CourseJoinFail {
+            get {
+                return ResourceManager.GetString("ActionResult_CourseJoinFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully joined the course.
+        /// </summary>
+        public static string ActionResult_CourseJoinSuccess {
+            get {
+                return ResourceManager.GetString("ActionResult_CourseJoinSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User edit failed!.
+        /// </summary>
+        public static string ActionResult_EditFail {
+            get {
+                return ResourceManager.GetString("ActionResult_EditFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User edited!.
+        /// </summary>
+        public static string ActionResult_EditSuccess {
+            get {
+                return ResourceManager.GetString("ActionResult_EditSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ActionResult_Error {
             get {
                 return ResourceManager.GetString("ActionResult_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An exception occured!.
+        /// </summary>
+        public static string ActionResult_GeneralException {
+            get {
+                return ResourceManager.GetString("ActionResult_GeneralException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed.
+        /// </summary>
+        public static string ActionResult_GeneralFail {
+            get {
+                return ResourceManager.GetString("ActionResult_GeneralFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals deleted successfully!.
+        /// </summary>
+        public static string ActionResult_GoalDeleted {
+            get {
+                return ResourceManager.GetString("ActionResult_GoalDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An exception occured when deleting goals!.
+        /// </summary>
+        public static string ActionResult_GoalDeletedFail {
+            get {
+                return ResourceManager.GetString("ActionResult_GoalDeletedFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals edited successfully!.
+        /// </summary>
+        public static string ActionResult_GoalEdited {
+            get {
+                return ResourceManager.GetString("ActionResult_GoalEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New goals set!.
+        /// </summary>
+        public static string ActionResult_GoalSet {
+            get {
+                return ResourceManager.GetString("ActionResult_GoalSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals set! Now you can add users to the group..
+        /// </summary>
+        public static string ActionResult_GoalSetAddUser {
+            get {
+                return ResourceManager.GetString("ActionResult_GoalSetAddUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grading failed!.
+        /// </summary>
+        public static string ActionResult_GradeFail {
+            get {
+                return ResourceManager.GetString("ActionResult_GradeFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grading successful!.
+        /// </summary>
+        public static string ActionResult_GradeSuccess {
+            get {
+                return ResourceManager.GetString("ActionResult_GradeSuccess", resourceCulture);
             }
         }
         
@@ -79,11 +250,83 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group created successfully!.
+        /// </summary>
+        public static string ActionResult_GroupCreatedNoGoal {
+            get {
+                return ResourceManager.GetString("ActionResult_GroupCreatedNoGoal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No permission to edit this role!.
+        /// </summary>
+        public static string ActionResult_NoPermissionRole {
+            get {
+                return ResourceManager.GetString("ActionResult_NoPermissionRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An exception occured while deleting role. Check the list!.
+        /// </summary>
+        public static string ActionResult_RoleDeleteException {
+            get {
+                return ResourceManager.GetString("ActionResult_RoleDeleteException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No role deleted. This is likely an error..
+        /// </summary>
+        public static string ActionResult_RoleDeleteFail {
+            get {
+                return ResourceManager.GetString("ActionResult_RoleDeleteFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role deleted successfully!.
+        /// </summary>
+        public static string ActionResult_RoleDeleteSuccess {
+            get {
+                return ResourceManager.GetString("ActionResult_RoleDeleteSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role created successfully!.
+        /// </summary>
+        public static string ActionResult_RoleSuccessful {
+            get {
+                return ResourceManager.GetString("ActionResult_RoleSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User has been created!.
         /// </summary>
         public static string ActionResult_UserCreated {
             get {
                 return ResourceManager.GetString("ActionResult_UserCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User has been deleted!.
+        /// </summary>
+        public static string ActionResult_UserDeleted {
+            get {
+                return ResourceManager.GetString("ActionResult_UserDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User can&apos;t be deleted because they have info stored in the system..
+        /// </summary>
+        public static string ActionResult_UserDeleteFailInfo {
+            get {
+                return ResourceManager.GetString("ActionResult_UserDeleteFailInfo", resourceCulture);
             }
         }
         
@@ -97,11 +340,65 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A skill has been selected multiple times. One of the selections may have been overridden..
+        /// </summary>
+        public static string ActionWarning_MultipleSkillSelect {
+            get {
+                return ResourceManager.GetString("ActionWarning_MultipleSkillSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured but the account may have still been created. Check the account list!.
+        /// </summary>
+        public static string CreateStatus_Error {
+            get {
+                return ResourceManager.GetString("CreateStatus_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User .
+        /// </summary>
+        public static string CreateStatus_Success1 {
+            get {
+                return ResourceManager.GetString("CreateStatus_Success1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to created successfully!.
+        /// </summary>
+        public static string CreateStatus_Success2 {
+            get {
+                return ResourceManager.GetString("CreateStatus_Success2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username taken!.
+        /// </summary>
+        public static string CreateStatus_UserTaken {
+            get {
+                return ResourceManager.GetString("CreateStatus_UserTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NO_DATA.
         /// </summary>
         public static string Stats_Avg_NoData {
             get {
                 return ResourceManager.GetString("Stats_Avg_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INVALID_DATE.
+        /// </summary>
+        public static string ViewBag_InvalidDate {
+            get {
+                return ResourceManager.GetString("ViewBag_InvalidDate", resourceCulture);
             }
         }
     }

@@ -68,10 +68,10 @@ namespace Login_System.Controllers
                 {
                     Console.WriteLine("SOME SHIT HAPPENED PANIC");
                 }
-                TempData["ActionResult"] = "Successfully attended the lesson \"" + tempLesson.LessonName + "\" !";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AttendSuccess + tempLesson.LessonName + "!";
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
-            TempData["ActionResult"] = "Could not attend the lesson!";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AttendFail;
             return RedirectToAction(nameof(Index), "SkillCourses");
 	}
 	

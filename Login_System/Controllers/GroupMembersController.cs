@@ -136,7 +136,7 @@ namespace Login_System.Controllers
            _context.SaveChanges();
             if (source == "create")
             {
-                TempData["ActionResult"] = "Group created successfully.";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GroupCreatedNoGoal;
                 return RedirectToAction(nameof(Index), "Groups");
             }
             else

@@ -4,15 +4,15 @@
     ViewData["Title"] = "ListByDate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <script src="~/js/Chart.bundle.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    </head>
-    <script>
-        $(function () {
-            $("#dateSearch").datepicker();
-        });
-    </script>
+<head>
+    <script src="~/js/Chart.bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<script>
+    $(function () {
+        $("#dateSearch").datepicker();
+    });
+</script>
 
 <h2>@ViewBag.UserNames @Resources.Resources.UserSkills_ListByDate_Title</h2>
 <h2 class="text-danger">@TempData["ActionResult"]</h2>
@@ -21,12 +21,17 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" id="dateSearch" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder>
+                <div class="input-group">
+                    <input readonly class="form-control" id="dateSearch" type="text" name="SearchString" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value=@Resources.Resources.GENERAL_Search />
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button>
                 <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">@Resources.Resources.UserSkills_ListByDate_Create</a>
-                <a class="btn btn-danger" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest">@Resources.Resources.GENERAL_Back</a>
+                <a class="btn btn-primary" asp-action="SkillList" asp-route-id="@TempData["UserId"]" asp-route-name="latest"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>
@@ -63,15 +68,15 @@
                         @Html.DisplayFor(modelItem => item.AdminEval)
                     </td>
                 }
-            <td>
-                <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
-                <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
-                @if (User.IsInRole("Admin"))
-                {
-                <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
-                <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
-                }
-            </td>
+                <td>
+                    <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
+                    <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
+                        <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -85,7 +90,7 @@ var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], //for each day of the month possible          
+        labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], //for each day of the month possible
         datasets: [
             @for(int i = 0; i < ViewBag.DataPoint.Length;i++)
             {
@@ -110,7 +115,7 @@ var myChart = new Chart(ctx, {
             //empty dataset cause too lazy to implement no comma in the for loop for the last element
             }
         ]
-        
+
     },
     options: {
         label: {
@@ -118,7 +123,7 @@ var myChart = new Chart(ctx, {
         },
         legend: {
             display: false //it becomes crowded when there are lot of skill evaluations made
-        }        
+        }
     }
 });
     lineChartOptions = {
@@ -147,3 +152,12 @@ var myChart = new Chart(ctx, {
     }
 console.log(myChart)
 </script>
+@section Scripts {
+    <script type="text/javascript">
+        function clearForm() {
+            var search = document.getElementById('dateSearch');
+            search.value = '';
+            document.forms[0].submit();
+        }
+    </script>
+}

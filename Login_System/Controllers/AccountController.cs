@@ -153,11 +153,12 @@ namespace Login_System.Controllers
                     // _context.SaveChanges();//save changes to the DB
 
                     // check if person who is trying to log in is inactive
+                    
                     if (appUser.EmpStatus == "Inactive") 
                     {
                         await SignInMgr.SignOutAsync();
                         ViewBag.Message = "Your account has been locked due inactivity";
-                        return View("Index");
+                        return View();
                     }
                     
                     //Constructs a string from users first and last names to be shown in loginpartial
@@ -169,7 +170,7 @@ namespace Login_System.Controllers
                 }
                 else
                 {
-                    ViewBag.Result = "result is: " + result.ToString();
+                    ViewBag.Result = result.ToString();
                 }               
             }
             return View(user);

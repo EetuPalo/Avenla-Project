@@ -117,19 +117,121 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionResult_AddToGroup" xml:space="preserve">
+    <value>Lisää käyttäjä ensin johonkin ryhmään.</value>
+  </data>
+  <data name="ActionResult_AdminRemove" xml:space="preserve">
+    <value>Et voi poistaa kaikkia admin-käyttäjiä!</value>
+  </data>
+  <data name="ActionResult_AttendFail" xml:space="preserve">
+    <value>Ei voitu osallistua!</value>
+  </data>
+  <data name="ActionResult_AttendSuccess" xml:space="preserve">
+    <value>Osallistut tunnille</value>
+  </data>
+  <data name="ActionResult_CourseCompleteFail" xml:space="preserve">
+    <value>Olet suorittanut kurssin!</value>
+  </data>
+  <data name="ActionResult_CourseCompleteSuccess" xml:space="preserve">
+    <value>Kurssia ei voitu suorittaa!</value>
+  </data>
+  <data name="ActionResult_CourseJoinFail" xml:space="preserve">
+    <value>Kurssille ei voitu liittyä!</value>
+  </data>
+  <data name="ActionResult_CourseJoinSuccess" xml:space="preserve">
+    <value>Liityit kurssille</value>
+  </data>
+  <data name="ActionResult_EditFail" xml:space="preserve">
+    <value>Muokkaus epäonnistui!</value>
+  </data>
+  <data name="ActionResult_EditSuccess" xml:space="preserve">
+    <value>Muokkaus onnistui!</value>
+  </data>
   <data name="ActionResult_Error" xml:space="preserve">
     <value>Virhe</value>
+  </data>
+  <data name="ActionResult_GeneralException" xml:space="preserve">
+    <value>Virhe tapahtui toimintoa suorittaessa!</value>
+  </data>
+  <data name="ActionResult_GeneralFail" xml:space="preserve">
+    <value>Epäonnistui</value>
+  </data>
+  <data name="ActionResult_GoalDeleted" xml:space="preserve">
+    <value>Tavoitetasot poistettu onnistuneesti!</value>
+  </data>
+  <data name="ActionResult_GoalDeletedFail" xml:space="preserve">
+    <value>Tavoitetasoja ei voitu poistaa!</value>
+  </data>
+  <data name="ActionResult_GoalEdited" xml:space="preserve">
+    <value>Tavoitetasoja muokattu onnistuneesti!</value>
+  </data>
+  <data name="ActionResult_GoalSet" xml:space="preserve">
+    <value>Tavoitetasot asetettu!</value>
+  </data>
+  <data name="ActionResult_GoalSetAddUser" xml:space="preserve">
+    <value>Tavoitetasot asetettu! Voit nyt lisätä käyttäjiä ryhmään.</value>
+  </data>
+  <data name="ActionResult_GradeFail" xml:space="preserve">
+    <value>Ei voitu arvioida!</value>
+  </data>
+  <data name="ActionResult_GradeSuccess" xml:space="preserve">
+    <value>Arvioitu onnistuneesti!</value>
   </data>
   <data name="ActionResult_GroupCreated" xml:space="preserve">
     <value>Ryhmä luotu! Aseta seuraavaksi tavoitetasot.</value>
   </data>
+  <data name="ActionResult_GroupCreatedNoGoal" xml:space="preserve">
+    <value>Ryhmä luotu!</value>
+  </data>
+  <data name="ActionResult_NoPermissionRole" xml:space="preserve">
+    <value>Et voi muokata tätä roolia!</value>
+  </data>
+  <data name="ActionResult_RoleDeleteException" xml:space="preserve">
+    <value>Virhe tapahtui roolia poistettaessa!</value>
+  </data>
+  <data name="ActionResult_RoleDeleteFail" xml:space="preserve">
+    <value>Roolia ei voitu poistaa!</value>
+  </data>
+  <data name="ActionResult_RoleDeleteSuccess" xml:space="preserve">
+    <value>Rooli poistettu onnistuneesti!</value>
+  </data>
+  <data name="ActionResult_RoleSuccessful" xml:space="preserve">
+    <value>Rooli luotu onnistuneesti!</value>
+  </data>
   <data name="ActionResult_UserCreated" xml:space="preserve">
     <value>Käyttäjä luotu!</value>
+  </data>
+  <data name="ActionResult_UserDeleted" xml:space="preserve">
+    <value>Käyttäjä poistettu!</value>
+  </data>
+  <data name="ActionResult_UserDeleteFailInfo" xml:space="preserve">
+    <value>Käyttäjällä on dataa järjestelmässä, poisto epäonnistui.</value>
   </data>
   <data name="ActionResult_UserTaken" xml:space="preserve">
     <value>Käyttäjänimi on jo käytössä.</value>
   </data>
+  <data name="ActionWarning_MultipleSkillSelect" xml:space="preserve">
+    <value>Sama taito valittu kahdesti. Yksi valinnoista on poistettu.</value>
+  </data>
+  <data name="CreateStatus_Error" xml:space="preserve">
+    <value>Virhe tapahtui, mutta käyttäjä saatettiin silti luoda. Tarkista käyttäjälista!</value>
+  </data>
+  <data name="CreateStatus_Success1" xml:space="preserve">
+    <value>Käyttäjä</value>
+  </data>
+  <data name="CreateStatus_Success2" xml:space="preserve">
+    <value>luotu onnistuneesti!</value>
+  </data>
+  <data name="CreateStatus_UserTaken" xml:space="preserve">
+    <value>Käyttäjänimi on jo käytössä</value>
+  </data>
   <data name="Stats_Avg_NoData" xml:space="preserve">
     <value>EI_DATAA</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ViewBag_InvalidDate" xml:space="preserve">
+    <value>VIRHEELLINEN PÄIVÄMÄÄRÄ</value>
   </data>
 </root>

@@ -21,14 +21,18 @@ namespace Login_System.Controllers
         private SignInManager<AppUser> SignInMgr { get; }
         private GroupsDataContext groupContext { get; }
         private GroupMembersDataContext memberContext { get; }
+        private UserSkillsDataContext userSkillContext { get; }
+        private SkillCourseMemberDataContext courseMemberContext { get; }
 
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext)
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon)
         {
             _context = context;
             UserMgr = userManager;
             SignInMgr = signInManager;
             groupContext = gContext;
             memberContext = memContext;
+            userSkillContext = uskillCon;
+            courseMemberContext = cMemCon;
         }
 
         // GET: AppUsers
@@ -42,17 +46,24 @@ namespace Login_System.Controllers
             }
 
             var employees = from e in _context.Users select e;
-            if(!String.IsNullOrEmpty(searchString))
+            TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
+            TempData["SearchValue"] = null;
+            if (!String.IsNullOrEmpty(searchString))
             {                
                 employees = employees.Where(s => (s.UserName.Contains(searchString)) || (s.FirstName.Contains(searchString)) || (s.LastName.Contains(searchString)) || (s.Email.Contains(searchString)) || (s.PhoneNumber.Contains(searchString)));
-            }
+                TempData["SearchValue"] = searchString;
+            }           
             return View(await employees.ToListAsync());
         }
 
         // GET: AppUsers/Details/5
 #nullable enable
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
-        {           
+        {
+            if (source == null)
+            {
+                TempData["Source"] = "AppUser";
+            }
             if (source != null)
             {
                 TempData["Source"] = source;
@@ -90,11 +101,17 @@ namespace Login_System.Controllers
             };
 
             var tempList = new List<string>();
+            var courseList = new List<SkillCourseMember>();
             foreach (var groupMember in memberContext.GroupMembers.Where(x => x.UserID == id))
             {
                 tempList.Add(groupMember.GroupName);
             }
+            foreach (var courseMember in courseMemberContext.SkillCourseMembers.Where(x => x.UserID == id))
+            {
+                courseList.Add(courseMember);
+            }
             model.UserGroups = tempList;
+            model.UserCourses = courseList;
 
             return View(model);
         }
@@ -152,15 +169,15 @@ namespace Login_System.Controllers
                     catch
                     {
                         //Console.WriteLine("An error occured but the account may have still been created. Check the account list!");
-                        TempData["CreateStatus"] = "An error occured but the account may have still been created. Check the account list!";
+                        TempData["CreateStatus"] = Resources.ActionMessages.CreateStatus_Error;
                     }
                    
-                    TempData["ActionResult"] = "User " + fixedUn + " created successfully!";
+                    TempData["ActionResult"] = Resources.ActionMessages.CreateStatus_Success1 + fixedUn + Resources.ActionMessages.CreateStatus_Success2;
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["CreateStatus"] = "Username taken!";
+                    TempData["CreateStatus"] = Resources.ActionMessages.CreateStatus_UserTaken;
                     return RedirectToAction("Index");
                 }
             }
@@ -172,6 +189,31 @@ namespace Login_System.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
+            EditUserVM mainModel = new EditUserVM();
+            //GROUP//
+            ViewBag.UserId = id;
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            //TempData["Source"] = source;
+            var model = new List<Group>();
+            var userMembership = new List<GroupMember>();
+
+            foreach (var group in groupContext.Group)
+            {
+                userMembership = memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
+                model.Add(group);
+                int index = userMembership.FindIndex(f => f.GroupName == group.name);
+                if (index >= 0)
+                {
+                    group.IsSelected = true;
+                }
+                else
+                {
+                    group.IsSelected = false;
+                }
+            }
+            mainModel.Groups = model;
+            ////////
+
             if (User.IsInRole("Admin") || UserMgr.GetUserId(User) == id.ToString())
             {
                 if (id == null)
@@ -186,97 +228,164 @@ namespace Login_System.Controllers
                     return NotFound();
                 }
 
-                AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+                //AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+                mainModel.User = tempUser;
 
                 TempData["UserId"] = id;
                 TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
                 appUser.TempUserName = tempUser.UserName;
-                return View(appUser);
+                return View(mainModel);
             }           
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-       //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("FirstName, LastName, Email, NewPassword, ConfirmNewPassword, PhoneNumber, EmpStatus, TempUserName")] AppUser appUser)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Edit(int id, EditUserVM model)
         {
             if (ModelState.IsValid)
             {
-                var compareUser = User.Identity.Name;
-                var user = await UserMgr.FindByIdAsync(id.ToString());
+                //-GROUP-//
 
-                //This constructs the username from the users first and last names
-                string userName = appUser.TempUserName;
-                //This is supposed to remove any Ä's Ö's and Å's from the userName string
-                byte[] tempBytes;
-                tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
-                string fixedUn = Encoding.UTF8.GetString(tempBytes);
-                fixedUn = RemoveSpecialCharacters(fixedUn);
-                appUser.UserName = fixedUn;
-                //This is just an extra step to make sure the user is authorized to edit the account
-                if (user.UserName == compareUser || User.IsInRole("Admin"))
-                {
-                    user.FirstName = appUser.FirstName;
-                    user.LastName = appUser.LastName;
-                    user.UserName = fixedUn;
-                    user.Email = appUser.Email;
-                    user.PhoneNumber = appUser.PhoneNumber;
-                    if (appUser.EmpStatus != "-1")
-                    {
-                        user.EmpStatus = appUser.EmpStatus;
-                    }
-                    else if (appUser.EmpStatus == "-1")
-                    {
-                        user.EmpStatus = "Active";
-                    }
-                }
+                var tempUser = await UserMgr.FindByIdAsync(id.ToString());
+                var groupList = groupContext.Group;
+                var memberList = memberContext.GroupMembers;
+                var memberIndex = memberContext.GroupMembers.ToList();
+                var tempList = new List<GroupMember>();
+                var delList = new List<GroupMember>();
 
-                if (appUser.NewPassword == null)
+                for (int i = 0; i < model.Groups.Count; i++)
                 {
-                    try
+                    if (model.Groups[i].IsSelected)
                     {
-                        var result = await UserMgr.UpdateAsync(user);
-                        TempData["ActionResult"] = "User" + " " + appUser.UserName + " " + "edited!";
+                        foreach (var member in memberList)
+                        {
+                            int index = memberIndex.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
+                            if (index == -1)
+                            {
+                                int tempIndex = tempList.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
+                                if (tempIndex == -1)
+                                {
+                                    var tempMember = new GroupMember
+                                    {
+                                        UserID = tempUser.Id,
+                                        GroupID = model.Groups[i].id,
+                                        UserName = tempUser.UserName,
+                                        GroupName = model.Groups[i].name
+                                    };
+                                    tempList.Add(tempMember);
+                                    memberContext.Add(tempMember);
+                                }
+                            }
+                        }
+                    }
+                    else if (!model.Groups[i].IsSelected)
+                    {
+                        foreach (var member in memberList)
+                        {
+                            int index = memberIndex.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
+                            if (index >= 0)
+                            {
+                                if (member.GroupID == model.Groups[i].id && member.UserID == tempUser.Id && !delList.Contains(member))
+                                {
+                                    memberContext.Remove(member);
+                                    delList.Add(member);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    //var role = await groupContext.FindByIdAsync(model[i].id.ToString());
+                    await memberContext.SaveChangesAsync();
+
+                    ///////////
+
+                    //--USER INFO--//
+
+                    var compareUser = User.Identity.Name;
+                    var user = await UserMgr.FindByIdAsync(id.ToString());
+
+                    //This constructs the username from the users first and last names
+                    string userName = model.User.TempUserName;
+                    //This is supposed to remove any Ä's Ö's and Å's from the userName string
+                    byte[] tempBytes;
+                    tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                    string fixedUn = Encoding.UTF8.GetString(tempBytes);
+                    fixedUn = RemoveSpecialCharacters(fixedUn);
+                    model.User.UserName = fixedUn;
+                    //This is just an extra step to make sure the user is authorized to edit the account
+                    if (user.UserName == compareUser || User.IsInRole("Admin"))
+                    {
+                        user.FirstName = model.User.FirstName;
+                        user.LastName = model.User.LastName;
+                        user.UserName = fixedUn;
+                        user.Email = model.User.Email;
+                        user.PhoneNumber = model.User.PhoneNumber;
+                        if (model.User.EmpStatus != "-1")
+                        {
+                            user.EmpStatus = model.User.EmpStatus;
+                        }
+                        else if (model.User.EmpStatus == "-1")
+                        {
+                            user.EmpStatus = "Active";
+                        }
+                    }
+
+                    if (model.User.NewPassword == null)
+                    {
+                        try
+                        {
+                            var result = await UserMgr.UpdateAsync(user);
+                            TempData["ActionResult"] = "User" + " " + model.User.UserName + " " + "edited!";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Updating user information failed!");
+                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
+                            return View(model);
+                        }
+                    }
+                    else if (model.User.NewPassword != null)
+                    {
+                        try
+                        {
+                            //This changes the password if the user has edited it
+                            var hashResult = UserMgr.PasswordHasher.HashPassword(model.User, model.User.NewPassword);
+                            var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
+                            var passwordResult = await UserMgr.ResetPasswordAsync(user, token, model.User.NewPassword);
+                            var result = await UserMgr.UpdateAsync(user);
+
+                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditSuccess;
+                            return RedirectToAction(nameof(Index));
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Updating user information with password failed!");
+                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("You do not have the permission to edit this user!");
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
                         return RedirectToAction(nameof(Index));
                     }
-                    catch
-                    {
-                        Console.WriteLine("Updating user information failed!");
-                        TempData["ActionResult"] = "User edit failed!";
-                        return View(appUser);
-                    }
-                }
-                else if (appUser.NewPassword != null)
-                {
-                    try
-                    {
-                        //This changes the password if the user has edited it
-                        var hashResult = UserMgr.PasswordHasher.HashPassword(appUser, appUser.NewPassword);
-                        var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
-                        var passwordResult = await UserMgr.ResetPasswordAsync(user, token, appUser.NewPassword);
-                        var result = await UserMgr.UpdateAsync(user);
 
-                        TempData["ActionResult"] = "User edited!";
-                        return RedirectToAction(nameof(Index));
-                    }
-                    catch
-                    {
-                        Console.WriteLine("Updating user information with password failed!");
-                        TempData["ActionResult"] = "User edit failed!";
-                        return View(appUser);
-                    }
-                }                  
-                else
-                {
-                    Console.WriteLine("You do not have the permission to edit this user!");
-                    TempData["ActionResult"] = "User edit failed!";
-                    return RedirectToAction(nameof(Index));
+                    //--USER INFO END--//
                 }
+                return View(model);
             }
-            return View(appUser);
+            else
+            {
+                return View();
+            }
         }
-
         // GET: AppUsers/Delete/5
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
@@ -308,9 +417,28 @@ namespace Login_System.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var appUser = await _context.Users.FindAsync(id);
+
+            //Checking for user info in the DB
+            if (memberContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+                return RedirectToAction("Index");
+            }
+            if (userSkillContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+                return RedirectToAction("Index");
+            }
+            if (courseMemberContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+                return RedirectToAction("Index");
+            }
+            //
+
             _context.Users.Remove(appUser);
             await _context.SaveChangesAsync();
-            TempData["ActionResult"] = "User has been deleted!";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;
             return RedirectToAction(nameof(Index));
         }
 

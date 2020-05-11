@@ -27,8 +27,8 @@
                 <input type="hidden" asp-for="Date" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="submit" value=@Resources.Resources.UserSkills_Create_Submit class="btn btn-primary" />
-                <a asp-action="SkillList" asp-route-id="@Model.UserID" asp-route-name="@Model.Date.ToString("dd/MM/yyyy+HH/mm")" class="btn btn-danger">@Resources.Resources.GENERAL_Back</a>
+                <a asp-action="SkillList" asp-route-id="@Model.UserID" asp-route-name="@Model.Date.ToString("dd/MM/yyyy+HH/mm")" class="btn btn-outline-primary"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Resources.UserSkills_Create_Submit</button>
             </div>
         </form>
     </div>

@@ -36,8 +36,8 @@
                     <span asp-validation-for="Length" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value=@Resources.Courses.Create_BTN_Create class="btn btn-primary" />
-                    <a class="btn btn-danger" asp-action="Index">@Resources.Resources.GENERAL_Back</a>
+                    <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Create_BTN_Create </button>
                 </div>
             </div>
             <div class="col-md-6">

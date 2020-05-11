@@ -56,6 +56,7 @@ namespace Login_System.Controllers
                     Id = member.Id,
                     UserID = member.UserID,
                     CourseGrade = member.CourseGrade,
+                    CourseID = member.CourseID,
                     UserName = tempUser.UserName,
                     CourseName = tempCourse.CourseName
                 };
@@ -236,19 +237,26 @@ namespace Login_System.Controllers
                     UserID = member.UserID,
                     Status = "Enrolled"
                 };
+                /*
                 foreach (var oldMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
                 {
                     _context.Remove(oldMem);
                 }
-                _context.Add(tempMember);
+                */
+                if (_context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)).Count() == 0)
+                {
+                    _context.Add(tempMember);
+                }
             }
+            /*
             foreach (var member in courseMembers.Where(x => !x.IsSelected))
             {
-                foreach (var gMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
+                foreach (var gMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)))
                 {
                     _context.Remove(gMem);
                 }
             }
+            */
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
@@ -284,10 +292,10 @@ namespace Login_System.Controllers
                 {
                     Console.WriteLine("Cannot join the course: An exception occured!");
                 }
-                TempData["ActionResult"] = "Successfully joined the course " + tempCourse.CourseName + " !";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseJoinSuccess + tempCourse.CourseName + " !";
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
-            TempData["ActionResult"] = "Could not join the course!";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseJoinFail;
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
@@ -307,10 +315,10 @@ namespace Login_System.Controllers
             }
             catch
             {
-                TempData["ActionResult"] = "Could not mark the course as completed.";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseCompleteFail;
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
-            TempData["ActionResult"] = "You have completed the course.";
+            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseCompleteSuccess;
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
@@ -333,12 +341,12 @@ namespace Login_System.Controllers
                 tempMember.CourseGrade = member.CourseGrade;
                 _context.Update(tempMember);
                 await _context.SaveChangesAsync();
-                TempData["ActionResult"] = "Grading successful!";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GradeSuccess;
                 return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = tempMember.CourseID, courseName = tempMember.CourseName });
             }
             catch
             {
-                TempData["ActionResult"] = "Grading failed!";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GradeFail;
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
         }

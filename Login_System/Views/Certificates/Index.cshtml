@@ -10,11 +10,16 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Certificates.Index_Search>
+                <div class="input-group">
+                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="col-sm">
-                <input class="btn btn-info" type="submit" value=@Resources.Certificates.Index_BTN_Search />
-                <a class="btn btn-primary" asp-action="Create">@Resources.Certificates.Index_BTN_Create</a>
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Certificates.Index_BTN_Search</button>
+                <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Certificates.Index_BTN_Create</a>
             </div>
         </div>
     </div>
@@ -45,8 +50,8 @@
                                 @Html.DisplayFor(modelItem => item.Organization)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Edit</a> |
-                                <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id">@Resources.Certificates.Index_BTN_Delete</a>
+                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Certificates.Index_BTN_Edit</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Certificates.Index_BTN_Delete</a>
                             </td>
                         </tr>
                     }
@@ -60,4 +65,12 @@
         </div>
     </div>
 </div>
-
+@section Scripts {
+    <script type="text/javascript">
+        function clearForm() {
+            var search = document.getElementById('search-bar');
+            search.value = '';
+            document.forms[0].submit();
+        }
+    </script>
+}

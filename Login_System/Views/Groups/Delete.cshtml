@@ -22,15 +22,16 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="id" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
+
         @if (TempData["Source"] != null && TempData["Source"].ToString() == "stats")
         {
-            <a class="btn btn-primary" asp-action="Statistics" asp-route-id="@Model.id">@Resources.Resources.GENERAL_Back</a>
+            <a class="btn btn-outline-primary" asp-action="Statistics" asp-route-id="@Model.id"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
         }
         else
         {
-            <a class="btn btn-primary" asp-action="Index">@Resources.Resources.GENERAL_Back</a>
+            <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
         }
+        <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> Delete</button>
 
     </form>
 </div>

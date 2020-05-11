@@ -95,7 +95,7 @@ namespace Login_System.Controllers
                 }
                 else
                 {
-                    TempData["ActionResult"] = "An exception occured.";
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GeneralException;
                     return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });
                 }
 

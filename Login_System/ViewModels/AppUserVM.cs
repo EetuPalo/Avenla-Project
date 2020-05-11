@@ -24,5 +24,7 @@ namespace Login_System.ViewModels
         public string PhoneNumber { get; set; }
 
         public List<string> UserGroups { get; set; }
+
+        public List<SkillCourseMember> UserCourses { get; set; }
     }
 }

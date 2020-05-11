@@ -29,8 +29,8 @@
                 <div class="container-fluid p-0">
                     <div class="row">
                         <div class="col-sm">
-                            <input asp-route-id="@Model[0].LessonID" type="submit" value=@Resources.Lessons.User_Create_BTN_Submit class="btn btn-primary" />
-                            <a class="btn btn-danger" asp-action="Index" asp-controller="SkillCourses">@Resources.Resources.GENERAL_Back</a>
+                            <a class="btn btn-outline-primary" asp-action="Index" asp-controller="SkillCourses"><i class="fas fa-left-arrow fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                            <button asp-route-id="@Model[0].LessonID" type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Lessons.User_Create_BTN_Submit</button>
                         </div>
                     </div>
                 </div>
