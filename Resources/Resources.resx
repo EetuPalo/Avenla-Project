@@ -285,6 +285,9 @@
   <data name="Layout_Groups" xml:space="preserve">
     <value>Groups</value>
   </data>
+  <data name="Layout_Lang" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="Layout_Login" xml:space="preserve">
     <value>Login</value>
   </data>

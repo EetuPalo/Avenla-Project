@@ -276,6 +276,9 @@
   <data name="Layout_Groups" xml:space="preserve">
     <value>Ryhmät</value>
   </data>
+  <data name="Layout_Lang" xml:space="preserve">
+    <value>Kieli</value>
+  </data>
   <data name="Layout_Login" xml:space="preserve">
     <value>Kirjaudu Sisään</value>
   </data>

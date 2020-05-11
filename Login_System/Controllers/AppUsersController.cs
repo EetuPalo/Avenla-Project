@@ -261,7 +261,7 @@ namespace Login_System.Controllers
                     {
                         foreach (var member in memberList)
                         {
-                            int index = memberIndex.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
+                            int index = memberIndex.FindIndex(f => (f.UserID == id) && (f.GroupName == model.Groups[i].name));
                             if (index == -1)
                             {
                                 int tempIndex = tempList.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
@@ -279,6 +279,7 @@ namespace Login_System.Controllers
                                 }
                             }
                         }
+                        await memberContext.SaveChangesAsync();
                     }
                     else if (!model.Groups[i].IsSelected)
                     {
@@ -294,13 +295,14 @@ namespace Login_System.Controllers
                                 }
                             }
                         }
+                        await memberContext.SaveChangesAsync();
                     }
                     else
                     {
                         continue;
                     }
                     //var role = await groupContext.FindByIdAsync(model[i].id.ToString());
-                    await memberContext.SaveChangesAsync();
+                    //await memberContext.SaveChangesAsync();
 
                     ///////////
 
