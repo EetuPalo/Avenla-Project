@@ -144,6 +144,10 @@ namespace Login_System
                 options.SupportedUICultures = supportedCultures;
                 services.AddSingleton(options);
             });
+
+            //Sets lifetime for password reset tokens
+            services.Configure<DataProtectionTokenProviderOptions>(o =>
+                o.TokenLifespan = TimeSpan.FromHours(24));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
