@@ -297,6 +297,9 @@
   <data name="Layout_Groups" xml:space="preserve">
     <value>Ryhmät</value>
   </data>
+  <data name="Layout_Home" xml:space="preserve">
+    <value>LOGO_TBD</value>
+  </data>
   <data name="Layout_Lang" xml:space="preserve">
     <value>Kieli</value>
   </data>
@@ -467,5 +470,8 @@
   </data>
   <data name="UserSkills_SkillList_Worst" xml:space="preserve">
     <value>Heikoin taito:</value>
+  </data>
+  <data name="User_Hello" xml:space="preserve">
+    <value>Hei, </value>
   </data>
 </root>

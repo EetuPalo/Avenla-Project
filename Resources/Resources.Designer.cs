@@ -601,6 +601,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LOGO_TBD.
+        /// </summary>
+        public static string Layout_Home {
+            get {
+                return ResourceManager.GetString("Layout_Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Layout_Lang {
@@ -858,6 +867,15 @@ namespace Resources {
         public static string UCertificates_Index_Title {
             get {
                 return ResourceManager.GetString("UCertificates_Index_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello,.
+        /// </summary>
+        public static string User_Hello {
+            get {
+                return ResourceManager.GetString("User_Hello", resourceCulture);
             }
         }
         

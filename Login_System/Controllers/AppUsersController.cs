@@ -195,7 +195,6 @@ namespace Login_System.Controllers
             //GROUP//
             ViewBag.UserId = id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            //TempData["Source"] = source;
             var model = new List<Group>();
             var userMembership = new List<GroupMember>();
 
@@ -247,8 +246,6 @@ namespace Login_System.Controllers
                 {
                     return NotFound();
                 }
-
-                //AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
                 mainModel.User = tempUser;
 
                 TempData["UserId"] = id;
@@ -270,7 +267,6 @@ namespace Login_System.Controllers
                 var tempUser = await UserMgr.FindByIdAsync(id.ToString());
                 var groupList = groupContext.Group;
                 var memberList = memberContext.GroupMembers.ToList();
-                //var memberIndex = memberContext.GroupMembers.ToList();
                 var tempList = new List<GroupMember>();
                 var delList = new List<GroupMember>();
 
@@ -307,9 +303,8 @@ namespace Login_System.Controllers
                     AppRole role = await roleManager.FindByIdAsync(model.Roles[i].Id.ToString());
 
                     //PROTECTS USERS IN ROLE
-                    if (role.Name == "Admin" && !model.Roles[i].IsSelected)
+                    if (role.Name == "Admin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Admin"))
                     {
-                        //var tempList = new List<AppRole>();
                         var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
                         if (tempRoleList.Count == 1)
                         {
