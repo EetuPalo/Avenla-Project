@@ -27,6 +27,7 @@ namespace Login_System.Controllers
         // GET: GroupMembers
         public async Task<IActionResult> Index(int? id, string searchString)
         {
+           
             var model = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
 
             Group tempGroup = await _gcontext.Group.FindAsync(id);
@@ -199,6 +200,7 @@ namespace Login_System.Controllers
         // GET: GroupMembers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
@@ -206,6 +208,7 @@ namespace Login_System.Controllers
 
             var groupMember = await _context.GroupMembers
                 .FirstOrDefaultAsync(m => m.Id == id);
+           
             if (groupMember == null)
             {
                 return NotFound();

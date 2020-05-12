@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to list.
+        /// </summary>
+        public static string DELETE_Back {
+            get {
+                return ResourceManager.GetString("DELETE_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string DELETE_Button {
@@ -498,6 +507,15 @@ namespace Resources {
         public static string GENERAL_Search {
             get {
                 return ResourceManager.GetString("GENERAL_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group member.
+        /// </summary>
+        public static string GroupMember_Delete_Name {
+            get {
+                return ResourceManager.GetString("GroupMember_Delete_Name", resourceCulture);
             }
         }
         
