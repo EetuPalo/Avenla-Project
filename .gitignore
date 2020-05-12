@@ -17,6 +17,8 @@ Migrations/
 *Snapshot.cs
 Avenla-Project.csproj
 
+#appsettings
+appsettings.json
 
 # User-specific files
 *.rsuser
