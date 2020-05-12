@@ -19,7 +19,7 @@
         {
             <li class="dropdown show">
                 <a class="btn dropdown-toggle text-dark" href="#" role="button" id="nameDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Hello @TempData.Peek("UserFullNames")!
+                    @Resources.Resources.User_Hello @TempData.Peek("UserFullNames")!
                 </a>
                 <div class="dropdown-menu" aria-labelledby="nameDropdown">
                     <a class="dropdown-item" asp-area="" asp-controller="AppUsers" asp-action="Details" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Profile</a>
@@ -28,12 +28,12 @@
                     <a class="dropdown-item" href="@Url.Action("Logout", "Account")">@Resources.Resources.Layout_Logout</a>
                 </div>
             </li>
-            <li>
-                <div>
+            <li class="align-middle">
+                <div class="align-middle">
                     <form id="selectLanguage" asp-controller="Home"
                           asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
                           method="post" class="form-horizontal" role="form">
-                        <select class="form-control form-control-sm" name="culture"
+                        <select class="form-control form-control-sm align-middle" name="culture"
                                 onchange="this.form.submit();"
                                 asp-for="@requestCulture.RequestCulture.UICulture.Name">
                             <option value="fi-FI">FI</option>

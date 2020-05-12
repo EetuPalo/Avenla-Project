@@ -178,7 +178,13 @@
                                         {   <td>
                                             <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Attend</a> <span> </span>
                                             </td>
-                                        }   
+                                        }
+                                        else
+                                        {
+                                            <td>
+
+                                            </td>
+                                        }
                                             <td>
                                             <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Members</a>
                                             </td>

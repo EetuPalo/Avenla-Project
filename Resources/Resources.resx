@@ -273,6 +273,14 @@
   <data name="GroupMember_Delete_Name" xml:space="preserve">
     <value>Group member</value>
   </data>
+  <data name="Home_Description_p1" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mi nisl, varius non mauris ut, tristique pretium neque. Nam eu ante in tortor tincidunt cursus at sed nulla. Sed sed massa tempor, sagittis felis ac, consequat lacus. In vestibulum commodo ullamcorper. Curabitur vel aliquam ipsum, et tincidunt sapien. Duis molestie libero vitae ipsum venenatis ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus nec orci lobortis, congue nunc non, porttitor augue. Mauris ac auctor felis. In nulla tellus, vehicula viverra condimentum mattis, gravida in ex. Vestibulum auctor ligula tortor, a malesuada lorem ultrices id. Nullam fringilla mi eu dui condimentum iaculis.
+
+Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit amet felis vel mauris vestibulum consectetur. Nullam vitae nulla scelerisque mauris cursus malesuada non at leo. Suspendisse potenti. Aliquam lacinia, dui eu iaculis pharetra, elit diam pulvinar nunc, ac posuere nunc diam a tortor. Donec et tortor ultricies, vulputate lacus pretium, luctus est. Duis a eleifend dolor. Nam faucibus sapien quis elit vehicula, eu tempus est pulvinar.</value>
+  </data>
+  <data name="Home_Description_p2" xml:space="preserve">
+    <value>Proin volutpat arcu interdum finibus lacinia. Morbi vitae tellus venenatis lorem tincidunt cursus sit amet at orci. Aenean dui lacus, tempus eu ultricies at, tempor eu dolor. Aenean elit enim, pharetra nec aliquam et, porta nec nunc. Proin lacinia egestas vehicula. Proin eu volutpat sapien. Donec suscipit, sem eget hendrerit scelerisque, ex mi ullamcorper nunc, in maximus nunc mauris pellentesque lorem. Suspendisse ac lacinia dui, vel facilisis turpis. Nullam bibendum bibendum magna, suscipit semper ante congue non. Maecenas id turpis nisi. Quisque nulla est, dignissim sed egestas vel, hendrerit et tellus. Nam gravida orci id orci vehicula, eget blandit tellus luctus. Nulla ut fermentum lacus. Nullam facilisis tellus ac erat porta, ac eleifend felis luctus.</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
   </data>
@@ -296,6 +304,9 @@
   </data>
   <data name="Layout_Groups" xml:space="preserve">
     <value>Groups</value>
+  </data>
+  <data name="Layout_Home" xml:space="preserve">
+    <value>LOGO_TBD</value>
   </data>
   <data name="Layout_Lang" xml:space="preserve">
     <value>Language</value>
@@ -467,5 +478,8 @@
   </data>
   <data name="UserSkills_SkillList_Worst" xml:space="preserve">
     <value>Worst Skill:</value>
+  </data>
+  <data name="User_Hello" xml:space="preserve">
+    <value>Hello,</value>
   </data>
 </root>

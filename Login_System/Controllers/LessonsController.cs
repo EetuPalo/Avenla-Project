@@ -66,9 +66,9 @@ namespace Login_System.Controllers
                 }
                 catch
                 {
-                    Console.WriteLine("SOME SHIT HAPPENED PANIC");
+                    
                 }
-                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AttendSuccess + tempLesson.LessonName + "!";
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AttendSuccess + " " + tempLesson.LessonName + "!";
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AttendFail;
