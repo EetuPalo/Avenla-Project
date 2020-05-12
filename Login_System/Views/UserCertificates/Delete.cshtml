@@ -8,6 +8,13 @@
 <h1>@Resources.Resources.DELETE_Title</h1>
 
 <h3>@Resources.Resources.DELETE_Desc</h3>
+
+@{
+    if (TempData["Source"] == null)
+    {
+        TempData["Source"] = "default";
+    }
+}
 <div>
     <h4>UserCertificate</h4>
     <hr />
@@ -46,7 +53,14 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
-        <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+        @if (TempData["Source"].ToString() == "details")
+        {
+            <a class="btn btn-outline-primary" asp-controller="AppUsers" asp-action="Details" asp-route-id=@Model.UserID><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+        }
+        else
+        {
+            <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+        }
+        <button type="submit" asp-route-source=@TempData["Source"] class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
     </form>
 </div>

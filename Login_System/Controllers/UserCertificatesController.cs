@@ -108,7 +108,7 @@ namespace Login_System.Controllers
         }       
 
         // GET: UserCertificates/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string? source)
         {
             if (id == null)
             {
@@ -121,18 +121,23 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-
+            TempData["source"] = source;
             return View(userCertificate);
         }
 
         // POST: UserCertificates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string? source)
         {
             var userCertificate = await _context.UserCertificates.FindAsync(id);
             _context.UserCertificates.Remove(userCertificate);
             await _context.SaveChangesAsync();
+            if (source != null && source == "details")
+            {
+                return RedirectToAction("Details", "AppUsers", new { id = userCertificate.UserID });
+            }
+
             return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID});
         }
 

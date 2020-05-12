@@ -25,7 +25,9 @@ namespace Login_System.Controllers
         private UserSkillsDataContext userSkillContext { get; }
         private SkillCourseMemberDataContext courseMemberContext { get; }
 
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon, RoleManager<AppRole> roleManager)
+        private UserCertificateDataContext userCertificateContext { get; set; }
+
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon, RoleManager<AppRole> roleManager, UserCertificateDataContext userCertCon)
         {
             _context = context;
             UserMgr = userManager;
@@ -35,6 +37,7 @@ namespace Login_System.Controllers
             userSkillContext = uskillCon;
             courseMemberContext = cMemCon;
             this.roleManager = roleManager;
+            userCertificateContext = userCertCon;
         }
 
         // GET: AppUsers
@@ -104,6 +107,7 @@ namespace Login_System.Controllers
 
             var tempList = new List<string>();
             var courseList = new List<SkillCourseMember>();
+            var certificateList = new List<UserCertificate>();
             foreach (var groupMember in memberContext.GroupMembers.Where(x => x.UserID == id))
             {
                 tempList.Add(groupMember.GroupName);
@@ -112,8 +116,13 @@ namespace Login_System.Controllers
             {
                 courseList.Add(courseMember);
             }
+            foreach (var userCertificate in userCertificateContext.UserCertificates.Where(x => x.UserID == id))
+            {
+                certificateList.Add(userCertificate);
+            }
             model.UserGroups = tempList;
             model.UserCourses = courseList;
+            model.UserCertificates = certificateList;
 
             return View(model);
         }
