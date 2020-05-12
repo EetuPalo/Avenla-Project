@@ -18,13 +18,14 @@ namespace Login_System.Controllers
     {
         private readonly IdentityDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
+        private readonly RoleManager<AppRole> roleManager;
         private SignInManager<AppUser> SignInMgr { get; }
         private GroupsDataContext groupContext { get; }
         private GroupMembersDataContext memberContext { get; }
         private UserSkillsDataContext userSkillContext { get; }
         private SkillCourseMemberDataContext courseMemberContext { get; }
 
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon)
+        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon, RoleManager<AppRole> roleManager)
         {
             _context = context;
             UserMgr = userManager;
@@ -33,6 +34,7 @@ namespace Login_System.Controllers
             memberContext = memContext;
             userSkillContext = uskillCon;
             courseMemberContext = cMemCon;
+            this.roleManager = roleManager;
         }
 
         // GET: AppUsers
@@ -214,6 +216,24 @@ namespace Login_System.Controllers
             mainModel.Groups = model;
             ////////
 
+            //ROLE//
+            List<AppRole> roleList = new List<AppRole>();
+            foreach (var role in roleManager.Roles)
+            {               
+                if (await UserMgr.IsInRoleAsync(tempUser, role.Name))
+                {
+                    role.IsSelected = true;
+                }
+                else
+                {
+                    role.IsSelected = false;
+                }
+                roleList.Add(role);
+            }
+            mainModel.Roles = roleList;
+
+            ////////
+
             if (User.IsInRole("Admin") || UserMgr.GetUserId(User) == id.ToString())
             {
                 if (id == null)
@@ -247,141 +267,148 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
                 //-GROUP-//
-
                 var tempUser = await UserMgr.FindByIdAsync(id.ToString());
                 var groupList = groupContext.Group;
-                var memberList = memberContext.GroupMembers;
-                var memberIndex = memberContext.GroupMembers.ToList();
+                var memberList = memberContext.GroupMembers.ToList();
+                //var memberIndex = memberContext.GroupMembers.ToList();
                 var tempList = new List<GroupMember>();
                 var delList = new List<GroupMember>();
 
-                for (int i = 0; i < model.Groups.Count; i++)
+                foreach (var group in model.Groups)
                 {
-                    if (model.Groups[i].IsSelected)
+                    if (group.IsSelected == true)
                     {
-                        foreach (var member in memberList)
+                        var tempMember = new GroupMember
                         {
-                            int index = memberIndex.FindIndex(f => (f.UserID == id) && (f.GroupName == model.Groups[i].name));
-                            if (index == -1)
-                            {
-                                int tempIndex = tempList.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
-                                if (tempIndex == -1)
-                                {
-                                    var tempMember = new GroupMember
-                                    {
-                                        UserID = tempUser.Id,
-                                        GroupID = model.Groups[i].id,
-                                        UserName = tempUser.UserName,
-                                        GroupName = model.Groups[i].name
-                                    };
-                                    tempList.Add(tempMember);
-                                    memberContext.Add(tempMember);
-                                }
-                            }
-                        }
+                            UserID = tempUser.Id,
+                            GroupID = group.id,
+                            UserName = tempUser.UserName,
+                            GroupName = group.name
+                        };
+                        if (memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)).Count() == 0)
+                        {
+                            memberContext.Add(tempMember);
+                        }                       
                         await memberContext.SaveChangesAsync();
                     }
-                    else if (!model.Groups[i].IsSelected)
+                    else if (group.IsSelected == false)
                     {
-                        foreach (var member in memberList)
+                        if (memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)).Count() > 0)
                         {
-                            int index = memberIndex.FindIndex(f => (f.UserID == tempUser.Id) && (f.GroupName == model.Groups[i].name));
-                            if (index >= 0)
-                            {
-                                if (member.GroupID == model.Groups[i].id && member.UserID == tempUser.Id && !delList.Contains(member))
-                                {
-                                    memberContext.Remove(member);
-                                    delList.Add(member);
-                                }
-                            }
+                            memberContext.Remove(memberContext.GroupMembers.FirstOrDefault(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)));
                         }
                         await memberContext.SaveChangesAsync();
+                    }                                     
+                }
+
+                //--ROLES--//
+                for (int i = 0; i < model.Roles.Count; i++)
+                {
+                    AppRole role = await roleManager.FindByIdAsync(model.Roles[i].Id.ToString());
+
+                    //PROTECTS USERS IN ROLE
+                    if (role.Name == "Admin" && !model.Roles[i].IsSelected)
+                    {
+                        //var tempList = new List<AppRole>();
+                        var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
+                        if (tempRoleList.Count == 1)
+                        {
+                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
+                            return RedirectToAction("Edit", "AppUsers", new { Id = id });
+                        }
+                    }
+                    //
+
+                    IdentityResult? result = null;
+
+                    if (model.Roles[i].IsSelected && !(await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name)))
+                    {
+                        result = await UserMgr.AddToRoleAsync(tempUser, role.Name);
+                    }
+                    else if (!model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name))
+                    {
+                        result = await UserMgr.RemoveFromRoleAsync(tempUser, role.Name);
                     }
                     else
                     {
                         continue;
                     }
-                    //var role = await groupContext.FindByIdAsync(model[i].id.ToString());
-                    //await memberContext.SaveChangesAsync();
+                }
 
-                    ///////////
+                //--USER INFO--//
+                var compareUser = User.Identity.Name;
+                var user = await UserMgr.FindByIdAsync(id.ToString());
 
-                    //--USER INFO--//
+                //This constructs the username from the users first and last names
+                string userName = model.User.TempUserName;
+                //This is supposed to remove any Ä's Ö's and Å's from the userName string
+                byte[] tempBytes;
+                tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
+                string fixedUn = Encoding.UTF8.GetString(tempBytes);
+                fixedUn = RemoveSpecialCharacters(fixedUn);
+                model.User.UserName = fixedUn;
 
-                    var compareUser = User.Identity.Name;
-                    var user = await UserMgr.FindByIdAsync(id.ToString());
-
-                    //This constructs the username from the users first and last names
-                    string userName = model.User.TempUserName;
-                    //This is supposed to remove any Ä's Ö's and Å's from the userName string
-                    byte[] tempBytes;
-                    tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
-                    string fixedUn = Encoding.UTF8.GetString(tempBytes);
-                    fixedUn = RemoveSpecialCharacters(fixedUn);
-                    model.User.UserName = fixedUn;
-                    //This is just an extra step to make sure the user is authorized to edit the account
-                    if (user.UserName == compareUser || User.IsInRole("Admin"))
+                //This is just an extra step to make sure the user is authorized to edit the account
+                if (user.UserName == compareUser || User.IsInRole("Admin"))
+                {
+                    user.FirstName = model.User.FirstName;
+                    user.LastName = model.User.LastName;
+                    user.UserName = fixedUn;
+                    user.Email = model.User.Email;
+                    user.PhoneNumber = model.User.PhoneNumber;
+                    if (model.User.EmpStatus != "-1")
                     {
-                        user.FirstName = model.User.FirstName;
-                        user.LastName = model.User.LastName;
-                        user.UserName = fixedUn;
-                        user.Email = model.User.Email;
-                        user.PhoneNumber = model.User.PhoneNumber;
-                        if (model.User.EmpStatus != "-1")
-                        {
-                            user.EmpStatus = model.User.EmpStatus;
-                        }
-                        else if (model.User.EmpStatus == "-1")
-                        {
-                            user.EmpStatus = "Active";
-                        }
+                        user.EmpStatus = model.User.EmpStatus;
                     }
-
-                    if (model.User.NewPassword == null)
+                    else if (model.User.EmpStatus == "-1")
                     {
-                        try
-                        {
-                            var result = await UserMgr.UpdateAsync(user);
-                            TempData["ActionResult"] = "User" + " " + model.User.UserName + " " + "edited!";
-                            return RedirectToAction(nameof(Index));
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Updating user information failed!");
-                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
-                            return View(model);
-                        }
+                        user.EmpStatus = "Active";
                     }
-                    else if (model.User.NewPassword != null)
-                    {
-                        try
-                        {
-                            //This changes the password if the user has edited it
-                            var hashResult = UserMgr.PasswordHasher.HashPassword(model.User, model.User.NewPassword);
-                            var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
-                            var passwordResult = await UserMgr.ResetPasswordAsync(user, token, model.User.NewPassword);
-                            var result = await UserMgr.UpdateAsync(user);
+                }
 
-                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditSuccess;
-                            return RedirectToAction(nameof(Index));
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Updating user information with password failed!");
-                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
-                            return View(model);
-                        }
-                    }
-                    else
+                if (model.User.NewPassword == null)
+                {
+                    try
                     {
-                        Console.WriteLine("You do not have the permission to edit this user!");
-                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
+                        var result = await UserMgr.UpdateAsync(user);
+                        TempData["ActionResult"] = "User" + " " + model.User.UserName + " " + "edited!";
                         return RedirectToAction(nameof(Index));
                     }
-
-                    //--USER INFO END--//
+                    catch
+                    {
+                        Console.WriteLine("Updating user information failed!");
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
+                        return View(model);
+                    }
                 }
-                return View(model);
+                else if (model.User.NewPassword != null)
+                {
+                    try
+                    {
+                        //This changes the password if the user has edited it
+                        var hashResult = UserMgr.PasswordHasher.HashPassword(model.User, model.User.NewPassword);
+                        var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
+                        var passwordResult = await UserMgr.ResetPasswordAsync(user, token, model.User.NewPassword);
+                        var result = await UserMgr.UpdateAsync(user);
+
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditSuccess;
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Updating user information with password failed!");
+                        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("You do not have the permission to edit this user!");
+                    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditFail;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                //--USER INFO END--//
             }
             else
             {

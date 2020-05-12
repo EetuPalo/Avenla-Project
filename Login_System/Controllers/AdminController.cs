@@ -238,10 +238,9 @@ namespace Login_System.Controllers
             AppUser tempUser = await userManager.FindByIdAsync(id.ToString());
             TempData["Source"] = source;
 
-            var listRoles = roleManager.Roles;
             var model = new List<AppRole>();
 
-            foreach (var role in listRoles)
+            foreach (var role in roleManager.Roles)
             {
                 model.Add(role);
                 if (await userManager.IsInRoleAsync(tempUser, role.Name))

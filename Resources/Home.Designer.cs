@@ -61,7 +61,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to your homepage!.
+        ///   Looks up a localized string similar to Welcome to Piilaakso!.
         /// </summary>
         public static string Index_Login {
             get {

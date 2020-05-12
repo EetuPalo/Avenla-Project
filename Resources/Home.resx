@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Index_Login" xml:space="preserve">
-    <value>Welcome to your homepage!</value>
+    <value>Welcome to Piilaakso!</value>
   </data>
   <data name="Index_NoLogin" xml:space="preserve">
     <value>Please log in with your email and password.</value>

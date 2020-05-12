@@ -14,14 +14,6 @@
             <div class="col-sm-2">
                 <h2>@TempData["UserFullName"]</h2>
             </div>
-            @if (User.IsInRole("Admin"))
-            {
-                <div class="col-sm-10">
-                    <a class="btn btn-info" asp-action="EditRoleOfUser" asp-controller="Admin" asp-route-id="@TempData["UserId"]" asp-route-source="edit"><i class="fas fa-user-tag fa-fw"> </i> @Resources.Resources.Employee_Edit_ERoles</a>
-                    <a class="btn btn-info" asp-action="EditGroupOfUser" asp-route-id="@TempData["UserId"]" asp-route-source="edit"><i class="fas fa-users-cog fa-fw"> </i> @Resources.Resources.Employee_Edit_EGroups</a>
-                </div>
-            }
-
         </div>
     </div>
     <hr />
@@ -30,14 +22,17 @@
         <form asp-action="Edit">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">User</a>
+                    <a class="nav-link active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">@Resources.Resources.Layout_Profile</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">Groups</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="role-tab" data-toggle="tab" href="#role" role="tab" aria-controls="role" aria-selected="false">Role</a>
-                </li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">@Resources.Resources.Layout_Groups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="role-tab" data-toggle="tab" href="#role" role="tab" aria-controls="role" aria-selected="false">@Resources.Resources.Layout_Roles</a>
+                    </li>
+                }
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user-tab">
@@ -85,33 +80,51 @@
                         <span asp-validation-for="User.ConfirmNewPassword" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
-                    <div class="card-header">
-                        <h2>Roles:</h2>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+                        <div class="card-header">
+                            <h4>@Resources.Resources.Layout_Groups</h4>
+                        </div>
+                        <div class="card-body">
+                            @for (int i = 0; i < Model.Groups.Count; i++)
+                            {
+                                <div class="form-check m-1">
+                                    <input type="hidden" asp-for="@Model.Groups[i].id" />
+                                    <input type="hidden" asp-for="@Model.Groups[i].name" />
+                                    <input asp-for="@Model.Groups[i].IsSelected" class="form-check-input" />
+                                    <label class="form-check-label" asp-for="@Model.Groups[i].IsSelected">
+                                        @Model.Groups[i].name
+                                    </label>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div class="card-body">
-                        @for (int i = 0; i < Model.Groups.Count; i++)
-                        {
-                            <div class="form-check m-1">
-                                <input type="hidden" asp-for="@Model.Groups[i].id" />
-                                <input type="hidden" asp-for="@Model.Groups[i].name" />
-                                <input asp-for="@Model.Groups[i].IsSelected" class="form-check-input" />
-                                <label class="form-check-label" asp-for="@Model.Groups[i].IsSelected">
-                                    @Model.Groups[i].name
-                                </label>
-                            </div>
-                        }
+                    <div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">
+                        <div class="card-header">
+                            <h4>@Resources.Resources.Layout_Roles</h4>
+                        </div>
+                        <div class="card-body">
+                            @for (int i = 0; i < Model.Roles.Count; i++)
+                            {
+                                <div class="form-check m-1">
+                                    <input type="hidden" asp-for="@Model.Roles[i].Id" />
+                                    <input type="hidden" asp-for="@Model.Roles[i].Name" />
+                                    <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
+                                    <label class="form-check-label" asp-for="@Model.Roles[i].IsSelected">
+                                        @Model.Roles[i].Name
+                                    </label>
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">...</div>
+                }
             </div>
-
-
             
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
-                        <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left"> </i> @Resources.Resources.GENERAL_Back</a>
+                        <a class="btn btn-outline-primary" asp-route-id=@Model.User.Id asp-action="Details"><i class="fas fa-arrow-left"> </i> @Resources.Resources.GENERAL_Back</a>
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"></i> @Resources.Resources.Employee_Edit_Save</button>
 
                     </div>

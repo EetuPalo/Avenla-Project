@@ -85,12 +85,23 @@
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="groups" role="tabpanel" aria-labelledby="groups-tab">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var group in Model.UserGroups)
-                        {
-                            <li class="list-group-item pl-0">@group</li>
-                        }
-                    </ul>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Resources.Resources.Details_Table_Group
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var group in Model.UserGroups)
+                            {
+                                <tr>
+                                    <td>@group</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>                   
                 </div>
                 <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
                     <table class="table table-hover">
