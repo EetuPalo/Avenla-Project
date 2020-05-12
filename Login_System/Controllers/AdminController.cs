@@ -312,7 +312,7 @@ namespace Login_System.Controllers
             }
 
         }
-
+        // Confirmation view
         public async Task<IActionResult> Delete(string id)
         {
             var role = await roleManager.FindByIdAsync(id);
