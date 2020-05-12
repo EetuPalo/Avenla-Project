@@ -178,4 +178,7 @@
   <data name="MODEL_CreateRole_RoleName" xml:space="preserve">
     <value>Role Name</value>
   </data>
+  <data name="MODEL_DeleteRole_RoleName" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
 </root>

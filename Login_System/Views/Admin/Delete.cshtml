@@ -1,0 +1,47 @@
+﻿@model Login_System.Models.DeleteRole
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Resources.Resources.DELETE_Title</h1>
+
+<h3>@Resources.Resources.DELETE_Desc</h3>
+<div>
+    <h4>@Resources.Admin.MODEL_DeleteRole_RoleName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RoleName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RoleName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-sm">
+                    <input type="hidden"  asp-for="Id"/> 
+                    <a class="btn btn-outline-primary" asp-action="ListRoles"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

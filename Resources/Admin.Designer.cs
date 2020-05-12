@@ -240,5 +240,14 @@ namespace Resources {
                 return ResourceManager.GetString("MODEL_CreateRole_RoleName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role Name.
+        /// </summary>
+        public static string MODEL_DeleteRole_RoleName {
+            get {
+                return ResourceManager.GetString("MODEL_DeleteRole_RoleName", resourceCulture);
+            }
+        }
     }
 }

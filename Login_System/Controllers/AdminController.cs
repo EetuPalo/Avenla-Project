@@ -313,6 +313,28 @@ namespace Login_System.Controllers
 
         }
 
+        public async Task<IActionResult> Delete(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            if(role == null)
+            {
+                return RedirectToAction("Error");
+            }
+            //This is to prevent the User and Admin roles for being deleted
+            else if(role.Name == "Admin" || role.Name == "User")
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteException;
+                return RedirectToAction(nameof(ListRoles));
+            }
+            var model = new DeleteRole
+            {         
+                Id = role.Id.ToString(),
+                RoleName = role.Name
+            };
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -325,7 +347,7 @@ namespace Login_System.Controllers
                 AppRole tempRole = await roleManager.FindByIdAsync(id.ToString());
 
                 if (tempRole.Name != "Admin" && tempRole.Name != "User")
-                {
+                {              
                     var result = await roleManager.DeleteAsync(tempRole);
                     if (result.Succeeded)
                     {
@@ -347,5 +369,7 @@ namespace Login_System.Controllers
                
             }
         }
+
+
     }
 }
