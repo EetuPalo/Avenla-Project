@@ -529,6 +529,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mi nisl, varius non mauris ut, tristique pretium neque. Nam eu ante in tortor tincidunt cursus at sed nulla. Sed sed massa tempor, sagittis felis ac, consequat lacus. In vestibulum commodo ullamcorper. Curabitur vel aliquam ipsum, et tincidunt sapien. Duis molestie libero vitae ipsum venenatis ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus nec orci lobortis, congue nunc non, por [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Home_Description_p1 {
+            get {
+                return ResourceManager.GetString("Home_Description_p1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proin volutpat arcu interdum finibus lacinia. Morbi vitae tellus venenatis lorem tincidunt cursus sit amet at orci. Aenean dui lacus, tempus eu ultricies at, tempor eu dolor. Aenean elit enim, pharetra nec aliquam et, porta nec nunc. Proin lacinia egestas vehicula. Proin eu volutpat sapien. Donec suscipit, sem eget hendrerit scelerisque, ex mi ullamcorper nunc, in maximus nunc mauris pellentesque lorem. Suspendisse ac lacinia dui, vel facilisis turpis. Nullam bibendum bibendum magna, suscipit semper ante co [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Home_Description_p2 {
+            get {
+                return ResourceManager.GetString("Home_Description_p2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {

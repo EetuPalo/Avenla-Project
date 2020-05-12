@@ -4,7 +4,17 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@TempData["UserFullName"]</h2>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-sm-2">
+            <h2>@TempData["UserFullName"]</h2>           
+        </div>
+        <div class="col-sm-10">
+            <a class="btn btn-primary" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@Model.Id" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
+            <a class="btn btn-primary" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@Model.Id"><i class="fas fa-certificate fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
+        </div>
+    </div>
+</div>
 <hr />
 <div class="container-fluid p-0">
     <div class="row">

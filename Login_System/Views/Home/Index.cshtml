@@ -11,11 +11,27 @@
             <h4 class="mt-4">
                 @Resources.Home.Index_NoLogin
             </h4>
+            <div>
+                <p>
+                    @Resources.Resources.Home_Description_p1
+                </p>
+                <p>
+                    @Resources.Resources.Home_Description_p2
+                </p>
+            </div>
         }
         else if (User.Identity.IsAuthenticated)
         {
             <h4 class="mt-4">
                 @Resources.Home.Index_Login
             </h4>
+            <div>
+                <p>
+                    @Resources.Resources.Home_Description_p1
+                </p>
+                <p>
+                    @Resources.Resources.Home_Description_p2
+                </p>
+            </div>
         }
     </div>
