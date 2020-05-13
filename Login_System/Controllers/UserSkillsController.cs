@@ -58,6 +58,7 @@ namespace Login_System.Controllers
             {
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
+            //Month and year are needed for the graph
             if (!month.HasValue)
             {
                 month = DateTime.Now.Month;
@@ -83,6 +84,8 @@ namespace Login_System.Controllers
             //This is for the search
             var userSkills = from c in _context.UserSkills select c;
             TempData["SearchValue"] = null;
+
+            //SEARCH
             if (!String.IsNullOrEmpty(searchString))                
             {
                 //Reformatting the string
@@ -115,6 +118,7 @@ namespace Login_System.Controllers
                 }
                 TempData["SearchValue"] = searchString;
             }
+            //NO SEARCH
             else
             {
                 foreach (var item in _context.UserSkills.Where(x => x.UserID == id))

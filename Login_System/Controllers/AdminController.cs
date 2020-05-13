@@ -140,8 +140,10 @@ namespace Login_System.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
+            //Role ID that will be passed to the view
             ViewBag.roleId = roleId;
 
+            //Finding the desired role
             var role = await roleManager.FindByIdAsync(roleId);
 
             if (role == null)
@@ -240,9 +242,11 @@ namespace Login_System.Controllers
 
             var model = new List<AppRole>();
 
+            //Getting a list of roles
             foreach (var role in roleManager.Roles)
             {
                 model.Add(role);
+                //Setting roles as selected if the user is already in the role
                 if (await userManager.IsInRoleAsync(tempUser, role.Name))
                 {
                     role.IsSelected = true;
@@ -264,7 +268,7 @@ namespace Login_System.Controllers
             {
                 AppRole role = await roleManager.FindByIdAsync(model[i].Id.ToString());
 
-                //PROTECTS USERS IN ROLE
+                //Prevents the removal of all admins
                 if (role.Name == "Admin")
                 {
                     //var tempList = new List<AppRole>();

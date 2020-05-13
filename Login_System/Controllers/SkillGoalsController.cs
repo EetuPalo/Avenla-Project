@@ -51,6 +51,7 @@ namespace Login_System.Controllers
                 TempData["LatestDate"] = GetLatestDate(name).ToString("dd.MM.yyyy");
             }
 
+            //Getting skillgoals for the correct group and correct date
             if (date != null && name != null)
             {
                 var model = new SkillGoalIndexVM();
@@ -206,6 +207,7 @@ namespace Login_System.Controllers
                     model.Add(tempModel);
                 }
             }
+            //This is here to make sure any duplicate selections where one goal is -1 (no goal) is overridden by any other selections for the same skill
             var negModel = new List<SkillGoals>();
             var plusModel = new List<SkillGoals>();
             var combModel = new List<SkillGoals>();
@@ -245,6 +247,7 @@ namespace Login_System.Controllers
                 _context.Add(entry);
             }
 
+            //Replacing goals made earlier today
             if (todayList != null)
             {
                 foreach (var skillGoal in _context.SkillGoals.Where(x => x.GroupName == groupName))
@@ -357,6 +360,7 @@ namespace Login_System.Controllers
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
+        //This deletes theeentire form, not just individual skills
         public async Task<IActionResult> DeleteForm(string date, string group)
         {
             if (date == null || group == null)
