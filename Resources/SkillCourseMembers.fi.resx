@@ -126,6 +126,9 @@
   <data name="AddUsers_User" xml:space="preserve">
     <value>Käyttäjä</value>
   </data>
+  <data name="Delete_Name" xml:space="preserve">
+    <value>Kurssin jäsen</value>
+  </data>
   <data name="Index_BackCourse" xml:space="preserve">
     <value>Takasin kursseihin</value>
   </data>
