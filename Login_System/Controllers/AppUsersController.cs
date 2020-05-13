@@ -65,7 +65,7 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
         {
-            if (source == null)
+            if (String.IsNullOrWhiteSpace(source))
             {
                 TempData["Source"] = "AppUser";
             }
