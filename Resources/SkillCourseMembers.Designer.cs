@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Course Member.
+        /// </summary>
+        public static string Delete_Name {
+            get {
+                return ResourceManager.GetString("Delete_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to Courses.
         /// </summary>
         public static string Index_BackCourse {
