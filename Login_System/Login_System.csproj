@@ -29,7 +29,13 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\LearningProject_DataModel\LearningProject_DataModel.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Login_System", "Login_Syste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "Resources\Resources.csproj", "{0E84BE0D-A0D5-49E0-8B8F-77FC85976033}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearningProject_DataModel", "LearningProject_DataModel\LearningProject_DataModel.csproj", "{E0220A67-D901-405F-9321-0BEE8FCAB3BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0E84BE0D-A0D5-49E0-8B8F-77FC85976033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E84BE0D-A0D5-49E0-8B8F-77FC85976033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E84BE0D-A0D5-49E0-8B8F-77FC85976033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0220A67-D901-405F-9321-0BEE8FCAB3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0220A67-D901-405F-9321-0BEE8FCAB3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0220A67-D901-405F-9321-0BEE8FCAB3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0220A67-D901-405F-9321-0BEE8FCAB3BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
