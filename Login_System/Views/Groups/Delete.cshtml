@@ -25,11 +25,11 @@
 
         @if (TempData["Source"] != null && TempData["Source"].ToString() == "stats")
         {
-            <a class="btn btn-outline-primary" asp-action="Statistics" asp-route-id="@Model.id"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+            <a class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </a>
         }
         else
         {
-            <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+            <button class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
         }
         <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> Delete</button>
 

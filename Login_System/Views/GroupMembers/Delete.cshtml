@@ -28,7 +28,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <a class="btn btn-outline-primary" asp-action="Index" asp-route-id="@Model.GroupID"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.DELETE_Back</a>
+        <button class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
         <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
     </form>
 </div>

@@ -15,7 +15,6 @@
             <div class="col-sm">
                 <button class="btn btn-info" type="submit" asp-route-id ="@TempData["GroupID"]"><i class="fas fa-search fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Search </button>
                 <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Members_Index_BTN_EditMembers</a>
-                <a class="btn btn-outline-primary" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
             </div>
         </div>
     </div>

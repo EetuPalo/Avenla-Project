@@ -16,8 +16,7 @@
                 @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), Resources.SkillGoals.Index_SelectDropdown, new { @class = "form-control col-sm", @onchange = "reloadPage()" })
                 <input hidden asp-for="@Model.GroupName" value="@TempData.Peek("GroupName")" />
             </div>
-            <div class="col-sm">
-                <a class="btn btn-outline-primary" asp-action="Statistics" asp-controller="Groups" asp-route-id="@TempData["GroupID"]"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+            <div class="col-sm">                
                 <a class="btn btn-primary" asp-action="Create" asp-route-name="@TempData.Peek("GroupName")"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Create</a>
                 @if (Model.DateToDelete != null)
                 {

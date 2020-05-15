@@ -55,11 +55,11 @@
         <input type="hidden" asp-for="Id" />
         @if (TempData["Source"].ToString() == "details")
         {
-            <a class="btn btn-outline-primary" asp-controller="AppUsers" asp-action="Details" asp-route-id=@Model.UserID><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+            <button class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
         }
         else
         {
-            <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+            <button class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
         }
         <button type="submit" asp-route-source=@TempData["Source"] class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
     </form>

@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-sm">
                     <input type="hidden" asp-for="id" />
-                    <a class="btn btn-outline-primary" asp-action="Index"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.Resources.GENERAL_Back</a>
+                    <button class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
                 </div>
             </div>
