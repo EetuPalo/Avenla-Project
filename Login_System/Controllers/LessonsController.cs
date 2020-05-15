@@ -15,19 +15,13 @@ namespace Login_System.Controllers
 {
     public class LessonsController : Controller
     {
-        private readonly LessonDataContext _context;
-	    private readonly LessonUserDataContext _ucontext;
+        private readonly GeneralDataContext _context;
 	    private readonly UserManager<AppUser> UserMgr;
-        private readonly SkillCourseDataContext courseContext;
-        private readonly SkillCourseMemberDataContext courseMemberContext;
 
-        public LessonsController(LessonDataContext context, LessonUserDataContext ucontext, UserManager<AppUser> userManager, SkillCourseDataContext courseCon, SkillCourseMemberDataContext cMemCon)
+        public LessonsController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
-	        _ucontext = ucontext;
 	        UserMgr = userManager;
-            courseContext = courseCon;
-            courseMemberContext = cMemCon;
         }
 
         // GET: Lessons
@@ -42,11 +36,11 @@ namespace Login_System.Controllers
             Lesson tempLesson = await _context.Lessons.FindAsync(id);
             int index = 0;
             int memberIndex = 0;
-            foreach (var courseMember in courseMemberContext.SkillCourseMembers.Where(x => (x.CourseID == tempLesson.CourseID) && (x.UserID == tempUser.Id)))
+            foreach (var courseMember in _context.SkillCourseMembers.Where(x => (x.CourseID == tempLesson.CourseID) && (x.UserID == tempUser.Id)))
             {
                 memberIndex++;
             }	    
-            foreach (var member in _ucontext.LessonUsers.Where(x => (x.LessonID == id) && (x.MemberName == User.Identity.Name)))
+            foreach (var member in _context.LessonUsers.Where(x => (x.LessonID == id) && (x.MemberName == User.Identity.Name)))
             {
                 index++;
             }
@@ -61,8 +55,8 @@ namespace Login_System.Controllers
                 };
                 try
                 {
-                    _ucontext.Add(model);
-                    await _ucontext.SaveChangesAsync();
+                    _context.Add(model);
+                    await _context.SaveChangesAsync();
                 }
                 catch
                 {
@@ -124,7 +118,7 @@ namespace Login_System.Controllers
                 //
                 tempDate += ' ' + lesson.HourString + ':' + lesson.MinuteString + ':' + "00";
                 tempLesson.Date = DateTime.Parse(tempDate, CultureInfo.CurrentCulture);
-                var tempCourse = courseContext.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
+                var tempCourse = _context.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
                 tempLesson.CourseName = tempCourse.CourseName;
                 _context.Add(tempLesson);
                 await _context.SaveChangesAsync();

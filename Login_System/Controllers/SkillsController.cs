@@ -14,17 +14,13 @@ namespace Login_System.Controllers
     [Authorize(Roles = "Admin")]
     public class SkillsController : Controller
     {
-        private readonly SkillDataContext _context;
-        private readonly UserSkillsDataContext userSkillsContext;
-        private readonly SkillGoalContext goalContext;
+        private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
 
-        public SkillsController(SkillDataContext context, UserManager<AppUser> userManager, UserSkillsDataContext uSkillCon, SkillGoalContext skillGoalContext)
+        public SkillsController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             UserMgr = userManager;
-            userSkillsContext = uSkillCon;
-            goalContext = skillGoalContext;
         }
 
         public async Task<IActionResult> Index (string searchString)
@@ -125,12 +121,12 @@ namespace Login_System.Controllers
                 //This here updates the skill name to the userskills table. similar loop should be run for every table that uses skillnames
                 try
                 {
-                    foreach (var uSkill in userSkillsContext.UserSkills.Where(x => x.SkillName == skills.OldName))
+                    foreach (var uSkill in _context.UserSkills.Where(x => x.SkillName == skills.OldName))
                     {
                         uSkill.SkillName = skills.Skill;
-                        userSkillsContext.Update(uSkill);
+                        _context.Update(uSkill);
                     }
-                    await userSkillsContext.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
                 catch
                 {
@@ -139,12 +135,12 @@ namespace Login_System.Controllers
                 //This here updates the skill name to the skillgoals table.
                 try
                 {
-                    foreach (var goal in goalContext.SkillGoals.Where(x => x.SkillName == skills.OldName))
+                    foreach (var goal in _context.SkillGoals.Where(x => x.SkillName == skills.OldName))
                     {
                         goal.SkillName = skills.Skill;
-                        goalContext.Update(goal);
+                        _context.Update(goal);
                     }
-                    await goalContext.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
                 catch
                 {

@@ -14,19 +14,13 @@ namespace Login_System.Controllers
 {
     public class SkillGoalsController : Controller
     {
-        private readonly SkillGoalContext _context;
-        private readonly SkillDataContext skillContext;
-        private readonly GroupMembersDataContext gMemContext;
-        private readonly GroupsDataContext groupContext;
+        private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
 
-        public SkillGoalsController(SkillGoalContext context, UserManager<AppUser> userManager, SkillDataContext sContext, GroupMembersDataContext groupMemberCon, GroupsDataContext groupCon)
+        public SkillGoalsController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             UserMgr = userManager;
-            skillContext = sContext;
-            gMemContext = groupMemberCon;
-            groupContext = groupCon;
         }
 
         // GET: SkillGoals
@@ -42,7 +36,7 @@ namespace Login_System.Controllers
             TempData["GroupName"] = name;
             TempData["Group"] = name;
 
-            TempData["GroupID"] = groupContext.Group.Where(x => x.name == name).First().id;
+            TempData["GroupID"] = _context.Group.Where(x => x.name == name).First().id;
             if (date == null && name != null)
             {
                 //We can't pass a date if we are accessing the view from the groups index
@@ -129,7 +123,7 @@ namespace Login_System.Controllers
 
             var listModel = new List<SkillGoals>();
 
-            foreach (var skill in skillContext.Skills)
+            foreach (var skill in _context.Skills)
             {
                 var tempModel = new SkillGoals
                 {
@@ -142,7 +136,7 @@ namespace Login_System.Controllers
                 model.SkillCounter++;
             }
             model.SkillGoals = listModel;
-            model.Skills = skillContext.Skills.Select(x => new SelectListItem
+            model.Skills = _context.Skills.Select(x => new SelectListItem
             {
                 Value = x.Skill,
                 Text = x.Skill
@@ -192,7 +186,7 @@ namespace Login_System.Controllers
                     Console.WriteLine("Error occured at loop " + i);
                 }
             }
-            foreach (var skill in skillContext.Skills)
+            foreach (var skill in _context.Skills)
             {
                 var index = model.FindIndex(item => item.SkillName == skill.Skill);
                 if (index == -1)
@@ -260,7 +254,7 @@ namespace Login_System.Controllers
             }
             await _context.SaveChangesAsync();
             
-            foreach (var group in groupContext.Group.Where(x => x.name == groupName))
+            foreach (var group in _context.Group.Where(x => x.name == groupName))
             {
                 groupId = group.id;
             }

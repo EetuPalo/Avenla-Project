@@ -14,19 +14,13 @@ namespace Login_System.Controllers
 {
     public class SkillCoursesController : Controller
     {
-        private readonly SkillCourseDataContext _context;
-        private readonly SkillCourseMemberDataContext memberContext;
+        private readonly GeneralDataContext _context;
         private readonly UserManager<AppUser> UserMgr;
-        private readonly LessonDataContext lessonContext;
-        private readonly LessonUserDataContext lessonUserContext;
 
-        public SkillCoursesController(SkillCourseDataContext context, SkillCourseMemberDataContext memCon, UserManager<AppUser> userManager, LessonDataContext lesCon, LessonUserDataContext lesUsrCon)
+        public SkillCoursesController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
-            memberContext = memCon;
             UserMgr = userManager;
-            lessonContext = lesCon;
-            lessonUserContext = lesUsrCon;
         }
 
         // GET: SkillCourses
@@ -48,7 +42,7 @@ namespace Login_System.Controllers
             {
                 var dateList = new List<DateTime>();
                 dateList.Clear();
-                foreach (var member in memberContext.SkillCourseMembers.Where(x => x.UserID == tempUser.Id))
+                foreach (var member in _context.SkillCourseMembers.Where(x => x.UserID == tempUser.Id))
                 {
                     if (member.CourseID == course.id)
                     {
@@ -59,7 +53,7 @@ namespace Login_System.Controllers
                         }
                     }
                 }
-                foreach (var tempLesson in lessonContext.Lessons.Where(x => x.CourseID == course.id))
+                foreach (var tempLesson in _context.Lessons.Where(x => x.CourseID == course.id))
                 {
                     dateList.Add(tempLesson.Date);
                 }
@@ -76,10 +70,10 @@ namespace Login_System.Controllers
                 }              
             }
             model.Courses = courses.ToList();            
-            var lessons = lessonContext.Lessons.ToList();
+            var lessons = _context.Lessons.ToList();
             foreach (var lesson in lessons)
             {
-                foreach (var user in lessonUserContext.LessonUsers.Where(x => x.MemberID == tempUser.Id))
+                foreach (var user in _context.LessonUsers.Where(x => x.MemberID == tempUser.Id))
                 {
                     if (user.LessonID == lesson.Id)
                     {
@@ -170,12 +164,12 @@ namespace Login_System.Controllers
             {
                 try
                 {
-                    foreach (var member in memberContext.SkillCourseMembers.Where(x => x.CourseID == skillCourse.id))
+                    foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == skillCourse.id))
                     {
                         member.CourseName = skillCourse.CourseName;
-                        memberContext.Update(member);
+                        _context.Update(member);
                     }
-                    await memberContext.SaveChangesAsync().ConfigureAwait(false);
+                    await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
                 catch
                 {

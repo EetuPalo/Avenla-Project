@@ -49,7 +49,7 @@ namespace Login_System
                 .AddEntityFrameworkStores<IdentityDataContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-
+            /*
             services.AddDbContext<IdentityDataContext>(options =>
             {
                 var connectionString = Configuration.GetConnectionString("EmployeeConnection");
@@ -120,6 +120,17 @@ namespace Login_System
             services.AddDbContext<LessonUserDataContext>(options =>
             {
                 var connectionString = Configuration.GetConnectionString("EmployeeConnection");
+                options.UseSqlServer(connectionString);
+            });
+            */
+            services.AddDbContext<GeneralDataContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("ApplicationConnection");
+                options.UseSqlServer(connectionString);
+            });
+            services.AddDbContext<IdentityDataContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("ApplicationConnection");
                 options.UseSqlServer(connectionString);
             });
 

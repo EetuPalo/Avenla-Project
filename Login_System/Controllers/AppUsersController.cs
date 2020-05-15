@@ -17,27 +17,25 @@ namespace Login_System.Controllers
     public class AppUsersController : Controller
     {
         private readonly IdentityDataContext _context;
+        private readonly GeneralDataContext dataContext;
         private UserManager<AppUser> UserMgr { get; }
         private readonly RoleManager<AppRole> roleManager;
         private SignInManager<AppUser> SignInMgr { get; }
-        private GroupsDataContext groupContext { get; }
-        private GroupMembersDataContext memberContext { get; }
-        private UserSkillsDataContext userSkillContext { get; }
-        private SkillCourseMemberDataContext courseMemberContext { get; }
 
-        private UserCertificateDataContext userCertificateContext { get; set; }
-
-        public AppUsersController(IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, GroupsDataContext gContext, GroupMembersDataContext memContext, UserSkillsDataContext uskillCon, SkillCourseMemberDataContext cMemCon, RoleManager<AppRole> roleManager, UserCertificateDataContext userCertCon)
+        public AppUsersController(GeneralDataContext dataCon, IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager)
         {
             _context = context;
             UserMgr = userManager;
             SignInMgr = signInManager;
+            this.roleManager = roleManager;
+            /*
             groupContext = gContext;
             memberContext = memContext;
             userSkillContext = uskillCon;
-            courseMemberContext = cMemCon;
-            this.roleManager = roleManager;
+            courseMemberContext = cMemCon;           
             userCertificateContext = userCertCon;
+            */
+            dataContext = dataCon;
         }
 
         // GET: AppUsers
@@ -108,15 +106,15 @@ namespace Login_System.Controllers
             var tempList = new List<string>();
             var courseList = new List<SkillCourseMember>();
             var certificateList = new List<UserCertificate>();
-            foreach (var groupMember in memberContext.GroupMembers.Where(x => x.UserID == id))
+            foreach (var groupMember in dataContext.GroupMembers.Where(x => x.UserID == id))
             {
                 tempList.Add(groupMember.GroupName);
             }
-            foreach (var courseMember in courseMemberContext.SkillCourseMembers.Where(x => x.UserID == id))
+            foreach (var courseMember in dataContext.SkillCourseMembers.Where(x => x.UserID == id))
             {
                 courseList.Add(courseMember);
             }
-            foreach (var userCertificate in userCertificateContext.UserCertificates.Where(x => x.UserID == id))
+            foreach (var userCertificate in dataContext.UserCertificates.Where(x => x.UserID == id))
             {
                 certificateList.Add(userCertificate);
             }
@@ -207,9 +205,9 @@ namespace Login_System.Controllers
             var model = new List<Group>();
             var userMembership = new List<GroupMember>();
 
-            foreach (var group in groupContext.Group)
+            foreach (var group in dataContext.Group)
             {
-                userMembership = memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
+                userMembership = dataContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
                 model.Add(group);
                 int index = userMembership.FindIndex(f => f.GroupName == group.name);
                 if (index >= 0)
@@ -272,39 +270,42 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                //-GROUP-//
                 var tempUser = await UserMgr.FindByIdAsync(id.ToString());
-                var groupList = groupContext.Group;
-                var memberList = memberContext.GroupMembers.ToList();
-                var tempList = new List<GroupMember>();
-                var delList = new List<GroupMember>();
-
-                foreach (var group in model.Groups)
+                //-GROUP-//
+                if (dataContext.Group.Count() > 0)
                 {
-                    if (group.IsSelected == true)
+                    var groupList = dataContext.Group;
+                    var memberList = dataContext.GroupMembers.ToList();
+                    var tempList = new List<GroupMember>();
+                    var delList = new List<GroupMember>();
+
+                    foreach (var group in model.Groups)
                     {
-                        var tempMember = new GroupMember
+                        if (group.IsSelected == true)
                         {
-                            UserID = tempUser.Id,
-                            GroupID = group.id,
-                            UserName = tempUser.UserName,
-                            GroupName = group.name
-                        };
-                        if (memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)).Count() == 0)
-                        {
-                            memberContext.Add(tempMember);
-                        }                       
-                        await memberContext.SaveChangesAsync();
-                    }
-                    else if (group.IsSelected == false)
-                    {
-                        if (memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)).Count() > 0)
-                        {
-                            memberContext.Remove(memberContext.GroupMembers.FirstOrDefault(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)));
+                            var tempMember = new GroupMember
+                            {
+                                UserID = tempUser.Id,
+                                GroupID = group.id,
+                                UserName = tempUser.UserName,
+                                GroupName = group.name
+                            };
+                            if (dataContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)).Count() == 0)
+                            {
+                                dataContext.Add(tempMember);
+                            }
+                            await dataContext.SaveChangesAsync();
                         }
-                        await memberContext.SaveChangesAsync();
-                    }                                     
-                }
+                        else if (group.IsSelected == false)
+                        {
+                            if (dataContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)).Count() > 0)
+                            {
+                                dataContext.Remove(dataContext.GroupMembers.FirstOrDefault(x => (x.UserID == tempUser.Id) && (x.GroupID == group.id)));
+                            }
+                            await dataContext.SaveChangesAsync();
+                        }
+                    }
+                }              
 
                 //--ROLES--//
                 for (int i = 0; i < model.Roles.Count; i++)
@@ -452,17 +453,17 @@ namespace Login_System.Controllers
             var appUser = await _context.Users.FindAsync(id);
 
             //Checking for user info in the DB
-            if (memberContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
+            if (dataContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
                 return RedirectToAction("Index");
             }
-            if (userSkillContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
+            if (dataContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
                 return RedirectToAction("Index");
             }
-            if (courseMemberContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
+            if (dataContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
                 return RedirectToAction("Index");
@@ -502,9 +503,9 @@ namespace Login_System.Controllers
             var model = new List<Group>();
             var userMembership = new List<GroupMember>();
 
-            foreach (var group in groupContext.Group)
+            foreach (var group in dataContext.Group)
             {
-                userMembership = memberContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
+                userMembership = dataContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
                 model.Add(group);
                 int index = userMembership.FindIndex(f => f.GroupName == group.name);
                 if (index >= 0)
@@ -524,9 +525,9 @@ namespace Login_System.Controllers
         public async Task<IActionResult> EditGroupOfUser(List<Group> model, int? id)
         {
             var tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            var groupList = groupContext.Group;
-            var memberList = memberContext.GroupMembers;
-            var memberIndex = memberContext.GroupMembers.ToList();
+            var groupList = dataContext.Group;
+            var memberList = dataContext.GroupMembers;
+            var memberIndex = dataContext.GroupMembers.ToList();
             var tempList = new List<GroupMember>();
             var delList = new List<GroupMember>();
 
@@ -550,7 +551,7 @@ namespace Login_System.Controllers
                                     GroupName = model[i].name
                                 };
                                 tempList.Add(tempMember);
-                                memberContext.Add(tempMember);
+                                dataContext.Add(tempMember);
                             }
                         }                       
                     }
@@ -564,7 +565,7 @@ namespace Login_System.Controllers
                         {
                             if (member.GroupID == model[i].id && member.UserID == tempUser.Id && !delList.Contains(member))
                             {
-                                memberContext.Remove(member);
+                                dataContext.Remove(member);
                                 delList.Add(member);
                             }
                         }
@@ -575,7 +576,7 @@ namespace Login_System.Controllers
                     continue;
                 }
                 //var role = await groupContext.FindByIdAsync(model[i].id.ToString());
-                await memberContext.SaveChangesAsync();
+                await dataContext.SaveChangesAsync();
 
             }
             

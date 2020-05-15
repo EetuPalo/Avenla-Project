@@ -17,11 +17,7 @@ namespace Login_System.Controllers
 {
     public class UserSkillsController : Controller
     {
-        private readonly UserSkillsDataContext _context;
-        private readonly SkillDataContext skillContext;
-        private readonly SkillGoalContext goalContext;
-        private readonly GroupMembersDataContext gMemContext;
-        private readonly GroupsDataContext groupContext;
+        private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
 
         int uId;
@@ -30,14 +26,10 @@ namespace Login_System.Controllers
         public int userId;
         public string userName;
 
-        public UserSkillsController(UserSkillsDataContext context, SkillDataContext sContext, UserManager<AppUser> userManager, SkillGoalContext gContext, GroupMembersDataContext memberContext, GroupsDataContext groupCon)
+        public UserSkillsController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
-            skillContext = sContext;
             UserMgr = userManager;
-            goalContext = gContext;
-            gMemContext = memberContext;
-            groupContext = groupCon;
         }
 
         public async Task <IActionResult> ListByDate(int? id, string searchString, int? month, int? year)
@@ -171,7 +163,7 @@ namespace Login_System.Controllers
             string tempName = "DATE_NOT_FOUND";
 
             //Getting the skillgoal info for user group
-            var groupList = gMemContext.GroupMembers.Where(x => x.UserID == id).ToList();
+            var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
             var goalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
 
@@ -179,7 +171,7 @@ namespace Login_System.Controllers
             {                
                 foreach (var group in groupList)
                 {
-                    goalList = goalContext.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
+                    goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
                 }
             }
             catch
@@ -330,11 +322,11 @@ namespace Login_System.Controllers
             var goalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
 
-            foreach (var member in gMemContext.GroupMembers.Where(x => x.UserID == id))
+            foreach (var member in _context.GroupMembers.Where(x => x.UserID == id))
             {
-                foreach (var group in groupContext.Group.Where(x => x.name == member.GroupName))
+                foreach (var group in _context.Group.Where(x => x.name == member.GroupName))
             {
-                    foreach (var goal in goalContext.SkillGoals.Where(x => x.GroupName == group.name))
+                    foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == group.name))
                     {
                         DateTime value = goal.Date;
                         if (dateList.ContainsKey(group.name))
@@ -366,7 +358,7 @@ namespace Login_System.Controllers
 
             foreach (var goal in goalList.Where(x => x.SkillGoal != -1))
             {
-                foreach (var skill in skillContext.Skills.Where(x => x.Skill == goal.SkillName))
+                foreach (var skill in _context.Skills.Where(x => x.Skill == goal.SkillName))
                 {
                     foreach (var date in latestDateList.Where(x => x == goal.Date))
                     {

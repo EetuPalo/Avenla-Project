@@ -15,6 +15,6 @@ namespace Login_System.Models
             //This is needed to create the database automatically
             Database.EnsureCreated();
         }
-        public DbSet<Login_System.Models.User> User { get; set; }
+        //public DbSet<Login_System.Models.User> User { get; set; }
     }
 }

@@ -14,19 +14,13 @@ namespace Login_System.Controllers
 {
     public class SkillCourseMembersController : Controller
     {
-        private readonly SkillCourseMemberDataContext _context;        
-        private readonly SkillCourseDataContext _sccontext;
+        private readonly GeneralDataContext _context;        
         private readonly UserManager<AppUser> UserMgr;
-        private readonly LessonDataContext lessonContext;
-        private readonly LessonUserDataContext lessonUserContext;
 
-        public SkillCourseMembersController(SkillCourseMemberDataContext context, UserManager<AppUser> userManager, SkillCourseDataContext groups, LessonDataContext lesCon, LessonUserDataContext lesUsrCon)
+        public SkillCourseMembersController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             UserMgr = userManager;
-            _sccontext = groups;
-            lessonContext = lesCon;
-            lessonUserContext = lesUsrCon;
         }
 
         // GET: SkillCourseMembers
@@ -38,12 +32,12 @@ namespace Login_System.Controllers
 
             if (id == null && courseName != null)
             {
-                var findCourse = _sccontext.Courses.FirstOrDefault(x => x.CourseName == courseName);
+                var findCourse = _context.Courses.FirstOrDefault(x => x.CourseName == courseName);
                 id = findCourse.id;
             }
             if (id != null)
             {
-                tempCourse = await _sccontext.Courses.FindAsync(id);
+                tempCourse = await _context.Courses.FindAsync(id);
             }
 
             //For loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
@@ -62,9 +56,9 @@ namespace Login_System.Controllers
                 };
 
                 //Setting the new "Days Completed" number based on the amount of lessons user has attended
-                foreach (var lesson in lessonContext.Lessons.Where(x => x.CourseID == id))
+                foreach (var lesson in _context.Lessons.Where(x => x.CourseID == id))
                 {
-                    foreach (var lessonUser in lessonUserContext.LessonUsers.Where(x => (x.MemberID == coursemember.UserID) && (x.LessonID == lesson.Id)))
+                    foreach (var lessonUser in _context.LessonUsers.Where(x => (x.MemberID == coursemember.UserID) && (x.LessonID == lesson.Id)))
                     {
                         counter++;
                     }
@@ -118,7 +112,7 @@ namespace Login_System.Controllers
                     coursemember.DaysCompleted = user.DaysCompleted;
                     coursemember.CompletionDate = user.CompletionDate;
 
-                    var lacourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == user.CourseID);
+                    var lacourse = await _context.Courses.FirstOrDefaultAsync(m => m.id == user.CourseID);
                     coursemember.CourseLength = lacourse.Length;
                     coursemember.Status = user.Status;
 		    
@@ -264,7 +258,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Join(int id)
         {
             AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
-            SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+            SkillCourse tempCourse = await _context.Courses.FindAsync(id);
             int index = 0;
 
             foreach (var member in _context.SkillCourseMembers.Where(x => (x.CourseID == id) && (x.UserName == User.Identity.Name)))
@@ -302,7 +296,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Complete(int id)
         {
             AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
-            SkillCourse tempCourse = await _sccontext.Courses.FindAsync(id);
+            SkillCourse tempCourse = await _context.Courses.FindAsync(id);
 
             try
             {
@@ -388,7 +382,7 @@ namespace Login_System.Controllers
 			if(skillCourseMember.Status == "Completed")
 			{
 			    skillCourseMember.CompletionDate = DateTime.Now;
-			    var lecourse = await _sccontext.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
+			    var lecourse = await _context.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
 			    skillCourseMember.DaysCompleted = lecourse.Length;
                     }
 			else

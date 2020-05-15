@@ -13,15 +13,13 @@ namespace Login_System.Controllers
 {
     public class GroupMembersController : Controller
     {
-        private readonly GroupMembersDataContext _context;
-        private readonly GroupsDataContext _gcontext;
+        private readonly GeneralDataContext _context;
         private readonly UserManager<AppUser> UserMgr;
 
-        public GroupMembersController(GroupMembersDataContext context, UserManager<AppUser> userManager, GroupsDataContext groups)
+        public GroupMembersController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             UserMgr = userManager;
-            _gcontext = groups;
         }
 
         // GET: GroupMembers
@@ -30,7 +28,7 @@ namespace Login_System.Controllers
            
             var model = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
 
-            Group tempGroup = await _gcontext.Group.FindAsync(id);
+            Group tempGroup = await _context.Group.FindAsync(id);
             TempData["GroupID"] = tempGroup.id;
 
             if (!String.IsNullOrEmpty(searchString))

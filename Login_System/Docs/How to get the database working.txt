@@ -13,40 +13,12 @@ Update-Database -Context [ContextName]
 Add-Migration identityInit -Context IdentityDataContext
 Update-Database -Context IdentityDataContext
 
-Add-Migration certificateInit -Context CertificateDataContext
-Update-Database -Context CertificateDataContext
-
-Add-Migration gMemInit -Context GroupMembersDataContext
-Update-Database -Context GroupMembersDataContext
-
-Add-Migration groupInit -Context GroupsDataContext
-Update-Database -Context GroupsDataContext
-
-Add-Migration courseInit -Context SkillCourseDataContext
-Update-Database -Context SkillCourseDataContext
-
-Add-Migration courseMemberInit -Context SkillCourseMemberDataContext
-Update-Database -Context SkillCourseMemberDataContext
-
-Add-Migration skillInit -Context SkillDataContext
-Update-Database -Context SkillDataContext
-
-Add-Migration skillGoalInit -Context SkillGoalContext
-Update-Database -Context SkillGoalContext
-
-Add-Migration userCertificateInit -Context UserCertificateDataContext
-Update-Database -Context UserCertificateDataContext
-
-Add-Migration userSkillsInit -Context UserSkillsDataContext
-Update-Database -Context UserSkillsDataContext
-
-Add-Migration lessonInit -Context LessonDataContext
-Update-Database -Context LessonDataContext
-
-Add-Migration lessonUserInit -Context LessonUserDataContext
-Update-Database -Context LessonUserDataContext
+Add-Migration generalInit -Context GeneralDataContext
+Update-Database -Context GeneralDataContext
 //
 //---------MacOS, Linux, *BSD, Solaris, whatever---------//
+
+OUTDATED
 dotnet ef migrations add course --context SkillCourseDataContext --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
 dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj"
 dotnet ef database update --project "/Users/sob/projects/Avenla-Project/Login_System/Login_System.csproj" --context SkillCourseDataContext

@@ -15,21 +15,11 @@ namespace Login_System.Controllers
     [Authorize(Roles = "Admin")]
     public class GroupsController : Controller
     {
-        private readonly GroupsDataContext _context;
-        private readonly GroupMembersDataContext gMemContext;
-        private readonly SkillGoalContext goalContext;
-        private readonly UserSkillsDataContext userSkillsContext;
-        private readonly UserManager<AppUser> UsrMgr;
-        private readonly SkillDataContext skillContext;
+        private readonly GeneralDataContext _context;
 
-        public GroupsController(GroupsDataContext context, GroupMembersDataContext gMemberCon, SkillGoalContext skillGoalCon, UserSkillsDataContext userCon, UserManager<AppUser> userManager, SkillDataContext skillCon)
+        public GroupsController(GeneralDataContext context)
         {
             _context = context;
-            gMemContext = gMemberCon;
-            goalContext = skillGoalCon;
-            userSkillsContext = userCon;
-            UsrMgr = userManager;
-            skillContext = skillCon;
         }
 
         // GET: Groups
@@ -172,16 +162,16 @@ namespace Login_System.Controllers
 
             //Removes all groupMember and skillgoals associations with the group, so we are not left with phantom data in the database
 
-            foreach (var groupMember in gMemContext.GroupMembers.Where(x => x.GroupID == group.id))
+            foreach (var groupMember in _context.GroupMembers.Where(x => x.GroupID == group.id))
             {
-                gMemContext.Remove(groupMember);
+                _context.Remove(groupMember);
             }
-            await gMemContext.SaveChangesAsync();
-            foreach (var goal in goalContext.SkillGoals.Where(x => x.GroupName == group.name))
+            await _context.SaveChangesAsync();
+            foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == group.name))
             {
-                goalContext.Remove(goal);
+                _context.Remove(goal);
             }
-            await goalContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             _context.Group.Remove(@group);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -197,9 +187,9 @@ namespace Login_System.Controllers
             var model = new List<GroupStatisticsVM>();
             //Getting the required tables from the db
             Group tempGroup = await _context.Group.FindAsync(id);
-            var memberList = gMemContext.GroupMembers.Where(g => g.GroupID == id).ToList();
-            var goalList = goalContext.SkillGoals.Where(g => g.GroupName == tempGroup.name).ToList();
-            var userSkills = userSkillsContext.UserSkills.ToList();           
+            var memberList = _context.GroupMembers.Where(g => g.GroupID == id).ToList();
+            var goalList = _context.SkillGoals.Where(g => g.GroupName == tempGroup.name).ToList();
+            var userSkills = _context.UserSkills.ToList();           
             var userSkillList = new Dictionary<int, List<DateTime>>();
             var maxDateList = new Dictionary<int, DateTime>();
             var skillAvgList = new Dictionary<string, List<int>>();           
@@ -257,7 +247,7 @@ namespace Login_System.Controllers
                     Console.WriteLine("No skills for this user.");
                 }
             }
-            foreach (var skill in skillContext.Skills.ToList())
+            foreach (var skill in _context.Skills.ToList())
             {
                 var tempSkills = new List<int>();
                 foreach (var uskill in userSkills.Where(x => x.SkillName == skill.Skill))

@@ -13,14 +13,12 @@ namespace Login_System.Controllers
 {
     public class UserCertificatesController : Controller
     {
-        private readonly UserCertificateDataContext _context;
-        private readonly CertificateDataContext certificateContext;
+        private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr;
 
-        public UserCertificatesController(UserCertificateDataContext context, CertificateDataContext certCon, UserManager<AppUser> userManager)
+        public UserCertificatesController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
-            certificateContext = certCon;
             UserMgr = userManager;
         }
 
@@ -57,12 +55,12 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Create(int id)
         {
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
-            var certificates = certificateContext.Certificates.ToList();
+            var certificates = _context.Certificates.ToList();
 
             //This prevents the user from adding duplicates
             foreach (var userCertificate in _context.UserCertificates.Where(x => x.UserID == id))
             {
-                foreach (var certificate in certificateContext.Certificates.Where(x => x.Id == userCertificate.CertificateID))
+                foreach (var certificate in _context.Certificates.Where(x => x.Id == userCertificate.CertificateID))
                 {
                     certificates.Remove(certificate);
                 }
@@ -87,7 +85,7 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                var certificate = certificateContext.Certificates.Where(c => c.Name == userCertificate.CertificateName).ToList();
+                var certificate = _context.Certificates.Where(c => c.Name == userCertificate.CertificateName).ToList();
                 if (certificate.Count == 1)
                 {
                     userCertificate.CertificateID = certificate[0].Id;
