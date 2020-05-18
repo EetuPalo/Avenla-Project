@@ -53,7 +53,7 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, PhoneNumber, Password, ConfirmPassword")] RegisterVM newUser)
+        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM newUser)
         {
             if (ModelState.IsValid)
             {
@@ -85,6 +85,7 @@ namespace Login_System.Controllers
                     user.LastName = newUser.LastName;
                     user.PhoneNumber = newUser.PhoneNumber;
                     user.EmpStatus = "Active";
+                    user.Company = newUser.Company;
                     //we then create a new user through usermanager
                     IdentityResult result;
                     IdentityResult roleResult;
