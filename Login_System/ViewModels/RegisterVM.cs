@@ -47,6 +47,12 @@ namespace Login_System.ViewModels
                       ErrorMessageResourceName = "LastNameLong")]
         public string LastName { get; set; }
 
+        [DataType(DataType.Text)]
+        [Display(Name = "Company", ResourceType = typeof(Resources.Resources))]
+        [Required(ErrorMessageResourceType = typeof(Resources.Resources),
+              ErrorMessageResourceName = "CompanyRequired")]
+        public string Company { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(Resources.Resources),
             ErrorMessageResourceName = "PasswordRequired")]
         [DataType(DataType.Password)]
