@@ -6,6 +6,9 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Login_System.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Login_System.Controllers
 {
@@ -13,20 +16,36 @@ namespace Login_System.Controllers
     {
         private readonly GeneralDataContext _context;
 
-        public AdvancedSearchController(GeneralDataContext items)
+        public AdvancedSearchController(GeneralDataContext context)
         {
-            _context = items;
+            _context = context;
             
         }
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string SkillList)
         {
-            var items = from i in _context.Skills select i;
+            var model = new AdvancedSearchVM();
 
-            if (!String.IsNullOrEmpty(searchString))
+            IQueryable<string> SkillQuery = from s in _context.Skills
+                                            orderby s.Skill
+                                            select s.Skill;
+            var items = from m in _context.Skills
+                        select m;
+
+            if (!string.IsNullOrEmpty(searchString))
             {
                 items = items.Where(s => s.Skill.Contains(searchString));
+                
             }
-            return View(await items.ToListAsync());
+
+            if (!string.IsNullOrEmpty(SkillList))
+            {
+                items = items.Where(x => x.Skill == SkillList);
+            }
+ 
+            var appUser = new AppUser();
+
+            return View(model);
+
         }
     }
 }

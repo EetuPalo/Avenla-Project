@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Login_System.Models;
+using Login_System.Controllers;
 
 namespace Login_System.Models
 {
@@ -28,5 +29,6 @@ namespace Login_System.Models
         public DbSet<AppUser> AppUser { get; set; }
         //IDENTITY
         public DbSet<Company> Company { get; set; }
+
     }
 }
