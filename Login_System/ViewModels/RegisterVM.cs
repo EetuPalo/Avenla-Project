@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using Resources;
+using System.Web.Mvc;
 
 namespace Login_System.ViewModels
 {
@@ -63,8 +64,11 @@ namespace Login_System.ViewModels
            ErrorMessageResourceName = "ConfirmPasswordRequired")]
         [DataType(DataType.Password)]
         [Display(Name = "ConfirmPassword", ResourceType = typeof(Resources.Resources))]
-        [Compare("Password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password")]
         public string ConfirmPassword { get; set; }
-        
+
+        public IList<SelectListItem> CompanyList { get; set; }
+
+        public RegisterVM() { CompanyList = new List<SelectListItem>(); }
     }
 }

@@ -30,6 +30,8 @@ namespace Login_System.Controllers
         private readonly IdentityDataContext _context;
         private readonly RoleManager<AppRole> roleMgr;
 
+        private readonly GeneralDataContext CompanyList;
+
         private IMemoryCache _cache;
 
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager, IMemoryCache memoryCache)
@@ -49,6 +51,8 @@ namespace Login_System.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            var model = new RegisterVM();
+            model.CompanyList = CompanyList.Company.ToList();
             return View();
         }
 
