@@ -46,7 +46,7 @@ namespace Login_System.Controllers
                 TempData["LatestDate"] = GetLatestDate(name).ToString("dd.MM.yyyy");
             }
 
-            //Getting skillgoals for the correct group and correct date
+            //Getting skillgoals for the correct group and correct date if the date has been selected
             if (date != null && name != null)
             {
                 var model = new SkillGoalIndexVM();
@@ -160,6 +160,8 @@ namespace Login_System.Controllers
             var duplicateCheck = new List<string>();
 
             //This is a complicated way to check if entries have already been made today
+            //If yes, the method will replace those with the new ones. There's no reason to add multiple skillgoals sets in one day
+            //This will also make the date list much better
             var todayList = new List<SkillGoals>();
 
             foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == groupName))
@@ -355,7 +357,7 @@ namespace Login_System.Controllers
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
-        //This deletes theeentire form, not just individual skills
+        //This deletes the entire form, not just individual skills
         public async Task<IActionResult> DeleteForm(string date, string group)
         {
             if (date == null || group == null)

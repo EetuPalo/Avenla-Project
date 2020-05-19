@@ -62,6 +62,7 @@ namespace Login_System.Controllers
             }
             //
 
+            //Some data that will be shown in the view
             uId = (int)id;
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserName"] = tempUser.UserName;
@@ -114,6 +115,7 @@ namespace Login_System.Controllers
             //NO SEARCH
             else
             {
+                //Getting all items of the specific user
                 foreach (var item in _context.UserSkills.Where(x => x.UserID == id))
                 {
                     if (!tempDate.Contains(item.Date.ToString()))
@@ -127,7 +129,6 @@ namespace Login_System.Controllers
                             Id = (int)id
                         };
                         model.Add(tempModel);
-
                     }
                     tempDate.Add(item.Date.ToString());
 
@@ -140,6 +141,7 @@ namespace Login_System.Controllers
                 }
             }
            
+            //Graph stuff
             ViewBag.DataPoint = dataPoints.ToArray();
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
@@ -150,11 +152,13 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> SkillList(string? name, int? id)
         {
+            //In case id is null, the currently logged in user is shown (this shouldn't happen though)
             if (id == null)
             {
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
 
+            //Initializing some stuff
             var model = new List<UserSkillsVM>();
             TempData.Keep();
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
@@ -163,7 +167,7 @@ namespace Login_System.Controllers
             TempData["UserId"] = id;
             string tempName = "DATE_NOT_FOUND";
 
-            //Getting the skillgoal info for user group
+            //Getting the skillgoal info for user's group(s)
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
             var goalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
@@ -205,12 +209,13 @@ namespace Login_System.Controllers
             //This fetches the correct entries and displays them in a list
             if (_context.UserSkills != null)
             {
+                //Looping through userskills of the current user
                 foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
                 {
                     var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
                     var date2 = name;
                     var skillGoal = 0;
-
+                    //Getting only the ones with the date that has been selected by the user (or the latest date)
                     if (date1 == date2)
                     {
                         tempName = skill.Date.ToString("dd.MM.yyyy HH.mm");
@@ -227,10 +232,13 @@ namespace Login_System.Controllers
                             AdminEval = skill.AdminEval
                         };
 
+                        //Getting goals of the group 
                         foreach (var goal in goalList.Where(x => x.SkillGoal > -1))
                         {
+                            //Narrowing down to only the goals of the right group(s)
                             foreach (var group in groupList.Where(x => x.GroupName == goal.GroupName))
                             {
+                                //Adding goals to a list with goal and date
                                 if (dateList.ContainsKey(group.GroupName))
                                 {
                                     dateList[group.GroupName] = goal.Date;
@@ -241,6 +249,7 @@ namespace Login_System.Controllers
                                 }
                             }
                         }
+                        //Looping through the datelist that was just populated
                         foreach (var date in dateList.Values)
                         {
                             foreach (var goal in goalList.Where(x => (x.Date == date) && (x.SkillName == skill.SkillName) && (x.SkillGoal > skillGoal)))
@@ -257,6 +266,7 @@ namespace Login_System.Controllers
                 }
 
                 //Getting some extra info from the data if it's possible
+                //It's not possible in all cases (for example if there's not enough data), hence the try-catch
                 try
                 {
                     var levelList = new Dictionary<string, int>();
@@ -323,17 +333,22 @@ namespace Login_System.Controllers
             var goalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
 
+            //Going through groupmember info of the specified user
             foreach (var member in _context.GroupMembers.Where(x => x.UserID == id))
             {
+                //Going through all groups the user is part of
                 foreach (var group in _context.Group.Where(x => x.name == member.GroupName))
-            {
+                {
+                    //Going through all goals of the groups and adding them to a dictionary with both group name and date
                     foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == group.name))
                     {
                         DateTime value = goal.Date;
+                        //If group is already in the dict, only the date is replaced
                         if (dateList.ContainsKey(group.name))
                         {
                             dateList[group.name] = value;
                         }
+                        //Else it creates a new entry
                         else
                         {
                             dateList.Add(group.name, value);
@@ -357,12 +372,18 @@ namespace Login_System.Controllers
                 latestDate = DateTime.Now;
             }
 
+            //Going through all goals that are not -1
+            //This dictates what skills are in the form
             foreach (var goal in goalList.Where(x => x.SkillGoal != -1))
             {
+                //Getting the skills
                 foreach (var skill in _context.Skills.Where(x => x.Skill == goal.SkillName))
                 {
+                    //Making sure the latest goal dates are used
                     foreach (var date in latestDateList.Where(x => x == goal.Date))
                     {
+                        //Skill can be added only once to the list
+                        //This avoids duplicates
                         if (!skillList.Contains(skill))
                         {
                             skillList.Add(skill);
@@ -372,8 +393,10 @@ namespace Login_System.Controllers
             }
             int dictKey = 0;
             TempData.Keep();
+            //This is only executed if there are skills that need to be in the form
             if (skillList.Count() != 0)
             {
+                //The list is populated
                 foreach (var skill in skillList)
                 {
                     tempList.Add(dictKey, skill.Skill);
@@ -413,6 +436,7 @@ namespace Login_System.Controllers
                     Date = date               
                 };
 
+                //info of who made the evaluation
                 if (User.IsInRole("Admin"))
                 {
                     tempModel.AdminEval = "Admin Evaluation";
@@ -425,11 +449,11 @@ namespace Login_System.Controllers
                 model.Add(tempModel);
             }
 
+            //Adding entries to database and saving
             foreach (var entry in model)
             {
                 _context.Add(entry);                
             }
-
             await _context.SaveChangesAsync();
 
             TempData.Keep();
