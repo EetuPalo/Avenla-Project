@@ -38,7 +38,7 @@
                         <span asp-validation-for="PhoneNumber"></span>
                     </div>
                     <div>
-                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.SkillGoals.Index_SelectDropdown, new { @class = "form-control col-sm" })
+                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
 
                     </div>
                     <div class="form-group">

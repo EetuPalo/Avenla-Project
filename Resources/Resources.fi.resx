@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CompaniesSelectDropdown" xml:space="preserve">
+    <value>Valitse yritys</value>
+  </data>
   <data name="Company" xml:space="preserve">
     <value>Yritys</value>
   </data>
