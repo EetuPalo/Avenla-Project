@@ -32,18 +32,18 @@ namespace Login_System.Controllers
         private readonly IdentityDataContext _context;
         private readonly RoleManager<AppRole> roleMgr;
 
-        private readonly GeneralDataContext CompanyList;
+        private readonly GeneralDataContext generalContext;
 
         private IMemoryCache _cache;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager, IMemoryCache memoryCache, GeneralDataContext CompList)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager, IMemoryCache memoryCache, GeneralDataContext genCon)
         {
             UserMgr = userManager;
             SignInMgr = signInManager;
             _context = context;
             roleMgr = roleManager;
             _cache = memoryCache;
-            CompanyList = CompList;
+            generalContext = genCon;
         }
 
         public IActionResult Index()
@@ -56,7 +56,7 @@ namespace Login_System.Controllers
         {
             var model = new RegisterVM();
             var tempList = new List<Company>();
-            foreach (var company in CompanyList.Company)
+            foreach (var company in generalContext.Company)
             {
                 model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
             }
@@ -64,7 +64,7 @@ namespace Login_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM newUser)
+        public async Task<IActionResult> Register([Bind("EMail, FirstName, LastName, PhoneNumber, Company, CompanyList, Password, ConfirmPassword")] RegisterVM newUser)
         {
             if (ModelState.IsValid)
             {
@@ -137,6 +137,12 @@ namespace Login_System.Controllers
                     return View("Index");
                 }
             }
+            //In case form is not valid, the companylist is populated again
+            foreach (var company in generalContext.Company)
+            {
+                newUser.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+            }
+
             return View(newUser);
 
         }

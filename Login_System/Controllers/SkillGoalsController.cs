@@ -12,6 +12,7 @@ using Login_System.ViewModels;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "User, Admin")]
     public class SkillGoalsController : Controller
     {
         private readonly GeneralDataContext _context;

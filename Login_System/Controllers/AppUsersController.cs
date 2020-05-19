@@ -14,6 +14,7 @@ using System.Text;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "User, Admin")]
     public class AppUsersController : Controller
     {
         private readonly IdentityDataContext _context;

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "User, Admin")]
     public class UserCertificatesController : Controller
     {
         private readonly GeneralDataContext _context;

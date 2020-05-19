@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class GroupMembersController : Controller
     {
         private readonly GeneralDataContext _context;

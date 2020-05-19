@@ -49,7 +49,7 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers/Create
-	[Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin")]
         public IActionResult Create(int id, int courseId)
         {
             var model = new List<LessonUser>();
