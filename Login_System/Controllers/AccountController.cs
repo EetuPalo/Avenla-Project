@@ -17,6 +17,8 @@ using System.Web;
 using Microsoft.AspNetCore.ResponseCaching;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Mvc.Rendering;
+//using System.Web.Mvc;
 
 namespace Login_System.Controllers
 {
@@ -34,13 +36,14 @@ namespace Login_System.Controllers
 
         private IMemoryCache _cache;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager, IMemoryCache memoryCache)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IdentityDataContext context, RoleManager<AppRole> roleManager, IMemoryCache memoryCache, GeneralDataContext CompList)
         {
             UserMgr = userManager;
             SignInMgr = signInManager;
             _context = context;
             roleMgr = roleManager;
             _cache = memoryCache;
+            CompanyList = CompList;
         }
 
         public IActionResult Index()
@@ -52,8 +55,12 @@ namespace Login_System.Controllers
         public IActionResult Register()
         {
             var model = new RegisterVM();
-            model.CompanyList = CompanyList.Company.ToList();
-            return View();
+            var tempList = new List<Company>();
+            foreach (var company in CompanyList.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+            }
+            return View(model);
         }
 
         [HttpPost]
