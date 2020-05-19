@@ -20,10 +20,29 @@
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button>
             </div>
-                <table>
-                    <td>
-                       
-                    </td>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C</th>
+                            <th>D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Users.Count() != 0)
+                        {
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>@user.FirstName</td>
+                                    <td>@user.LastName</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.PhoneNumber</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
                 </table>
             <div>
 
