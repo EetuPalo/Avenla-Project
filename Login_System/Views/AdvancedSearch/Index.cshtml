@@ -1,0 +1,30 @@
+﻿@model Login_System.ViewModels.AdvancedSearchVM
+@{
+    ViewData["Title"] = "AdvancedSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AdvancedSearch</h1>
+
+<form asp-controller="AdvancedSearch" asp-action="Index">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <div class="input-group">
+                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button>
+            </div>
+
+            <div>
+
+                </div>
+            </div>
+    </div>
+</form>
+
