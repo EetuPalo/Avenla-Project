@@ -21,8 +21,9 @@ namespace Login_System.Controllers
         private UserManager<AppUser> UserMgr { get; }
         private readonly RoleManager<AppRole> roleManager;
         private SignInManager<AppUser> SignInMgr { get; }
+        private readonly GeneralDataContext CompanyList;
 
-        public AppUsersController(GeneralDataContext dataCon, IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager)
+        public AppUsersController(GeneralDataContext dataCon, IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, GeneralDataContext CompList)
         {
             _context = context;
             UserMgr = userManager;
@@ -36,6 +37,7 @@ namespace Login_System.Controllers
             userCertificateContext = userCertCon;
             */
             dataContext = dataCon;
+            CompanyList = CompList;
         }
 
         // GET: AppUsers
@@ -129,13 +131,19 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            return View();
+            var model = new RegisterVM();
+            var tempList = new List<Company>();
+            foreach (var company in CompanyList.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+            }
+            return View(model);
         }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Password, ConfirmPassword")] RegisterVM appUser)
+        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser)
         {
             if (ModelState.IsValid)
             {
@@ -167,7 +175,8 @@ namespace Login_System.Controllers
                             Email = appUser.EMail,
                             FirstName = appUser.FirstName,
                             LastName = appUser.LastName,
-                            PhoneNumber = appUser.PhoneNumber
+                            PhoneNumber = appUser.PhoneNumber,
+                            Company = appUser.Company
                         };
                         //we then create a new user through usermanager
                         IdentityResult result;
