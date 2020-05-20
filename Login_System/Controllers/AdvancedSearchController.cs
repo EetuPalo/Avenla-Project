@@ -38,9 +38,8 @@ namespace Login_System.Controllers
             //SearchString should be replaced with a dropdown that's populated with all the skills that are in the database
             //Later there should also be an option to select multiple skills for the search
             //Next to add similar functions for:
-            //Search by group
             //Filter by skill level (both min and max)
-            //Certificates
+           
 
             //Note that all these different forms need to be available at the same time and selected/deselected as the user wants
 
@@ -66,7 +65,60 @@ namespace Login_System.Controllers
             {
                 items = items.Where(x => x.Skill == SkillList);
             }
-          
+
+
+            // Search by Group
+
+            IQueryable<string> GroupQuery = from s in _context.GroupMembers
+                                            orderby s.Uname
+                                            select s.GroupName;
+            var groups = from m in _context.GroupMembers
+                        select m;
+            
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                groups = groups.Where(s => s.GroupName.Contains(searchString));
+                
+                foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == searchString))
+                {
+                    foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserID))
+                    {
+                        //This is to prevent duplicates
+                        if (!userList.Contains(user))
+                        {
+                            userList.Add(user);
+                        }
+                    }
+                }
+                model.Users = userList;
+            }
+
+            // Search by Certificates
+            IQueryable<string> CertificateQuery = from s in _context.UserCertificates
+                                            orderby s.UserName
+                                            select s.CertificateName;
+            var certificates = from m in _context.UserCertificates
+                         select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                certificates = certificates.Where(s => s.CertificateName.Contains(searchString));
+
+                foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == searchString))
+                {
+                    foreach (AppUser user in UserMgr.Users.Where(x => x.Id == UserName.UserID))
+                    {
+                        //This is to prevent duplicates
+                        if (!userList.Contains(user))
+                        {
+                            userList.Add(user);
+                        }
+                    }
+                }
+                model.Users = userList;
+            }
+
+            // Return
             return View(model);
 
         }
