@@ -23,8 +23,11 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index(string searchString, string SkillList)
+        public async Task<IActionResult> Index(string searchString, string SkillList, int? min, int? max)
         {
+            var minimum = min;
+            var maximum = max;
+            
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
             model.Users = userList;
@@ -51,11 +54,23 @@ namespace Login_System.Controllers
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == skill.UserID))
                     {
-                        //This is to prevent duplicates
-                        if (!userList.Contains(user))
+                        if(minimum == null || maximum == null)
                         {
-                            userList.Add(user);
+                            if (!userList.Contains(user))
+                            {
+                                userList.Add(user);
+                            }
                         }
+
+                        else if (skill.SkillLevel >= minimum && skill.SkillLevel <= maximum )
+                        {
+                            if (!userList.Contains(user))
+                            {
+                                userList.Add(user);
+                            }
+                        }
+                        //This is to prevent duplicates
+                      
                     }
                 }
                 model.Users = userList;
