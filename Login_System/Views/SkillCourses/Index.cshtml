@@ -70,11 +70,11 @@
         <tr class="expandable-row">
             <td>
                 @Html.DisplayFor(modelItem => item.CourseName)
-            </td>            
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
-	        <td>
+            <td>
                 @Model.Lessons.Where(x => x.CourseID == item.id).Count() / @item.Length
             </td>
             <td>
@@ -83,41 +83,45 @@
             <td>
                 @if (item.MemberStatus == false)
                 {
-                    <td>
+                <td>
                     <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> </span>
-                    </td>
-                }
-                else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus != true)
-                {
-                    <td>
+                </td>
+            }
+            else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus != true)
+            {
+                <td>
                     <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a><span>  </span>
-                        </td>
-                }
-                else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus == true)
-                {
-                    <td>
+                </td>
+            }
+            else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus == true)
+            {
+                <td>
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a>
-                        </td>
-                }
-                else if (item.MemberStatus == true && User.IsInRole("Admin") && item.CompleteStatus != true)
-                {
-                    <td>
+                </td>
+            }
+            else if (item.MemberStatus == true && User.IsInRole("Admin") && item.CompleteStatus != true)
+            {
+                <td>
                     <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
-                        </td>
-                }
-                else if (item.MemberStatus == true && item.CompleteStatus == true)
-                {
-                    <td>
+                </td>
+            }
+            else if (item.MemberStatus == true && item.CompleteStatus == true)
+            {
+                <td>
                     <span class="text-success">@Resources.Courses.Index_Status_Completed</span><span>  </span>
-                        </td>
-                }
+                </td>
+            }
+            <td>
                 @if (User.IsInRole("Admin"))
                 {
-                    <td>
-                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a><span> </span>
-                        </td>
-                        <td>
+                    <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
+                    <span> </span>
+                }
+            </td>
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
                     <div class="dropdown show">
                         <a class="dropdown-toggle" href="#" role="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-edit fa-fw"> </i> @Resources.Courses.Index_BTN_Edit
@@ -128,11 +132,10 @@
                             <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.id">@Resources.Resources.DELETE_Button</a>
                             <a class="dropdown-item" asp-action="AddUsers" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddMembers</a>
                         </div>
-                    </div>		            
-                      </td>
+                    </div>
                 }
             </td>
-        </tr>
+            </tr>
         <tr class="content border border-secondary">
             <td colspan="8">
             <div class="container-fluid p-2 ">
@@ -193,8 +196,7 @@
                                             <td>
                                             <span> </span><a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">@Resources.Courses.Index_Lesson_Attending</a>
                                             </td>
-                                        }
-                                    </td>
+                                        }                                   
                                 </tr>
                             }
                         </tbody>

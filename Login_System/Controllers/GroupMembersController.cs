@@ -121,6 +121,7 @@ namespace Login_System.Controllers
                     GroupID = member.GroupId,
                     GroupName = member.GroupName
                 };
+                //This ensures we don't add duplicate members
                 foreach (var oldMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID == Convert.ToInt32(member.UserId))))
                 {
                     _context.Remove(oldMem);
