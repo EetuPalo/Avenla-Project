@@ -51,22 +51,30 @@ namespace Login_System.Controllers
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == skill.UserID))
                     {
-                        if(min == null || max == null)
+                        if(min == null && max == null)
                         {
+                            //This is to prevent duplicates
                             if (!userList.Contains(user))
                             {
                                 userList.Add(user);
                             }
                         }
 
-                        else if (skill.SkillLevel >= min && skill.SkillLevel <= max )
+                        else 
                         {
-                            if (!userList.Contains(user))
+                            //checks that if both filters have values, or only if either one has and adds to userList based on that
+                            if((skill.SkillLevel >= min && skill.SkillLevel <= max) || (min == null && skill.SkillLevel <= max) || (max == null && skill.SkillLevel >= min))
                             {
-                                userList.Add(user);
+                                //This is to prevent duplicates
+                                if (!userList.Contains(user))
+                                {
+                                    userList.Add(user);
+                                }
                             }
+
+
                         }
-                        //This is to prevent duplicates
+                    
                       
                     }
                 }
