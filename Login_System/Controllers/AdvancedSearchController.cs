@@ -23,10 +23,8 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index(string searchString, string SkillList, int? min, int? max)
+        public async Task<IActionResult> Index(string SkillList, int? min, int? max, string Skills, string Certificates, string Groups)
         {
-            var minimum = min;
-            var maximum = max;
             
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
@@ -45,15 +43,15 @@ namespace Login_System.Controllers
            
             //Note that all these different forms need to be available at the same time and selected/deselected as the user wants
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(Skills))
             {
-                items = items.Where(s => s.Skill.Contains(searchString));
+                items = items.Where(s => s.Skill.Contains(Skills));
                 
-                foreach (var skill in _context.UserSkills.Where(x => x.SkillName == searchString))
+                foreach (var skill in _context.UserSkills.Where(x => x.SkillName == Skills))
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == skill.UserID))
                     {
-                        if(minimum == null || maximum == null)
+                        if(min == null || max == null)
                         {
                             if (!userList.Contains(user))
                             {
@@ -61,7 +59,7 @@ namespace Login_System.Controllers
                             }
                         }
 
-                        else if (skill.SkillLevel >= minimum && skill.SkillLevel <= maximum )
+                        else if (skill.SkillLevel >= min && skill.SkillLevel <= max )
                         {
                             if (!userList.Contains(user))
                             {
@@ -88,11 +86,11 @@ namespace Login_System.Controllers
             var groups = from m in _context.GroupMembers
                         select m;
             
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(Groups))
             {
-                groups = groups.Where(s => s.GroupName.Contains(searchString));
+                groups = groups.Where(s => s.GroupName.Contains(Groups));
                 
-                foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == searchString))
+                foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == Groups))
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserID))
                     {
@@ -112,11 +110,11 @@ namespace Login_System.Controllers
             var certificates = from m in _context.UserCertificates
                          select m;
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(Certificates))
             {
-                certificates = certificates.Where(s => s.CertificateName.Contains(searchString));
+                certificates = certificates.Where(s => s.CertificateName.Contains(Certificates));
 
-                foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == searchString))
+                foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == Certificates))
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == UserName.UserID))
                     {
