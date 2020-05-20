@@ -27,7 +27,7 @@ namespace Login_System.Controllers
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
-            model.Users = userList;
+            
 
             IQueryable<string> SkillQuery = from s in _context.Skills
                                             orderby s.Skill
@@ -40,7 +40,6 @@ namespace Login_System.Controllers
             //Next to add similar functions for:
             //Filter by skill level (both min and max)
            
-
             //Note that all these different forms need to be available at the same time and selected/deselected as the user wants
 
             if (!string.IsNullOrEmpty(searchString))
@@ -58,7 +57,6 @@ namespace Login_System.Controllers
                         }
                     }
                 }
-                model.Users = userList;
             }
 
             if (!string.IsNullOrEmpty(SkillList))
@@ -90,7 +88,6 @@ namespace Login_System.Controllers
                         }
                     }
                 }
-                model.Users = userList;
             }
 
             // Search by Certificates
@@ -115,9 +112,8 @@ namespace Login_System.Controllers
                         }
                     }
                 }
-                model.Users = userList;
             }
-
+            model.Users = userList;
             // Return
             return View(model);
 

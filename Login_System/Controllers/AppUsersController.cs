@@ -54,6 +54,8 @@ namespace Login_System.Controllers
             var employees = from e in _context.Users select e;
             TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
             TempData["SearchValue"] = null;
+            //SEARCH
+            //The search searches by name, email, phone
             if (!String.IsNullOrEmpty(searchString))
             {                
                 employees = employees.Where(s => (s.UserName.Contains(searchString)) || (s.FirstName.Contains(searchString)) || (s.LastName.Contains(searchString)) || (s.Email.Contains(searchString)) || (s.PhoneNumber.Contains(searchString)));
@@ -66,6 +68,7 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
         {
+            //Sources are for storing the info of the previous page, so that the back button can take the user back to the right place
             if (String.IsNullOrWhiteSpace(source))
             {
                 TempData["Source"] = "AppUser";
@@ -83,6 +86,7 @@ namespace Login_System.Controllers
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
 
+            //Finding the correct user
             var appUser = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (appUser == null)
@@ -94,6 +98,7 @@ namespace Login_System.Controllers
             TempData["UserId"] = id;
             TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
 
+            //Populating the VM with user info
             AppUserVM model = new AppUserVM
             {
                 FirstName = appUser.FirstName,
@@ -106,6 +111,7 @@ namespace Login_System.Controllers
                 Id = appUser.Id
             };
 
+            //Populating the VM with group, course, and certificate info
             var tempList = new List<string>();
             var courseList = new List<SkillCourseMember>();
             var certificateList = new List<UserCertificate>();
@@ -134,6 +140,7 @@ namespace Login_System.Controllers
         {
             var model = new RegisterVM();
             var tempList = new List<Company>();
+            //Populating the dropdown with companies
             foreach (var company in CompanyList.Company)
             {
                 model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
@@ -164,6 +171,7 @@ namespace Login_System.Controllers
                 string fixedUn = Encoding.UTF8.GetString(tempBytes);
                 fixedUn = RemoveSpecialCharacters(fixedUn);
 
+                //Checking that the user with the same name doesnt exist
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
                 {
@@ -205,9 +213,12 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
+            //EDIT has been changed so now edting of user groups, and roles can be edited from the same page. Other edit routes are still available
+            //but this is by far the easiest when you're only editing one user.
+
             EditUserVM mainModel = new EditUserVM();
             //GROUP//
             ViewBag.UserId = id;
@@ -230,7 +241,6 @@ namespace Login_System.Controllers
                 }
             }
             mainModel.Groups = model;
-            ////////
 
             //ROLE//
             List<AppRole> roleList = new List<AppRole>();
@@ -275,7 +285,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Edit(int id, EditUserVM model)
         {
             if (ModelState.IsValid)
@@ -322,7 +332,7 @@ namespace Login_System.Controllers
                 {
                     AppRole role = await roleManager.FindByIdAsync(model.Roles[i].Id.ToString());
 
-                    //PROTECTS USERS IN ROLE
+                    //PROTECTS USERS IN ROLE ADMIN
                     if (role.Name == "Admin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Admin"))
                     {
                         var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
@@ -431,7 +441,7 @@ namespace Login_System.Controllers
             }
         }
         // GET: AppUsers/Delete/5
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
