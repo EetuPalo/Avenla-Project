@@ -20,30 +20,34 @@
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button>
             </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>A</th>
-                            <th>B</th>
-                            <th>C</th>
-                            <th>D</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Users.Count() != 0)
+            <div class="col-sm">
+                <input class="form-control" id="search-bar" type="number" name="Min" placeholder=@TempData["MinString"] value="@TempData["MinValue"]">
+                <input class="form-control" id="search-bar" type="number" name="Max" placeholder=@TempData["MaxString"] value="@TempData["MaxValue"]">
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>D</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Users.Count() != 0)
+                    {
+                        @foreach (var user in Model.Users)
                         {
-                            @foreach (var user in Model.Users)
-                            {
-                                <tr>
-                                    <td>@user.FirstName</td>
-                                    <td>@user.LastName</td>
-                                    <td>@user.Email</td>
-                                    <td>@user.PhoneNumber</td>
-                                </tr>
-                            }
+                            <tr>
+                                <td>@user.FirstName</td>
+                                <td>@user.LastName</td>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                            </tr>
                         }
-                    </tbody>
-                </table>
+                    }
+                </tbody>
+            </table>
             <div>
 
             </div>
