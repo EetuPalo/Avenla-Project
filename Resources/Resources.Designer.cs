@@ -547,6 +547,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select group.
+        /// </summary>
+        public static string Group_Dropdownlist {
+            get {
+                return ResourceManager.GetString("Group_Dropdownlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group member.
         /// </summary>
         public static string GroupMember_Delete_Name {
@@ -822,6 +831,15 @@ namespace Resources {
         public static string ResetPassword_Title {
             get {
                 return ResourceManager.GetString("ResetPassword_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select skill.
+        /// </summary>
+        public static string Skill_Dropdownlist {
+            get {
+                return ResourceManager.GetString("Skill_Dropdownlist", resourceCulture);
             }
         }
         

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Login_System.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace Login_System.Controllers
 {
@@ -23,7 +24,7 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index(string SkillList, int? min, int? max, string Skills, string Certificates, string Groups)
+        public async Task<IActionResult> Index(string SkillList, int? min, int? max, string Skills, string Certificate, string Groups)
         {
             
             var model = new AdvancedSearchVM();
@@ -118,11 +119,11 @@ namespace Login_System.Controllers
             var certificates = from m in _context.UserCertificates
                          select m;
 
-            if (!string.IsNullOrEmpty(Certificates))
+            if (!string.IsNullOrEmpty(Certificate))
             {
-                certificates = certificates.Where(s => s.CertificateName.Contains(Certificates));
+                certificates = certificates.Where(s => s.CertificateName.Contains(Certificate));
 
-                foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == Certificates))
+                foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == Certificate))
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == UserName.UserID))
                     {
@@ -135,6 +136,38 @@ namespace Login_System.Controllers
                 }
             }
             model.Users = userList;
+
+
+            // List Certificates
+
+            var tempList = new List<Certificate>();
+
+            //Populating the dropdown with certificates
+            foreach (var certificate in _context.Certificates)
+            {
+                model.CertificateList.Add(new SelectListItem() { Text = certificate.Name, Value = certificate.Name });
+            }
+
+            // List Groups
+
+            var tempGroups = new List<Group>();
+
+            // Populating the dropdown with groups
+            foreach (var group in _context.Group)
+            { 
+            model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.name });
+            }
+
+            // List Skills
+
+            var tempSkills = new List<Group>();
+
+            // Populating the dropdown with skills
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
+            }
+
             // Return
             return View(model);
 

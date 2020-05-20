@@ -10,11 +10,16 @@
 
     <div class="row">
         <div class="col-sm">
-            Skills<input class="form-control" id="search-bar" type="text" name="Skills" placeholder=@TempData["SkillsString"] value="@TempData["SkillsValue"]">
+            <label asp-for="Skill">@Resources.Skills.Index_Skill</label>
+            @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Resources.Skill_Dropdownlist, new { @class = "form-control col-sm" })
+            <!--Skills<input class="form-control" id="search-bar" type="text" name="Skills" placeholder=@TempData["SkillsString"] value="@TempData["SkillsValue"]">-->
         </div>
         <div class="col-sm"></div>
         <div class="col-sm"></div>
-        <div class="col-sm">Certificate<input class="form-control" id="Certificates" type="text" name="Certificates" placeholder="@TempData["CertificateString"]" value="@TempData["CertificateValue"]" /></div>
+        <div class="col-sm">
+            <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
+            @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
+        </div>
         <div class="col-sm"></div>
     </div>
     <br />
@@ -31,7 +36,10 @@
             <input class="form-control" id="search-bar" type="number" name="Max" placeholder=@TempData["MaxString"] value="@TempData["MaxValue"]">
         </div>
         <div class="col-sm"></div>
-        <div class="col-sm">Groups<input class="form-control" id="Groups" type="text" name="Groups" placeholder="@TempData["GroupsString"]" value="@TempData["GroupsValue"]" /></div>
+        <div class="col-sm">
+            <label asp-for="Groups">@Resources.Groups.Index_Group</label>
+            @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
+        </div>
         <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button></div>
     </div><br />
 

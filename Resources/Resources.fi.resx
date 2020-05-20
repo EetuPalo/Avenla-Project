@@ -282,6 +282,9 @@
   <data name="GroupMember_Delete_Name" xml:space="preserve">
     <value>Ryhmän jäsen</value>
   </data>
+  <data name="Group_Dropdownlist" xml:space="preserve">
+    <value>Valitse ryhmä</value>
+  </data>
   <data name="Home_Description_p1" xml:space="preserve">
     <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mi nisl, varius non mauris ut, tristique pretium neque. Nam eu ante in tortor tincidunt cursus at sed nulla. Sed sed massa tempor, sagittis felis ac, consequat lacus. In vestibulum commodo ullamcorper. Curabitur vel aliquam ipsum, et tincidunt sapien. Duis molestie libero vitae ipsum venenatis ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus nec orci lobortis, congue nunc non, porttitor augue. Mauris ac auctor felis. In nulla tellus, vehicula viverra condimentum mattis, gravida in ex. Vestibulum auctor ligula tortor, a malesuada lorem ultrices id. Nullam fringilla mi eu dui condimentum iaculis.
 
@@ -373,6 +376,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="ResetPassword_Title" xml:space="preserve">
     <value>Salasanan vaihto</value>
+  </data>
+  <data name="Skill_Dropdownlist" xml:space="preserve">
+    <value>Valitse taito</value>
   </data>
   <data name="UCertificates_Create_Add" xml:space="preserve">
     <value>Lisää</value>
