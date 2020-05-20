@@ -24,7 +24,7 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index(string SkillList, int? min, int? max, string Skills, string Certificate, string Groups)
+        public async Task<IActionResult> Index(string SkillList, int? min, int? max, string Skill, string Certificate, string Groups)
         {
             
             var model = new AdvancedSearchVM();
@@ -44,11 +44,11 @@ namespace Login_System.Controllers
            
             //Note that all these different forms need to be available at the same time and selected/deselected as the user wants
 
-            if (!string.IsNullOrEmpty(Skills))
+            if (!string.IsNullOrEmpty(Skill))
             {
-                items = items.Where(s => s.Skill.Contains(Skills));
+                items = items.Where(s => s.Skill.Contains(Skill));
                 
-                foreach (var skill in _context.UserSkills.Where(x => x.SkillName == Skills))
+                foreach (var skill in _context.UserSkills.Where(x => x.SkillName == Skill))
                 {
                     foreach (AppUser user in UserMgr.Users.Where(x => x.Id == skill.UserID))
                     {
