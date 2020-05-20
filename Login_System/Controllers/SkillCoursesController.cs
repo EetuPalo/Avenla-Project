@@ -41,16 +41,14 @@ namespace Login_System.Controllers
             foreach (var course in courses)
             {
                 var dateList = new List<DateTime>();
+                //Clearing the datelist for every course
                 dateList.Clear();
-                foreach (var member in _context.SkillCourseMembers.Where(x => x.UserID == tempUser.Id))
+                foreach (var member in _context.SkillCourseMembers.Where(x => (x.UserID == tempUser.Id) && (x.CourseID == course.id)))
                 {
-                    if (member.CourseID == course.id)
+                    course.MemberStatus = true;
+                    if (member.Status == "Completed")
                     {
-                        course.MemberStatus = true;
-                        if (member.Status == "Completed")
-                        {
-                            course.CompleteStatus = true;
-                        }
+                        course.CompleteStatus = true;
                     }
                 }
                 foreach (var tempLesson in _context.Lessons.Where(x => x.CourseID == course.id))
@@ -73,7 +71,7 @@ namespace Login_System.Controllers
             var lessons = _context.Lessons.ToList();
             foreach (var lesson in lessons)
             {
-                foreach (var user in _context.LessonUsers.Where(x => x.MemberID == tempUser.Id))
+                foreach (var user in _context.LessonUsers.Where(x => (x.MemberID == tempUser.Id)))
                 {
                     if (user.LessonID == lesson.Id)
                     {

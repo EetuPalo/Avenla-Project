@@ -52,8 +52,10 @@ namespace Login_System.Controllers
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
                 var modelCheck = new List<string>();
+
                 foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == name)))
                 {
+                    //modelCheck is to prevent duplicates
                     if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
@@ -77,6 +79,7 @@ namespace Login_System.Controllers
             return View();
         }
 #nullable disable
+
         public IActionResult RefreshIndex([Bind("GroupName, SelectedDate")]SkillGoalIndexVM goal)
         {
             TempData["LatestDate"] = goal.SelectedDate;

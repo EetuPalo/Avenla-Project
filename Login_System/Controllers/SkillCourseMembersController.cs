@@ -40,7 +40,7 @@ namespace Login_System.Controllers
                 tempCourse = await _context.Courses.FindAsync(id);
             }
 
-            //For loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
+            //For loop to iterate through members
             foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == id))
             {
                 int counter = 0;
@@ -231,26 +231,11 @@ namespace Login_System.Controllers
                     UserID = member.UserID,
                     Status = "Enrolled"
                 };
-                /*
-                foreach (var oldMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID) && (x.Status != "Completed")))
-                {
-                    _context.Remove(oldMem);
-                }
-                */
                 if (_context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)).Count() == 0)
                 {
                     _context.Add(tempMember);
                 }
             }
-            /*
-            foreach (var member in courseMembers.Where(x => !x.IsSelected))
-            {
-                foreach (var gMem in _context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)))
-                {
-                    _context.Remove(gMem);
-                }
-            }
-            */
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
@@ -317,7 +302,7 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Grade(int id)
+        public IActionResult Grade(int id)
         {
             var model = new CourseMemberVM
             {
@@ -325,7 +310,7 @@ namespace Login_System.Controllers
             };
             return View(model);
         }
-       
+
         [HttpPost]
         public async Task<IActionResult> Grade([Bind("Id, CourseGrade")]CourseMemberVM member)
         {

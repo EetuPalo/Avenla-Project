@@ -52,7 +52,7 @@ namespace Login_System.Controllers
             return View(skills);
         }
 
-        // GET: Skills/Create
+        //GET: Skills/Create
         public IActionResult Create()
         {
             return View();
@@ -73,7 +73,7 @@ namespace Login_System.Controllers
             return View(skills);
         }
 
-        // GET: Skills/Edit/5
+        //GET: Skills/Edit/5
         //This validates the ID that has been passed from the view, and if it's valid, it shows the edit view with the current user info already filled out.
         public async Task<IActionResult> Edit(int? id)
         {
@@ -118,7 +118,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                //This here updates the skill name to the userskills table. similar loop should be run for every table that uses skillnames
+                //This updates the skill name to the userskills table. similar loop should be run for every table that uses skillnames
                 try
                 {
                     foreach (var uSkill in _context.UserSkills.Where(x => x.SkillName == skills.OldName))
@@ -132,7 +132,7 @@ namespace Login_System.Controllers
                 {
                     return NotFound();
                 }
-                //This here updates the skill name to the skillgoals table.
+                //This updates the skill name to the skillgoals table.
                 try
                 {
                     foreach (var goal in _context.SkillGoals.Where(x => x.SkillName == skills.OldName))

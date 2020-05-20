@@ -27,6 +27,7 @@ namespace Login_System.Controllers
         {
             var groups = from g in _context.Group select g;
             TempData["SearchValue"] = null;
+            //SEARCH
             if (!String.IsNullOrEmpty(searchString))
             {
                 groups = groups.Where(s => s.name.Contains(searchString));
@@ -67,6 +68,7 @@ namespace Login_System.Controllers
             {
                 _context.Add(@group);
                 await _context.SaveChangesAsync();
+                //Some data to build the "guide"
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GroupCreated;
                 TempData["ActionPhase"] = "[2/3]";
                 TempData["Source"] = "create";
