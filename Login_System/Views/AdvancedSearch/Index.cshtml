@@ -7,53 +7,63 @@
 <h1>AdvancedSearch</h1>
 
 <form asp-controller="AdvancedSearch" asp-action="Index">
-    <div class="container-fluid p-0">
-        <div class="row mb-4">
-            <div class="col-sm">
-                <div class="input-group">
-                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
-                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="col-sm">
-                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button>
-            </div>
-            <div class="col-sm">
-                min
-                <input class="form-control" id="search-bar" type="number" name="Min" placeholder=@TempData["MinString"] value="@TempData["MinValue"]">
-                max
-                <input class="form-control" id="search-bar" type="number" name="Max" placeholder=@TempData["MaxString"] value="@TempData["MaxValue"]">
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>A</th>
-                        <th>B</th>
-                        <th>C</th>
-                        <th>D</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Users.Count() != 0)
-                    {
-                        @foreach (var user in Model.Users)
-                        {
-                            <tr>
-                                <td>@user.FirstName</td>
-                                <td>@user.LastName</td>
-                                <td>@user.Email</td>
-                                <td>@user.PhoneNumber</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-            <div>
 
-            </div>
+    <div class="row">
+        <div class="col-sm">
+            Skills<input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
         </div>
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+        <div class="col-sm">Certificate<input class="form-control" id="Certificates" type="text" name="Certificates" placeholder="@TempData["CertificateString"]" value="@TempData["CertificateValue"]" /></div>
+        <div class="col-sm"></div>
+    </div>
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-sm">
+            min
+            <input class="form-control" id="search-bar" type="number" name="Min" placeholder=@TempData["MinString"] value="@TempData["MinValue"]">
+           
+        </div>
+        <div class="col-sm">
+            max
+            <input class="form-control" id="search-bar" type="number" name="Max" placeholder=@TempData["MaxString"] value="@TempData["MaxValue"]">
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-sm">Groups<input class="form-control" id="Groups" type="text" name="Groups" placeholder="@TempData["GroupsString"]" value="@TempData["GroupsValue"]" /></div>
+        <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button></div>
+    </div><br />
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Users.Count() != 0)
+            {
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@user.PhoneNumber</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div>
+
+    </div>
+    </div>
     </div>
 </form>
 
