@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace Login_System.Controllers
 {
-    //Commented for ease of access
-    //Add role "Admin" to test authorization
     [Authorize(Roles= "Admin")]
     public class AdminController : Controller
     {
@@ -70,9 +68,10 @@ namespace Login_System.Controllers
         //The id of a specific role is passed to this method.
         public async Task<IActionResult> EditRole(string id)
         {
-
+            //Finding the role based on the id
             var role = await roleManager.FindByIdAsync(id);
 
+            //This shouldn't ever happen
             if(role==null)
             {
                 return RedirectToAction("Error");
@@ -82,7 +81,7 @@ namespace Login_System.Controllers
             {
                 Id = role.Id.ToString(),
                 RoleName = role.Name,
-                OldName = role.Name
+                OldName = role.Name //OldName is here so that we can use that in the POST action
             };
 
             foreach(var user in userManager.Users)
@@ -99,6 +98,7 @@ namespace Login_System.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRole roleModel)
         {
+            //Roles "Admin" and "User" can't be edited.
             if (roleModel.OldName != "Admin" && roleModel.OldName != "User")
             {
                 var role = await roleManager.FindByIdAsync(roleModel.Id);
