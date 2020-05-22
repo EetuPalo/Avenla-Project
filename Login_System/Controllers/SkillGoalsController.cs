@@ -247,7 +247,7 @@ namespace Login_System.Controllers
                 _context.Add(entry);
             }
 
-            //Replacing goals made earlier today
+            //Replacing goals made earlier the same day
             if (todayList != null)
             {
                 foreach (var skillGoal in _context.SkillGoals.Where(x => x.GroupName == groupName))
@@ -470,6 +470,7 @@ namespace Login_System.Controllers
             return maxDate;
         }
 
+        //Get latest goal for a specific skill and group
         public int GetLatest(SkillGoals goal)
         {
             int currentGoal = 0;
