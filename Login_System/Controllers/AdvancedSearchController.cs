@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Security.Cryptography.X509Certificates;
 using Resources;
-
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Login_System.Controllers
 {
@@ -33,33 +34,9 @@ namespace Login_System.Controllers
 
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
-
-            /*IQueryable<string> SkillQuery = from s in _context.Skills
-                                            orderby s.Skill
-                                            select s.Skill;*/
-
-            /* var query_multiselect = _context.IncidentSet
-                        .Where(i => i.IncidentId != _incidentId1)
-                        .Select(i => i.incident_customer_accounts)
-                        .Where(a => a.AccountId != _accountId2)
-                        .Select(a => a.account_primary_contact)
-                        .OrderBy(c => c.FirstName)
-                        .Select(c => c.ContactId); */
-
-
-            var skillQuery = from m in _context.UserSkills
-                            where m.SkillName == Skill
-                            select m;
-
-            var certQuery = from s in _context.Certificates
-                            where s.Name == Certificate
-                            select s;
-
-            var groupQuery = from i in _context.Group
-                             where i.name == Groups
-                             select i;
-
-            var tempList = new List<Certificate>();
+            var SkillList = new List<AppUser>();
+            var GroupList = new List<AppUser>();
+            var CertList = new List<AppUser>();
 
             //Populating the dropdown with certificates
             foreach (var certificate in _context.Certificates)
@@ -67,19 +44,11 @@ namespace Login_System.Controllers
                 model.CertificateList.Add(new SelectListItem() { Text = certificate.Name, Value = certificate.Name });
             }
 
-            // List Groups
-
-            var tempGroups = new List<Group>();
-
             // Populating the dropdown with groups
             foreach (var group in _context.Group)
             {
                 model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.name });
             }
-
-            // List Skills
-
-            var tempSkills = new List<Group>();
 
             // Populating the dropdown with skills
             foreach (var skill in _context.Skills)
@@ -89,6 +58,52 @@ namespace Login_System.Controllers
 
 
 
+            //SkillFilter(userList, Skill, min, max);
+            //CertificateFilter(userList, Certificate);
+            //GroupFilter(userList, Groups);
+
+            switch (Skill)
+            {
+                case null:
+                    break;
+                default:
+                    SkillFilter(SkillList, Skill, min, max);
+                    break;
+            }
+
+            switch (Certificate)
+            {
+                case null:
+                    break;
+                default:
+                    CertificateFilter(CertList, Certificate);
+                    break;
+            }
+
+            switch (Groups)
+            {
+                case null:
+                    break;
+                default:
+                    GroupFilter(GroupList, Groups);
+                    break;
+            }
+
+            //if (CertList == GroupList && GroupList == SkillList && CertList == SkillList)
+            //{
+                
+            //}
+
+
+            model.Users = userList;
+            return View(model);
+        }
+        public List<AppUser> SkillFilter(List<AppUser> SkillList, string Skill, int? min, int? max)
+        {
+
+            var skillQuery = from m in _context.UserSkills
+                             where m.SkillName == Skill
+                             select m;
 
             foreach (var items in skillQuery.Where(x => x.SkillName == Skill))
             {
@@ -104,18 +119,18 @@ namespace Login_System.Controllers
 
                         if (min == null && max == null)
                         {
-                            if (!userList.Contains(user))
+                            if (!SkillList.Contains(user))
                             {
-                                userList.Add(user);
+                                SkillList.Add(user);
                             }
                         }
                         else
                         {
                             if ((items.SkillLevel >= min && items.SkillLevel <= max) || (min == null && items.SkillLevel <= max) || (max == null && items.SkillLevel >= min))
                             {
-                                if (!userList.Contains(user))
+                                if (!SkillList.Contains(user))
                                 {
-                                    userList.Add(user);
+                                    SkillList.Add(user);
                                 }
                             }
                         }
@@ -123,110 +138,109 @@ namespace Login_System.Controllers
                     }
                 }
             }
-            model.Users = userList;
-            return View(model);
+            return SkillList;
         }
-    }
-}
-//        public async Task<IActionResult> Index(string SkillList, int? min, int? max, string Skill, string Certificate, string Groups)
-//        {
-//            var model = new AdvancedSearchVM();
-//            var userList = new List<AppUser>();
+        public List<AppUser> CertificateFilter(List<AppUser> CertList, string Certificate)
+        {
+            List<AppUser> tempList = new List<AppUser>();
 
-//            // SKILLS
-//            IQueryable<string> SkillQuery = from s in _context.Skills
-//                                            orderby s.Skill
-//                                            select s.Skill;
+            var certQuery = from s in _context.Certificates
+                            where s.Name == Certificate
+                            select s;
 
-//            var items = from t1 in _context.Skills
-//                        join t2 in _context.UserCertificates on t1.Id equals t2.Id
-//                        join t3 in _context.GroupMembers on t2.Id equals t3.Id
-//                        select new
-//                        {
-//                            UserSkills = t1.Skill,
-//                            Certificate = t2.CertificateName,
-//                            Groups = t3.GroupName
+            foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == Certificate))
+            {
+                foreach (AppUser user in UserMgr.Users.Where(x => x.Id == UserName.UserID))
+                {
+                    if (!CertList.Contains(user))
+                    {
+                        CertList.Add(user);
+                    }
+                }
+            }
 
-//                        };
+            
 
-//            // items = items.Where(s => s.Skill.Contains(Skill));
-//           items = items.Where(s => s.UserSkills.Contains(Skill) && s.Certificate.Contains(Certificate) &&)
-
-
-//            foreach (var i in )
-//            {
-
-//            }
-
-//            //GROUPS
-//            IQueryable<string> GroupQuery = from s in _context.GroupMembers
-//                                            orderby s.Uname
-//                                            select s.GroupName;
-//            var groups = from m in _context.GroupMembers
-//                         select m;
-
-//            //CERTIFICATES
-//            IQueryable<string> CertificateQuery = from s in _context.UserCertificates
-//                                                  orderby s.UserName
-//                                                  select s.CertificateName;
-//            var certificates = from m in _context.UserCertificates
-//                               select m;
-
-//            return View(model);
-//        }
-//    }
-//}
-
-
-
-            //foreach (var skill in _context.UserSkills.Where(x => x.SkillName == Skill))
+            // this is only if only filter used is Certificate filter
+            //if (userList.Count == 0)
             //{
-            //    foreach (AppUser user in UserMgr.Users.Where(x => x.Id == skill.UserID))
+            //    return userList;
+            //}
+
+            //else
+            //{
+            //    for (int i = userList.Count() - 1; i >= 0; i--)
             //    {
-            //        if (min == null && max == null)
+            //        if (!tempList.Contains(userList[i]))
             //        {
-            //            //This is to prevent duplicates
-            //            if (!userList.Contains(user))
-            //            {
-            //                userList.Add(user);
-            //            }
+            //            userList.Remove(userList[i]);
             //        }
-
-            //        else
-            //        {
-            //            //checks that if both filters have values, or only if either one has and adds to userList based on that
-            //            if ((skill.SkillLevel >= min && skill.SkillLevel <= max) || (min == null && skill.SkillLevel <= max) || (max == null && skill.SkillLevel >= min))
-            //            {
-            //                //This is to prevent duplicates
-            //                if (!userList.Contains(user))
-            //                {
-            //                    userList.Add(user);
-            //                }
-            //            }
-            //        }
-
             //    }
             //}
 
+            return CertList;
+        }
+        public List<AppUser> GroupFilter(List<AppUser> GroupList, string Groups)
+        {
+            List<AppUser> tempList = new List<AppUser>();
 
+            var groupQuery = from i in _context.Group
+                             where i.name == Groups
+                             select i;
 
+            //if (!string.IsNullOrEmpty(Groups))
+            //{
+            foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == Groups))
+            {
+                foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserID))
+                {
+                    //This is to prevent duplicates
+                    if (!GroupList.Contains(user))
+                    {
+                        GroupList.Add(user);
+                    }
+                }
+            }
 
+            //}
+            // this is only if only filter used is group filter
+            //if (userList.Count == 0)
+            //{
+            //    return tempList;
+            //}
 
+            //else
+            //{
+            //    for (int i = userList.Count() - 1; i >= 0; i--)
+            //    {
+            //        if (!tempList.Contains(userList[i]))
+            //        {
+            //            userList.Remove(userList[i]);
+            //        }
+            //    }
+            //}
 
-            //TODO:
-            //SearchString should be replaced with a dropdown that's populated with all the skills that are in the database
-            //Later there should also be an option to select multiple skills for the search
-            //Next to add similar functions for:
-            //Filter by skill level (both min and max)
+            return GroupList;
+        }
 
-            //Note that all these different forms need to be available at the same time and selected/deselected as the user wants
+    }
+
+}
+
+//TODO:
+//SearchString should be replaced with a dropdown that's populated with all the skills that are in the database
+//Later there should also be an option to select multiple skills for the search
+//Next to add similar functions for:
+//Filter by skill level (both min and max)
+
+//Note that all these different forms need to be available at the same time and selected/deselected as the user wants
 
 //            if (!string.IsNullOrEmpty(Skill))
 //            {
 //                userList = SkillFilter(userList, Skill, min, max);
 //            }
 
-      
+
 //            if (!string.IsNullOrEmpty(Groups))
 //            {
 //                userList = GroupFilter(userList, Groups);
@@ -289,140 +303,4 @@ namespace Login_System.Controllers
 
 //        }
 
-//        //public List<AppUser> SkillFilter(List<AppUser> userList, string Skill, int? min, int? max)
-//        //{
-//        //    IQueryable<string> SkillQuery = from s in _context.Skills
-//        //                                    orderby s.Skill
-//        //                                    select s.Skill;
-//        //    var items = from m in _context.Skills
-//        //                select m;
 
-//        //    items = items.Where(s => s.Skill.Contains(Skill));
-
-//        //    foreach (var skill in _context.UserSkills.Where(x => x.SkillName == Skill))
-//        //    {
-//        //        foreach (AppUser user in UserMgr.Users.Where(x => x.Id == skill.UserID))
-//        //        {
-//        //            if (min == null && max == null)
-//        //            {
-//        //                //This is to prevent duplicates
-//        //                if (!userList.Contains(user))
-//        //                {
-//        //                    userList.Add(user);
-//        //                }
-//        //            }
-
-//        //            else
-//        //            {
-//        //                //checks that if both filters have values, or only if either one has and adds to userList based on that
-//        //                if ((skill.SkillLevel >= min && skill.SkillLevel <= max) || (min == null && skill.SkillLevel <= max) || (max == null && skill.SkillLevel >= min))
-//        //                {
-//        //                    //This is to prevent duplicates
-//        //                    if (!userList.Contains(user))
-//        //                    {
-//        //                        userList.Add(user);
-//        //                    }
-//        //                }
-//        //            }
-
-//        //        }
-//        //    }
-            
-//        //    return userList;
-//        //}
-
-//        public List<AppUser> GroupFilter(List<AppUser> userList, string Groups)
-//        {
-//            List<AppUser> tempList = new List<AppUser>();
-
-//            IQueryable<string> GroupQuery = from s in _context.GroupMembers
-//                                            orderby s.Uname
-//                                            select s.GroupName;
-//            var groups = from m in _context.GroupMembers
-//                         select m;
-
-//            //if (!string.IsNullOrEmpty(Groups))
-//            //{
-//                groups = groups.Where(s => s.GroupName.Contains(Groups));
-
-//                foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == Groups))
-//                {
-//                    foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserID))
-//                    {
-//                        //This is to prevent duplicates
-//                        if (!tempList.Contains(user))
-//                        {
-//                            tempList.Add(user);
-//                        }
-//                    }
-//                }
-
-//            //}
-//            // this is only if only filter used is group filter
-//                if (userList.Count == 0)
-//                {
-//                    return tempList;
-//                }
-
-//                else
-//                {
-//                    for (int i = userList.Count() - 1; i >= 0; i--)
-//                    {
-//                        if (!tempList.Contains(userList[i]))
-//                        {
-//                            userList.Remove(userList[i]);
-//                        }
-//                    }
-//            }
-
-//            return userList;
-//        }
-//        public List<AppUser> CertificateFilter(List<AppUser> userList, string Certificate)
-//        {
-//            List<AppUser> tempList = new List<AppUser>();
-         
-          
-//            IQueryable<string> CertificateQuery = from s in _context.UserCertificates
-//                                                  orderby s.UserName
-//                                                  select s.CertificateName;
-//            var certificates = from m in _context.UserCertificates
-//                               select m;
-
-//            //if (!string.IsNullOrEmpty(Certificate))
-//            //{
-//                certificates = certificates.Where(s => s.CertificateName.Contains(Certificate));
-
-//                foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == Certificate))
-//                {
-//                    foreach (AppUser user in UserMgr.Users.Where(x => x.Id == UserName.UserID))
-//                    {
-//                        if (!tempList.Contains(user))
-//                        {
-//                            tempList.Add(user);
-//                        }
-//                    }
-//                }
-//            //}
-
-//            // this is only if only filter used is Certificate filter
-//            if (userList.Count==0)
-//            {
-//                return tempList;
-//            }
-
-//            else
-//            {
-//                for (int i = userList.Count() - 1; i >= 0; i--)
-//                {
-//                    if (!tempList.Contains(userList[i]))
-//                    {
-//                        userList.Remove(userList[i]);
-//                    }
-//                }
-//            }
-           
-//            return userList;
-//        }
-
-//    }
-//}
