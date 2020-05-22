@@ -49,83 +49,13 @@ namespace Login_System
                 .AddEntityFrameworkStores<IdentityDataContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            /*
-            services.AddDbContext<IdentityDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
 
-            
-            services.AddDbContext<SkillDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<UserSkillsDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<GroupsDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<GroupMembersDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<SkillGoalContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<SkillCourseDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<SkillCourseMemberDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<CertificateDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<UserCertificateDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<LessonDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddDbContext<LessonUserDataContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("EmployeeConnection");
-                options.UseSqlServer(connectionString);
-            });
-            */
+            //Configuring the database context with the right connection string
             services.AddDbContext<GeneralDataContext>(options =>
             {
+                //Getting the connection string from appsettings.json
                 var connectionString = Configuration.GetConnectionString("ApplicationConnection");
+                //Using the connection string
                 options.UseSqlServer(connectionString);
             });
             services.AddDbContext<IdentityDataContext>(options =>

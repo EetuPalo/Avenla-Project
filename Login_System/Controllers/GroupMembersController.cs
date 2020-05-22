@@ -128,6 +128,7 @@ namespace Login_System.Controllers
                 }
                 _context.Add(tempMember);               
            }
+           //Those who aren't selected will be ignored, unless they are currently members of the group. In that case they will be removed
            foreach (var member in groupMembers.Where(x => !x.IsSelected))
            {
                 foreach (var gMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID.ToString() == member.UserId)))
@@ -136,6 +137,8 @@ namespace Login_System.Controllers
                 }
            }
            _context.SaveChanges();
+            //Two possibilities for what the next page is
+            //One for continuing the group creation process, the other for going to the groupmembers list
             if (source == "create")
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GroupCreatedNoGoal;
