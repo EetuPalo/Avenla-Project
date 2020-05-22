@@ -25,10 +25,12 @@ namespace Login_System.Controllers
 
         public async Task<IActionResult> Index (string searchString)
         {
+            //Select all skills
             var skills = from c in _context.Skills select c;
             TempData["SearchValue"] = null;
             if (!String.IsNullOrEmpty(searchString))
             {
+                //Select only those skills that contain the searchString
                 skills = skills.Where(s => s.Skill.Contains(searchString));
                 TempData["SearchValue"] = searchString;
             }
