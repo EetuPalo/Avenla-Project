@@ -89,13 +89,43 @@ namespace Login_System.Controllers
                     break;
             }
 
-            //if (CertList == GroupList && GroupList == SkillList && CertList == SkillList)
-            //{
-                
-            //}
+            var SkillCertList = new List<AppUser>();
+            
+            if (SkillList.Count == 0 && CertList.Count == 0)
+            {
+                    userList = GroupList;
+            }
 
+            if (CertList.Count == 0 && GroupList.Count == 0)
+            {      
+                    userList = SkillList;
+            }
+
+            if(GroupList.Count == 0 && SkillList.Count == 0)
+            {
+                    userList = CertList; 
+            }
+            if(GroupList.Count > 0 && SkillList.Count > 0 && CertList.Count > 0)
+            {
+                SkillCertList = SkillList.Intersect(CertList).ToList();
+                userList = SkillCertList.Intersect(GroupList).ToList();
+            }
+            if (GroupList.Count == 0 && SkillList.Count > 0 && CertList.Count > 0) 
+            {
+                userList = SkillList.Intersect(CertList).ToList();
+            }
+            if (GroupList.Count > 0 && SkillList.Count == 0 && CertList.Count > 0)
+            {
+                userList = CertList.Intersect(GroupList).ToList();
+            }
+            if (GroupList.Count > 0 && SkillList.Count > 0 && CertList.Count == 0)
+            {
+                userList = GroupList.Intersect(SkillList).ToList();
+            }
 
             model.Users = userList;
+            
+
             return View(model);
         }
         public List<AppUser> SkillFilter(List<AppUser> SkillList, string Skill, int? min, int? max)
@@ -177,6 +207,7 @@ namespace Login_System.Controllers
             //        }
             //    }
             //}
+            
 
             return CertList;
         }
