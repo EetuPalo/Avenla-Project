@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.Group
+﻿@model Login_System.ViewModels.GroupVM
 
 @{
     ViewData["Title"] = "Create";
@@ -21,6 +21,9 @@
                 <label asp-for="name" class="control-label"></label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
+                <label class="control-label"></label>@Resources.Resources.Company
+                @Html.DropDownListFor(x => x.company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                <span asp-validation-for="company" class="text-danger"></span>
             </div>
             <div class="container-fluid p-0">
                 <div class="row">

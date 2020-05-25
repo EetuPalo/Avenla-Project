@@ -33,15 +33,8 @@
         </div>
         <div class="form-group">
             <label asp-for="Company">@Resources.Resources.Company</label>
-            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.SkillGoals.Index_SelectDropdown, new { @class = "form-control col-sm"})           
+            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm"})           
         </div>
-        <!--
-        <div class="form-group">
-            <label asp-for="Company"></label>
-            <input asp-for="Company" class="form-control" placeholder="Company" />
-            <span asp-validation-for="Company"></span>
-        </div> -->
-
         <div class="form-group">
             <label asp-for="Password"></label>
             <input asp-for="Password" class="form-control" placeholder="Password" />

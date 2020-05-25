@@ -57,12 +57,18 @@ namespace Login_System.Controllers
         // GET: Groups/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new GroupVM();
+            var tempList = new List<Company>();
+            foreach (var company in _context.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+            }
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name")] Group @group)
+        public async Task<IActionResult> Create([Bind("id,name,company")] Group @group)
         {
             if (ModelState.IsValid)
             {
@@ -74,6 +80,7 @@ namespace Login_System.Controllers
                 TempData["Source"] = "create";
                 TempData["GroupName"] = group.name;
                 TempData["GroupId"] = group.id;
+                TempData["GroupCompany"] = group.company;
                 return RedirectToAction(nameof(Create), "SkillGoals", new { name = group.name });
             }
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_Error;           
