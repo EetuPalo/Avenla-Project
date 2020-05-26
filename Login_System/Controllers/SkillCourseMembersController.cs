@@ -43,7 +43,7 @@ namespace Login_System.Controllers
             {
                 tempCourse = await _context.Courses.FindAsync(id);
             }
-
+            TempData["CourseId"] = id;
             //For loop to iterate through members
             foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == id))
             {

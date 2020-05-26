@@ -26,7 +26,7 @@
             <div class="col-sm">
                 @if (User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-primary" asp-action="AddUsers" asp-route-id="@Model."><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
+                    <a class="btn btn-primary" asp-action="AddUsers" asp-route-id="@TempData["CourseId"]"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
                 }
                 <a class="btn btn-primary" asp-action="Index" asp-controller="SkillCourses"><i class="fas fa-arrow-left fa-fw"> </i> @Resources.SkillCourseMembers.Index_BackCourse</a>
             </div>
@@ -45,7 +45,7 @@ else
 
 <hr />
 <div class="container-fluid p-0">
-    <div class="row">
+    <div class="row">   
         <div class="col-sm-12 border-right border-dark">
             <table class="table table-hover">
                 <thead>

@@ -399,7 +399,7 @@ namespace Login_System.Controllers
                     user.UserName = fixedUn;
                     user.Email = model.User.Email;
                     user.PhoneNumber = model.User.PhoneNumber;
-                    user.Company = model.User.Company;
+                    user.Company = model.Company;
                     if (model.User.EmpStatus != "-1")
                     {
                         user.EmpStatus = model.User.EmpStatus;
