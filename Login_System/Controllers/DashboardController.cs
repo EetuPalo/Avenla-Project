@@ -16,6 +16,7 @@ using Resources;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
+using System.Runtime.CompilerServices;
 
 namespace Login_System.Controllers
 {
@@ -25,6 +26,7 @@ namespace Login_System.Controllers
         private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
 
+        
         public DashboardController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
@@ -34,20 +36,12 @@ namespace Login_System.Controllers
         {
             var model = new DashboardVM();
 
-            var company = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentCompany = company.Company;
-
-            var Firstname = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentUserLastName = Firstname.FirstName;
-
-            var Lastname = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentUserFirstName = Lastname.LastName;
-
-            var Email = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentUserEmail = Email.Email;
-
-            var Phone = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentUserPhone = Phone.PhoneNumber;
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentCompany = user.Company;            
+            ViewBag.CurrentUserLastName = user.FirstName;
+            ViewBag.CurrentUserFirstName = user.LastName;
+            ViewBag.CurrentUserEmail = user.Email;
+            ViewBag.CurrentUserPhone = user.PhoneNumber;
 
 
             return View(model);

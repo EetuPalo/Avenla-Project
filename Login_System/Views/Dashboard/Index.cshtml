@@ -21,7 +21,7 @@
                     else
                     {
                         <h5 class="card-title">@Html.Raw("not found")</h5>
-                    }                    
+                    }
                     <p class="card-text">Here will be information about the company. <br />Tähän tulee infotekstiä yhtiöstä.</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
@@ -56,32 +56,42 @@
                             @ViewBag.CurrentCompany
                         </dd>
                     </dl>
-                    
-                        <a href="~/Views/AppUsers/Details" class="btn btn-primary">Profile</a>
-                    
+
+                    <a href="~/Views/AppUsers/Details" class="btn btn-primary">Profile</a>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<br />
+
+<div class="row">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Resources.Resources.Quick_Options</h5>
+                    <p class="card-text">
+                    Here will be quick options. <br />
+                    Tähän tulee pikavalikko.
+                    </p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    }
+    @if (User.IsInRole("Admin, User"))
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Resources.Skills.Index_Skill</h5>
+                    <p class="card-text">@ViewBag.CurrentUserSkills</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
         </div>
     }
     </div>
-<br />
-<div class="row">
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-</div>

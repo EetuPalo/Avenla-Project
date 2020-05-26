@@ -365,6 +365,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="PhoneLong" xml:space="preserve">
     <value>Puhelinnumero on liian pitkä!</value>
   </data>
+  <data name="Quick_Options" xml:space="preserve">
+    <value>Pikavalikko</value>
+  </data>
   <data name="ResetPassword_Desc" xml:space="preserve">
     <value>Anna uusi salasana</value>
   </data>

@@ -799,6 +799,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quick Options.
+        /// </summary>
+        public static string Quick_Options {
+            get {
+                return ResourceManager.GetString("Quick_Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Give new password..
         /// </summary>
         public static string ResetPassword_Desc {
