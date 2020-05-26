@@ -15,9 +15,11 @@ using System.Security.Cryptography.X509Certificates;
 using Resources;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdvancedSearchController : Controller
     {
         private readonly GeneralDataContext _context;
@@ -37,6 +39,11 @@ namespace Login_System.Controllers
             var SkillList = new List<AppUser>();
             var GroupList = new List<AppUser>();
             var CertList = new List<AppUser>();
+          
+
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentCompany = user.Company;
+
 
             //Populating the dropdown with certificates
             foreach (var certificate in _context.Certificates)
@@ -123,11 +130,14 @@ namespace Login_System.Controllers
                 userList = GroupList.Intersect(SkillList).ToList();
             }
 
+            userList = userList.OrderBy(x=> x.Company != user.Company).ToList();
             model.Users = userList;
             
 
             return View(model);
         }
+
+
         public List<AppUser> SkillFilter(List<AppUser> SkillList, string Skill, int? min, int? max)
         {
 

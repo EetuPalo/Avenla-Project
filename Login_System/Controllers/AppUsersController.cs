@@ -44,6 +44,7 @@ namespace Login_System.Controllers
         // GET: AppUsers
         public async Task<IActionResult> Index(string searchString)
         {
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
 
             //  Stores the search input to preserve it in the text field
             if (!String.IsNullOrEmpty(searchString))
@@ -51,7 +52,7 @@ namespace Login_System.Controllers
                 TempData["LastSearch"] = searchString;
             }
 
-            var employees = from e in _context.Users select e;
+            var employees = from e in _context.Users  where e.Company == user.Company select e;
             TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
             TempData["SearchValue"] = null;
             //SEARCH
