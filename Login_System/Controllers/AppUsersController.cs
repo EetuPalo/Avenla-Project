@@ -148,6 +148,16 @@ namespace Login_System.Controllers
             }
             return View(model);
         }
+        public IActionResult AppUserEdit()
+        {
+            var model = new EditUserVM();
+            var tempList = new List<Company>();
+            foreach (var company in CompanyList.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+            }
+            return View(model);
+        }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -274,13 +284,20 @@ namespace Login_System.Controllers
                 {
                     return NotFound();
                 }
+                var tempList = new List<Company>();
+                foreach (var company in CompanyList.Company)
+                {
+                    mainModel.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                }
                 mainModel.User = tempUser;
 
                 TempData["UserId"] = id;
                 TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
                 appUser.TempUserName = tempUser.UserName;
                 return View(mainModel);
-            }           
+            }
+
+
             return View();
         }
 
@@ -382,6 +399,7 @@ namespace Login_System.Controllers
                     user.UserName = fixedUn;
                     user.Email = model.User.Email;
                     user.PhoneNumber = model.User.PhoneNumber;
+                    user.Company = model.User.Company;
                     if (model.User.EmpStatus != "-1")
                     {
                         user.EmpStatus = model.User.EmpStatus;
