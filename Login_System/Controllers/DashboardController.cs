@@ -33,10 +33,22 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index()
         {
             var model = new DashboardVM();
-            var companyList = new List<AppUser>();
 
-            var user = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentCompany = user.Company;
+            var company = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentCompany = company.Company;
+
+            var Firstname = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentUserLastName = Firstname.FirstName;
+
+            var Lastname = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentUserFirstName = Lastname.LastName;
+
+            var Email = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentUserEmail = Email.Email;
+
+            var Phone = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentUserPhone = Phone.PhoneNumber;
+
 
             return View(model);
         }

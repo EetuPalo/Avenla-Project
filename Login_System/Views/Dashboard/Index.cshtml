@@ -6,37 +6,64 @@
 
 <h1>Dashboard</h1>
 <div class="row">
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                
 
-                @if (ViewBag.CurrentCompany != "")
-                {
-                    <h5> @ViewBag.CurrentCompany</h5>
-                }
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
 
-                else
-                {
-                    <h5>not found.</h5>
-                }
+                    @if (ViewBag.CurrentCompany != null)
+                    {
+                        <h5 class="card-title"> @ViewBag.CurrentCompany</h5>
+                    }
 
-
-                <p class="card-text">Here will be information about the company. <br />Tähän tulee infotekstiä yhtiöstä.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                    else
+                    {
+                        <h5 class="card-title">@Html.Raw("not found")</h5>
+                    }                    
+                    <p class="card-text">Here will be information about the company. <br />Tähän tulee infotekstiä yhtiöstä.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+    }
+    @if (User.IsInRole("User"))
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="text-transform: Capitalize">
+                        <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
+                    </h5><br />
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            @Resources.Resources.Email:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @ViewBag.CurrentUserEmail
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Resources.Resources.Phone:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @ViewBag.CurrentUserPhone
+                        </dd>
+                        <dt class="col-sm-4">
+                            @Resources.Resources.Company:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @ViewBag.CurrentCompany
+                        </dd>
+                    </dl>
+                    
+                        <a href="~/Views/AppUsers/Details" class="btn btn-primary">Profile</a>
+                    
+                </div>
             </div>
         </div>
+    }
     </div>
-</div>
 <br />
 <div class="row">
     <div class="col-sm-6">

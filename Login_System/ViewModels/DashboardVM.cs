@@ -9,6 +9,8 @@ namespace Login_System.ViewModels
 {
     public class DashboardVM
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public List<AppUser> Users { get; set; }
 
         public IList<SelectListItem> CertificateList { get; set; }
