@@ -27,6 +27,10 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> Index(int? id, string? courseName)
         {
+            var list = new List<SkillCourseMemberVM>();
+
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+
             var model = new List<SkillCourseMemberVM>();
             SkillCourse tempCourse = new SkillCourse();
 
@@ -82,10 +86,21 @@ namespace Login_System.Controllers
                 //someday would need to look into it.
             }
 
+            foreach(var item in model)
+            {
+                foreach(AppUser appuser in UserMgr.Users.Where(x => x.Id == item.UserID))
+                {
+                    if(appuser.Company == currentUser.Company)
+                    {
+                        list.Add(item);
+                    }
+                }
+            }
+            
             TempData["CourseMemberCount"] = model.Count();
             TempData["CompletedCount"] = model.Where(x => x.Status == "Completed").Count();
 	    TempData["DropoutCount"] = model.Where(x => x.Status == "Dropout").Count();
-            return View(model);
+            return View(list);
         }
 
         // GET: SkillCourseMembers/Details/5

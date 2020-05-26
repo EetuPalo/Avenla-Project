@@ -27,7 +27,10 @@ namespace Login_System.Controllers
         // GET: GroupMembers
         public async Task<IActionResult> Index(int? id, string searchString)
         {
-           
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.CurrentCompany = user.Company;
+
+            var list = new List<GroupMember>();
             var model = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
 
             Group tempGroup = await _context.Group.FindAsync(id);
@@ -54,7 +57,20 @@ namespace Login_System.Controllers
                 //someday would need to look into it.
             }           
 
-            return View(model);
+            foreach (var item in model)
+            {
+                foreach(AppUser appuser in UserMgr.Users.Where(x=> x.Id == item.UserID))
+                {
+                    if(appuser.Company == user.Company)
+                    {
+                        list.Add(item);
+                    }
+                
+                }
+
+            }
+
+            return View(list);
         }
 
         // GET: GroupMembers/Details/5
