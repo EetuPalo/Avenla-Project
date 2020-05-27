@@ -28,6 +28,7 @@ namespace Login_System.Controllers
             //Select all skills
             var skills = from c in _context.Skills select c;
             TempData["SearchValue"] = null;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 //Select only those skills that contain the searchString
@@ -46,6 +47,7 @@ namespace Login_System.Controllers
             }
 
             var skills = await _context.Skills.FirstOrDefaultAsync(m => m.Id == id);
+
             if (skills == null)
             {
                 return NotFound();
@@ -86,6 +88,7 @@ namespace Login_System.Controllers
 
             var skills = await _context.Skills.FindAsync(id);
             skills.OldName = skills.Skill;
+
             if (skills == null)
             {
                 return NotFound();
@@ -109,12 +112,14 @@ namespace Login_System.Controllers
                     _context.Update(skills);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!SkillsExists(skills.Id))
                     {
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
@@ -164,6 +169,7 @@ namespace Login_System.Controllers
 
             var skills = await _context.Skills
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (skills == null)
             {
                 return NotFound();
@@ -180,6 +186,7 @@ namespace Login_System.Controllers
             var skills = await _context.Skills.FindAsync(id);
             _context.Skills.Remove(skills);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

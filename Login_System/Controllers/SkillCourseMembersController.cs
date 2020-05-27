@@ -28,10 +28,9 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id, string? courseName)
         {
             var list = new List<SkillCourseMemberVM>();
-
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-
             var model = new List<SkillCourseMemberVM>();
+
             SkillCourse tempCourse = new SkillCourse();
 
             if (id == null && courseName != null)
@@ -39,16 +38,20 @@ namespace Login_System.Controllers
                 var findCourse = _context.Courses.FirstOrDefault(x => x.CourseName == courseName);
                 id = findCourse.id;
             }
+
             if (id != null)
             {
                 tempCourse = await _context.Courses.FindAsync(id);
             }
+
             TempData["CourseId"] = id;
+
             //For loop to iterate through members
             foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == id))
             {
                 int counter = 0;
                 AppUser tempUser = await UserMgr.FindByIdAsync(member.UserID.ToString());
+
                 var coursemember = new SkillCourseMemberVM
                 {
                     Id = member.Id,
@@ -76,10 +79,12 @@ namespace Login_System.Controllers
 
             //Information that is useful in other methods that is not always available
             TempData["CourseID"] = id;
+
             try
             {
                 TempData["CourseName"] = tempCourse.CourseName;
             }
+
             catch (NullReferenceException)
             {
                 //line 63 causes NullReference exception but doesn't actually prevent the program from working as intended, so the exception is just ignored
@@ -99,7 +104,8 @@ namespace Login_System.Controllers
             
             TempData["CourseMemberCount"] = model.Count();
             TempData["CompletedCount"] = model.Where(x => x.Status == "Completed").Count();
-	    TempData["DropoutCount"] = model.Where(x => x.Status == "Dropout").Count();
+	        TempData["DropoutCount"] = model.Where(x => x.Status == "Dropout").Count();
+
             return View(list);
         }
 
@@ -108,6 +114,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             var model = new List<SkillCourseMemberVM>();
+
             //for loop to iterate through members, but only show current user for now, later will show all group user partakes in(if several)
             foreach (var member in _context.SkillCourseMembers.Where(x => x.UserID == id))
             {
@@ -133,6 +140,7 @@ namespace Login_System.Controllers
 		    
                     model.Add(coursemember);
                 }
+
 		        catch (NullReferenceException)
 		        {
 		    
@@ -154,15 +162,21 @@ namespace Login_System.Controllers
                     {
                         Value = x.UserName,
                         Text = x.UserName
-                    });//creating a list of dropdownlist elements                 
-                    model.CourseID = (int)id;//assigning CourseID of the current group
-                    model.CourseName = TempData["CourseName"] as string;//assigning CourseName that we saved as well
+                    });
+                    
+                    //creating a list of dropdownlist elements                 
+                    model.CourseID = (int)id; //assigning CourseID of the current group
+                    model.CourseName = TempData["CourseName"] as string; //assigning CourseName that we saved as well
+
                 };
                 return View(model);
             }
+
             else
             {
-                id = TempData["CourseID"] as int?;//using CourseID we saved earlier in the Index if the id passed to the method is NULL
+                //using CourseID we saved earlier in the Index if the id passed to the method is NULL
+                id = TempData["CourseID"] as int?;
+
                 var model = new SkillCourseMember();
                 {
                     model.Uname = members.Select(x => new SelectListItem
@@ -170,9 +184,11 @@ namespace Login_System.Controllers
                         Value = x.UserName,
                         Text = x.UserName
                     });
-                    model.CourseID = (int)id;//assigning CourseID of the current group
-                    model.CourseName = TempData["CourseName"] as string;//assigning CourseName that we saved as well
-                    TempData.Keep();//so the data is not lost because it's TEMPdata (temporary)
+
+                    //assigning CourseID of the current group
+                    model.CourseID = (int)id; 
+                    model.CourseName = TempData["CourseName"] as string; //assigning CourseName that we saved as well
+                    TempData.Keep(); //so the data is not lost because it's TEMPdata (temporary)
                 };
 
                 return View(model);
@@ -189,16 +205,19 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserMgr.FindByNameAsync(skillCourseMember.UserName);//creating a temp user through username selected in the view
-                skillCourseMember.UserID = user.Id;//assinging UserID of the selected user
-                skillCourseMember.CourseID = Convert.ToInt32(TempData["CourseID"]);//the id in the temp data is not int so we convert it
-                skillCourseMember.CourseName = TempData["CourseName"] as string;//same as id                
+                var user = await UserMgr.FindByNameAsync(skillCourseMember.UserName); //creating a temp user through username selected in the view
+                skillCourseMember.UserID = user.Id; //assinging UserID of the selected user
+                skillCourseMember.CourseID = Convert.ToInt32(TempData["CourseID"]); //the id in the temp data is not int so we convert it
+                skillCourseMember.CourseName = TempData["CourseName"] as string; //same as id                
                 skillCourseMember.Status = skillCourseMember.Status;
-                TempData.Keep();//keeping the temp data otherwise, skillCourseMember won't have CourseID and CourseName
+
+                //keeping the temp data otherwise, skillCourseMember won't have CourseID and CourseName
+                TempData.Keep(); 
                 _context.Add(skillCourseMember);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), "skillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of group members,
-                // without specifying the id, an empty list is shown
+
+                //redirecting back to the list of group members, without specifying the id, an empty list is shown
+                return RedirectToAction(nameof(Index), "skillCourseMembers", new { id = skillCourseMember.CourseID });
             }
             return View(skillCourseMember);
         }
@@ -209,6 +228,7 @@ namespace Login_System.Controllers
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new List<SkillCourseMember>();
             var userList = _context.SkillCourseMembers.Where(x => x.CourseID == id).ToList();
+
             foreach (var user in UserMgr.Users.Where(x=> x.Company==currentUser.Company))
             {
                 var tempUser = new SkillCourseMember
@@ -217,11 +237,14 @@ namespace Login_System.Controllers
                     CourseID = (int)id,
                     UserName = user.UserName
                 };
+
                 int index = userList.FindIndex(x => x.UserID == user.Id);
+
                 if (index >= 0)
                 {
                     tempUser.IsSelected = true;
                 }
+
                 else
                 {
                     tempUser.IsSelected = false;
@@ -238,10 +261,11 @@ namespace Login_System.Controllers
         {
          
             int courseID = 0;
+
             foreach (var member in courseMembers.Where(x => x.IsSelected))
             {
-
                 courseID = member.CourseID;
+
                 var tempMember = new SkillCourseMember
                 {
                     UserName = member.UserName,
@@ -249,12 +273,14 @@ namespace Login_System.Controllers
                     UserID = member.UserID,
                     Status = "Enrolled"
                 };
+
                 if (_context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)).Count() == 0)
                 {
                     _context.Add(tempMember);
                 }
             }
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 	
@@ -268,6 +294,7 @@ namespace Login_System.Controllers
             {
                 index++;
             }
+
             if (index == 0)
             {
                 SkillCourseMember model = new SkillCourseMember
@@ -280,19 +307,23 @@ namespace Login_System.Controllers
                     Status = "Enrolled",
                     CompletionDate = DateTime.MinValue
                 };
+
                 try
                 {
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                 }
+
                 catch
                 {
                     Console.WriteLine("Cannot join the course: An exception occured!");
                 }
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseJoinSuccess + tempCourse.CourseName + " !";
+
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseJoinFail;
+
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
@@ -310,12 +341,16 @@ namespace Login_System.Controllers
                 _context.Update(member);
                 await _context.SaveChangesAsync();
             }
+
             catch
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseCompleteFail;
+
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
+
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_CourseCompleteSuccess;
+
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
@@ -326,6 +361,7 @@ namespace Login_System.Controllers
             {
                 Id = id
             };
+
             return View(model);
         }
 
@@ -339,11 +375,14 @@ namespace Login_System.Controllers
                 _context.Update(tempMember);
                 await _context.SaveChangesAsync();
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GradeSuccess;
+
                 return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = tempMember.CourseID, courseName = tempMember.CourseName });
             }
+
             catch
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GradeFail;
+
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
         }
@@ -357,6 +396,7 @@ namespace Login_System.Controllers
             }
 
             var skillCourseMember = await _context.SkillCourseMembers.FindAsync(id);
+
             if (skillCourseMember == null)
             {
                 return NotFound();
@@ -376,40 +416,43 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-	    if(User.IsInRole("Admin") || User.Identity.Name == skillCourseMember.UserName)
-	    {
-		if (ModelState.IsValid)
-		{
-		    try
-		    {
-			if(skillCourseMember.Status == "Completed")
-			{
-			    skillCourseMember.CompletionDate = DateTime.Now;
-			    var lecourse = await _context.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
-			    skillCourseMember.DaysCompleted = lecourse.Length;
-                    }
-			else
-			{
-			    skillCourseMember.CompletionDate = DateTime.MinValue;
-			}
-			_context.Update(skillCourseMember);
-                    await _context.SaveChangesAsync();
-		    }
-		    catch (DbUpdateConcurrencyException)
-		    {
-			if (!SkillCourseMemberExists(skillCourseMember.Id))
-			{
-			    return NotFound();
-                    }
-			else
-			{
-			    throw;
-			}
-		    }
-		    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });//redirecting back to the list of course members,
-		}		
-	    }
-	    
+	        if(User.IsInRole("Admin") || User.Identity.Name == skillCourseMember.UserName)
+	        {
+		        if (ModelState.IsValid)
+		        {
+		            try
+		            {
+		                if(skillCourseMember.Status == "Completed")
+		                {
+			                skillCourseMember.CompletionDate = DateTime.Now;
+			                var lecourse = await _context.Courses.FirstOrDefaultAsync(m => m.id == skillCourseMember.CourseID);
+			                skillCourseMember.DaysCompleted = lecourse.Length;
+                        }
+
+		                else
+		                {
+			                skillCourseMember.CompletionDate = DateTime.MinValue;
+		                }
+		                _context.Update(skillCourseMember);
+                        await _context.SaveChangesAsync();
+		            }
+
+		            catch (DbUpdateConcurrencyException)
+		            {
+			            if (!SkillCourseMemberExists(skillCourseMember.Id))
+			            {
+			                return NotFound();
+                        }
+
+			            else
+			            {
+			                throw;
+			            }
+		            }
+                    //redirecting back to the list of course members
+                    return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID });
+		        }		
+	        }	    
             return View(skillCourseMember);
         }
 
@@ -424,6 +467,7 @@ namespace Login_System.Controllers
 
             var skillCourseMember = await _context.SkillCourseMembers
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (skillCourseMember == null)
             {
                 return NotFound();
@@ -441,6 +485,7 @@ namespace Login_System.Controllers
             var skillCourseMember = await _context.SkillCourseMembers.FindAsync(id);
             _context.SkillCourseMembers.Remove(skillCourseMember);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index), "SkillCourseMembers", new { id = skillCourseMember.CourseID});//redirecting back to the list of group members after deletion
         }
 

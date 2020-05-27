@@ -32,10 +32,12 @@ namespace Login_System.Controllers
             }
 
             TempData["UserID"] = id;
+
             if (source != null)
             {
                 TempData["Source"] = source;
             }
+
             else
             {
                 TempData["Source"] = "appuser";
@@ -45,6 +47,7 @@ namespace Login_System.Controllers
             TempData["UserName"] = tempUser.FirstName + " " + tempUser.LastName;
 
             var certificates = from c in _context.UserCertificates.Where(c => c.UserID == id) select c;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 certificates = certificates.Where(s => (s.CertificateName.Contains(searchString))|| (s.Organization.Contains(searchString)));
@@ -66,16 +69,19 @@ namespace Login_System.Controllers
                     certificates.Remove(certificate);
                 }
             }
+
             var model = new UserCertificate
             {
                 UserID = id,
                 UserName = tempUser.UserName,
             };
+
             model.CertificateList = certificates.Select(x => new SelectListItem
             {
                Value = x.Name,
                Text = x.Name
             });
+
             return View(model);
         }
 
@@ -87,11 +93,13 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
                 var certificate = _context.Certificates.Where(c => c.Name == userCertificate.CertificateName).ToList();
+
                 if (certificate.Count == 1)
                 {
                     userCertificate.CertificateID = certificate[0].Id;
                     userCertificate.Organization = certificate[0].Organization;
                 }
+
                 else
                 {
                     TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GeneralException;
@@ -101,6 +109,7 @@ namespace Login_System.Controllers
                 //Adding the complete model to the DB
                 _context.Add(userCertificate);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });
             }
             return View(userCertificate);
@@ -116,11 +125,14 @@ namespace Login_System.Controllers
 
             var userCertificate = await _context.UserCertificates
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (userCertificate == null)
             {
                 return NotFound();
             }
+
             TempData["source"] = source;
+
             return View(userCertificate);
         }
 
@@ -132,11 +144,11 @@ namespace Login_System.Controllers
             var userCertificate = await _context.UserCertificates.FindAsync(id);
             _context.UserCertificates.Remove(userCertificate);
             await _context.SaveChangesAsync();
+
             if (source != null && source == "details")
             {
                 return RedirectToAction("Details", "AppUsers", new { id = userCertificate.UserID });
             }
-
             return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID});
         }
 

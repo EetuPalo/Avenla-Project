@@ -32,18 +32,21 @@ namespace Login_System.Controllers
 
 	public async Task<IActionResult> Attend(int id)
 	{
-	    AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
+	        AppUser tempUser = await UserMgr.FindByNameAsync(User.Identity.Name);
             Lesson tempLesson = await _context.Lessons.FindAsync(id);
             int index = 0;
             int memberIndex = 0;
+
             foreach (var courseMember in _context.SkillCourseMembers.Where(x => (x.CourseID == tempLesson.CourseID) && (x.UserID == tempUser.Id)))
             {
                 memberIndex++;
-            }	    
+            }	
+            
             foreach (var member in _context.LessonUsers.Where(x => (x.LessonID == id) && (x.MemberName == User.Identity.Name)))
             {
                 index++;
             }
+
             if (index == 0 && memberIndex != 0)
             {
                 LessonUser model = new LessonUser
@@ -53,11 +56,13 @@ namespace Login_System.Controllers
                     LessonID = id,
                     Attending = true
                 };
+
                 try
                 {
                     _context.Add(model);
                     await _context.SaveChangesAsync();
                 }
+
                 catch
                 {
                     
@@ -79,6 +84,7 @@ namespace Login_System.Controllers
 
             var lesson = await _context.Lessons
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (lesson == null)
             {
                 return NotFound();
@@ -94,6 +100,7 @@ namespace Login_System.Controllers
             {
                 CourseID = id
             };
+
             return View(model);
         }
 
@@ -113,15 +120,17 @@ namespace Login_System.Controllers
                     LessonName = lesson.LessonName,
                     Location = lesson.Location
                 };
+
                 //We need to do some stuff with the string to get it to work as datetime. Thanks to the american date format
                 string tempDate = DateTime.ParseExact(lesson.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture).ToShortDateString();
-                //
                 tempDate += ' ' + lesson.HourString + ':' + lesson.MinuteString + ':' + "00";
                 tempLesson.Date = DateTime.Parse(tempDate, CultureInfo.CurrentCulture);
+
                 var tempCourse = _context.Courses.FirstOrDefault(x => x.id == lesson.CourseID);
                 tempLesson.CourseName = tempCourse.CourseName;
                 _context.Add(tempLesson);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index), "SkillCourses");
             }
             return View(lesson);
@@ -137,6 +146,7 @@ namespace Login_System.Controllers
             }
 
             var lesson = await _context.Lessons.FindAsync(id);
+
             if (lesson == null)
             {
                 return NotFound();
@@ -164,12 +174,14 @@ namespace Login_System.Controllers
                     _context.Update(lesson);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!LessonExists(lesson.Id))
                     {
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
@@ -191,23 +203,24 @@ namespace Login_System.Controllers
 
             var lesson = await _context.Lessons
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (lesson == null)
             {
                 return NotFound();
             }
-
             return View(lesson);
         }
 
         // POST: Lessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-	[Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lesson = await _context.Lessons.FindAsync(id);
             _context.Lessons.Remove(lesson);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

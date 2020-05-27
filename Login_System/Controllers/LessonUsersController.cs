@@ -40,6 +40,7 @@ namespace Login_System.Controllers
 
             var lessonUser = await _context.LessonUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (lessonUser == null)
             {
                 return NotFound();
@@ -54,6 +55,7 @@ namespace Login_System.Controllers
         {
             var model = new List<LessonUser>();
             var userList = _context.LessonUsers.Where(x => x.LessonID == id).ToList();
+
             foreach (var user in _context.SkillCourseMembers.Where(x => x.CourseID == courseId))
             {
                 var tempUser = new LessonUser
@@ -62,11 +64,14 @@ namespace Login_System.Controllers
                     LessonID = (int)id,
                     MemberName = user.UserName
                 };
+
                 int index = userList.FindIndex(x => x.MemberID == user.Id);
+
                 if (index >= 0)
                 {
                     tempUser.IsSelected = true;
                 }
+
                 else
                 {
                     tempUser.IsSelected = false;
@@ -84,9 +89,11 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Create(List<LessonUser> lessonUsers)
         {
             int lessonID = 0;
+
             foreach (var member in lessonUsers.Where(x => x.IsSelected))
             {
                 lessonID = member.LessonID;
+
                 var tempMember = new LessonUser
                 {
                     MemberName = member.MemberName,
@@ -94,12 +101,14 @@ namespace Login_System.Controllers
                     MemberID = member.MemberID,
                     Attending = true
                 };
+
                 foreach (var oldMem in _context.LessonUsers.Where(x => (x.LessonID == member.LessonID) && (x.MemberID == member.MemberID)))
                 {
                     _context.Remove(oldMem);
                 }
                 _context.Add(tempMember);
             }
+
             foreach (var member in lessonUsers.Where(x => !x.IsSelected))
             {
                 foreach (var gMem in _context.LessonUsers.Where(x => (x.LessonID == member.LessonID) && (x.MemberID == member.MemberID)))
@@ -107,7 +116,9 @@ namespace Login_System.Controllers
                     _context.Remove(gMem);
                 }
             }
+
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index), "SkillCourses");
         }
 
@@ -120,6 +131,7 @@ namespace Login_System.Controllers
             }
 
             var lessonUser = await _context.LessonUsers.FindAsync(id);
+
             if (lessonUser == null)
             {
                 return NotFound();
@@ -146,12 +158,14 @@ namespace Login_System.Controllers
                     _context.Update(lessonUser);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!LessonUserExists(lessonUser.Id))
                     {
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
@@ -173,6 +187,7 @@ namespace Login_System.Controllers
 
             var lessonUser = await _context.LessonUsers
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (lessonUser == null)
             {
                 return NotFound();
@@ -184,12 +199,13 @@ namespace Login_System.Controllers
         // POST: LessonUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-	[Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lessonUser = await _context.LessonUsers.FindAsync(id);
             _context.LessonUsers.Remove(lessonUser);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
