@@ -9,20 +9,8 @@ namespace Login_System.ViewModels
 {
     public class DashboardVM
     {
-        public UserSkillsVM UserSkills { get; set; }
-        public IList<SelectListItem> CertificateList { get; set; }
-
-        public IList<SelectListItem> GroupList { get; set; }
-        public IList<SelectListItem> SkillList { get; set; }
-
-        public IList<SelectListItem> CompanyList { get; set; }
-
-        public DashboardVM()
-        {
-            CertificateList = new List<SelectListItem>();
-            GroupList = new List<SelectListItem>();
-            SkillList = new List<SelectListItem>();
-            CompanyList = new List<SelectListItem>();
-        }
+        public List<UserSkills> UserSkills { get; set; }
+        public List<UserCertificate> UserCertificates { get; set; }
+        public List<SkillCourseMember> UserCourses { get; set; }
     }
 }
