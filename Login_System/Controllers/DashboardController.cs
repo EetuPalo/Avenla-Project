@@ -33,17 +33,59 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-
             var model = new DashboardVM();
-
+            
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;            
             ViewBag.CurrentUserLastName = user.FirstName;
             ViewBag.CurrentUserFirstName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;
             ViewBag.CurrentUserPhone = user.PhoneNumber;
+
+            if (id == null)
+            {
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+            //Finding the correct user
+            var appUser = await UserMgr.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            TempData["UserId"] = id;
+            //Populating the VM with group, course, and certificate info
+            var skillList = new List<UserSkills>();
+            //var courseList = new List<SkillCourseMember>();
+            //var certificateList = new List<UserCertificate>();
+            foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
+            {
+                skillList.Add(skill);
+                foreach (var items in skillList)
+                { 
+                var skillQueryDate = from t in _context.UserSkills
+                                     group t by t.UserID into g
+                                     select new { UserID = g.Key, Date = g.Max(t => t.Date) };
+                    foreach (var it in skillQueryDate.Where(x => x.Date == items.Date))
+                    {
+                        if (!skillList.Contains(skill)) 
+                        {
+                            skillList.Add(skill);
+                        }
+                    }
+                }
+            }
+            //foreach (var courseMember in _context.SkillCourseMembers.Where(x => x.UserID == id))
+            //{
+            //    courseList.Add(courseMember);
+            //}
+            //foreach (var userCertificate in _context.UserCertificates.Where(x => x.UserID == id))
+            //{
+            //    certificateList.Add(userCertificate);
+            //}
+            model.UserSkills = skillList;
+            //model.UserCourses = courseList;
+            //model.UserCertificates = certificateList;
 
             return View(model);
         }
