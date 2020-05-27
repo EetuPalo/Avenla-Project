@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -20,13 +17,11 @@ namespace Login_System.Controllers
             _context = context;
         }
 
-        // GET: Companies
         public async Task<IActionResult> Index()
         {
             return View(await _context.Company.ToListAsync());
         }
 
-        // GET: Companies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,13 +39,11 @@ namespace Login_System.Controllers
             return View(company);
         }
 
-        // GET: Companies/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Companies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +59,6 @@ namespace Login_System.Controllers
             return View(company);
         }
 
-        // GET: Companies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,7 +74,6 @@ namespace Login_System.Controllers
             return View(company);
         }
 
-        // POST: Companies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -117,7 +108,6 @@ namespace Login_System.Controllers
             return View(company);
         }
 
-        // GET: Companies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +125,6 @@ namespace Login_System.Controllers
             return View(company);
         }
 
-        // POST: Companies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

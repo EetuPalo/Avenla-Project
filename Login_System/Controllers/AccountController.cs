@@ -1,29 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.ViewModels;
 using System.Net.Mail;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using System.Web;
-using Microsoft.AspNetCore.ResponseCaching;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Mvc.Rendering;
 //using System.Web.Mvc;
 
 namespace Login_System.Controllers
 {
-   
-
     public class AccountController : Controller
     {
         private UserManager<AppUser> UserMgr { get; }
@@ -55,7 +46,7 @@ namespace Login_System.Controllers
         public IActionResult Register()
         {
             var model = new RegisterVM();
-            var tempList = new List<Company>();
+  
             foreach (var company in generalContext.Company)
             {
                 model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
@@ -89,6 +80,7 @@ namespace Login_System.Controllers
                 if (user == null)
                 {                    
                     user = new AppUser();
+
                     //we create a new user and set his credentials to the data received from the Register form.
                     user.UserName = fixedUn;
                     user.Email = newUser.EMail;
@@ -97,16 +89,15 @@ namespace Login_System.Controllers
                     user.PhoneNumber = newUser.PhoneNumber;
                     user.EmpStatus = "Active";
                     user.Company = newUser.Company;
-                    //we then create a new user through usermanager
-                    IdentityResult result;
-                    IdentityResult roleResult;
-                    result = await UserMgr.CreateAsync(user, newUser.Password);
+                    
+                        //we then create a new user through usermanager
+                    await UserMgr.CreateAsync(user, newUser.Password);
                     
 
                     //This is only for the case that DB roles is empty
                     if (await roleMgr.RoleExistsAsync("User"))
                     {
-                        roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                        await UserMgr.AddToRoleAsync(user, "User");
                     }
                     else
                     {
@@ -164,11 +155,7 @@ namespace Login_System.Controllers
                 if (result.Succeeded)
                 {
                     /* After User logs in, that user's "Active" field's value is changed to 'Active' */
-                    var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == tempUser.UserName);//find the user in the db
-                                                                                                          //appUser.Active = "Active";//set the value to active
-                    //_context.Users.Attach(appUser);//attach to the user object
-                    //_context.Entry(appUser).Property(x => x.Active).IsModified = true;//tell the db context method that the property vlaue has changed
-                    // _context.SaveChanges();//save changes to the DB
+                    var appUser = _context.Users.FirstOrDefault(acc => acc.UserName == tempUser.UserName);
 
                     // check if person who is trying to log in is inactive
                     
@@ -184,7 +171,6 @@ namespace Login_System.Controllers
                     //Sends the userID in viewbag to the view
                     ViewBag.UserID = appUser.Id;
                     return RedirectToAction("Index", "Home");
-                    
                 }
                 else
                 {
@@ -244,11 +230,9 @@ namespace Login_System.Controllers
 
                     var passwordResetLink = Url.Action("ResetPassword", "Account", new { Email = user.Email, token = token }, Request.Scheme);
 
-
                     SendEmail(passwordResetLink, user);
 
                     return View("PasswordEmailSent");
-
                 }
                 return View(user);
             }
@@ -262,7 +246,6 @@ namespace Login_System.Controllers
             //Check for real token, instead of anything
             if (email == null || token == null)
             {
-              
                 ModelState.AddModelError("", "Invalid token");
             }
 
@@ -270,15 +253,12 @@ namespace Login_System.Controllers
             {
                 return View("ResetPassword");
             }
-
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordVM user)
         {
-           
-            
             if (ModelState.IsValid)
             {
                 //search user by email
@@ -324,7 +304,6 @@ namespace Login_System.Controllers
             {
                 MailMessage mailMessage = new MailMessage("otto.kyllonen@hotmail.com", user.Email, "aihe", "Click this link to reset your password: " + link);
 
-
                 SmtpClient smptClient = new SmtpClient();
                 smptClient.Host = "smtp-mail.outlook.com";
                 smptClient.Port = 587;
@@ -341,13 +320,6 @@ namespace Login_System.Controllers
             {
                  string error = ex.StackTrace.ToString();
             }
-
-          
-
-        }
-
-       
+        }  
     }
-
-
 }

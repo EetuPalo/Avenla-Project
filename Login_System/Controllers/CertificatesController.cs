@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
@@ -20,7 +18,6 @@ namespace Login_System.Controllers
             _context = context;
         }
 
-        // GET: Certificates
         public async Task<IActionResult> Index(string searchString)
         {
             var certificates = from c in _context.Certificates select c;
@@ -32,11 +29,8 @@ namespace Login_System.Controllers
                 TempData["SearchValue"] = searchString;
             }
             return View(await certificates.ToListAsync());
-
-            //return View(await _context.Certificates.ToListAsync());
         }
 
-        // GET: Certificates/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -54,13 +48,11 @@ namespace Login_System.Controllers
             return View(certificate);
         }
 
-        // GET: Certificates/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Certificates/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -76,7 +68,6 @@ namespace Login_System.Controllers
             return View(certificate);
         }
 
-        // GET: Certificates/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,7 +83,6 @@ namespace Login_System.Controllers
             return View(certificate);
         }
 
-        // POST: Certificates/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -135,7 +125,6 @@ namespace Login_System.Controllers
             return View(certificate);
         }
 
-        // GET: Certificates/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,7 +142,6 @@ namespace Login_System.Controllers
             return View(certificate);
         }
 
-        // POST: Certificates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -163,7 +151,6 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool CertificateExists(int id)
         {
             return _context.Certificates.Any(e => e.Id == id);

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
-using Login_System.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 
@@ -65,15 +63,11 @@ namespace Login_System.Controllers
                     {
                         list.Add(item);
                     }
-                
                 }
-
             }
-
             return View(list);
         }
 
-        // GET: GroupMembers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -87,11 +81,9 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-
             return View(groupMember);
         }
 
-        // GET: GroupMembers/Create
 #nullable enable
         public async Task<IActionResult> Create(string? group, string? source, int id)
         {
@@ -121,7 +113,6 @@ namespace Login_System.Controllers
             TempData["Source"] = source;
             return View(model);
         }
-
         
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,6 +145,7 @@ namespace Login_System.Controllers
                 }
            }
            _context.SaveChanges();
+
             //Two possibilities for what the next page is
             //One for continuing the group creation process, the other for going to the groupmembers list
             if (source == "create")
@@ -167,7 +159,6 @@ namespace Login_System.Controllers
             }
         }
         
-        // GET: GroupMembers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -183,7 +174,6 @@ namespace Login_System.Controllers
             return View(groupMember);
         }
 
-        // POST: GroupMembers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -218,10 +208,8 @@ namespace Login_System.Controllers
             return View(groupMember);
         }
 
-        // GET: GroupMembers/Delete/5
         public async Task<IActionResult> Delete(int? id)
-        {
-            
+        {      
             if (id == null)
             {
                 return NotFound();
@@ -238,7 +226,6 @@ namespace Login_System.Controllers
             return View(groupMember);
         }
 
-        // POST: GroupMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

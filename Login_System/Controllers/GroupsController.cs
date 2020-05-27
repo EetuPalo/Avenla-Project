@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
-using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
@@ -50,7 +49,6 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-
             return View(@group);
         }
 
@@ -58,7 +56,6 @@ namespace Login_System.Controllers
         public IActionResult Create()
         {
             var model = new GroupVM();
-            var tempList = new List<Company>();
             foreach (var company in _context.Company)
             {
                 model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
@@ -103,7 +100,6 @@ namespace Login_System.Controllers
             return View(@group);
         }
 
-        // POST: Groups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -138,7 +134,6 @@ namespace Login_System.Controllers
             return View(@group);
         }
 
-        // GET: Groups/Delete/5
 #nullable enable
         public async Task<IActionResult> Delete(int? id, string? source)
         {
@@ -162,7 +157,6 @@ namespace Login_System.Controllers
             return View(@group);
         }
 
-        // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -182,6 +176,7 @@ namespace Login_System.Controllers
             }
             await _context.SaveChangesAsync();
             _context.Group.Remove(@group);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -194,7 +189,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Statistics(int id)
         {
             var model = new List<GroupStatisticsVM>();
-            //Getting the required tables from the db
+
             Group tempGroup = await _context.Group.FindAsync(id);
             var memberList = _context.GroupMembers.Where(g => g.GroupID == id).ToList();
             var goalList = _context.SkillGoals.Where(g => g.GroupName == tempGroup.name).ToList();

@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Login_System.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Identity;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
-using Resources;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
@@ -33,30 +25,28 @@ namespace Login_System.Controllers
 
         public async Task<IActionResult> Index(string Skill, string Certificate, string Groups, int? min, int? max)
         {
-
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
             var SkillList = new List<AppUser>();
             var GroupList = new List<AppUser>();
-            var CertList = new List<AppUser>();
-          
+            var CertList = new List<AppUser>();         
 
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;
 
-            //Populating the dropdown with certificates
+            //Populating certificate dropdown with certificates
             foreach (var certificate in _context.Certificates)
             {
                 model.CertificateList.Add(new SelectListItem() { Text = certificate.Name, Value = certificate.Name });
             }
 
-            // Populating the dropdown with groups
+            // Populating group dropdown with groups
             foreach (var group in _context.Group)
             {
                 model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.name });
             }
 
-            // Populating the dropdown with skills
+            // Populating skill dropdown with skills
             foreach (var skill in _context.Skills)
             {
                 model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
@@ -126,14 +116,12 @@ namespace Login_System.Controllers
             userList = userList.OrderBy(x=> x.Company != user.Company).ToList();
             model.Users = userList;
             
-
             return View(model);
         }
 
         // Skill Filter
         public List<AppUser> SkillFilter(List<AppUser> SkillList, string Skill, int? min, int? max)
         {
-
             var skillQuery = from m in _context.UserSkills
                              where m.SkillName == Skill
                              select m;
@@ -167,7 +155,6 @@ namespace Login_System.Controllers
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -203,7 +190,6 @@ namespace Login_System.Controllers
                              where i.name == Groups
                              select i;
 
-
             foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == Groups))
             {
                 foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserID))
@@ -217,8 +203,6 @@ namespace Login_System.Controllers
             }
             return GroupList;
         }
-
     }
-
 }
 

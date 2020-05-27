@@ -5,19 +5,10 @@ using System.Threading.Tasks;
 using Login_System.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Login_System.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Identity;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
-using Resources;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
-using System.Runtime.CompilerServices;
-using RestSharp;
 
 namespace Login_System.Controllers
 {
@@ -27,7 +18,6 @@ namespace Login_System.Controllers
         private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
 
-        
         public DashboardController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;

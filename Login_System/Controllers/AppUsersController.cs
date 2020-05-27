@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -30,13 +29,7 @@ namespace Login_System.Controllers
             UserMgr = userManager;
             SignInMgr = signInManager;
             this.roleManager = roleManager;
-            /*
-            groupContext = gContext;
-            memberContext = memContext;
-            userSkillContext = uskillCon;
-            courseMemberContext = cMemCon;           
-            userCertificateContext = userCertCon;
-            */
+
             dataContext = dataCon;
             CompanyList = CompList;
         }
@@ -55,6 +48,7 @@ namespace Login_System.Controllers
             var employees = from e in _context.Users  where e.Company == user.Company select e;
             TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
             TempData["SearchValue"] = null;
+            
             //SEARCH
             //The search searches by name, email, phone
             if (!String.IsNullOrEmpty(searchString))
@@ -206,7 +200,6 @@ namespace Login_System.Controllers
                     }
                     catch
                     {
-                        //Console.WriteLine("An error occured but the account may have still been created. Check the account list!");
                         TempData["CreateStatus"] = Resources.ActionMessages.CreateStatus_Error;
                     }
                    
@@ -220,7 +213,6 @@ namespace Login_System.Controllers
                 }
             }
             return View(appUser);
-
         }
 
         // GET: AppUsers/Edit/5
@@ -228,8 +220,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             //EDIT has been changed so now edting of user groups, and roles can be edited from the same page. Other edit routes are still available
-            //but this is by far the easiest when you're only editing one user.
-
+          
             EditUserVM mainModel = new EditUserVM();
             //GROUP//
             ViewBag.UserId = id;
@@ -269,8 +260,6 @@ namespace Login_System.Controllers
             }
             mainModel.Roles = roleList;
 
-            ////////
-
             if (User.IsInRole("Admin") || UserMgr.GetUserId(User) == id.ToString())
             {
                 if (id == null)
@@ -296,8 +285,6 @@ namespace Login_System.Controllers
                 appUser.TempUserName = tempUser.UserName;
                 return View(mainModel);
             }
-
-
             return View();
         }
 
@@ -459,7 +446,7 @@ namespace Login_System.Controllers
                 return View();
             }
         }
-        // GET: AppUsers/Delete/5
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -483,7 +470,6 @@ namespace Login_System.Controllers
             return View(appUser);
         }
 
-        // POST: AppUsers/Delete/5
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -507,7 +493,6 @@ namespace Login_System.Controllers
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
                 return RedirectToAction("Index");
             }
-            //
 
             _context.Users.Remove(appUser);
             await _context.SaveChangesAsync();
@@ -614,9 +599,8 @@ namespace Login_System.Controllers
                 {
                     continue;
                 }
-                //var role = await groupContext.FindByIdAsync(model[i].id.ToString());
-                await dataContext.SaveChangesAsync();
 
+                await dataContext.SaveChangesAsync();
             }
             
             string? source = TempData["Source"].ToString();
@@ -628,8 +612,6 @@ namespace Login_System.Controllers
             {
                 return RedirectToAction("Index", "AppUsers");
             }
-            
         } 
     }
-
 }

@@ -195,8 +195,7 @@ namespace Login_System.Controllers
                     return RedirectToAction("ListRoles");
                 }
             }
-            //
-
+           
             if (role == null)
             {
                 return RedirectToAction("Error");
@@ -279,7 +278,6 @@ namespace Login_System.Controllers
                         return RedirectToAction("Edit", "AppUsers", new { Id = id });
                     }
                 }
-                //
 
                 IdentityResult result = null;
 
@@ -369,11 +367,8 @@ namespace Login_System.Controllers
                 {
                     TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteException;
                     return RedirectToAction(nameof(ListRoles));
-                }
-               
+                }      
             }
         }
-
-
     }
 }
