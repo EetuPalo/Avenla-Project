@@ -90,7 +90,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@Resources.Skills.Index_Skill</h5>
                     <p class="card-text">@foreach (var item in Model.UserSkills)
-                    {@Html.DisplayFor(modelItem => item.SkillName)} </p>
+                    {<p>@Html.DisplayFor(modelItem => item.SkillName)</p>} </p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>

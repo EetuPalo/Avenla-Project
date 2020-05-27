@@ -60,19 +60,16 @@ namespace Login_System.Controllers
             //var certificateList = new List<UserCertificate>();
             foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
             {
-                skillList.Add(skill);
-                foreach (var items in skillList)
-                { 
                 var skillQueryDate = from t in _context.UserSkills
                                      group t by t.UserID into g
                                      select new { UserID = g.Key, Date = g.Max(t => t.Date) };
-                    foreach (var it in skillQueryDate.Where(x => x.Date == items.Date))
+                foreach (var it in skillQueryDate.Where(x => x.Date == skill.Date))
+                {
+     
+                    if (!skillList.Contains(skill))
                     {
-                        if (!skillList.Contains(skill)) 
-                        {
-                            skillList.Add(skill);
-                        }
-                    }
+                        skillList.Add(skill);
+                    }  
                 }
             }
             //foreach (var courseMember in _context.SkillCourseMembers.Where(x => x.UserID == id))
