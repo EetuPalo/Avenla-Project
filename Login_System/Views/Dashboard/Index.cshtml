@@ -96,3 +96,32 @@
             </div>
         </div>
     </div>
+<div class="row">
+    @if (User.IsInRole("User"))
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Resources.Resources.UCertificates_Index_Cert //certificate</h5>
+                    <p class="card-text">
+                        @foreach (var item in Model.UserCertificates)
+                        {
+                        <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>} </p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+            </div>
+        </div>
+    }
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title // course</h5>
+                <p class="card-text">
+                    @foreach (var item in Model.UserCourses)
+                    {
+                    <p>@Html.DisplayFor(modelItem => item.CourseName)</p>} </p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
