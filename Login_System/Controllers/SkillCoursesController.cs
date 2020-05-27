@@ -31,18 +31,23 @@ namespace Login_System.Controllers
             var courses = from c in _context.Courses select c;
             TempData["SearchString"] = Resources.Courses.Index_Search;
             TempData["SearchValue"] = null;
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 courses = courses.Where(s => (s.CourseName.Contains(searchString) || s.CourseContents.Contains(searchString)));
                 TempData["SearchValue"] = searchString;
             }
+
             //Checking if user has already enrolled on a course
             AppUser tempUser = await UserMgr.GetUserAsync(User);
+
             foreach (var course in courses)
             {
                 var dateList = new List<DateTime>();
-                //Clearing the datelist for every course
+
+                // Clearing the datelist for every course
                 dateList.Clear();
+
                 foreach (var member in _context.SkillCourseMembers.Where(x => (x.UserID == tempUser.Id) && (x.CourseID == course.id)))
                 {
                     course.MemberStatus = true;
@@ -51,10 +56,12 @@ namespace Login_System.Controllers
                         course.CompleteStatus = true;
                     }
                 }
+
                 foreach (var tempLesson in _context.Lessons.Where(x => x.CourseID == course.id))
                 {
                     dateList.Add(tempLesson.Date);
                 }
+
                 if (dateList.Count > 0)
                 {
                     string minDate = dateList.Min().ToShortDateString();
@@ -62,13 +69,16 @@ namespace Login_System.Controllers
                     string duration = minDate + " - " + maxDate;
                     tempDuration.Add(course.id, duration);
                 }
+
                 else
                 {
                     tempDuration.Add(course.id, "No duration set");
                 }              
             }
+
             model.Courses = courses.ToList();            
             var lessons = _context.Lessons.ToList();
+
             foreach (var lesson in lessons)
             {
                 foreach (var user in _context.LessonUsers.Where(x => (x.MemberID == tempUser.Id)))
@@ -77,6 +87,7 @@ namespace Login_System.Controllers
                     {
                         lesson.LessonStatus = true;
                     }
+
                     else
                     {
                         if (lesson.LessonStatus != true)
@@ -88,6 +99,7 @@ namespace Login_System.Controllers
             }
             model.Lessons = lessons;
             model.Durations = tempDuration;
+
             return View(model);
         }
 
@@ -101,11 +113,11 @@ namespace Login_System.Controllers
 
             var skillCourse = await _context.Courses
                 .FirstOrDefaultAsync(m => m.id == id).ConfigureAwait(false);
+
             if (skillCourse == null)
             {
                 return NotFound();
             }
-
             return View(skillCourse);
         }
 	
@@ -128,6 +140,7 @@ namespace Login_System.Controllers
             {
                 _context.Add(skillCourse);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(skillCourse);
@@ -143,6 +156,7 @@ namespace Login_System.Controllers
             }
 
             var skillCourse = await _context.Courses.FindAsync(id);
+
             if (skillCourse == null)
             {
                 return NotFound();
@@ -172,6 +186,7 @@ namespace Login_System.Controllers
                     }
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
+
                 catch
                 {
 
@@ -182,6 +197,7 @@ namespace Login_System.Controllers
                     _context.Update(skillCourse);
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!SkillCourseExists(skillCourse.id))
@@ -209,6 +225,7 @@ namespace Login_System.Controllers
 
             var skillCourse = await _context.Courses
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (skillCourse == null)
             {
                 return NotFound();
@@ -226,6 +243,7 @@ namespace Login_System.Controllers
             var skillCourse = await _context.Courses.FindAsync(id);
             _context.Courses.Remove(skillCourse);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

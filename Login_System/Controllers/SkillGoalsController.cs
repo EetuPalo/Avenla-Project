@@ -36,8 +36,8 @@ namespace Login_System.Controllers
 
             TempData["GroupName"] = name;
             TempData["Group"] = name;
-
             TempData["GroupID"] = _context.Group.Where(x => x.name == name).First().id;
+
             if (date == null && name != null)
             {
                 //We can't pass a date if we are accessing the view from the groups index
@@ -73,6 +73,7 @@ namespace Login_System.Controllers
                     return View(model);
                 }
                 Console.WriteLine("No entries have been found!");
+
                 return View(_context.SkillGoals.ToList());
             }
 
@@ -83,6 +84,7 @@ namespace Login_System.Controllers
         public IActionResult RefreshIndex([Bind("GroupName, SelectedDate")]SkillGoalIndexVM goal)
         {
             TempData["LatestDate"] = goal.SelectedDate;
+
             return RedirectToAction(nameof(Index), "SkillGoals", new { name = goal.GroupName, date = goal.SelectedDate });
         }
         public IActionResult ListByDate(string name)
@@ -93,11 +95,14 @@ namespace Login_System.Controllers
             }
 
             var model = new List<SkillGoals>();
+
             foreach (var item in _context.SkillGoals.Where(x => x.SkillName == name))
             {
                 model.Add(item);
             }
+
             TempData.Keep();
+
             return View(model);
         }
 
@@ -110,6 +115,7 @@ namespace Login_System.Controllers
             }
             var skillGoals = await _context.SkillGoals
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (skillGoals == null)
             {
                 return NotFound();
@@ -121,11 +127,10 @@ namespace Login_System.Controllers
         public IActionResult Create(string name)
         {
             var model = new CreateSkillGoalsVM();
+            var listModel = new List<SkillGoals>();
             DateTime date = DateTime.Now;
             int dictKey = 0;
             model.SkillCounter = 0;
-
-            var listModel = new List<SkillGoals>();
 
             foreach (var skill in _context.Skills)
             {
@@ -139,6 +144,7 @@ namespace Login_System.Controllers
                 dictKey++;
                 model.SkillCounter++;
             }
+
             model.SkillGoals = listModel;
             model.Skills = _context.Skills.Select(x => new SelectListItem
             {
@@ -174,6 +180,7 @@ namespace Login_System.Controllers
                     todayList.Add(goal);
                 }
             }
+
             for (int i = 0; i < goals.SkillCounter; i++)
             {
                 try
@@ -187,11 +194,13 @@ namespace Login_System.Controllers
                     };
                     model.Add(tempModel);
                 }
+
                 catch
                 {
                     Console.WriteLine("Error occured at loop " + i);
                 }
             }
+
             foreach (var skill in _context.Skills)
             {
                 var index = model.FindIndex(item => item.SkillName == skill.Skill);
@@ -217,11 +226,13 @@ namespace Login_System.Controllers
                 {
                     negModel.Add(entry);
                 }
+
                 else if (entry.SkillGoal >= 0)
                 {
                     plusModel.Add(entry);
                 }
             }
+
             foreach (var negEntry in negModel)
             {
                 var index = plusModel.FindIndex(item => item.SkillName == negEntry.SkillName);
@@ -230,11 +241,11 @@ namespace Login_System.Controllers
                     combModel.Add(negEntry);
                 }
             }
+
             foreach (var entry in plusModel)
             {
                 combModel.Add(entry);
             }
-
 
             foreach (var entry in combModel)
             {
@@ -266,10 +277,12 @@ namespace Login_System.Controllers
             }
 
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSet;
+
             if (source == "create")
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSetAddUser;
                 TempData["ActionPhase"] = "[3/3]";
+
                 return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  groupId, group = groupName});
             }
             return RedirectToAction(nameof(Index), new { name = groupName});
@@ -287,11 +300,13 @@ namespace Login_System.Controllers
             }
 
             var skillGoals = await _context.SkillGoals.FindAsync(id);
+
             if (skillGoals == null)
             {
                 return NotFound();
             }
             ViewBag.GroupName = groupName;
+
             return View(skillGoals);
         }
 
@@ -312,18 +327,21 @@ namespace Login_System.Controllers
                     _context.Update(skillGoals);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!SkillGoalsExists(skillGoals.Id))
                     {
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
                     }
                 }
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalEdited;
+
                 return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
             }
             return View(skillGoals);
@@ -339,6 +357,7 @@ namespace Login_System.Controllers
 
             var skillGoals = await _context.SkillGoals
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (skillGoals == null)
             {
                 return NotFound();
@@ -357,6 +376,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
 
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalDeleted;
+
             return RedirectToAction(nameof(Index), new { name = TempData.Peek("GroupName") });
         }
 
@@ -367,6 +387,7 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
+
             else
             {
                 try
@@ -381,6 +402,7 @@ namespace Login_System.Controllers
                     await _context.SaveChangesAsync();
                     TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalDeleted;
                 }
+
                 catch
                 {
                     TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalDeletedFail;
@@ -417,11 +439,11 @@ namespace Login_System.Controllers
                     dateList.Add(item.Date.ToString("dd.MM.yyyy"));
                 }               
             }
+
             foreach (var date in dateList)
             {
                 ls.Add(new SelectListItem() { Text = date, Value = date });
             }
-
             return ls;
         }
 
@@ -430,6 +452,7 @@ namespace Login_System.Controllers
             var goalList = _context.SkillGoals.ToList();
             var dateList = new List<DateTime>();
             DateTime maxDate;
+
             foreach (var goal in goalList)
             {
                 if (!dateList.Contains(goal.Date))
@@ -437,10 +460,12 @@ namespace Login_System.Controllers
                     dateList.Add(goal.Date);
                 }
             }
+
             if (dateList.Count() != 0)
             {
                 maxDate = dateList.Max();
             }
+
             else
             {
                 maxDate = DateTime.Now;
@@ -459,10 +484,12 @@ namespace Login_System.Controllers
                     dateList.Add(goal.Date);
                 }
             }
+
             if (dateList.Count() != 0)
             {
                 maxDate = dateList.Max();
             }
+
             else
             {
                 maxDate = DateTime.Now;
@@ -480,7 +507,9 @@ namespace Login_System.Controllers
             {
                 dateList.Add(skillGoal.Date);
             }
+
             var dateResult = dateList.Max();
+
             foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == goal.GroupName) && (x.SkillName == goal.SkillName) && (x.Date == dateResult)))
             {
                 currentGoal = skillGoal.SkillGoal;

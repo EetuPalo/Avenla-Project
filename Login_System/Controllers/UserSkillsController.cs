@@ -42,25 +42,28 @@ namespace Login_System.Controllers
                 id = Convert.ToInt32(TempData.Peek("UserId"));
                 TempData.Keep();                
             }
+
             else
             {
                 TempData["UserId"] = id;
             }
+
             //if it's still null
             if (id == null || id == 0)
             {
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
+
             //Month and year are needed for the graph
             if (!month.HasValue)
             {
                 month = DateTime.Now.Month;
             }
+
             if (!year.HasValue)
             {
                 year = DateTime.Now.Year;
-            }
-            //
+            }            
 
             //Some data that will be shown in the view
             uId = (int)id;
@@ -90,6 +93,7 @@ namespace Login_System.Controllers
                 {
                     month = item.Date.Month;
                     year = item.Date.Year;
+
                     if (!tempDate.Contains(item.Date.ToString()))
                     {
                         i++;
@@ -103,6 +107,7 @@ namespace Login_System.Controllers
                         model.Add(tempModel);
                     }
                     tempDate.Add(item.Date.ToString());
+
                     if (item.Date.Month == month && item.Date.Year == year)
                     {
                         skillnames.Add(item.SkillName);
@@ -121,6 +126,7 @@ namespace Login_System.Controllers
                     if (!tempDate.Contains(item.Date.ToString()))
                     {
                         i++;
+
                         var tempModel = new DateListVM
                         {
                             Date = item.Date,
@@ -145,6 +151,7 @@ namespace Login_System.Controllers
             ViewBag.DataPoint = dataPoints.ToArray();
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
+
             return View(model);
         }
 
@@ -179,6 +186,7 @@ namespace Login_System.Controllers
                     goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
                 }
             }
+
             catch
             {
                 Console.WriteLine("ERROR: An exception occured in listing goals.");
@@ -201,6 +209,7 @@ namespace Login_System.Controllers
                     tempName = tempDateList.Max().ToString("dd.MM.yyyy HH.mm");
                     TempData["Date"] = tempName;
                 }
+
                 catch
                 {
                     Console.WriteLine("ERROR: An exception occured when fetching latest entries.");
@@ -243,6 +252,7 @@ namespace Login_System.Controllers
                                 {
                                     dateList[group.GroupName] = goal.Date;
                                 }
+
                                 else if (!dateList.ContainsKey(group.GroupName))
                                 {
                                     dateList.Add(group.GroupName, goal.Date);
@@ -258,6 +268,7 @@ namespace Login_System.Controllers
                             }
                         }
                         usrSkill.SkillGoal = skillGoal;
+
                         if (usrSkill != null)
                         {
                             model.Add(usrSkill);
@@ -270,10 +281,12 @@ namespace Login_System.Controllers
                 try
                 {
                     var levelList = new Dictionary<string, int>();
+
                     foreach (var skill in model)
                     {
                         levelList.Add(skill.SkillName, skill.SkillLevel);
                     }
+
                     TempData["MinSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Min()).Key;
                     TempData["MaxSkillLabel"] = levelList.FirstOrDefault(x => x.Value == levelList.Values.Max()).Key;
 
@@ -283,6 +296,7 @@ namespace Login_System.Controllers
                     double avrg = levelList.Values.Average();
                     TempData["AverageScore"] = String.Format("{0:0.00}", avrg);
                 }
+
                 catch
                 {
                     Console.WriteLine("ERROR");
@@ -294,8 +308,10 @@ namespace Login_System.Controllers
                 }
                 //------
                 TempData.Keep();
+
                 return View(model);
             }
+
             else
             {
                 return View();
@@ -312,6 +328,7 @@ namespace Login_System.Controllers
 
             var userSkills = await _context.UserSkills
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (userSkills == null)
             {
                 return NotFound();
@@ -343,11 +360,13 @@ namespace Login_System.Controllers
                     foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == group.name))
                     {
                         DateTime value = goal.Date;
+
                         //If group is already in the dict, only the date is replaced
                         if (dateList.ContainsKey(group.name))
                         {
                             dateList[group.name] = value;
                         }
+
                         //Else it creates a new entry
                         else
                         {
@@ -360,6 +379,7 @@ namespace Login_System.Controllers
             
             DateTime latestDate = DateTime.Now;
             var latestDateList = new List<DateTime>();
+
             if (dateList.Count() != 0)
             {
                 foreach (var key in dateList.Keys)
@@ -367,6 +387,7 @@ namespace Login_System.Controllers
                     latestDateList.Add(dateList[key]);
                 }
             }
+
             else
             {
                 latestDate = DateTime.Now;
@@ -393,6 +414,7 @@ namespace Login_System.Controllers
             }
             int dictKey = 0;
             TempData.Keep();
+
             //This is only executed if there are skills that need to be in the form
             if (skillList.Count() != 0)
             {
@@ -403,12 +425,14 @@ namespace Login_System.Controllers
                     dictKey++;
                 }
                 model.SkillList = tempList;
+
                 return View(model);
             }
             else
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AddToGroup;
                 TempData["Status"] = Resources.ActionMessages.ActionResult_GeneralFail;
+
                 return RedirectToAction(nameof(SkillList), "UserSkills", new { id = id, name = "latest" });
             }
         }
@@ -441,6 +465,7 @@ namespace Login_System.Controllers
                 {
                     tempModel.AdminEval = "Admin Evaluation";
                 }
+
                 else
                 {
                     tempModel.AdminEval = "Self Assessment";
@@ -455,8 +480,8 @@ namespace Login_System.Controllers
                 _context.Add(entry);                
             }
             await _context.SaveChangesAsync();
-
             TempData.Keep();
+
             return RedirectToAction(nameof(SkillList), "UserSkills", new { id = userId, name = "latest" });
         }
 
@@ -473,8 +498,8 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-
             TempData.Keep();
+
             return View(userSkills);
         }
 
@@ -502,12 +527,14 @@ namespace Login_System.Controllers
                     _context.Update(userSkills);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UserSkillsExists(Convert.ToInt32(userSkills.Id)))
                     {
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
@@ -527,6 +554,7 @@ namespace Login_System.Controllers
 
             var userSkills = await _context.UserSkills
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (userSkills == null)
             {
                 return NotFound();
@@ -545,6 +573,7 @@ namespace Login_System.Controllers
             {
                 ViewBag.Date = date;
             }
+
             catch
             {
                 ViewBag.Date = Resources.ActionMessages.ViewBag_InvalidDate;
@@ -574,6 +603,7 @@ namespace Login_System.Controllers
                 _context.Update(skill);
             }
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = id });
         }
         
@@ -585,6 +615,7 @@ namespace Login_System.Controllers
             var userSkills = await _context.UserSkills.FindAsync(id);            
             _context.UserSkills.Remove(userSkills);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(SkillList), "UserSkills", new { id = userSkills.UserID, name = userSkills.Date.ToString("dd/MM/yyyy+HH/mm") });
         }
 
@@ -599,6 +630,7 @@ namespace Login_System.Controllers
                 }
             }
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(ListByDate), "UserSkills", new { id = id });
         }
 
@@ -611,14 +643,14 @@ namespace Login_System.Controllers
         public int CountEntries(string skillName)
         {
             int entryCount = 0;
-
             int userId = Convert.ToInt32(TempData["UserId"]);
+
             foreach (var skill in _context.UserSkills.Where(x => (x.SkillName == skillName) && (x.UserID == userId)))
             {
                 entryCount++;
             }
-
             TempData.Keep();
+
             return entryCount;
         }
 
@@ -632,8 +664,10 @@ namespace Login_System.Controllers
             {
                 allDates.Add(skill.Date);
             }
+
             latestDate = allDates.Max();
             TempData.Keep();
+
             return latestDate;
         }
 
@@ -641,11 +675,14 @@ namespace Login_System.Controllers
         {
             int latestEval = 0;
             int userId = Convert.ToInt32(TempData["UserId"]);
+
             foreach (var skill in _context.UserSkills.Where(x => (x.SkillName == skillName) && (x.UserID == userId) && (x.Date == latestDate)))
             {
                 latestEval = skill.SkillLevel;
             }
+
             TempData.Keep();
+
             return latestEval;
         }
     }

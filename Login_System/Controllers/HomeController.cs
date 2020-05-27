@@ -56,11 +56,7 @@ namespace Login_System.Controllers
                     //HttpOnly = false,
                 }
             );
-
             return LocalRedirect(returnUrl);
         }
-
-
-
     }
 }
