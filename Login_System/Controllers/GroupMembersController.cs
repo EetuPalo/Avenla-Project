@@ -93,11 +93,12 @@ namespace Login_System.Controllers
 
         // GET: GroupMembers/Create
 #nullable enable
-        public IActionResult Create(string? group, string? source, int id)
+        public async Task<IActionResult> Create(string? group, string? source, int id)
         {
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new List<GroupUser>();
             var groupMemList = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
-            foreach (var user in UserMgr.Users)
+            foreach (var user in UserMgr.Users.Where(x=> x.Company == currentUser.Company))
             {
                 var tempUser = new GroupUser
                 {
