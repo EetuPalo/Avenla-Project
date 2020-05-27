@@ -204,11 +204,12 @@ namespace Login_System.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult AddUsers(int id)
+        public async Task<IActionResult> AddUsers(int id)
         {
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new List<SkillCourseMember>();
             var userList = _context.SkillCourseMembers.Where(x => x.CourseID == id).ToList();
-            foreach (var user in UserMgr.Users)
+            foreach (var user in UserMgr.Users.Where(x=> x.Company==currentUser.Company))
             {
                 var tempUser = new SkillCourseMember
                 {
@@ -235,9 +236,11 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddUsers(List<SkillCourseMember> courseMembers)
         {
+         
             int courseID = 0;
             foreach (var member in courseMembers.Where(x => x.IsSelected))
             {
+
                 courseID = member.CourseID;
                 var tempMember = new SkillCourseMember
                 {
