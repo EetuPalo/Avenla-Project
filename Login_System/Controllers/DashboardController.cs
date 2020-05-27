@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
 using System.Runtime.CompilerServices;
+using RestSharp;
 
 namespace Login_System.Controllers
 {
@@ -34,6 +35,7 @@ namespace Login_System.Controllers
         }
         public async Task<IActionResult> Index()
         {
+
             var model = new DashboardVM();
 
             var user = await UserMgr.GetUserAsync(HttpContext.User);
@@ -42,7 +44,6 @@ namespace Login_System.Controllers
             ViewBag.CurrentUserFirstName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;
             ViewBag.CurrentUserPhone = user.PhoneNumber;
-
 
             return View(model);
         }

@@ -12,7 +12,6 @@
         <div class="col-sm">
             <label asp-for="Skill">@Resources.Skills.Index_Skill</label>
             @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Resources.Skill_Dropdownlist, new { @class = "form-control col-sm" })
-            <!--Skills<input class="form-control" id="search-bar" type="text" name="Skills" placeholder=@TempData["SkillsString"] value="@TempData["SkillsValue"]">-->
         </div>
         <div class="col-sm"></div>
         <div class="col-sm"></div>
