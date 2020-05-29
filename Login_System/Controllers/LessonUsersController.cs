@@ -50,7 +50,7 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers/Create
-	    [Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin, Superadmin")]
         public IActionResult Create(int id, int courseId)
         {
             var model = new List<LessonUser>();
@@ -177,7 +177,7 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers/Delete/5
-	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -199,7 +199,7 @@ namespace Login_System.Controllers
         // POST: LessonUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-	    [Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lessonUser = await _context.LessonUsers.FindAsync(id);

@@ -53,7 +53,7 @@
                     </dd>
                 </dl>
                 <div class="row mt-2">
-                    @if (User.IsInRole("Admin") || User.Identity.Name == Model.UserName)
+                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
                     {
                         <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
                     }

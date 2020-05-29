@@ -57,7 +57,7 @@
                   {
                       @foreach (var user in Model.Users)
                       {
-                          @if (ViewBag.CurrentCompany == user.Company)
+                          @if (ViewBag.CurrentCompany == user.Company || User.IsInRole("Superadmin"))
                           {
                               <tr>
                                   <td>@user.FirstName</td>

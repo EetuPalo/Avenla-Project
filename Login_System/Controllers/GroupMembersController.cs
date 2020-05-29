@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Superadmin")]
     public class GroupMembersController : Controller
     {
         private readonly GeneralDataContext _context;
@@ -59,7 +59,7 @@ namespace Login_System.Controllers
             {
                 foreach(AppUser appuser in UserMgr.Users.Where(x=> x.Id == item.UserID))
                 {
-                    if(appuser.Company == user.Company)
+                    if(appuser.Company == user.Company || User.IsInRole("Superadmin"))
                     {
                         list.Add(item);
                     }
@@ -90,7 +90,7 @@ namespace Login_System.Controllers
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new List<GroupUser>();
             var groupMemList = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
-            foreach (var user in UserMgr.Users.Where(x=> x.Company == currentUser.Company))
+            foreach (var user in User.IsInRole("Superadmin")? UserMgr.Users : UserMgr.Users.Where(x => x.Company == currentUser.Company))
             {
                 var tempUser = new GroupUser
                 {

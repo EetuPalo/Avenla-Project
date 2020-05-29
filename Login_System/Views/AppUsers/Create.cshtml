@@ -37,10 +37,16 @@
                         <input asp-for="PhoneNumber" class="form-control" placeholder=@Resources.Resources.Phone />
                         <span asp-validation-for="PhoneNumber"></span>
                     </div>
-                    <div>
-                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
-
-                    </div>
+                    @if (User.IsInRole("Superadmin"))
+                    {
+                        <div>
+                            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
+                    }
                     <div class="form-group">
                         <label asp-for="Password"></label>
                         <input asp-for="Password" class="form-control" placeholder=@Resources.Resources.Password />

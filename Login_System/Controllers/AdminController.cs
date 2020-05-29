@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles= "Admin")]
+    [Authorize(Roles= "Admin, Superadmin")]
     public class AdminController : Controller
     {
         private readonly RoleManager<AppRole> roleManager;
@@ -99,7 +99,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> EditRole(EditRole roleModel)
         {
             //Roles "Admin" and "User" can't be edited.
-            if (roleModel.OldName != "Admin" && roleModel.OldName != "User")
+            if (roleModel.OldName != "Admin" && roleModel.OldName != "User" && roleModel.OldName != "Superadmin")
             {
                 var role = await roleManager.FindByIdAsync(roleModel.Id);
 
@@ -125,7 +125,7 @@ namespace Login_System.Controllers
                     return View(roleModel);
                 }
             }
-            else if (roleModel.OldName == "Admin" || roleModel.OldName == "User")
+            else if (roleModel.OldName == "Admin" || roleModel.OldName == "User" || roleModel.OldName != "Superadmin")
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_NoPermissionRole;
                 return RedirectToAction("ListRoles");
@@ -181,7 +181,7 @@ namespace Login_System.Controllers
             var role = await roleManager.FindByIdAsync(roleId);
 
             //Protects from removing all admin users
-            if (role.Name == "Admin")
+            if (role.Name == "Admin" || role.Name == "Superadmin")
             {
                 int counter = 0;
                 foreach (var user in model.Where(x => x.IsSelected))

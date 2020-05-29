@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User, Admin, Superadmin")]
     public class UserSkillsController : Controller
     {
         private readonly GeneralDataContext _context;

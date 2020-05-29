@@ -25,7 +25,7 @@
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
             </div>
             <div class="col-sm float-right">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin")|| User.IsInRole("Superadmin"))
                 {
                     <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Employee_Index_Create</a>
                 }
@@ -80,10 +80,10 @@
                     </td>
                     @*Giving admin users access to every user's edit methods and the current user to his own*@
                     <td colspan="2">
-                        @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+                        @if (User.IsInRole("Admin") | User.IsInRole("Superadmin") | item.UserName == User.Identity.Name)
                         {
                             <a class="btn btn-info btn-sm" type="button" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Employee_Index_Details</a><span> </span>
-                            @if (User.IsInRole("Admin"))
+                            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                             {
 
                                 <a class="btn btn-danger btn-sm" type="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.Employee_Index_Delete</a>
@@ -92,7 +92,7 @@
                         }
                     </td>
                     <td>
-                        @if (User.IsInRole("Admin") | item.UserName == User.Identity.Name)
+                        @if (User.IsInRole("Admin") | User.IsInRole("Superadmin") | item.UserName == User.Identity.Name)
                         {
                             <div class="dropdown show">
                                 <a class="dropdown-toggle" href="#" role="button" id="userDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

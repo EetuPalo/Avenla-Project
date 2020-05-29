@@ -95,7 +95,7 @@ namespace Login_System.Controllers
             {
                 foreach(AppUser appuser in UserMgr.Users.Where(x => x.Id == item.UserID))
                 {
-                    if(appuser.Company == currentUser.Company)
+                    if(appuser.Company == currentUser.Company || User.IsInRole("Superadmin"))
                     {
                         list.Add(item);
                     }
@@ -110,7 +110,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Details/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Details(int? id)
         {
             var model = new List<SkillCourseMemberVM>();
@@ -150,7 +150,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public IActionResult Create(int? id)
         {
             var members = UserMgr.Users.ToList();            
@@ -200,7 +200,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Create([Bind("CourseID, UserID,UserName, CourseName, Status, CompletionDate")] SkillCourseMember skillCourseMember)
         {
             if (ModelState.IsValid)
@@ -222,14 +222,14 @@ namespace Login_System.Controllers
             return View(skillCourseMember);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> AddUsers(int id)
         {
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new List<SkillCourseMember>();
             var userList = _context.SkillCourseMembers.Where(x => x.CourseID == id).ToList();
 
-            foreach (var user in UserMgr.Users.Where(x=> x.Company==currentUser.Company))
+            foreach (var user in User.IsInRole("Superadmin")? UserMgr.Users: UserMgr.Users.Where(x => x.Company == currentUser.Company))
             {
                 var tempUser = new SkillCourseMember
                 {
@@ -256,7 +256,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> AddUsers(List<SkillCourseMember> courseMembers)
         {
          
@@ -416,7 +416,7 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-	        if(User.IsInRole("Admin") || User.Identity.Name == skillCourseMember.UserName)
+	        if(User.IsInRole("Admin") || User.IsInRole("Superadmin")|| User.Identity.Name == skillCourseMember.UserName)
 	        {
 		        if (ModelState.IsValid)
 		        {
@@ -457,7 +457,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourseMembers/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -479,7 +479,7 @@ namespace Login_System.Controllers
         // POST: SkillCourseMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var skillCourseMember = await _context.SkillCourseMembers.FindAsync(id);

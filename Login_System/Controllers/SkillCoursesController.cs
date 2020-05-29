@@ -122,7 +122,7 @@ namespace Login_System.Controllers
         }
 	
         // GET: SkillCourses/Create
-	    [Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin, Superadmin")]
         public IActionResult Create()
         {
             return View();
@@ -133,7 +133,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents, Location, Length")] SkillCourse skillCourse)
         {
             if (ModelState.IsValid)
@@ -147,7 +147,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourses/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -167,7 +167,7 @@ namespace Login_System.Controllers
         // POST: SkillCourses/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("id,CourseName,CourseContents, Location, Length")] SkillCourse skillCourse)
         {
             if (skillCourse != null && id != skillCourse.id)
@@ -215,7 +215,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourses/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -236,7 +236,7 @@ namespace Login_System.Controllers
 
         // POST: SkillCourses/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

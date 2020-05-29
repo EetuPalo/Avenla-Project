@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User, Admin, Superadmin")]
     public class AppUsersController : Controller
     {
         private readonly IdentityDataContext _context;
@@ -23,13 +23,13 @@ namespace Login_System.Controllers
         private SignInManager<AppUser> SignInMgr { get; }
         private readonly GeneralDataContext CompanyList;
 
-        public AppUsersController(GeneralDataContext dataCon, IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, GeneralDataContext CompList)
+        public AppUsersController(GeneralDataContext dataCon, IdentityDataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, GeneralDataContext CompList )
         {
             _context = context;
             UserMgr = userManager;
             SignInMgr = signInManager;
             this.roleManager = roleManager;
-
+           
             dataContext = dataCon;
             CompanyList = CompList;
         }
@@ -44,8 +44,16 @@ namespace Login_System.Controllers
             {
                 TempData["LastSearch"] = searchString;
             }
-
-            var employees = from e in _context.Users  where e.Company == user.Company select e;
+            IQueryable<AppUser> employees;
+            if (User.IsInRole("Superadmin"))
+            {
+                employees = from e in _context.Users select e;
+            }
+            else
+            {
+                employees = from e in _context.Users where e.Company == user.Company select e;
+            }
+            
             TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
             TempData["SearchValue"] = null;
             
@@ -130,9 +138,11 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Create()
+        [Authorize(Roles = "Admin, Superadmin")]
+        public async Task<IActionResult> Create()
         {
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+            TempData["Company"] = currentUser.Company;
             var model = new RegisterVM();
             var tempList = new List<Company>();
             //Populating the dropdown with companies
@@ -142,8 +152,10 @@ namespace Login_System.Controllers
             }
             return View(model);
         }
-        public IActionResult AppUserEdit()
+        public async Task<IActionResult> AppUserEdit()
         {
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+            ViewBag.Company = currentUser.Company;
             var model = new EditUserVM();
             var tempList = new List<Company>();
             foreach (var company in CompanyList.Company)
@@ -155,11 +167,12 @@ namespace Login_System.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser)
         {
             if (ModelState.IsValid)
             {
+                  var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
                 var k = 1;
@@ -180,18 +193,36 @@ namespace Login_System.Controllers
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
                 {
+                  
                     try
                     {
-                        user = new AppUser
+                        if (User.IsInRole("Superadmin"))
                         {
-                            //we create a new user and set his credentials to the data received from the Register form.
-                            UserName = fixedUn,
-                            Email = appUser.EMail,
-                            FirstName = appUser.FirstName,
-                            LastName = appUser.LastName,
-                            PhoneNumber = appUser.PhoneNumber,
-                            Company = appUser.Company
-                        };
+                            user = new AppUser
+                            {
+                                //we create a new user and set his credentials to the data received from the Register form.
+                                UserName = fixedUn,
+                                Email = appUser.EMail,
+                                FirstName = appUser.FirstName,
+                                LastName = appUser.LastName,
+                                PhoneNumber = appUser.PhoneNumber,
+                                Company = appUser.Company
+                            };
+                        }
+                        else
+                        {
+                            user = new AppUser
+                            {
+                                //we create a new user and set his credentials to the data received from the Register form.
+                                UserName = fixedUn,
+                                Email = appUser.EMail,
+                                FirstName = appUser.FirstName,
+                                LastName = appUser.LastName,
+                                PhoneNumber = appUser.PhoneNumber,
+                                Company = currentUser.Company
+                            };
+                        }
+                 
                         //we then create a new user through usermanager
                         IdentityResult result;
                         IdentityResult roleResult;
@@ -216,7 +247,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        [Authorize(Roles = "User, Admin")]
+        [Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             //EDIT has been changed so now edting of user groups, and roles can be edited from the same page. Other edit routes are still available
@@ -260,7 +291,7 @@ namespace Login_System.Controllers
             }
             mainModel.Roles = roleList;
 
-            if (User.IsInRole("Admin") || UserMgr.GetUserId(User) == id.ToString())
+            if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || UserMgr.GetUserId(User) == id.ToString())
             {
                 if (id == null)
                 {
@@ -290,11 +321,13 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "User, Admin")]
+        [Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, EditUserVM model)
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                TempData["Company"] = currentUser.Company;
                 var tempUser = await UserMgr.FindByIdAsync(id.ToString());
                 //-GROUP-//
                 if (dataContext.Group.Count() > 0)
@@ -338,6 +371,16 @@ namespace Login_System.Controllers
                     AppRole role = await roleManager.FindByIdAsync(model.Roles[i].Id.ToString());
 
                     //PROTECTS USERS IN ROLE ADMIN
+                    if (role.Name == "Superadmin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Superadmin"))
+                    {
+                        var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
+                        if (tempRoleList.Count == 1)
+                        {
+                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
+                            return RedirectToAction("Edit", "AppUsers", new { Id = id });
+                        }
+                    }
+                    //PROTECTS USERS IN ROLE SUPERADMIN
                     if (role.Name == "Admin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Admin"))
                     {
                         var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
@@ -379,14 +422,21 @@ namespace Login_System.Controllers
                 model.User.UserName = fixedUn;
 
                 //This is just an extra step to make sure the user is authorized to edit the account
-                if (user.UserName == compareUser || User.IsInRole("Admin"))
+                if (user.UserName == compareUser || (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
                 {
                     user.FirstName = model.User.FirstName;
                     user.LastName = model.User.LastName;
                     user.UserName = fixedUn;
                     user.Email = model.User.Email;
                     user.PhoneNumber = model.User.PhoneNumber;
-                    user.Company = model.Company;
+                    if(User.IsInRole("Superadmin "))
+                    {
+                        user.Company = model.Company;
+                    }
+                    else
+                    {
+                        user.Company = currentUser.Company;
+                    }
                     if (model.User.EmpStatus != "-1")
                     {
                         user.EmpStatus = model.User.EmpStatus;
@@ -447,7 +497,7 @@ namespace Login_System.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -470,7 +520,7 @@ namespace Login_System.Controllers
             return View(appUser);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

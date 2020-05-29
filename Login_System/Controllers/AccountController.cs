@@ -108,14 +108,19 @@ namespace Login_System.Controllers
                         await roleMgr.CreateAsync(userRole);
                         await UserMgr.AddToRoleAsync(user, "User");
                     }
-                    if (!await roleMgr.RoleExistsAsync("Admin"))
+                    if (!await roleMgr.RoleExistsAsync("Superadmin"))
                     {
+                        AppRole superAdminRole = new AppRole
+                        {
+                            Name = "Superadmin"
+                        };
                         AppRole adminRole = new AppRole
                         {
                             Name = "Admin"
                         };
+                        await roleMgr.CreateAsync(superAdminRole);
                         await roleMgr.CreateAsync(adminRole);
-                        await UserMgr.AddToRoleAsync(user, "Admin");
+                        await UserMgr.AddToRoleAsync(user, "Superadmin");
                     }
 
                     ViewBag.Message = Resources.ActionMessages.ActionResult_UserCreated;

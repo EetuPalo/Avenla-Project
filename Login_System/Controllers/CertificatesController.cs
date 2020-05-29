@@ -8,7 +8,7 @@ using Login_System.Models;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Superadmin")]
     public class CertificatesController : Controller
     {
         private readonly GeneralDataContext _context;

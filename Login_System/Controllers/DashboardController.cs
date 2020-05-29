@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User, Admin, Superadmin")]
     public class DashboardController : Controller
     {
         private readonly GeneralDataContext _context;

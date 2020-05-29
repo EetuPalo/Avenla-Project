@@ -35,7 +35,7 @@
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin")|| User.IsInRole("Superadmin"))
                 {
                     <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
                 }
@@ -100,7 +100,7 @@
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a>
                 </td>
             }
-            else if (item.MemberStatus == true && User.IsInRole("Admin") && item.CompleteStatus != true)
+            else if (item.MemberStatus == true && (User.IsInRole("Admin") || User.IsInRole("Superadmin")) && item.CompleteStatus != true)
             {
                 <td>
                     <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
@@ -113,14 +113,14 @@
                 </td>
             }
             <td>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
                     <span> </span>
                 }
             </td>
             <td>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
                     <div class="dropdown show">
                         <a class="dropdown-toggle" href="#" role="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -191,7 +191,7 @@
                                             <td>
                                             <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Members</a>
                                             </td>
-                                        @if (User.IsInRole("Admin"))
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                                         {
                                             <td>
                                             <span> </span><a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">@Resources.Courses.Index_Lesson_Attending</a>

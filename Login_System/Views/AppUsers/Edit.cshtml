@@ -24,7 +24,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">@Resources.Resources.Layout_Profile</a>
                 </li>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
                     <li class="nav-item">
                         <a class="nav-link" id="group-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false">@Resources.Resources.Layout_Groups</a>
@@ -68,10 +68,18 @@
                         </select>
                         <span asp-validation-for="User.EmpStatus" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Company">@Resources.Resources.Company</label>
-                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
-                    </div>
+                    @if (User.IsInRole("Superadmin"))
+                    {
+                        <div class="form-group">
+                            <label asp-for="Company">@Resources.Resources.Company</label>
+                            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
+                    }
+
                     <span style="font-weight: bold; color: red; font-size: 15px;">@ViewBag.Message</span>
                     <div class="form-group">
                         <label asp-for="User.NewPassword" class="control-label">@Resources.Resources.Employee_Edit_NewPass</label>
@@ -84,7 +92,7 @@
                         <span asp-validation-for="User.ConfirmNewPassword" class="text-danger"></span>
                     </div>
                 </div>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
                     <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
                         <div class="container-fluid p-0 mt-2">

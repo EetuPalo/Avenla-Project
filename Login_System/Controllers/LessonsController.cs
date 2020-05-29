@@ -109,7 +109,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-	    [Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin , Superadmin")]
         public async Task<IActionResult> Create([Bind("CourseID,LessonName,DateString,HourString,MinuteString,Location")] CreateLessonVM lesson)
         {
             if (ModelState.IsValid)
@@ -137,7 +137,7 @@ namespace Login_System.Controllers
         }
 
         // GET: Lessons/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin , Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -159,7 +159,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CourseID,CourseName,LessonName,Date,Location")] Lesson lesson)
         {
             if (id != lesson.Id)
@@ -193,7 +193,7 @@ namespace Login_System.Controllers
         }
 
         // GET: Lessons/Delete/5
-	[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -214,7 +214,7 @@ namespace Login_System.Controllers
         // POST: Lessons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-	    [Authorize(Roles = "Admin")]
+	    [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var lesson = await _context.Lessons.FindAsync(id);

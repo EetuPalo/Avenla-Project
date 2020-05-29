@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Superadmin")]
     public class SkillsController : Controller
     {
         private readonly GeneralDataContext _context;

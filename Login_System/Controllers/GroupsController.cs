@@ -11,7 +11,7 @@ using Login_System.ViewModels;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Superadmin")]
     public class GroupsController : Controller
     {
         private readonly GeneralDataContext _context;

@@ -7,7 +7,7 @@
 
 
 
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
 {
     <h2>
         @TempData["CourseName"] @Resources.SkillCourseMembers.Index_SubTitle
@@ -24,7 +24,7 @@
     <div class="container-fluid p-0">
         <div class="row mb-4">
             <div class="col-sm">
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
                     <a class="btn btn-primary" asp-action="AddUsers" asp-route-id="@TempData["CourseId"]"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCourseMembers.Index_Create</a>
                 }
@@ -72,7 +72,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                     {
                         @foreach (var item in Model)
                         {
@@ -101,25 +101,25 @@ else
                                     @item.CourseGrade
                                 </td>
                                 <td>
-                                    @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                    @if ((User.IsInRole("Admin") || User.IsInRole("Superadmin")) || item.UserName == User.Identity.Name)
                                     {
                                         <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Edit</a><span> </span>
                                     }
                                 </td>
                                 <td>
-                                    @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                    @if ((User.IsInRole("Admin") || User.IsInRole("Superadmin")) || item.UserName == User.Identity.Name)
                                     {
                                         <a asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.UserID" asp-route-source="SkillCourseMembers" asp-route-sourceId="@item.CourseName"><i class="fas fa-user-circle fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Details</a>
                                     }
                                 </td>
                                 <td>
-                                    @if (User.IsInRole("Admin") || item.UserName == User.Identity.Name)
+                                    @if ((User.IsInRole("Admin") || User.IsInRole("Superadmin")) || item.UserName == User.Identity.Name)
                                     {
                                         <a class="text-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillCourseMembers.Index_BTN_Delete</a>
                                     }
                                 </td>
                                 <td>
-                                    @if (User.IsInRole("Admin"))
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                                     {
                                         <span> </span><a class="text-info" asp-action="Grade" asp-route-id="@item.Id"><i class="fas fa-award fa-fw"> </i> @Resources.SkillCourseMembers.Index_Grade</a>
                                     }

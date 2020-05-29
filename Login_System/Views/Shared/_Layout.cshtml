@@ -42,7 +42,7 @@
                         <li class="nav-item">
                           <!--<a class="text-dark btn" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>-->
                         </li>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                         {
                             <li class="nav-item dropdown show">
                                 <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
