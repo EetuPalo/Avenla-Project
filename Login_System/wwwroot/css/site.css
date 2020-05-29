@@ -82,3 +82,25 @@ body {
     cursor: pointer;
 }
 
+.progress-title {
+    float: left;
+    line-height: 10px;
+}
+.progress-number {
+    float: right;
+    line-height: 10px;
+}
+
+#Profile {
+    font-weight: 700;
+}
+
+#cardProfile {
+    font-weight: normal;
+}
+
+#twoHeaders {
+    display: flex;
+    justify-content: space-between;
+}
+
