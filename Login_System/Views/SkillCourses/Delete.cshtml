@@ -35,10 +35,12 @@
         <div class="col-sm">
             <div class="container-fluid p-0">
                 <form asp-action="Delete">
+
                     <input type="hidden" asp-for="id" />
                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="goBack()" style="display: inline-block;"><i class="fas fa-times fa-fw"> </i> Cancel </button>
                 </form>
-                <button class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+              
             </div>
         </div>
     </div>

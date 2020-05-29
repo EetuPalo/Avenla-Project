@@ -41,7 +41,7 @@
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
-                        <button onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                        <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
                         <button asp-route-id="@Model[0].CourseID" type="submit" class="btn btn-primary"><i class="fas fa-user-plus fa-fw"> </i> @Resources.SkillCourseMembers.AddUsers_Add</button>
                     </div>
                 </div>

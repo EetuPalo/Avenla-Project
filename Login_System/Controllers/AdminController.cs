@@ -268,7 +268,7 @@ namespace Login_System.Controllers
                 AppRole role = await roleManager.FindByIdAsync(model[i].Id.ToString());
 
                 //Prevents the removal of all admins
-                if (role.Name == "Admin")
+                if (role.Name == "Admin"    )
                 {
                     //var tempList = new List<AppRole>();
                     var tempList = await userManager.GetUsersInRoleAsync(role.Name);
@@ -323,7 +323,7 @@ namespace Login_System.Controllers
                 return RedirectToAction("Error");
             }
             //This is to prevent the User and Admin roles for being deleted
-            else if(role.Name == "Admin" || role.Name == "User")
+            else if(role.Name == "Admin" || role.Name == "User" || role.Name =="Superadmin")
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_RoleDeleteException;
                 return RedirectToAction(nameof(ListRoles));
