@@ -29,8 +29,8 @@ namespace Login_System.Controllers
             
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;            
-            ViewBag.CurrentUserLastName = user.FirstName;
-            ViewBag.CurrentUserFirstName = user.LastName;
+            ViewBag.CurrentUserFirstName = user.FirstName;
+            ViewBag.CurrentUserLastName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;
             ViewBag.CurrentUserPhone = user.PhoneNumber;
 

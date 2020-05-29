@@ -35,31 +35,32 @@
                 <div class="card-body">
                     <h5 class="card-title" style="text-transform: Capitalize">
                         <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
-                    </h5><br />
-                    <dl class="row">
-                        <dt class="col-sm-4">
-                            @Resources.Resources.Email:
-                        </dt>
-                        <dd class="col-sm-8">
-                            @ViewBag.CurrentUserEmail
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Resources.Resources.Phone:
-                        </dt>
-                        <dd class="col-sm-8">
-                            @ViewBag.CurrentUserPhone
-                        </dd>
-                        @if (ViewBag.CurrentCompany != null)
-                        {
-                        <dt class="col-sm-4">
-                            @Resources.Resources.Company:
-                        </dt>
-                        <dd class="col-sm-8">
-                            @ViewBag.CurrentCompany
-                        </dd>
-                        }
-                    </dl>
-
+                    </h5>
+                         <p class="card-text">
+                             <dl class="row">
+                                 <dt id="cardProfile" class="col-sm-4">
+                                     @Resources.Resources.Email:
+                                 </dt>
+                                 <dd class="col-sm-8">
+                                     @ViewBag.CurrentUserEmail
+                                 </dd>
+                                 <dt id="cardProfile" class="col-sm-4">
+                                     @Resources.Resources.Phone:
+                                 </dt>
+                                 <dd class="col-sm-8">
+                                     @ViewBag.CurrentUserPhone
+                                 </dd>
+                                 @if (ViewBag.CurrentCompany != null)
+                                 {
+                                     <dt id="cardProfile" class="col-sm-4">
+                                         @Resources.Resources.Company:
+                                     </dt>
+                                     <dd class="col-sm-8">
+                                         @ViewBag.CurrentCompany
+                                     </dd>
+                                 }
+                             </dl>
+                         </p>
                     <a href="~/Views/AppUsers/Details" class="btn btn-primary">Profile</a>
 
                 </div>
@@ -77,25 +78,41 @@
                 <div class="card-body">
                     <h5 class="card-title">@Resources.Resources.Quick_Options</h5>
                     <p class="card-text">
-                    Here will be quick options. <br />
-                    Tähän tulee pikavalikko.
+                        Here will be quick options. <br />
+                        Tähän tulee pikavalikko.
                     </p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
         </div>
     }
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@Resources.Skills.Index_Skill</h5>
-                    <p class="card-text">@foreach (var item in Model.UserSkills)
-                    {<p>@Html.DisplayFor(modelItem => item.SkillName)</p>} </p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 id="twoHeaders" class="card-title">@Resources.Skills.Index_Skill <span>@Resources.SkillGoals.Index_Goal </h5></span>
+                <p class="card-text">
+                    @foreach (var item in Model.UserSkills)
+                    {
+                        <div>
+                            <div class="row">
+                                <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
+                                <span class="col-sm-1">@item.SkillLevel </span>
+                                <div class="progress w-50" style="margin-top: 5px;">
+                                    <div class="progress-bar col-lg-auto" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / 5)%">
+                                        @(item.SkillLevel * 100 / 5)%
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </p>
+
+                <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     </div>
+</div>
 <br />
 <div class="row">
     @if (User.IsInRole("User"))
@@ -107,12 +124,13 @@
                     <p class="card-text">
                         @foreach (var item in Model.UserCertificates)
                         {
-                        <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>} </p>
+                        <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>}
+                        </p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
+                </div>
             </div>
-        </div>
-    }
+        }
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
@@ -120,10 +138,11 @@
                 <p class="card-text">
                     @foreach (var item in Model.UserCourses)
                     {
-                    <p>@Html.DisplayFor(modelItem => item.CourseName)</p>} </p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <p>@Html.DisplayFor(modelItem => item.CourseName)</p>}
+                    </p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<br />
+    <br />
