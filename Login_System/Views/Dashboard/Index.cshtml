@@ -7,7 +7,7 @@
 <h1>Dashboard</h1>
 <div class="row">
 
-    @if (User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
     {
         <div class="col-sm-6">
             <div class="card">
@@ -71,7 +71,7 @@
 <br />
 
 <div class="row">
-    @if (User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
     {
         <div class="col-sm-6">
             <div class="card">
