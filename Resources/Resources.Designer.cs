@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced search.
+        /// </summary>
+        public static string Advanced_Search {
+            get {
+                return ResourceManager.GetString("Advanced_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select company.
         /// </summary>
         public static string CompaniesSelectDropdown {
@@ -165,6 +174,15 @@ namespace Resources {
         public static string CourseMem_Details_Title {
             get {
                 return ResourceManager.GetString("CourseMem_Details_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string Dashboard {
+            get {
+                return ResourceManager.GetString("Dashboard", resourceCulture);
             }
         }
         

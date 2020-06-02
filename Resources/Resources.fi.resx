@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Advanced_Search" xml:space="preserve">
+    <value>Tarkka haku</value>
+  </data>
   <data name="CompaniesSelectDropdown" xml:space="preserve">
     <value>Valitse yritys</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Kurssit</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Hallintapaneeli</value>
   </data>
   <data name="DELETE_Back" xml:space="preserve">
     <value>Takaisin listaan</value>
@@ -306,7 +312,7 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
     <value>Ylläpito</value>
   </data>
   <data name="Layout_Certificates" xml:space="preserve">
-    <value>Certifikaatit</value>
+    <value>Sertifikaatit</value>
   </data>
   <data name="Layout_Courses" xml:space="preserve">
     <value>Kurssit</value>

@@ -22,6 +22,7 @@
                     @Resources.Resources.User_Hello @TempData.Peek("UserFullNames")!
                 </a>
                 <div class="dropdown-menu" aria-labelledby="nameDropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index">@Resources.Resources.Dashboard</a>
                     <a class="dropdown-item" asp-area="" asp-controller="AppUsers" asp-action="Details" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Profile</a>
                     <a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
                     <a class="dropdown-item" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Certificates</a>

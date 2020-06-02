@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Advanced_Search" xml:space="preserve">
+    <value>Advanced search</value>
+  </data>
   <data name="CompaniesSelectDropdown" xml:space="preserve">
     <value>Select company</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Courses</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
   </data>
   <data name="DELETE_Back" xml:space="preserve">
     <value>Back to list</value>
