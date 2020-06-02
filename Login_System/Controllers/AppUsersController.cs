@@ -71,6 +71,8 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
         {
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+           
             //Sources are for storing the info of the previous page, so that the back button can take the user back to the right place
             if (String.IsNullOrWhiteSpace(source))
             {

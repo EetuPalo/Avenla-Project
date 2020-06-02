@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
@@ -15,16 +16,29 @@ namespace Login_System.Controllers
     public class GroupsController : Controller
     {
         private readonly GeneralDataContext _context;
+        private readonly UserManager<AppUser> UserMgr;
 
-        public GroupsController(GeneralDataContext context)
+        public GroupsController(GeneralDataContext context, UserManager<AppUser> usermgr)
         {
             _context = context;
+            UserMgr = usermgr;
         }
 
         // GET: Groups
         public async Task<IActionResult> Index(string searchString)
         {
-            var groups = from g in _context.Group select g;
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+            IQueryable<Group> groups = null;
+            if (!User.IsInRole("Superadmin"))
+            {
+                groups = from g in _context.Group where g.company == currentUser.Company select g;
+            }
+            else
+            {
+                groups = from g in _context.Group select g;
+
+            }
+           
             TempData["SearchValue"] = null;
             //SEARCH
             if (!String.IsNullOrEmpty(searchString))

@@ -14,9 +14,11 @@ namespace Login_System.Models
         [Display(Name = "MODEL_Skill", ResourceType = typeof(Resources.Skills))]
         public string Skill { get; set; }
 
+        public string Description { get; set; }
+        
         [NotMapped]
         public string OldName { get; set; }
-
+         
         /*
         [NotMapped]
         public int EntryCount { get; set; }

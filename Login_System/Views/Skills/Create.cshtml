@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.Skills
+﻿@model Login_System.ViewModels.SkillCreateVM
 
 @{
     ViewData["Title"] = "Create";
@@ -15,6 +15,18 @@
                 <label asp-for="Skill" class="control-label"></label>
                 <input asp-for="Skill" class="form-control" />
                 <span asp-validation-for="Skill" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SkillCategory" class="control-label"></label>
+                <div>
+                    @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input type="text" asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>

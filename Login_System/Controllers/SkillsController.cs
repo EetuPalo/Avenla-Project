@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
+using Login_System.ViewModels;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -59,18 +61,36 @@ namespace Login_System.Controllers
         //GET: Skills/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new SkillCreateVM();
+            var tempList = new List<SkillCategories>();
+            foreach (var item in _context.SkillCategories)
+            {
+                model.SkillCategoryList.Add(new SelectListItem() { Text = item.Name, Value = item.Name});
+            }
+            return View(model);
         }
 
         //Skill and SkillLevel are set by the user. User ID is set automatically based on the Id of the current user. SkillId is set in the database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Skill")] Skills skills)
+        public async Task<IActionResult> Create([Bind("Skill, Description")] Skills skills, string SkillCategory)
         {
             //If the view is not valid, the user is just returned to the same view with error messages shown.
             if (ModelState.IsValid)
             {
+                //SkillCategories skillCategories = new SkillCategories();
                 _context.Add(skills);
+
+              
+                await _context.SaveChangesAsync();
+                var category = await _context.SkillCategories.FirstOrDefaultAsync(x => x.Name == SkillCategory);
+                SkillsInCategory skill = new SkillsInCategory
+                {
+                    SkillId = skills.Id,
+                    CategoryId = category.id
+
+                };
+                _context.SkillsInCategory.Add(skill);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -185,6 +205,13 @@ namespace Login_System.Controllers
         {
             var skills = await _context.Skills.FindAsync(id);
             _context.Skills.Remove(skills);
+
+            var categories = await _context.SkillsInCategory.Where(x => x.SkillId == skills.Id).ToListAsync();
+            foreach(var item in categories)
+            {
+                _context.SkillsInCategory.Remove(item);
+            }
+     
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

@@ -25,6 +25,9 @@ namespace Login_System.Models
         public DbSet<Skills> Skills { get; set; }
         public DbSet<UserSkills> UserSkills { get; set; }
         public DbSet<SkillGoals> SkillGoals { get; set; }
+        public DbSet<SkillCategories> SkillCategories { get; set; }
+
+        public DbSet<SkillsInCategory> SkillsInCategory { get; set; }
         //IDENTITY
         public DbSet<AppUser> AppUser { get; set; }
         //IDENTITY
