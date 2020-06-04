@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using Login_System.Models;
 
 namespace Login_System.ViewModels
 {
@@ -12,11 +14,16 @@ namespace Login_System.ViewModels
     {
         public int Id { get; set; }
         public string Skill { get; set; }
-
+        public Skills skill { get; set; }
         public string Description { get; set; }
 
         public string SkillCategory { get; set; }
 
+        [NotMapped]
+        public string OldName { get; set; }
+        
+        public List<SkillCategories> ListOfCategories { get; set; }
+        
         public IList<SelectListItem> SkillCategoryList{ get; set; }
 
         public SkillCreateVM() { SkillCategoryList = new List<SelectListItem>(); }

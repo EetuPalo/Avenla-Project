@@ -10,6 +10,7 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Login_System.Controllers
 {
@@ -66,31 +67,38 @@ namespace Login_System.Controllers
             foreach (var item in _context.SkillCategories)
             {
                 model.SkillCategoryList.Add(new SelectListItem() { Text = item.Name, Value = item.Name});
+                tempList.Add(item);
             }
+            model.ListOfCategories = tempList;
             return View(model);
         }
 
         //Skill and SkillLevel are set by the user. User ID is set automatically based on the Id of the current user. SkillId is set in the database
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Skill, Description")] Skills skills, string SkillCategory)
+        public async Task<IActionResult> Create([Bind("Skill, Description")] Skills skills, string[] SkillCategory)
         {
             //If the view is not valid, the user is just returned to the same view with error messages shown.
             if (ModelState.IsValid)
             {
+
                 //SkillCategories skillCategories = new SkillCategories();
                 _context.Add(skills);
 
               
                 await _context.SaveChangesAsync();
-                var category = await _context.SkillCategories.FirstOrDefaultAsync(x => x.Name == SkillCategory);
-                SkillsInCategory skill = new SkillsInCategory
+                foreach(var skillcategories in SkillCategory)
                 {
-                    SkillId = skills.Id,
-                    CategoryId = category.id
+                    var category = await _context.SkillCategories.FirstOrDefaultAsync(x => x.Name == skillcategories);
+                    SkillsInCategory skill = new SkillsInCategory
+                    {
+                        SkillId = skills.Id,
+                        CategoryId = category.id
 
-                };
-                _context.SkillsInCategory.Add(skill);
+                    };
+                    _context.SkillsInCategory.Add(skill);
+                }
+         
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -101,6 +109,8 @@ namespace Login_System.Controllers
         //This validates the ID that has been passed from the view, and if it's valid, it shows the edit view with the current user info already filled out.
         public async Task<IActionResult> Edit(int? id)
         {
+            SkillCreateVM model = new SkillCreateVM();
+            
             if (id == null)
             {
                 return NotFound();
@@ -113,12 +123,22 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-            return View(skills);
+            var tempList = new List<SkillCategories>();
+            foreach (var item in _context.SkillCategories)
+            {
+                model.SkillCategoryList.Add(new SelectListItem() { Text = item.Name, Value = item.Name });
+                tempList.Add(item);
+            }
+
+            model.skill = skills;
+            model.ListOfCategories = tempList;
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, OldName, Skill")] Skills skills)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, OldName, Skill")] Skills skills,  string[] SkillCategory)
         {
             if (id != skills.Id)
             {
@@ -130,7 +150,13 @@ namespace Login_System.Controllers
                 try
                 {
                     _context.Update(skills);
+                    foreach(var skillincategory in _context.SkillsInCategory.Where(x=> x.SkillId == skills.Id))
+                    {
+                        _context.SkillsInCategory.Remove(skillincategory);
+                    }
                     await _context.SaveChangesAsync();
+
+
                 }
 
                 catch (DbUpdateConcurrencyException)
@@ -168,6 +194,26 @@ namespace Login_System.Controllers
                         _context.Update(goal);
                     }
                     await _context.SaveChangesAsync();
+                }
+            
+                catch
+                {
+                    return NotFound();
+                } 
+                try
+                {
+                    foreach (var skillcategories in SkillCategory)
+                    {
+                        var category = await _context.SkillCategories.FirstOrDefaultAsync(x => x.Name == skillcategories);
+                        SkillsInCategory skill = new SkillsInCategory
+                        {
+                            SkillId = skills.Id,
+                            CategoryId = category.id
+
+                        };
+                        _context.SkillsInCategory.Add(skill);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch
                 {

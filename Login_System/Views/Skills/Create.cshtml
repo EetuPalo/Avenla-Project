@@ -4,7 +4,9 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <head>
 
+    </head>
 <h2>@Resources.Skills.Create_Title</h2>
 <hr />
 <div class="row">
@@ -16,12 +18,14 @@
                 <input asp-for="Skill" class="form-control" />
                 <span asp-validation-for="Skill" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" id="test">
                 <label asp-for="SkillCategory" class="control-label"></label>
-                <div>
-                    @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
-                </div>
-                
+                    @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple="multiple"})
+              
+                <br />
+                <!--<dl class="row" id="skillDropdown"></dl>-->
+                <!--<input type="button" class="btn btn-primary" id="btnAdd" onclick="AddDropDownList()" value="Add DropDownList" />-->
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -38,4 +42,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Select Category"
+            });
+});
+</script>
 }
