@@ -9,6 +9,11 @@ using Login_System.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Drawing.Printing;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account;
+using System.Diagnostics;
 
 namespace Login_System.Controllers
 {
@@ -33,6 +38,7 @@ namespace Login_System.Controllers
             ViewBag.CurrentUserLastName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;
             ViewBag.CurrentUserPhone = user.PhoneNumber;
+            
 
             if (id == null)
             {
@@ -49,6 +55,12 @@ namespace Login_System.Controllers
             var skillList = new List<UserSkills>();
             var courseList = new List<SkillCourseMember>();
             var certificateList = new List<UserCertificate>();
+            var goalList = new List<SkillGoals>();
+            var userGroupList = new List<GroupMember>();
+
+            var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
+            var skillGoal = 0;
+
 
             // Skills
             foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
@@ -56,14 +68,50 @@ namespace Login_System.Controllers
                 var skillQueryDate = from t in _context.UserSkills
                                      group t by t.UserID into g
                                      select new { UserID = g.Key, Date = g.Max(t => t.Date) };
+
                 foreach (var it in skillQueryDate.Where(x => x.Date == skill.Date))
                 {
-     
                     if (!skillList.Contains(skill))
                     {
                         skillList.Add(skill);
-                    }  
+                    }
+                    //foreach (var group in groupList)
+                    //{
+                    //    goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
+
+                    //    foreach (var sName in goalList.Where(x => x.SkillName == skill.SkillName))
+                    //    {
+
+                    //        var goalDate = from t in goalList
+                    //                       group t by t.SkillName into g
+                    //                       select new { SkillName = g.Key, Date = g.Max(t => t.Date) };                            
+
+                    //        foreach (var item in goalDate.Where(x => x.Date == sName.Date))
+                    //        {
+                            
+                    //            foreach(var goal in goalList.Where(x=> (x.SkillGoal > -1) && (x.SkillName == skill.SkillName)))
+                    //            {
+                    //                var result = goalList.Distinct();
+
+                    //                if (!goalList.Contains(goal))
+                    //                {
+                    //                    goalList.Add(goal);
+                    //                    skillGoal = goal.SkillGoal;
+                    //                }
+
+                    //            }
+
+                    //        }
+                    //    }
+
+                    //}
                 }
+            }
+
+            // Populating group dropdown with groups
+            foreach (var group in groupList)
+            {
+                model.GroupsDD.Add(new SelectListItem() { Text = group.GroupName, Value = group.GroupName });
             }
 
             // Courses
@@ -78,9 +126,11 @@ namespace Login_System.Controllers
                 certificateList.Add(userCertificate);
             }
 
+            
             model.UserSkills = skillList;
             model.UserCourses = courseList;
             model.UserCertificates = certificateList;
+            model.UserGoals = goalList;
 
             return View(model);
         }

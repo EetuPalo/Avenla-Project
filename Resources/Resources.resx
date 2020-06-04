@@ -159,6 +159,9 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="Dashboard_progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
   <data name="DELETE_Back" xml:space="preserve">
     <value>Back to list</value>
   </data>
@@ -284,6 +287,9 @@
   </data>
   <data name="GENERAL_Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="groupDD_pick" xml:space="preserve">
+    <value>Select group</value>
   </data>
   <data name="GroupMember_Delete_Name" xml:space="preserve">
     <value>Group member</value>
