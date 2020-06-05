@@ -187,6 +187,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Progress.
+        /// </summary>
+        public static string Dashboard_progress {
+            get {
+                return ResourceManager.GetString("Dashboard_progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string DELETE_Back {
@@ -579,6 +588,15 @@ namespace Resources {
         public static string Group_Dropdownlist {
             get {
                 return ResourceManager.GetString("Group_Dropdownlist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select group.
+        /// </summary>
+        public static string groupDD_pick {
+            get {
+                return ResourceManager.GetString("groupDD_pick", resourceCulture);
             }
         }
         

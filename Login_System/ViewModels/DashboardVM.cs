@@ -12,5 +12,11 @@ namespace Login_System.ViewModels
         public List<UserSkills> UserSkills { get; set; }
         public List<UserCertificate> UserCertificates { get; set; }
         public List<SkillCourseMember> UserCourses { get; set; }
+        public List<SkillGoals> UserGoals { get; set; }
+        public IList<SelectListItem> GroupsDD { get; set; }
+        public int SkillGoal { get; set; }
+
+        public DashboardVM()
+        { GroupsDD = new List<SelectListItem>(); }
     }
 }
