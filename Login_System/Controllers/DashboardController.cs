@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Drawing.Printing;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace Login_System.Controllers
 {
@@ -28,7 +29,7 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index(int? id, string groupPick)
         {
             var model = new DashboardVM();
             
@@ -57,6 +58,7 @@ namespace Login_System.Controllers
             var certificateList = new List<UserCertificate>();
             var goalList = new List<SkillGoals>();
             var userGroupList = new List<GroupMember>();
+            var allGoals = new List<SkillGoals>();
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
             var skillGoal = 0;
@@ -66,8 +68,8 @@ namespace Login_System.Controllers
             foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
             {
                 var skillQueryDate = from t in _context.UserSkills
-                                     group t by t.UserID into g
-                                     select new { UserID = g.Key, Date = g.Max(t => t.Date) };
+                                    group t by t.UserID into g
+                                    select new { UserID = g.Key, Date = g.Max(t => t.Date) };
 
                 foreach (var it in skillQueryDate.Where(x => x.Date == skill.Date))
                 {
@@ -75,37 +77,31 @@ namespace Login_System.Controllers
                     {
                         skillList.Add(skill);
                     }
-                    //foreach (var group in groupList)
-                    //{
-                    //    goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
-
-                    //    foreach (var sName in goalList.Where(x => x.SkillName == skill.SkillName))
-                    //    {
-
-                    //        var goalDate = from t in goalList
-                    //                       group t by t.SkillName into g
-                    //                       select new { SkillName = g.Key, Date = g.Max(t => t.Date) };                            
-
-                    //        foreach (var item in goalDate.Where(x => x.Date == sName.Date))
-                    //        {
-                            
-                    //            foreach(var goal in goalList.Where(x=> (x.SkillGoal > -1) && (x.SkillName == skill.SkillName)))
-                    //            {
-                    //                var result = goalList.Distinct();
-
-                    //                if (!goalList.Contains(goal))
-                    //                {
-                    //                    goalList.Add(goal);
-                    //                    skillGoal = goal.SkillGoal;
-                    //                }
-
-                    //            }
-
-                    //        }
-                    //    }
-
-                    //}
                 }
+            }
+
+
+            foreach (var group in groupList)
+            {
+                var updatedGoalList = new List<SkillGoals>();
+                goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName && x.SkillGoal >-1).ToList();
+               
+                foreach (var groupSkillGoals in goalList.Where(x=> x.GroupName == group.GroupName))
+                {
+                    var goalDate = from t in _context.SkillGoals
+                                   where t.GroupName == groupSkillGoals.GroupName
+                                   group t by t.SkillName into g
+                                   select new { SkillName = g.Key, Date = g.Max(t => t.Date) };
+                    foreach(var goaldates in goalDate.Where(x=> x.Date == groupSkillGoals.Date))
+                    {
+                        if (!updatedGoalList.Contains(groupSkillGoals))
+                        {
+                            updatedGoalList.Add(groupSkillGoals);
+                        }
+                    }
+                    
+                }
+                allGoals.AddRange(updatedGoalList);
             }
 
             // Populating group dropdown with groups
@@ -125,14 +121,14 @@ namespace Login_System.Controllers
             {
                 certificateList.Add(userCertificate);
             }
-
-            
+            model.UserGroups = groupList;
             model.UserSkills = skillList;
             model.UserCourses = courseList;
             model.UserCertificates = certificateList;
-            model.UserGoals = goalList;
+            model.UserGoals = allGoals;
 
             return View(model);
         }
+
     }
 }

@@ -13,6 +13,7 @@ namespace Login_System.ViewModels
         public List<UserCertificate> UserCertificates { get; set; }
         public List<SkillCourseMember> UserCourses { get; set; }
         public List<SkillGoals> UserGoals { get; set; }
+        public List<GroupMember> UserGroups { get; set; }
         public IList<SelectListItem> GroupsDD { get; set; }
         public int SkillGoal { get; set; }
 

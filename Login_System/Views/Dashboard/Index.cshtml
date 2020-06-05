@@ -36,31 +36,31 @@
                     <h5 class="card-title" style="text-transform: Capitalize">
                         <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
                     </h5>
-                         <p class="card-text">
-                             <dl class="row">
-                                 <dt id="cardProfile" class="col-sm-4">
-                                     @Resources.Resources.Email:
-                                 </dt>
-                                 <dd class="col-sm-8">
-                                     @ViewBag.CurrentUserEmail
-                                 </dd>
-                                 <dt id="cardProfile" class="col-sm-4">
-                                     @Resources.Resources.Phone:
-                                 </dt>
-                                 <dd class="col-sm-8">
-                                     @ViewBag.CurrentUserPhone
-                                 </dd>
-                                 @if (ViewBag.CurrentCompany != null)
-                                 {
-                                     <dt id="cardProfile" class="col-sm-4">
-                                         @Resources.Resources.Company:
-                                     </dt>
-                                     <dd class="col-sm-8">
-                                         @ViewBag.CurrentCompany
-                                     </dd>
-                                 }
-                             </dl>
-                         </p>
+                    <p class="card-text">
+                        <dl class="row">
+                            <dt id="cardProfile" class="col-sm-4">
+                                @Resources.Resources.Email:
+                            </dt>
+                            <dd class="col-sm-8">
+                                @ViewBag.CurrentUserEmail
+                            </dd>
+                            <dt id="cardProfile" class="col-sm-4">
+                                @Resources.Resources.Phone:
+                            </dt>
+                            <dd class="col-sm-8">
+                                @ViewBag.CurrentUserPhone
+                            </dd>
+                            @if (ViewBag.CurrentCompany != null)
+                            {
+                                <dt id="cardProfile" class="col-sm-4">
+                                    @Resources.Resources.Company:
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @ViewBag.CurrentCompany
+                                </dd>
+                            }
+                        </dl>
+                    </p>
                     <a asp-area="" asp-controller="AppUsers" asp-action="Details" class="btn btn-primary"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Layout_Profile</a>
 
                 </div>
@@ -94,54 +94,43 @@
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                @if (Model.GroupsDD.Count() == 1)
+                @if (Model.GroupsDD.Count() < 1)
+                {@Html.Raw("You have no groups.")}
+                @if (Model.GroupsDD.Count() >= 1)
                 {
-                @foreach (var singleGroup in Model.GroupsDD) { @singleGroup.Value}
-                }
-                @if (Model.GroupsDD.Count() > 1)
-                {
-                <div class="dropdown show">
-                    <a class="dropdown-toggle" href="#" role="button" id="userGroupsDD" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @Resources.Resources.groupDD_pick
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="userGroupsDD">
-                        @foreach (var userGroup in Model.GroupsDD)
-                        {
-                            <a class="dropdown-item">@userGroup.Value</a>
-                        }
-
-                    </div>
-                </div>
-                }
-            </div>
-                <h5 id="multiHeader" class="card-title row"><p style="margin-left: 10px;"> @Resources.Skills.Index_Skill </p> <p>@Resources.Resources.Dashboard_progress</p> <p style="margin-right: 10px;">@Resources.SkillGoals.Index_Goal </p></h5>
-                <p class="card-text">
-                    <div class="col-sm">
-                    @foreach (var item in Model.UserSkills)
+                    @foreach (var group in Model.UserGroups)
                     {
-                        @foreach (var goal in Model.UserGoals.Where(x => x.SkillName == item.SkillName))
-                        {
-                            <div>
-                                <div class="row">
-                                    <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
-                                    <span class="col-sm-1">@item.SkillLevel </span>
-                                    <div class="progress w-50" style="margin-top: 5px;">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
-                                            @(item.SkillLevel * 100 / goal.SkillGoal)%
+                        <h5 class="card-title">@group.GroupName</h5>
+                        <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+                        <p class="card-text">
+
+                            @foreach (var item in Model.UserSkills)
+                            {
+                                @foreach (var goal in Model.UserGoals.Where(x => x.SkillName == item.SkillName && x.GroupName == group.GroupName))
+                                {
+                                    <div class="col-sm">
+                                        <div>
+                                            <div class="row">
+                                                <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
+                                                <span class="col-sm-1">@item.SkillLevel </span>
+                                                <div class="progress w-50" style="margin-top: 5px;">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                                        @(item.SkillLevel * 100 / goal.SkillGoal)%
+                                                    </div>
+                                                </div>
+                                                <span class="col-sm-1" style="text-align:right;">
+                                                    @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="col-sm-1" style="text-align:right;">
-                                        @Html.DisplayFor(modelItem => goal.SkillGoal)
-                                    </span>
-                                </div>
-                            </div>
-                        }
-                    }
+                                }
+                            }
 
-                </p>
-            
+                        </p>
+                    }
+                }
                 <a asp-area="" asp-controller="Skills" asp-action="Index" class="btn btn-primary"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
-            <br /><br />
             </div>
         </div>
     </div>
@@ -158,9 +147,9 @@
                         @foreach (var item in Model.UserCertificates)
                         {
                         <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
-                        }
+                    }
                         </p>
-                <a asp-area="" asp-controller="Certificates" asp-action="Index" class="btn btn-primary"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
+                        <a asp-area="" asp-controller="Certificates" asp-action="Index" class="btn btn-primary"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
                     </div>
                 </div>
             </div>
@@ -173,11 +162,12 @@
                     @foreach (var item in Model.UserCourses)
                     {
                     <p>@Html.DisplayFor(modelItem => item.CourseName)</p>
-                    }
+                }
                     </p>
                     <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
                 </div>
             </div>
         </div>
     </div>
+
     <br />
