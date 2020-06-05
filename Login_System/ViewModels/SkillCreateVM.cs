@@ -21,6 +21,8 @@ namespace Login_System.ViewModels
 
         [NotMapped]
         public string OldName { get; set; }
+
+        public List<SkillCategories> skillCategories { get; set; }
         
         public List<SkillCategories> ListOfCategories { get; set; }
         

@@ -129,7 +129,14 @@ namespace Login_System.Controllers
                 model.SkillCategoryList.Add(new SelectListItem() { Text = item.Name, Value = item.Name });
                 tempList.Add(item);
             }
+            List<SkillCategories> skillCategories = new List<SkillCategories>();
+            foreach(var item in _context.SkillsInCategory.Where(x=> x.SkillId == id))
+            {
+               var skillCategoryOption = await _context.SkillCategories.FirstAsync(x => x.id == item.CategoryId);
+                skillCategories.Add(skillCategoryOption);
+            }
 
+            model.skillCategories= skillCategories;
             model.skill = skills;
             model.ListOfCategories = tempList;
 
@@ -138,7 +145,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, OldName, Skill")] Skills skills,  string[] SkillCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, OldName, Skill, Description")] Skills skills,  string[] SkillCategory)
         {
             if (id != skills.Id)
             {

@@ -41,13 +41,27 @@
                 <tbody>
                     @for (int i = 0; i < Model.Count; i++)
                     {
-                        <tr>
+                        <tr class="expandable-row">
                             <td>
                                 @Html.DisplayFor(modelItem => Model[i].Skill)
                             </td>
                             <td>
                                 <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
                                 <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model[i].Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
+                            </td>
+                        </tr>
+                        <tr class="content border border-secondary">
+                            <td colspan="8">
+                                <div class="container-fluid p-2 ">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            @Model[i].Description
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                
                             </td>
                         </tr>
                     }
@@ -62,12 +76,27 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <script type="text/javascript">
-        function clearForm() {
-            var search = document.getElementById('search-bar');
-            search.value = '';
-            document.forms[0].submit();
-        }
-    </script>
-}
+
+
+    @section Scripts {
+        <script type="text/javascript">
+            function clearForm() {
+                var search = document.getElementById('search-bar');
+                search.value = '';
+                document.forms[0].submit();
+            }
+        </script>
+        <script>
+            $(function () {
+                $(".content").hide();
+                $('.content2').css('background-color', '#F8F8FF');
+
+                $('.expandable-row').click(function (e) {
+                    $(this).next('.content').toggle();
+                    $(this).next('.content').css('background-color', '#F8F8FF');
+                    //$(this).next('.content').slideToggle();
+                });
+
+            });
+        </script>
+    }

@@ -129,6 +129,9 @@
   <data name="Edit_BTN_Submit" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="Edit_SkillDesc" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="Edit_SkillName" xml:space="preserve">
     <value>Skill Name</value>
   </data>

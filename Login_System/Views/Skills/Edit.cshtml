@@ -19,13 +19,17 @@
                 <input asp-for="Skill" class="form-control" />
                 <span asp-validation-for="Skill" class="text-danger"></span>
             </div>
-            <div class="form-group" id="test">
+            <div class="form-group">
                 <label asp-for="SkillCategory" class="control-label"></label>
                 <div>
                     @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple = "multiple" })
                 </div>
             </div>
-
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">@Resources.Resources.Edit_SkillDesc</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
             <div class="form-group">
 
                 <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
@@ -38,18 +42,20 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 <script type="text/javascript" language="javascript">
+    var options=[]
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2({
                 placeholder: "Select Category"
             });
-              @foreach(var item in Model.ListOfCategories)
+            //$('.js-example-basic-multiple').select2('destroy').select2();
+              @foreach(var item in Model.skillCategories)
             {
                     <text>
-                         $('.js-example-basic-multiple').val('1');
+                        options.push('@item.Name');
                     </text>
             }
+            $('.js-example-basic-multiple').select2().val(options)   
+               $('.js-example-basic-multiple').trigger('change');
         });
-
-
 </script>
 }
