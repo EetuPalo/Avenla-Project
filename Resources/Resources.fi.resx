@@ -159,6 +159,12 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Hallintapaneeli</value>
   </data>
+  <data name="Dashboard_CourseCompleted" xml:space="preserve">
+    <value>Suoritetut</value>
+  </data>
+  <data name="Dashboard_CourseNotComplete" xml:space="preserve">
+    <value>Käynnissä</value>
+  </data>
   <data name="Dashboard_progress" xml:space="preserve">
     <value>Edistyminen</value>
   </data>

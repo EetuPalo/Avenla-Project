@@ -114,8 +114,7 @@
                                                 <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
                                                 <span class="col-sm-1">@item.SkillLevel </span>
                                                 <div class="progress w-50" style="margin-top: 5px;">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
-                                                        @(item.SkillLevel * 100 / goal.SkillGoal)%
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">                                                    
                                                     </div>
                                                 </div>
                                                 <span class="col-sm-1" style="text-align:right;">
@@ -137,6 +136,58 @@
 </div>
 <br />
 <div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
+                <p class="card-text">
+                    @foreach (var item in Model.UserCourses)
+                    {
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @Html.DisplayFor(modelItem => item.CourseName)
+                            </div>
+                            @if (item.Status == "Completed" || item.Status == "Suoritettu")
+                            {
+                                <div class="col-sm-6 text-success">
+                                    @Html.DisplayFor(modelItem => item.Status)
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-6">
+                                    @Html.DisplayFor(modelItem => item.Status)
+
+                                </div>
+                            }
+                        </div>
+                    }
+                </p><br />
+                <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
+                <p class="card-text">
+                    @foreach (var lesson in Model.Lessons)
+                    {
+                    <div class="row">
+                        <div class="col-sm-5">
+                            @Html.DisplayFor(modelItem => lesson.LessonName)
+                        </div>
+                        <div class="col-sm-3" style="text-transform: Capitalize">
+                            @Html.DisplayFor(modelItem => lesson.Location)
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.DisplayFor(modelItem => lesson.Date)
+                        </div>
+
+                    </div>
+
+                    }
+
+                </p>
+                <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
+            </div>
+        </div>
+    </div>
     @if (User.IsInRole("User"))
     {
         <div class="col-sm-6">
@@ -154,20 +205,7 @@
                 </div>
             </div>
         }
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
-                <p class="card-text">
-                    @foreach (var item in Model.UserCourses)
-                    {
-                    <p>@Html.DisplayFor(modelItem => item.CourseName)</p>
-                }
-                    </p>
-                    <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
-                </div>
-            </div>
-        </div>
-    </div>
+
+</div>
 
     <br />

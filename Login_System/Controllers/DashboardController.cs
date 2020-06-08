@@ -29,7 +29,7 @@ namespace Login_System.Controllers
             _context = context;
             UserMgr = userManager;
         }
-        public async Task<IActionResult> Index(int? id, string groupPick)
+        public async Task<IActionResult> Index(int? id)
         {
             var model = new DashboardVM();
             
@@ -52,16 +52,16 @@ namespace Login_System.Controllers
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserId"] = id;
 
-            //Populating the VM with group, course, and certificate info
+            //Populating the VM with all needed info
             var skillList = new List<UserSkills>();
             var courseList = new List<SkillCourseMember>();
             var certificateList = new List<UserCertificate>();
             var goalList = new List<SkillGoals>();
             var userGroupList = new List<GroupMember>();
             var allGoals = new List<SkillGoals>();
+            var lessonList = new List<Lesson>();
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
-            var skillGoal = 0;
 
 
             // Skills
@@ -80,7 +80,7 @@ namespace Login_System.Controllers
                 }
             }
 
-
+            // Skillgoals
             foreach (var group in groupList)
             {
                 var updatedGoalList = new List<SkillGoals>();
@@ -104,7 +104,7 @@ namespace Login_System.Controllers
                 allGoals.AddRange(updatedGoalList);
             }
 
-            // Populating group dropdown with groups
+            // Populating user groups
             foreach (var group in groupList)
             {
                 model.GroupsDD.Add(new SelectListItem() { Text = group.GroupName, Value = group.GroupName });
@@ -116,16 +116,28 @@ namespace Login_System.Controllers
                 courseList.Add(courseMember);
             }
 
+            // Lessons
+            foreach (var userLessons in _context.LessonUsers.Where(x => x.MemberID == id).ToList())
+            {
+                foreach(var lessons in _context.Lessons.Where(x=> x.Id == userLessons.LessonID))
+                {
+                    lessonList.Add(lessons);
+                }
+            }
+            
+
             // Certificates
             foreach (var userCertificate in _context.UserCertificates.Where(x => x.UserID == id))
             {
                 certificateList.Add(userCertificate);
             }
+
             model.UserGroups = groupList;
             model.UserSkills = skillList;
             model.UserCourses = courseList;
             model.UserCertificates = certificateList;
             model.UserGoals = allGoals;
+            model.Lessons = lessonList.OrderBy(x=>x.Date).ToList();
 
             return View(model);
         }
