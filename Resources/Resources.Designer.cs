@@ -790,6 +790,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Past.
+        /// </summary>
+        public static string Lessons_past {
+            get {
+                return ResourceManager.GetString("Lessons_past", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upcoming.
+        /// </summary>
+        public static string Lessons_upcoming {
+            get {
+                return ResourceManager.GetString("Lessons_upcoming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please log in with your email and password. If you have forgotten your password, click &quot;Forgot your password?&quot; link to get instructions..
         /// </summary>
         public static string Login_Desc {

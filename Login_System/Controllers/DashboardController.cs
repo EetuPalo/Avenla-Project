@@ -32,6 +32,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new DashboardVM();
+            DateTime localdate = DateTime.Now;
             
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;            
@@ -60,6 +61,8 @@ namespace Login_System.Controllers
             var userGroupList = new List<GroupMember>();
             var allGoals = new List<SkillGoals>();
             var lessonList = new List<Lesson>();
+            var upcomingLessonsList = new List<Lesson>();
+            var pastLessonsList = new List<Lesson>();
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
 
@@ -121,7 +124,15 @@ namespace Login_System.Controllers
             {
                 foreach(var lessons in _context.Lessons.Where(x=> x.Id == userLessons.LessonID))
                 {
-                    lessonList.Add(lessons);
+                    if (localdate <= lessons.Date) 
+                    {
+                        upcomingLessonsList.Add(lessons);
+                    }
+                    if (localdate > lessons.Date)
+                    {
+                        pastLessonsList.Add(lessons);
+                    }
+                    //lessonList.Add(lessons);
                 }
             }
             
@@ -134,10 +145,13 @@ namespace Login_System.Controllers
 
             model.UserGroups = groupList;
             model.UserSkills = skillList;
-            model.UserCourses = courseList;
+            model.UserCourses = courseList.OrderBy(x=>x.Status).ToList();
             model.UserCertificates = certificateList;
             model.UserGoals = allGoals;
-            model.Lessons = lessonList.OrderBy(x=>x.Date).ToList();
+            model.Lessons = upcomingLessonsList.OrderBy(x=>x.Date).Take(5).ToList();
+            model.PastLessons = pastLessonsList.OrderByDescending(x => x.Date).Take(5).ToList();
+            
+
 
             return View(model);
         }

@@ -362,6 +362,12 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Skills" xml:space="preserve">
     <value>Skills</value>
   </data>
+  <data name="Lessons_past" xml:space="preserve">
+    <value>Past</value>
+  </data>
+  <data name="Lessons_upcoming" xml:space="preserve">
+    <value>Upcoming</value>
+  </data>
   <data name="Login_Desc" xml:space="preserve">
     <value>Please log in with your email and password. If you have forgotten your password, click "Forgot your password?" link to get instructions.</value>
   </data>

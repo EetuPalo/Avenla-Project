@@ -359,6 +359,12 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Skills" xml:space="preserve">
     <value>Osaaminen</value>
   </data>
+  <data name="Lessons_past" xml:space="preserve">
+    <value>Menneet</value>
+  </data>
+  <data name="Lessons_upcoming" xml:space="preserve">
+    <value>Tulevat</value>
+  </data>
   <data name="Login_Desc" xml:space="preserve">
     <value>Kirjaudu sisään käyttäen sähköpostiasi ja salasanaasi. Jos olet unohtanut salasanasi, klikkaa "Unohdin salasanani" linkkiä saadaksesi lisäohjeita.</value>
   </data>

@@ -136,61 +136,104 @@
 </div>
 <br />
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-9">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
+                <div class="row">
+                    <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
+                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
+                    <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_grade </h6>
+                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
+                </div>
                 <p class="card-text">
                     @foreach (var item in Model.UserCourses)
                     {
-                        <div class="row">
-                            <div class="col-sm-6">
-                                @Html.DisplayFor(modelItem => item.CourseName)
-                            </div>
-                            @if (item.Status == "Completed" || item.Status == "Suoritettu")
-                            {
-                                <div class="col-sm-6 text-success">
-                                    @Html.DisplayFor(modelItem => item.Status)
-
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-sm-6">
-                                    @Html.DisplayFor(modelItem => item.Status)
-
-                                </div>
-                            }
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @Html.DisplayFor(modelItem => item.CourseName)
                         </div>
+                        @if (item.Status == "Completed" || item.Status == "Suoritettu")
+                        {
+                            <div class="col-sm-3 text-success">
+                                @Html.DisplayFor(modelItem => item.Status)
+
+                            </div>
+                            <div class="col-sm-2" style="text-align:center;">
+                                @item.CourseGrade
+                            </div>
+                            <div class="col-sm-3">
+                                @item.CompletionDate.ToString("dd.MM.yyyy")
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-sm-4">
+                                @Html.DisplayFor(modelItem => item.Status)
+
+                            </div>
+                        }
+
+                    </div>
                     }
                 </p><br />
                 <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
                 <p class="card-text">
+                    <div class="row">
+                        <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Resources.Lessons_upcoming @Resources.Courses.Index_Lessons</h6>
+                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Lesson</h6>
+                        <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
+                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
+                    </div>
                     @foreach (var lesson in Model.Lessons)
                     {
+                        <div class="row">
+                            <div class="col-sm-4"> @Html.DisplayFor(modelItem => lesson.CourseName) </div>
+                            <div class="col-sm-3">
+                                @Html.DisplayFor(modelItem => lesson.LessonName)
+                            </div>
+                            <div class="col-sm-2" style="text-transform: Capitalize">
+                                @Html.DisplayFor(modelItem => lesson.Location)
+                            </div>
+                            <div class="col-sm-3">
+                                @lesson.Date.ToString("HH.mm " + " - " + " dd.MM.yyyy")
+                            </div>
+
+                        </div>
+
+                    }
+
+                </p>
+                <p>
+                    <h6 style="text-decoration:underline;">@Resources.Resources.Lessons_past @Resources.Courses.Index_Lessons</h6>
+                    @foreach (var lesson in Model.PastLessons)
+                    {
                     <div class="row">
-                        <div class="col-sm-5">
+                        <div class="col-sm-4"> @Html.DisplayFor(modelItem => lesson.CourseName) </div>
+                        <div class="col-sm-3">
                             @Html.DisplayFor(modelItem => lesson.LessonName)
                         </div>
-                        <div class="col-sm-3" style="text-transform: Capitalize">
+                        <div class="col-sm-2" style="text-transform: Capitalize">
                             @Html.DisplayFor(modelItem => lesson.Location)
                         </div>
-                        <div class="col-sm-4">
-                            @Html.DisplayFor(modelItem => lesson.Date)
+                        <div class="col-sm-3">
+                            @lesson.Date.ToString("HH.mm " + " - " +" dd.MM.yyyy")
                         </div>
 
                     </div>
 
                     }
-
                 </p>
                 <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
             </div>
         </div>
     </div>
+
+
     @if (User.IsInRole("User"))
     {
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">@Resources.Resources.UCertificates_Index_Cert</h5>
