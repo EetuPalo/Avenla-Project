@@ -187,6 +187,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        public static string Dashboard_CourseCompleted {
+            get {
+                return ResourceManager.GetString("Dashboard_CourseCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ongoing.
+        /// </summary>
+        public static string Dashboard_CourseNotComplete {
+            get {
+                return ResourceManager.GetString("Dashboard_CourseNotComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Progress.
         /// </summary>
         public static string Dashboard_progress {

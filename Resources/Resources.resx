@@ -159,6 +159,12 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="Dashboard_CourseCompleted" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Dashboard_CourseNotComplete" xml:space="preserve">
+    <value>Ongoing</value>
+  </data>
   <data name="Dashboard_progress" xml:space="preserve">
     <value>Progress</value>
   </data>
