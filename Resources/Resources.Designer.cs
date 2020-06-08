@@ -628,6 +628,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Category.
+        /// </summary>
+        public static string Index_BTN_CreateCategory {
+            get {
+                return ResourceManager.GetString("Index_BTN_CreateCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {

@@ -23,7 +23,7 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(string Skill, string Certificate, string Groups, int? min, int? max)
+        public async Task<IActionResult> Index(string[] Skill, string Certificate, string Groups, int? min, int? max)
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
@@ -120,13 +120,17 @@ namespace Login_System.Controllers
         }
 
         // Skill Filter
-        public List<AppUser> SkillFilter(List<AppUser> SkillList, string Skill, int? min, int? max)
+        public List<AppUser> SkillFilter(List<AppUser> SkillList, string[] Skill, int? min, int? max)
         {
-            var skillQuery = from m in _context.UserSkills
-                             where m.SkillName == Skill
-                             select m;
+            foreach (var skillInList in Skill)
+            {
+                var skillQuery = from m in _context.UserSkills
+                                 where m.SkillName == skillInList
+                                 select m;
 
-            foreach (var items in skillQuery.Where(x => x.SkillName == Skill))
+            
+
+            foreach (var items in skillQuery.Where(x => x.SkillName == skillInList))
             {
                 var skillQuerySecond = from t in _context.UserSkills
                                        group t by t.UserID into g
@@ -157,7 +161,8 @@ namespace Login_System.Controllers
                         }
                     }
                 }
-            }
+             }
+           }
             return SkillList;
         }
         // Certificate Filter
