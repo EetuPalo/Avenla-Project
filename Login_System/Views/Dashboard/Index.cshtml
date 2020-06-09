@@ -165,7 +165,7 @@
                                 @Html.DisplayFor(modelItem => item.Status)
 
                             </div>
-                            <div class="col-sm-2" style="text-align:center;">
+                            <div class="col-sm-2">
                                 @item.CourseGrade
                             </div>
                             <div class="col-sm-3">
@@ -242,7 +242,7 @@
         <div class="col-sm-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Resources.Resources.UCertificates_Index_Cert</h5>
+                    <h5 class="card-title">@Resources.Resources.Layout_Certificates</h5>
                     <p class="card-text">
                         @foreach (var item in Model.UserCertificates)
                         {
