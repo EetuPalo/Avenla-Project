@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-sm">
             <label asp-for="Skill">@Resources.Skills.Index_Skill</label>
-            @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Resources.Skill_Dropdownlist, new { @class = "form-control col-sm" })
+            @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Resources.Skill_Dropdownlist, new { @class = "js-example-basic-multiple", @multiple = "multiple" })
         </div>
         <div class="col-sm"></div>
         <div class="col-sm"></div>
@@ -41,8 +41,9 @@
         </div>
         <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button></div>
     </div><br />
-
-
+    
+    
+            <!--Results-->
           <table class="table">
               <thead>
                   <tr>
@@ -86,3 +87,13 @@
     </div>
 </form>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "Select Category"
+            });
+});
+</script>
+}

@@ -317,6 +317,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Home_Description_p2" xml:space="preserve">
     <value>Proin volutpat arcu interdum finibus lacinia. Morbi vitae tellus venenatis lorem tincidunt cursus sit amet at orci. Aenean dui lacus, tempus eu ultricies at, tempor eu dolor. Aenean elit enim, pharetra nec aliquam et, porta nec nunc. Proin lacinia egestas vehicula. Proin eu volutpat sapien. Donec suscipit, sem eget hendrerit scelerisque, ex mi ullamcorper nunc, in maximus nunc mauris pellentesque lorem. Suspendisse ac lacinia dui, vel facilisis turpis. Nullam bibendum bibendum magna, suscipit semper ante congue non. Maecenas id turpis nisi. Quisque nulla est, dignissim sed egestas vel, hendrerit et tellus. Nam gravida orci id orci vehicula, eget blandit tellus luctus. Nulla ut fermentum lacus. Nullam facilisis tellus ac erat porta, ac eleifend felis luctus.</value>
   </data>
+  <data name="Index_BTN_CreateCategory" xml:space="preserve">
+    <value>Create Category</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
   </data>
