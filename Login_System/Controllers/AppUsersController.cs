@@ -431,7 +431,7 @@ namespace Login_System.Controllers
                     user.UserName = fixedUn;
                     user.Email = model.User.Email;
                     user.PhoneNumber = model.User.PhoneNumber;
-                    if(User.IsInRole("Superadmin "))
+                    if(User.IsInRole("Superadmin"))
                     {
                         user.Company = model.Company;
                     }

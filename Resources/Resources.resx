@@ -180,6 +180,9 @@
   <data name="DELETE_Title" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Desc_company" xml:space="preserve">
+    <value>Company description</value>
+  </data>
   <data name="Details_Table_Group" xml:space="preserve">
     <value>Group</value>
   </data>

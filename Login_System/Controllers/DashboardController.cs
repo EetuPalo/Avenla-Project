@@ -32,15 +32,14 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Index(int? id)
         {
             var model = new DashboardVM();
-            DateTime localdate = DateTime.Now;
-            
+            DateTime localdate = DateTime.Now;            
+
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;            
             ViewBag.CurrentUserFirstName = user.FirstName;
             ViewBag.CurrentUserLastName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;
             ViewBag.CurrentUserPhone = user.PhoneNumber;
-            
 
             if (id == null)
             {
@@ -63,9 +62,20 @@ namespace Login_System.Controllers
             var lessonList = new List<Lesson>();
             var upcomingLessonsList = new List<Lesson>();
             var pastLessonsList = new List<Lesson>();
+            var companyDescList = new List<string>();
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
 
+            //var companyDesc = from d in _context.Company
+            //                  select d.Description;
+
+            //ViewBag.CompanyDesc = companyDesc;
+            
+
+            foreach (var company in _context.Company.Where(x=> x.name == user.Company))
+            {
+                companyDescList.Add(company.Description);
+            }
 
             // Skills
             foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
@@ -134,15 +144,14 @@ namespace Login_System.Controllers
                     }
                     //lessonList.Add(lessons);
                 }
-            }
-            
+            }            
 
             // Certificates
             foreach (var userCertificate in _context.UserCertificates.Where(x => x.UserID == id))
             {
                 certificateList.Add(userCertificate);
             }
-
+            //ViewBag.CompanyDesc = company.Description;
             model.UserGroups = groupList;
             model.UserSkills = skillList;
             model.UserCourses = courseList.OrderBy(x=>x.Status).ToList();
@@ -150,7 +159,9 @@ namespace Login_System.Controllers
             model.UserGoals = allGoals;
             model.Lessons = upcomingLessonsList.OrderBy(x=>x.Date).Take(5).ToList();
             model.PastLessons = pastLessonsList.OrderByDescending(x => x.Date).Take(5).ToList();
-            
+            model.CompanyDesc = companyDescList;
+
+
 
 
             return View(model);
