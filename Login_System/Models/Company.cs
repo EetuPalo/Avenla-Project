@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Login_System.Models
 {
@@ -14,6 +15,9 @@ namespace Login_System.Models
         [DataType(DataType.Text)]
         [DisplayName("Company")]
         public string name { get; set; }
+
+        [AllowHtml]
+        public string Description { get; set; }
         
     }
 }

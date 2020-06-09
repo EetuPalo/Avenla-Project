@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company description.
+        /// </summary>
+        public static string Desc_company {
+            get {
+                return ResourceManager.GetString("Desc_company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group.
         /// </summary>
         public static string Details_Table_Group {

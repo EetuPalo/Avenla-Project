@@ -180,6 +180,9 @@
   <data name="DELETE_Title" xml:space="preserve">
     <value>Poista</value>
   </data>
+  <data name="Desc_company" xml:space="preserve">
+    <value>Yhtiön kuvaus</value>
+  </data>
   <data name="Details_Table_Group" xml:space="preserve">
     <value>Ryhmä</value>
   </data>

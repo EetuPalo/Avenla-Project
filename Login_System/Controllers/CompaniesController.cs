@@ -48,7 +48,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name")] Company company)
+        public async Task<IActionResult> Create([Bind("id,name,Description")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("id,name,Description")] Company company)
         {
             if (id != company.id)
             {

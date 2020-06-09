@@ -22,7 +22,13 @@
                     {
                         <h5 class="card-title">@Html.Raw("not found")</h5>
                     }
-                    <p class="card-text">Here will be information about the company. <br />Tähän tulee infotekstiä yhtiöstä. Linkki ei toimi tällä hetkellä.</p>
+                    <p class="card-text">
+                        @foreach (var company in Model.CompanyDesc)
+                        {
+                        @Html.Raw(company)
+                        }                        
+                    </p> 
+                    <p> Linkki ei toimi tällä hetkellä.</p>
                     <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
                 </div>
             </div>
