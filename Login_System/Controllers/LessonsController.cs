@@ -123,7 +123,7 @@ namespace Login_System.Controllers
 
                 //We need to do some stuff with the string to get it to work as datetime. Thanks to the american date format
                 string tempDate = DateTime.ParseExact(lesson.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture).ToShortDateString();
-                tempDate += ' ' + lesson.HourString + ':' + lesson.MinuteString + ':' + "00";
+                tempDate += ' ' + lesson.HourString + ':' + lesson.MinuteString;
                 tempLesson.Date = DateTime.Parse(tempDate, CultureInfo.CurrentCulture);
 
                 var tempCourse = _context.Courses.FirstOrDefault(x => x.id == lesson.CourseID);

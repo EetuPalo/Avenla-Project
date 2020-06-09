@@ -15,6 +15,7 @@ namespace Login_System.ViewModels
         public List<SkillGoals> UserGoals { get; set; }
         public List<GroupMember> UserGroups { get; set; }
         public List<Lesson> Lessons { get; set; }
+        public List<Lesson> PastLessons { get; set; }
         public IList<SelectListItem> GroupsDD { get; set; }
         public DashboardVM()
         { GroupsDD = new List<SelectListItem>(); }

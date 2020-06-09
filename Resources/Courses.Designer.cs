@@ -61,6 +61,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completion date.
+        /// </summary>
+        public static string Completion_date {
+            get {
+                return ResourceManager.GetString("Completion_date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grade.
+        /// </summary>
+        public static string Completion_grade {
+            get {
+                return ResourceManager.GetString("Completion_grade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date.
+        /// </summary>
+        public static string Course_end {
+            get {
+                return ResourceManager.GetString("Course_end", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date.
+        /// </summary>
+        public static string Course_start {
+            get {
+                return ResourceManager.GetString("Course_start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Course_status {
+            get {
+                return ResourceManager.GetString("Course_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create_BTN_Create {
