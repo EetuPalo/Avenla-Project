@@ -1,4 +1,4 @@
-﻿@model Login_System.ViewModels.AdvancedSearchVM
+﻿ @model Login_System.ViewModels.AdvancedSearchVM
 @{
     ViewData["Title"] = "AdvancedSearch";
    
@@ -50,10 +50,10 @@
           <table class="table">
               <thead>
                   <tr>
-                      <th>A</th>
-                      <th>B</th>
-                      <th>C</th>
-                      <th>D</th>
+                      <th>@Resources.Resources.FirstName</th>
+                      <th>@Resources.Resources.LastName</th>
+                      <th>@Resources.Resources.Email</th>
+                      <th>@Resources.Resources.Phone</th>
                   </tr>
               </thead>
               <tbody>
@@ -95,7 +95,8 @@
 <script type="text/javascript" language="javascript">
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2({
-                placeholder: "Select Category"
+                placeholder: "Select Category",
+                allowClear: true
             });
 });
 </script>

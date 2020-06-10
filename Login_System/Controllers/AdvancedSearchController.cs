@@ -37,7 +37,7 @@ namespace Login_System.Controllers
 
             bool companybool = Company!= null ? true :false;
             bool skillbool = Skill!= null ? true : false ;
-            bool gorupbool = Groups != null ?true :false;
+            bool groupbool = Groups != null ?true :false;
             bool certificatebool = Certificate != null ?true :false;
             IEnumerable<AppUser> finalResults = null;
 
@@ -88,7 +88,7 @@ namespace Login_System.Controllers
                     break;
                 default:
                     CertificateFilter(CertList, Certificate);
-                    if (userList.Count == 0)
+                    if (userList.Count == 0 && !skillbool)
                     {
                         userList.AddRange(CertList);
                     }
@@ -96,7 +96,7 @@ namespace Login_System.Controllers
                     {
                         userList = userList.Intersect(CertList).ToList();
                     }
-                    usersInFilter.Clear();
+                   
                     break;
             }
 
@@ -106,15 +106,15 @@ namespace Login_System.Controllers
                     break;
                 default:
                     GroupFilter(GroupList, Groups);
-                    if (userList.Count == 0)
+                    if (userList.Count == 0 && (!skillbool && !certificatebool))
                     {
                         userList.AddRange(GroupList);
                     }
                     else
                     {
-                        userList = userList.Intersect(CertList).ToList();
+                        userList = userList.Intersect(GroupList).ToList();
                     }
-                    usersInFilter.Clear();
+               
                     break;
             }
 
@@ -124,13 +124,13 @@ namespace Login_System.Controllers
                     break;
                 default:
                     CompanyFilter(CompanyList, Company);
-                    if (userList.Count == 0)
+                    if (userList.Count == 0&& (!skillbool && !certificatebool && !groupbool))
                     {
                         userList.AddRange(CompanyList);
                     }
                     else
                     {
-                        userList = userList.Intersect(CertList).ToList();
+                        userList = userList.Intersect(CompanyList).ToList();
                     }
                     break;
             }
