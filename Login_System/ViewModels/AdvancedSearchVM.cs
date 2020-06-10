@@ -25,12 +25,14 @@ namespace Login_System.ViewModels
 
         public IList<SelectListItem> GroupList { get; set; }
         public IList<SelectListItem> SkillList { get; set; }
+        public IList<SelectListItem> CompanyList { get; set; }
 
         public AdvancedSearchVM()
         {
             CertificateList = new List<SelectListItem>();
             GroupList = new List<SelectListItem>();
             SkillList = new List<SelectListItem>();
+            CompanyList = new List<SelectListItem>();
         }
     }
 }

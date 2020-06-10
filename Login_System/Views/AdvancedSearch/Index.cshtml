@@ -14,7 +14,10 @@
             @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Resources.Skill_Dropdownlist, new { @class = "js-example-basic-multiple", @multiple = "multiple" })
         </div>
         <div class="col-sm"></div>
-        <div class="col-sm"></div>
+        <div class="col-sm">
+            <label asp-for="Company">@Resources.Resources.Company</label>
+            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple" })
+        </div>
         <div class="col-sm">
             <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
             @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })

@@ -8,6 +8,8 @@ using Login_System.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Data;
 
 namespace Login_System.Controllers
 {
@@ -23,13 +25,21 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(string[] Skill, string Certificate, string Groups, int? min, int? max)
+        public async Task<IActionResult> Index(string[] Skill, string Certificate, string Groups, string Company, int? min, int? max)
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
+            var usersInFilter = new List<AppUser>();
             var SkillList = new List<AppUser>();
             var GroupList = new List<AppUser>();
-            var CertList = new List<AppUser>();         
+            var CertList = new List<AppUser>();
+            var CompanyList = new List<AppUser>();
+
+            bool companybool = Company!= null ? true :false;
+            bool skillbool = Skill!= null ? true : false ;
+            bool gorupbool = Groups != null ?true :false;
+            bool certificatebool = Certificate != null ?true :false;
+            IEnumerable<AppUser> finalResults = null;
 
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;
@@ -52,12 +62,23 @@ namespace Login_System.Controllers
                 model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
             }
 
+            foreach (var companies in _context.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = companies.name, Value = companies.name });
+            }
+            
+
             switch (Skill)
             {
                 case null:
                     break;
                 default:
-                    SkillFilter(SkillList, Skill, min, max);
+                   SkillList= SkillFilter(SkillList, Skill, min, max);
+                    if(userList.Count == 0)
+                    {
+                        userList.AddRange(SkillList);
+                    }
+                
                     break;
             }
 
@@ -67,6 +88,24 @@ namespace Login_System.Controllers
                     break;
                 default:
                     CertificateFilter(CertList, Certificate);
+                    if (userList.Count == 0)
+                    {
+                        userList.AddRange(CertList);
+                    }
+                    else
+                    {
+                        usersInFilter.AddRange(userList);
+                        finalResults = usersInFilter.Intersect(CertList);
+                        userList.Clear();
+                        foreach(var item in finalResults)
+                        {
+                            if (!userList.Contains(item))
+                            {
+                                userList.Add(item);
+                            }
+                        }
+                    }
+                    usersInFilter.Clear();
                     break;
             }
 
@@ -76,12 +115,56 @@ namespace Login_System.Controllers
                     break;
                 default:
                     GroupFilter(GroupList, Groups);
+                    if (userList.Count == 0)
+                    {
+                        userList.AddRange(GroupList);
+                    }
+                    else
+                    {
+                        usersInFilter.AddRange(userList);
+                        finalResults = usersInFilter.Intersect(GroupList);
+                        userList.Clear();
+                        foreach (var item in finalResults)
+                        {
+                            if (!userList.Contains(item))
+                            {
+                                userList.Add(item);
+                            }
+                        }
+                    }
+                    usersInFilter.Clear();
                     break;
             }
 
-            var SkillCertList = new List<AppUser>();
-            
-            if (SkillList.Count == 0 && CertList.Count == 0)
+            switch (Company)
+            {
+                case null:
+                    break;
+                default:
+                    CompanyFilter(CompanyList, Company);
+                    if (userList.Count == 0)
+                    {
+                        userList.AddRange(CompanyList);
+                    }
+                    else
+                    {
+                        usersInFilter.AddRange(userList);
+                        finalResults = usersInFilter.Intersect(CompanyList);
+                        userList.Clear();
+                        foreach (var item in finalResults)
+                        {
+                            if (!userList.Contains(item))
+                            {
+                                userList.Add(item);
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            //var SkillCertList = new List<AppUser>();
+
+            /*if (SkillList.Count == 0 && CertList.Count == 0)
             {
                     userList = GroupList;
             }
@@ -95,12 +178,17 @@ namespace Login_System.Controllers
             {
                     userList = CertList; 
             }
-            if(GroupList.Count > 0 && SkillList.Count > 0 && CertList.Count > 0)
+            if (GroupList.Count == 0 && SkillList.Count == 0 && CertList.Count == 0)
+            {
+                userList = CompanyList;
+            }
+            if (GroupList.Count > 0 && SkillList.Count > 0 && CertList.Count > 0 && CompanyList.Count > 0)
             {
                 SkillCertList = SkillList.Intersect(CertList).ToList();
                 userList = SkillCertList.Intersect(GroupList).ToList();
+                userList = SkillCertList.Intersect(CompanyList).ToList();
             }
-            if (GroupList.Count == 0 && SkillList.Count > 0 && CertList.Count > 0) 
+            if (GroupList.Count == 0 && SkillList.Count > 0 && CertList.Count > 0 && ) 
             {
                 userList = SkillList.Intersect(CertList).ToList();
             }
@@ -113,56 +201,74 @@ namespace Login_System.Controllers
                 userList = GroupList.Intersect(SkillList).ToList();
             }
 
-            userList = userList.OrderBy(x=> x.Company != user.Company).ToList();
+            userList = userList.OrderBy(x=> x.Company != user.Company).ToList();*/
+
+            
             model.Users = userList;
             
             return View(model);
         }
 
+   
+
         // Skill Filter
         public List<AppUser> SkillFilter(List<AppUser> SkillList, string[] Skill, int? min, int? max)
         {
+            IEnumerable<AppUser> usr;
             foreach (var skillInList in Skill)
             {
+                var currentSkillList = new List<AppUser>();
                 var skillQuery = from m in _context.UserSkills
                                  where m.SkillName == skillInList
                                  select m;
 
-            
-
-            foreach (var items in skillQuery.Where(x => x.SkillName == skillInList))
-            {
-                var skillQuerySecond = from t in _context.UserSkills
-                                       group t by t.UserID into g
-                                       select new { UserID = g.Key, Date = g.Max(t => t.Date) };
-
-                foreach (var it in skillQuerySecond.Where(x => x.Date == items.Date))
+                foreach (var items in skillQuery.Where(x => x.SkillName == skillInList))
                 {
+                    var skillQuerySecond = from t in _context.UserSkills
+                                           group t by t.UserID into g
+                                           select new { UserID = g.Key, Date = g.Max(t => t.Date) };
 
-                    foreach (AppUser user in UserMgr.Users.Where(x => x.Id == items.UserID))
+                    foreach (var it in skillQuerySecond.Where(x => x.Date == items.Date))
                     {
 
-                        if (min == null && max == null)
+                        foreach (AppUser user in UserMgr.Users.Where(x => x.Id == items.UserID))
                         {
-                            if (!SkillList.Contains(user))
+
+                            if (min == null && max == null)
                             {
-                                SkillList.Add(user);
-                            }
-                        }
-                        else
-                        {
-                            if ((items.SkillLevel >= min && items.SkillLevel <= max) || (min == null && items.SkillLevel <= max) || (max == null && items.SkillLevel >= min))
-                            {
-                                if (!SkillList.Contains(user))
+                                if (!currentSkillList.Contains(user))
                                 {
-                                    SkillList.Add(user);
+                                    currentSkillList.Add(user);
+                                }
+                            }
+                            else
+                            {
+                                if ((items.SkillLevel >= min && items.SkillLevel <= max) || (min == null && items.SkillLevel <= max) || (max == null && items.SkillLevel >= min))
+                                {
+                                    if (!currentSkillList.Contains(user))
+                                    {
+                                        currentSkillList.Add(user);
+                                    }
                                 }
                             }
                         }
                     }
+                 }
+                //add final loop here
+                if (SkillList.Count == 0)
+                {
+                    SkillList.AddRange(currentSkillList);
+                    currentSkillList.Clear();
+                 
                 }
-             }
-           }
+                else
+                {
+                    usr = SkillList.AsQueryable().Intersect(currentSkillList);
+                    
+                    SkillList = usr.ToList();
+                    currentSkillList.Clear();
+                }
+            }
             return SkillList;
         }
         // Certificate Filter
@@ -207,6 +313,29 @@ namespace Login_System.Controllers
                 }
             }
             return GroupList;
+        }
+
+        //company filter
+        private List<AppUser> CompanyFilter(List<AppUser> CompanyList, string Company)
+        {
+            List<AppUser> tempList = new List<AppUser>();
+
+            /*var groupQuery = from i in _context.Company
+                             where i.name == Company
+                             select i;*/
+
+            foreach (var Uname in _context.Company.Where(x => x.name == Company))
+            {
+                foreach (AppUser user in UserMgr.Users.Where(x => x.Company == Uname.name))
+                {
+                    //This is to prevent duplicates
+                    if (!CompanyList.Contains(user))
+                    {
+                        CompanyList.Add(user);
+                    }
+                }
+            }
+            return CompanyList;
         }
     }
 }
