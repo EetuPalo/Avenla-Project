@@ -78,7 +78,7 @@ namespace Login_System.Controllers
                     {
                         userList.AddRange(SkillList);
                     }
-                
+                    
                     break;
             }
 
@@ -94,16 +94,7 @@ namespace Login_System.Controllers
                     }
                     else
                     {
-                        usersInFilter.AddRange(userList);
-                        finalResults = usersInFilter.Intersect(CertList);
-                        userList.Clear();
-                        foreach(var item in finalResults)
-                        {
-                            if (!userList.Contains(item))
-                            {
-                                userList.Add(item);
-                            }
-                        }
+                        userList = userList.Intersect(CertList).ToList();
                     }
                     usersInFilter.Clear();
                     break;
@@ -121,16 +112,7 @@ namespace Login_System.Controllers
                     }
                     else
                     {
-                        usersInFilter.AddRange(userList);
-                        finalResults = usersInFilter.Intersect(GroupList);
-                        userList.Clear();
-                        foreach (var item in finalResults)
-                        {
-                            if (!userList.Contains(item))
-                            {
-                                userList.Add(item);
-                            }
-                        }
+                        userList = userList.Intersect(CertList).ToList();
                     }
                     usersInFilter.Clear();
                     break;
@@ -148,16 +130,7 @@ namespace Login_System.Controllers
                     }
                     else
                     {
-                        usersInFilter.AddRange(userList);
-                        finalResults = usersInFilter.Intersect(CompanyList);
-                        userList.Clear();
-                        foreach (var item in finalResults)
-                        {
-                            if (!userList.Contains(item))
-                            {
-                                userList.Add(item);
-                            }
-                        }
+                        userList = userList.Intersect(CertList).ToList();
                     }
                     break;
             }
