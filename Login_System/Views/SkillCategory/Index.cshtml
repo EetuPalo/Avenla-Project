@@ -1,0 +1,101 @@
+﻿@model List<SkillCategories>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resources.SkillCategories.Index_Title</h2>
+
+<form asp-controller="Skills" asp-action="Index">
+    <div class="container-fluid p-0">
+        <div class="row mb-4">
+            <div class="col-sm">
+                <div class="input-group">
+                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Skills.Index_Search value="@TempData["SearchValue"]">
+                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Skills.Index_BTN_Search</button>
+                <a class="btn btn-primary" asp-controller="SkillCategory" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Index_BTN_CreateCategory</a>
+            </div>
+        </div>
+    </div>
+</form>
+<hr />
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-sm-4 border-right border-dark">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resources.SkillCategories.Index_ListHeader;
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr class="expandable-row">
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].Name)
+                            </td>
+                            <td>    
+                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model[i].id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model[i].id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
+                            </td>
+                        </tr>
+                        <tr class="content border border-secondary">
+                            <td colspan="8">
+                                <div class="container-fluid p-2 ">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            @Model[i].Name
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-8">
+            <h4>@Resources.SkillCategories.Index_SubTitle</h4>
+            <p>
+                @Resources.SkillCategories.Index_Desc
+            </p>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+            function clearForm() {
+                var search = document.getElementById('search-bar');
+                search.value = '';
+                document.forms[0].submit();
+            }
+    </script>
+    <script>
+            $(function () {
+                $(".content").hide();
+                $('.content2').css('background-color', '#F8F8FF');
+
+                $('.expandable-row').click(function (e) {
+                    $(this).next('.content').toggle();
+                    $(this).next('.content').css('background-color', '#F8F8FF');
+                    //$(this).next('.content').slideToggle();
+                });
+
+            });
+    </script>
+}

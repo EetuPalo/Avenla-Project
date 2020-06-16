@@ -359,6 +359,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Roles" xml:space="preserve">
     <value>Roolit</value>
   </data>
+  <data name="Layout_SkillCategory" xml:space="preserve">
+    <value>Taito kategoriat</value>
+  </data>
   <data name="Layout_Skills" xml:space="preserve">
     <value>Osaaminen</value>
   </data>

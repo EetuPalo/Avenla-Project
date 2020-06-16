@@ -25,7 +25,7 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(string[] Skill, string Certificate, string Groups, string Company, int? min, int? max)
+        public async Task<IActionResult> Index(string[] Skill, string Certificate, string Groups, string Company, int?[] min, int?[] max)
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
@@ -35,12 +35,11 @@ namespace Login_System.Controllers
             var CertList = new List<AppUser>();
             var CompanyList = new List<AppUser>();
 
-            bool companybool = Company!= null ? true :false;
+            //booleans to check if other filters have been used
             bool skillbool = Skill!= null ? true : false ;
             bool groupbool = Groups != null ?true :false;
-            bool certificatebool = Certificate != null ?true :false;
-            IEnumerable<AppUser> finalResults = null;
-
+            bool certificatebool = Certificate != null ? true :false;
+     
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;
 
@@ -185,9 +184,10 @@ namespace Login_System.Controllers
    
 
         // Skill Filter
-        public List<AppUser> SkillFilter(List<AppUser> SkillList, string[] Skill, int? min, int? max)
+        public List<AppUser> SkillFilter(List<AppUser> SkillList, string[] Skill, int?[] min, int?[] max)
         {
             IEnumerable<AppUser> usr;
+            var index = 0;
             foreach (var skillInList in Skill)
             {
                 var currentSkillList = new List<AppUser>();
@@ -203,11 +203,11 @@ namespace Login_System.Controllers
 
                     foreach (var it in skillQuerySecond.Where(x => x.Date == items.Date))
                     {
-
+                        index = 0;
                         foreach (AppUser user in UserMgr.Users.Where(x => x.Id == items.UserID))
                         {
-
-                            if (min == null && max == null)
+                            
+                            if (min[index] == null && max[index] == null)
                             {
                                 if (!currentSkillList.Contains(user))
                                 {
@@ -216,13 +216,14 @@ namespace Login_System.Controllers
                             }
                             else
                             {
-                                if ((items.SkillLevel >= min && items.SkillLevel <= max) || (min == null && items.SkillLevel <= max) || (max == null && items.SkillLevel >= min))
+                                if ((items.SkillLevel >= min[index] && items.SkillLevel <= max[index]) || (min[index] == null && items.SkillLevel <= max[index]) || (max[index] == null && items.SkillLevel >= min[index]))
                                 {
                                     if (!currentSkillList.Contains(user))
                                     {
                                         currentSkillList.Add(user);
                                     }
                                 }
+                                index++;
                             }
                         }
                     }

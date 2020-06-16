@@ -5,19 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Admin, Superadmin")]
+    [Authorize(Roles = "Admin, Superadmin, User")]
     public class CertificatesController : Controller
     {
         private readonly GeneralDataContext _context;
+        private UserManager<AppUser> UserMgr { get; }
 
         public CertificatesController(GeneralDataContext context)
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Index(string searchString)
         {
             var certificates = from c in _context.Certificates select c;
@@ -30,7 +32,7 @@ namespace Login_System.Controllers
             }
             return View(await certificates.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +50,7 @@ namespace Login_System.Controllers
             return View(certificate);
         }
 
+        [Authorize(Roles = "Admin, Superadmin, User")]
         public IActionResult Create()
         {
             return View();
@@ -55,19 +58,24 @@ namespace Login_System.Controllers
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Superadmin, User")]
         public async Task<IActionResult> Create([Bind("Id,Name,Organization")] Certificate certificate)
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                 _context.Add(certificate);
                 await _context.SaveChangesAsync();
+                
+
                 return RedirectToAction(nameof(Index));
             }
             return View(certificate);
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,6 +95,7 @@ namespace Login_System.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Organization")] Certificate certificate)
         {
             if (id != certificate.Id)
@@ -124,7 +133,7 @@ namespace Login_System.Controllers
             }
             return View(certificate);
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +150,7 @@ namespace Login_System.Controllers
 
             return View(certificate);
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -12,13 +12,13 @@ namespace Login_System.ViewModels
         public string Company { get; set; }
 
         public string Skill { get; set; }
-        
+
         public int SkillLevel { get; set; }
-        
+
         public string Groups { get; set; }
-        
+
         public string Certificate { get; set; }
-        
+
         public List<AppUser> Users { get; set; }
 
         public IList<SelectListItem> CertificateList { get; set; }
@@ -26,7 +26,6 @@ namespace Login_System.ViewModels
         public IList<SelectListItem> GroupList { get; set; }
         public IList<SelectListItem> SkillList { get; set; }
         public IList<SelectListItem> CompanyList { get; set; }
-
         public AdvancedSearchVM()
         {
             CertificateList = new List<SelectListItem>();
@@ -35,4 +34,5 @@ namespace Login_System.ViewModels
             CompanyList = new List<SelectListItem>();
         }
     }
+
 }

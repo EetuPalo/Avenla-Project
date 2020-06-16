@@ -61,6 +61,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new certificate.
+        /// </summary>
+        public static string Create_New_Btn {
+            get {
+                return ResourceManager.GetString("Create_New_Btn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Certificate: This is the official name of the certificate. Please use the full name..
         /// </summary>
         public static string Create_SubDesc1 {

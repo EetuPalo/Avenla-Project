@@ -799,6 +799,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skill Categories.
+        /// </summary>
+        public static string Layout_SkillCategory {
+            get {
+                return ResourceManager.GetString("Layout_SkillCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skills.
         /// </summary>
         public static string Layout_Skills {

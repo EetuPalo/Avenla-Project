@@ -89,6 +89,11 @@ namespace Login_System
             //Sets lifetime for password reset tokens
             services.Configure<DataProtectionTokenProviderOptions>(o =>
                 o.TokenLifespan = TimeSpan.FromHours(24));
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("NoAdminRequired", policy => policy.RequireClaim("Id"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

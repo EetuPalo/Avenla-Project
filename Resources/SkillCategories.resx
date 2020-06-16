@@ -117,67 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create_New_Btn" xml:space="preserve">
-    <value>Luo uusi sertifikaatti</value>
+  <data name="Index_Desc" xml:space="preserve">
+    <value>Here you can create, edit, remove and add skills to skillcategories. </value>
   </data>
-  <data name="Create_SubDesc1" xml:space="preserve">
-    <value>Sertifikaatti: Tämä on sertifikaatin myöntäjän määrittelemä virallinen nimi. Käytä sertifikaatin koko nimeä.</value>
-  </data>
-  <data name="Create_SubDesc2" xml:space="preserve">
-    <value>Organisaatio: Sertifikaatin myöntäjä. Esimerkiksi: Microsoft</value>
-  </data>
-  <data name="Create_Submit" xml:space="preserve">
-    <value>Lisää</value>
-  </data>
-  <data name="Create_Title" xml:space="preserve">
-    <value>Lisää uusi sertifikaatti</value>
-  </data>
-  <data name="Delete_Skill" xml:space="preserve">
-    <value>Sertifikaatti</value>
-  </data>
-  <data name="Edit_BTN_Submit" xml:space="preserve">
-    <value>Tallenna</value>
-  </data>
-  <data name="Edit_SkillName" xml:space="preserve">
-    <value>Sertifikaatin nimi</value>
-  </data>
-  <data name="Edit_Title" xml:space="preserve">
-    <value>Muokkaa sertifikaattia</value>
-  </data>
-  <data name="Index_BTN_Create" xml:space="preserve">
-    <value>Lisää uusi</value>
-  </data>
-  <data name="Index_BTN_Delete" xml:space="preserve">
-    <value>Poista</value>
-  </data>
-  <data name="Index_BTN_Edit" xml:space="preserve">
-    <value>Muokkaa</value>
-  </data>
-  <data name="Index_BTN_Search" xml:space="preserve">
-    <value>Hae</value>
-  </data>
-  <data name="Index_Search" xml:space="preserve">
-    <value>Hae sertifikaateista</value>
-  </data>
-  <data name="Index_Skill" xml:space="preserve">
-    <value>Sertifikaatti</value>
-  </data>
-  <data name="Index_SubDesc1" xml:space="preserve">
-    <value>Sertifikaatti on dokumentti, joka todistaa tietyn taidon löytymisen tietyltä henkilöltä.</value>
-  </data>
-  <data name="Index_SubDesc2" xml:space="preserve">
-    <value>Täältä voit lisätä, muokata, ja poistaa sertifikaatteja.</value>
+  <data name="Index_ListHeader" xml:space="preserve">
+    <value>Categories:</value>
   </data>
   <data name="Index_SubTitle" xml:space="preserve">
-    <value>Lista sertifikaateista</value>
+    <value>List of skill categories</value>
   </data>
   <data name="Index_Title" xml:space="preserve">
-    <value>Sertifikaatit</value>
-  </data>
-  <data name="MODEL_Name" xml:space="preserve">
-    <value>Sertifikaatti</value>
-  </data>
-  <data name="MODEL_Organization" xml:space="preserve">
-    <value>Organisaatio</value>
+    <value>Skill Categories</value>
   </data>
 </root>

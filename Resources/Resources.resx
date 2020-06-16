@@ -365,6 +365,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Roles" xml:space="preserve">
     <value>Roles</value>
   </data>
+  <data name="Layout_SkillCategory" xml:space="preserve">
+    <value>Skill Categories</value>
+  </data>
   <data name="Layout_Skills" xml:space="preserve">
     <value>Skills</value>
   </data>
