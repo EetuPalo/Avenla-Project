@@ -25,6 +25,7 @@ namespace Login_System.Models
         public List<Skills> SkillList { get; set; }
 
         public string AdminEval { get; set; }
+        public int Skillid { get; set; }
 
         /*
         SqlDataReader dr;

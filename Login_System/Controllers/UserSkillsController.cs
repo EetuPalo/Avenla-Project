@@ -76,6 +76,7 @@ namespace Login_System.Controllers
             List<DataPoint> dataPoints = new List<DataPoint>();
             List<string> dates = new List<string>();
             List<string> skillnames = new List<string>();
+            List<string> dataList = new List<string>();
             int i = 0;
 
             //This is for the search
@@ -111,8 +112,8 @@ namespace Login_System.Controllers
                     if (item.Date.Month == month && item.Date.Year == year)
                     {
                         skillnames.Add(item.SkillName);
-                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm"));
+                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));                        
                     }
                 }
                 TempData["SearchValue"] = searchString;
@@ -141,8 +142,10 @@ namespace Login_System.Controllers
                     if (item.Date.Month == month && item.Date.Year == year)
                     {
                         skillnames.Add(item.SkillName);
-                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm"));
                         dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+
+                        
                     }
                 }
             }
@@ -237,7 +240,7 @@ namespace Login_System.Controllers
                             UserName = userName,
                             SkillName = skill.SkillName,
                             SkillLevel = skill.SkillLevel,
-                            Date = skill.Date.ToString("dd/MM/yyyy H:mm"),
+                            Date = skill.Date.ToString("dd/MM/yyyy HH:mm"),
                             AdminEval = skill.AdminEval
                         };
 
@@ -262,7 +265,7 @@ namespace Login_System.Controllers
                         //Looping through the datelist that was just populated
                         foreach (var date in dateList.Values)
                         {
-                            foreach (var goal in goalList.Where(x => (x.Date == date) && (x.SkillName == skill.SkillName) && (x.SkillGoal > skillGoal)))
+                            foreach (var goal in goalList.Where(x => (x.Date == date) && (x.Skillid == skill.Skillid) && (x.SkillGoal > skillGoal)))
                             {
                                 skillGoal = goal.SkillGoal;
                             }
