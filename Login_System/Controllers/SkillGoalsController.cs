@@ -136,6 +136,7 @@ namespace Login_System.Controllers
             {
                 var tempModel = new SkillGoals
                 {
+                    Skillid = skill.Id,
                     SkillName = skill.Skill,
                     GroupName = name
                 };
@@ -203,13 +204,14 @@ namespace Login_System.Controllers
 
             foreach (var skill in _context.Skills)
             {
-                var index = model.FindIndex(item => item.SkillName == skill.Skill);
+                var index = model.FindIndex(item => item.Skillid == skill.Id);
                 if (index == -1)
                 {
                     var tempModel = new SkillGoals
                     {
                         GroupName = groupName,
                         SkillName = skill.Skill,
+                        Skillid = skill.Id,
                         SkillGoal = -1,
                         Date = date
                     };
@@ -313,7 +315,7 @@ namespace Login_System.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id, SkillName, GroupName, SkillGoal, Date")] SkillGoals skillGoals)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, SkillName, GroupName, SkillGoal, Date, Skillid")] SkillGoals skillGoals)
         {
             if (id != skillGoals.Id)
             {

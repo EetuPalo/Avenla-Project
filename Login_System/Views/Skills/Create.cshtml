@@ -21,7 +21,7 @@
 
             <div class="form-group" id="test">
                 <label asp-for="SkillCategory" class="control-label"></label>
-                    @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple="multiple"})
+                    @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple="multiple", @style = "width: 100%;"})
               
                 <br />
                 <!--<dl class="row" id="skillDropdown"></dl>-->
