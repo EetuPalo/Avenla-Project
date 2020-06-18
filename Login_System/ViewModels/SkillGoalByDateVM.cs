@@ -10,5 +10,6 @@ namespace Login_System.ViewModels
         public string Date { get; set; }
 
         public string SkillName { get; set; }
+        public int Skillid { get; set; }
     }
 }

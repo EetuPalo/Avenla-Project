@@ -25,5 +25,6 @@ namespace Login_System.ViewModels
         public int SkillGoal { get; set; }
 
         public int GroupId { get; set; }
+        public int Skillid { get; set; }
     }
 }
