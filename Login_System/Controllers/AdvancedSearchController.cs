@@ -25,7 +25,7 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(string[] Skill, string Certificate, string Groups, string Company, int?[] min, int?[] max)
+        public async Task<IActionResult> Index(string?[] Skill, string Certificate, string Groups, string Company, int?[] min, int?[] max)
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
@@ -39,7 +39,7 @@ namespace Login_System.Controllers
             bool skillbool = Skill!= null ? true : false ;
             bool groupbool = Groups != null ?true :false;
             bool certificatebool = Certificate != null ? true :false;
-     
+            //Skill[0] = null;    
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;
 
@@ -66,21 +66,25 @@ namespace Login_System.Controllers
                 model.CompanyList.Add(new SelectListItem() { Text = companies.name, Value = companies.name });
             }
             
-
-            switch (Skill)
+            if(Skill.Length> 0)
             {
-                case null:
-                    break;
-                default:
-                   SkillList= SkillFilter(SkillList, Skill, min, max);
-                    if(userList.Count == 0)
-                    {
-                        userList.AddRange(SkillList);
-                    }
-                    
-                    break;
-            }
+                switch (Skill[0])
+                {
+                    case null:
+                        break;
 
+                    default:
+                        SkillList = SkillFilter(SkillList, Skill, min, max);
+                        if (userList.Count == 0)
+                        {
+                            userList.AddRange(SkillList);
+                        }
+
+                        break;
+                }
+            }
+          
+            
             switch (Certificate)
             {
                 case null:
@@ -186,8 +190,9 @@ namespace Login_System.Controllers
         // Skill Filter
         public List<AppUser> SkillFilter(List<AppUser> SkillList, string[] Skill, int?[] min, int?[] max)
         {
-            IEnumerable<AppUser> usr;
             var index = 0;
+            IEnumerable<AppUser> usr;
+      
             foreach (var skillInList in Skill)
             {
                 var currentSkillList = new List<AppUser>();
@@ -203,7 +208,7 @@ namespace Login_System.Controllers
 
                     foreach (var it in skillQuerySecond.Where(x => x.Date == items.Date))
                     {
-                        index = 0;
+                       
                         foreach (AppUser user in UserMgr.Users.Where(x => x.Id == items.UserID))
                         {
                             
@@ -223,9 +228,10 @@ namespace Login_System.Controllers
                                         currentSkillList.Add(user);
                                     }
                                 }
-                                index++;
+                               
                             }
                         }
+                      
                     }
                  }
                 //add final loop here
@@ -242,6 +248,7 @@ namespace Login_System.Controllers
                     SkillList = usr.ToList();
                     currentSkillList.Clear();
                 }
+                index++;
             }
             return SkillList;
         }

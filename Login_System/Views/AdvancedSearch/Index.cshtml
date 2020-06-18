@@ -31,20 +31,20 @@
     <br />
     <br />
     <div id="skillFilters">
-        <div class="row">
+        <div class="row">           
             <div class="col-sm-3" id="skill">
-                <label asp-for="Skill">@Resources.Skills.Index_Skill</label>
+                
                 @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "form-control col-sm" })
 
 
             </div>
             <div class="col-sm-3">
-                <label>Min:</label> <input class="form-control" id="min" type="number" name="Min" placeholder="min value: " value="@TempData["inValue"]" min="0" max="5">
+               <input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">
             </div>
             <div class="col-sm-3">
-                <label>Max:</label> <input class="form-control" id="max" type="number" name="Max" placeholder=@TempData["MaxString"] value="@TempData["MaxValue"]" min="0" max="5">
+              <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">
             </div>
-            <div class="col-sm"><br /><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-search fa-fw"> </i> Add</button></div>
+            <div class="col-sm"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-search fa-fw"> </i> Add</button></div>
 
         </div>
     </div>
@@ -102,11 +102,14 @@
 
     //get the dropdown menu to multiply it in javascript
     var skilldrop = document.getElementById("skill");
-    
+    var i = 0;
     function addSkillFilter() {
         //create the div, where elements will be added
         var node = document.createElement("div");
         node.className = "row";
+        node.id = i + 1;
+        i++;
+        
         //add a copy of the skill dropdownlist
         node.append(skilldrop.cloneNode(true));
         document.getElementById("skillFilters").appendChild(node);
@@ -115,26 +118,35 @@
         var textnode = document.createElement("div");
         textnode.className = "col-sm-3"
         node.appendChild(textnode);
-        textnode.innerHTML = '  <label>Min:</label> <input class="form-control" id="min" type="number" name="Min" placeholder="min value: " value="@TempData["inValue"]" min="0" max="5">'
+        textnode.innerHTML = '<br><input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">'
         document.getElementById("skillFilters").appendChild(node);
 
         // create div for max filter
         var textnode = document.createElement("div");
         textnode.className = "col-sm-3"
         node.appendChild(textnode);
-        textnode.innerHTML = '  <label>Max:</label> <input class="form-control" id="max" type="number" name="Max" placeholder=@TempData["MaxString"] value="@TempData["MaxValue"]" min="0" max="5">'
+        textnode.innerHTML = '<br> <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">'
         document.getElementById("skillFilters").appendChild(node);
-
+        
         //create div for delete button
         var textnode = document.createElement("div");
-        textnode.className = "col-sm-3"
+        textnode.className = "col-sm";
+        textnode.innerHTML = "<br>"
+        node.append(textnode)
         var deleteBtn = document.createElement("button");
         deleteBtn.type = "button";
         deleteBtn.className = "btn btn-danger";
+        deleteBtn.innerHTML = "Delete";
+        deleteBtn.id = node.id;
+        deleteBtn.addEventListener('click', function (id) {
+            id= deleteBtn.id
+            var skillFilterList = document.getElementById("skillFilters")
+            skillFilterList.removeChild(document.getElementById(id))
+
+        })
         textnode.appendChild(deleteBtn);
         document.getElementById("skillFilters").appendChild(node)
     }
-
 
 </script>
 

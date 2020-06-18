@@ -73,6 +73,8 @@ namespace Login_System.Controllers
 
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
+
+            List<List<DataPoint>> datapointsPerSkill= new List<List<DataPoint>>();
             List<DataPoint> dataPoints = new List<DataPoint>();
             List<string> dates = new List<string>();
             List<string> skillnames = new List<string>();
@@ -114,44 +116,65 @@ namespace Login_System.Controllers
                         dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
                         dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                     }
+                   
                 }
                 TempData["SearchValue"] = searchString;
             }
             //NO SEARCH
             else
             {
-                //Getting all items of the specific user
-                foreach (var item in _context.UserSkills.Where(x => x.UserID == id))
+                foreach(var skillName in _context.Skills)
                 {
-                    if (!tempDate.Contains(item.Date.ToString()))
-                    {
-                        i++;
 
-                        var tempModel = new DateListVM
+                
+                //Getting all items of the specific user
+                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill))
+                    {
+                        if (!tempDate.Contains(item.Date.ToString()))
                         {
-                            Date = item.Date,
-                            AdminEval = item.AdminEval,
-                            TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
-                            Id = (int)id
-                        };
-                        model.Add(tempModel);
-                    }
-                    tempDate.Add(item.Date.ToString());
+                            i++;
 
-                    if (item.Date.Month == month && item.Date.Year == year)
-                    {
-                        skillnames.Add(item.SkillName);
-                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                            var tempModel = new DateListVM
+                            {
+                                Date = item.Date,
+                                AdminEval = item.AdminEval,
+                                TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                                Id = (int)id
+                            };
+                            model.Add(tempModel);
+                        }
+                        tempDate.Add(item.Date.ToString());
+
+                        if (item.Date.Month == month && item.Date.Year == year)
+                        {
+                            if (!skillnames.Contains(item.SkillName))
+                            {
+                                skillnames.Add(item.SkillName);
+                            }
+                            if (dates.Contains(item.Date.ToString("dd.MM.yyyy.HH.mm.ss")))
+                            {
+                                dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                            }
+                           
+                            dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                        }
+                        
+                    }
+                    if (dataPoints.Count >0) { 
+                    var x = dataPoints.ToList();
+                    datapointsPerSkill.Add(x) ;
+                    dataPoints.Clear();
                     }
                 }
             }
-           
+
             //Graph stuff
-            ViewBag.DataPoint = dataPoints.ToArray();
+            //ViewBag.DataPoint = dataPoints.ToArray();
+            ViewBag.DataPoint = datapointsPerSkill;
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
 
+            Console.WriteLine(ViewBag.names[0]);
             return View(model);
         }
 
