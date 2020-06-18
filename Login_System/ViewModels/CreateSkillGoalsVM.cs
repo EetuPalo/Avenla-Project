@@ -11,6 +11,7 @@ namespace Login_System.ViewModels
     public class CreateSkillGoalsVM
     {
         public int SkillCounter { get; set; }
+        public int Skillid { get; set; }
 
         public List<SkillGoals> SkillGoals { get; set; }
 

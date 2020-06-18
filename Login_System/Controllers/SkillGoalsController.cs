@@ -129,8 +129,8 @@ namespace Login_System.Controllers
             var model = new CreateSkillGoalsVM();
             var listModel = new List<SkillGoals>();
             DateTime date = DateTime.Now;
-            int dictKey = 0;
-            model.SkillCounter = 0;
+            //int dictKey = 0;
+            //model.SkillCounter = 0;
 
             foreach (var skill in _context.Skills)
             {
@@ -142,8 +142,9 @@ namespace Login_System.Controllers
                 };
                
                 listModel.Add(tempModel);
-                dictKey++;
-                model.SkillCounter++;
+                //dictKey++;
+                //model.SkillCounter++;
+               
             }
 
             model.SkillGoals = listModel;
@@ -158,7 +159,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize("Admin")]
-        public async Task<IActionResult> Create(string source, [Bind("SkillCounter,SkillGoals")] CreateSkillGoalsVM goals)
+        public async Task<IActionResult> Create(string source, [Bind("listModel,SkillGoals")] CreateSkillGoalsVM goals, string name)
         {
             var model = new List<SkillGoals>();
             DateTime date = DateTime.Now;
@@ -182,15 +183,24 @@ namespace Login_System.Controllers
                 }
             }
 
-            for (int i = 0; i < goals.SkillCounter; i++)
+            foreach (var item in _context.SkillGoals)
             {
                 try
                 {
+                    //var tempModel = new SkillGoals
+                    //{
+                    //    GroupName = groupName,
+                    //    SkillName = goals.SkillGoals.SkillName,
+                    //    Skillid = goals.SkillGoals.Skillid,
+                    //    SkillGoal = goals.SkillGoals.SkillGoal,
+                    //    Date = date
+                    //};
                     var tempModel = new SkillGoals
                     {
                         GroupName = groupName,
-                        SkillName = goals.SkillGoals[i].SkillName,
-                        SkillGoal = goals.SkillGoals[i].SkillGoal,
+                        Skillid = item.Skillid,
+                        SkillName = item.SkillName,
+                        SkillGoal = item.SkillGoal,
                         Date = date
                     };
                     model.Add(tempModel);
@@ -198,7 +208,7 @@ namespace Login_System.Controllers
 
                 catch
                 {
-                    Console.WriteLine("Error occured at loop " + i);
+                    Console.WriteLine("Error occured at loop ");
                 }
             }
 
