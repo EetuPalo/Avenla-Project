@@ -10,7 +10,7 @@
         <div class="">
             <div class="p-1 mr-2 border border-light rounded">
                 <a class="btn btn-primary" asp-action="Index" asp-controller="GroupMembers" asp-route-id="@TempData["GroupID"]"><i class="fas fa-users fa-fw"> </i> @Resources.Groups.Stats_BTN_Members</a>
-                <a class="btn btn-primary" asp-action="Index" asp-controller="SkillGoals" asp-route-name="@TempData["GroupName"]"><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_BTN_Goals</a>
+                <a class="btn btn-primary" asp-action="Index" asp-controller="SkillGoals" asp-route-name="@TempData["GroupID"]"><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_BTN_Goals</a>
             </div>
         </div>
         <div class="">

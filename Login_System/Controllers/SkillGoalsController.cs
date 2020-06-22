@@ -9,6 +9,7 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Login_System.Controllers
 {
@@ -26,47 +27,45 @@ namespace Login_System.Controllers
 
         // GET: SkillGoals
 #nullable enable
-        public IActionResult Index(string name, string? date)
+        public IActionResult Index(int? id)
         {            
-            if (name == null)
+            if (id == null)
             {
                 Console.WriteLine("No group selected. This is most likely an error.");
                 return View();
             }
+            TempData["GroupID"] = _context.Group.Where(x => x.id == id).First().id;
 
-            TempData["GroupName"] = name;
-            TempData["Group"] = name;
-            TempData["GroupID"] = _context.Group.Where(x => x.name == name).First().id;
-
-            if (date == null && name != null)
+            /*if (id != null)
             {
                 //We can't pass a date if we are accessing the view from the groups index
                 //So we have to get the latest date from the DB
-                date = GetLatestDate(name).ToString("dd.MM.yyyy");
+                date = GetLatestDate(id).ToString("dd.MM.yyyy");
                 TempData["LatestDate"] = GetLatestDate(name).ToString("dd.MM.yyyy");
-            }
+            }*/
 
             //Getting skillgoals for the correct group and correct date if the date has been selected
-            if (date != null && name != null)
+            if (id!=null)
             {
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
                 var modelCheck = new List<string>();
+                var listOfSkills = new List<Skills>(); 
 
-                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupName == name)))
+                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.Groupid == id)))
                 {
                     //modelCheck is to prevent duplicates
-                    if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
+                    /*if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
                         modelCheck.Add(skillGoal.SkillName);
-                    }
+                    }*/
                 }
 
-                model.Goals = tempModel;
+                /*model.Goals = tempModel;
                 model.SkillDates = GetDates(_context.SkillGoals, name);
-                model.DateToDelete = date;
+                model.DateToDelete = date;*/
 
                 if (model != null)
                 {
@@ -124,21 +123,25 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillGoals/Create
-        public IActionResult Create(string name)
+        public IActionResult Create(int id, string name)
         {
             var model = new CreateSkillGoalsVM();
+            var skillsList = new List<Skills>();
             var listModel = new List<SkillGoals>();
             DateTime date = DateTime.Now;
             //int dictKey = 0;
             //model.SkillCounter = 0;
-
+            int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
+            TempData["id"] = id;
             foreach (var skill in _context.Skills)
             {
+                skillsList.Add(skill);
                 var tempModel = new SkillGoals
                 {
                     Skillid = skill.Id,
                     SkillName = skill.Skill,
-                    GroupName = name
+                    GroupName = name,
+                    Groupid= groupId
                 };
                
                 listModel.Add(tempModel);
@@ -146,7 +149,9 @@ namespace Login_System.Controllers
                 //model.SkillCounter++;
                
             }
-
+            model.GroupName = name;
+            model.Groupid = id;
+            model.GroupSkills = skillsList;
             model.SkillGoals = listModel;
             model.Skills = _context.Skills.Select(x => new SelectListItem
             {
@@ -158,146 +163,41 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize("Admin")]
-        public async Task<IActionResult> Create(string source, [Bind("listModel,SkillGoals")] CreateSkillGoalsVM goals, string name)
+        public async Task<IActionResult> Create(string source, [Bind("SkillGoal")] CreateSkillGoalsVM goals, string[] Skill, string GroupName, int Groupid, string skillName)
         {
-            var model = new List<SkillGoals>();
-            DateTime date = DateTime.Now;
-            string dateMinute = date.ToString("dd.MM.yyyy");
-            string groupName = goals.SkillGoals[0].GroupName;
-            int groupId = 0;
-            TempData.Keep();
 
-            var duplicateCheck = new List<string>();
-
-            //This is a complicated way to check if entries have already been made today
-            //If yes, the method will replace those with the new ones. There's no reason to add multiple skillgoals sets in one day
-            //This will also make the date list much better
-            var todayList = new List<SkillGoals>();
-
-            foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == groupName))
+            var x = goals.Groupid;
+            //var groupName = _context.Group.FirstOrDefaultAsync(x => x.id == );
+            foreach (var skill in Skill)
             {
-                if (goal.Date.ToString("dd.MM.yyyy") == dateMinute)
+                var skillFromTable= await _context.Skills.FirstOrDefaultAsync(x => x.Skill == skill);
+                var skillGoal = new SkillGoals
                 {
-                    todayList.Add(goal);
-                }
-            }
-
-            foreach (var item in _context.SkillGoals)
-            {
-                try
-                {
-                    //var tempModel = new SkillGoals
-                    //{
-                    //    GroupName = groupName,
-                    //    SkillName = goals.SkillGoals.SkillName,
-                    //    Skillid = goals.SkillGoals.Skillid,
-                    //    SkillGoal = goals.SkillGoals.SkillGoal,
-                    //    Date = date
-                    //};
-                    var tempModel = new SkillGoals
-                    {
-                        GroupName = groupName,
-                        Skillid = item.Skillid,
-                        SkillName = item.SkillName,
-                        SkillGoal = item.SkillGoal,
-                        Date = date
-                    };
-                    model.Add(tempModel);
-                }
-
-                catch
-                {
-                    Console.WriteLine("Error occured at loop ");
-                }
-            }
-
-            foreach (var skill in _context.Skills)
-            {
-                var index = model.FindIndex(item => item.Skillid == skill.Id);
-                if (index == -1)
-                {
-                    var tempModel = new SkillGoals
-                    {
-                        GroupName = groupName,
-                        SkillName = skill.Skill,
-                        Skillid = skill.Id,
-                        SkillGoal = -1,
-                        Date = date
-                    };
-                    model.Add(tempModel);
-                }
-            }
-            //This is here to make sure any duplicate selections where one goal is -1 (no goal) is overridden by any other selections for the same skill
-            var negModel = new List<SkillGoals>();
-            var plusModel = new List<SkillGoals>();
-            var combModel = new List<SkillGoals>();
-            foreach (var entry in model)
-            {
-                if (entry.SkillGoal == -1)
-                {
-                    negModel.Add(entry);
-                }
-
-                else if (entry.SkillGoal >= 0)
-                {
-                    plusModel.Add(entry);
-                }
-            }
-
-            foreach (var negEntry in negModel)
-            {
-                var index = plusModel.FindIndex(item => item.SkillName == negEntry.SkillName);
-                if (index == -1)
-                {
-                    combModel.Add(negEntry);
-                }
-            }
-
-            foreach (var entry in plusModel)
-            {
-                combModel.Add(entry);
-            }
-
-            foreach (var entry in combModel)
-            {
-                //This displays a warning if a skill has been selected more than once
-                if (duplicateCheck.Contains(entry.SkillName))
-                {
-                    TempData["ActionWarning"] = Resources.ActionMessages.ActionWarning_MultipleSkillSelect;
-                }
-                duplicateCheck.Add(entry.SkillName);
-                _context.Add(entry);
-            }
-
-            //Replacing goals made earlier the same day
-            if (todayList != null)
-            {
-                foreach (var skillGoal in _context.SkillGoals.Where(x => x.GroupName == groupName))
-                {
-                    foreach (var todayEntry in todayList.Where(x => (x.Date == skillGoal.Date)))
-                    {
-                        _context.Remove(skillGoal);
-                    }
-                }
+                    //SkillName = skill.Skill,
+                    SkillGoal = -1,
+                    Date = DateTime.Now,
+                    SkillName = skillFromTable.Skill,
+                    Skillid = skillFromTable.Id,
+                    GroupName = GroupName,
+                    Groupid = Groupid
+                };
+                _context.Add(skillGoal);
             }
             await _context.SaveChangesAsync();
-            
-            foreach (var group in _context.Group.Where(x => x.name == groupName))
-            {
-                groupId = group.id;
-            }
 
-            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSet;
+
+            /**/
 
             if (source == "create")
             {
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSetAddUser;
                 TempData["ActionPhase"] = "[3/3]";
 
-                return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  groupId, group = groupName});
+                
+                return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  Groupid, group = GroupName});
             }
-            return RedirectToAction(nameof(Index), new { name = groupName});
+            return RedirectToAction(nameof(Index), new { name = GroupName});
+            
         }
 
         // GET: SkillGoals/Edit/5

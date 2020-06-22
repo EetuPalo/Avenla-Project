@@ -4,95 +4,54 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string gName = "NO_DATA";
-    if (Model.SkillGoals.Count() > 0)
-    {
-        gName = Model.SkillGoals[0].GroupName;
-    }
+
 }
 
 <h2>@Resources.SkillGoals.Create_Title @TempData["ActionPhase"]</h2>
 <h4>@TempData["ActionResult"]</h4>
 <hr />
-@if (Model.SkillGoals.Count > 0 && Model.Skills.Count() > 0)
-{
+
     <fieldset>
         <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="container-fluid p-0">
-                <div style="display:flex" id="skillForm[0]" class="row mb-4">
-                    <input hidden asp-for="@Model.SkillGoals[0].GroupName" />
-                    <div class="col-sm">
-                        @Html.DropDownListFor(x => x.SkillGoals[0].SkillName, Model.Skills, Resources.SkillGoals.Create_SelectDropdown, new { @class = "form-control" })
-                    </div>
-                    <div class="col-sm">
-                        <select class="form-control" asp-for="@Model.SkillGoals[0].SkillGoal">
-                            <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
-                            <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
-                            <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
-                            <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
-                            <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
-                            <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
-                            <option selected="selected" value="-1">@Resources.SkillGoals.Create_SelectGoal</option>
-                        </select>
-                    </div>
-                    <div class="col-sm">
-                        <button type="button" onclick="ShowForm(1)" id="addButton[1]" class="btn btn-info">@Resources.SkillGoals.Create_Add</button>
-                    </div>
-                    <span asp-validation-for="@Model.SkillGoals[0].SkillGoal"></span>
+            <input type="hidden" asp-for="Groupid">
+            <input type="hidden" asp-for="GroupName">
+            <div id="form" class="container-fluid p-0">
+                <div style="display:flex" id="skillForm" class="row mb-4">
+                    @foreach (var item in Model.GroupSkills)
+                    {
+                        <div>
+                            @item.Skill <input type="checkbox" name="Skill" value="@item.Skill" />
+                            <br />
+                        </div>
+                    }
                 </div>
-                @for (int i = 1; i < Model.Skills.Count(); i++)
-                {
-                    <div style="display:none" id="skillForm[@i]" class="row mb-4">
-                        <input hidden asp-for="@Model.SkillGoals[i].GroupName" />
-                        <div class="col-sm">
-                            @Html.DropDownListFor(x => x.SkillGoals[i].SkillName, Model.Skills, Resources.SkillGoals.Create_SelectDropdown, new { @class = "form-control" })
-                        </div>
-                        <div class="col-sm">
-                            <select class="form-control" asp-for="@Model.SkillGoals[i].SkillGoal" id="goal[@i]">
-                                <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
-                                <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
-                                <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
-                                <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
-                                <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
-                                <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
-                                <option selected="selected" value="-1">@Resources.SkillGoals.Create_SelectGoal</option>
-                            </select>
-                        </div>
-                        <div class="col-sm">
-                            <button type="button" onclick="ShowForm(@i + 1)" id="addButton[@(i + 1)]" class="btn btn-info">@Resources.SkillGoals.Create_Add</button>
-                        </div>
-                        <span asp-validation-for="@Model.SkillGoals[i].SkillGoal"></span>
-                    </div>
-                }
-                <p>
-                    <input hidden asp-for="@Model.SkillCounter" value="@Model.SkillCounter" />
-                </p>
-                <div class="container-fluid p-0">
-                    <div class="row">
-                        <div class="col-sm">
-                            <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                            <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
-                        </div>
+            </div>
+            <div class="container-fluid p-0">
+                <div class="row">
+                    <div class="col-sm">
+                        <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                        <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
                     </div>
                 </div>
             </div>
-
         </form>
     </fieldset>
-}
-else
-{
-    <h4 class="text-info">@Resources.SkillGoals.Create_Error_NoSkills</h4>
-    <a class="btn btn-success" asp-action="Create" asp-controller="GroupMembers" asp-route-source="create" asp-route-id="@TempData["GroupId"]" asp-route-group="@TempData["GroupName"]">@Resources.SkillGoals.Create_BTN_Next</a>
-}
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
-        function ShowForm(idNr) {
-            document.getElementById('skillForm[' + idNr + ']').style.display = "flex"
-            document.getElementById('addButton[' + idNr + ']').style.display = "none"
-            //document.getElementById('goal[' + idNr + ']').setAttribute("value", "0")
+      
+        var skillForm = document.getElementById("skillForm");
+        var container = document.getElementById("form");
+
+        function addToForm() {
+            var node = document.createElement("div");
+            node.className = "row mb-4";
+            form.append(skillForm.cloneNode(true));
+         
         }
     </script>
 

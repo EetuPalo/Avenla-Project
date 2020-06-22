@@ -65,8 +65,9 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,Organization")] Certificate certificate)
         {
             if (ModelState.IsValid)
-            {
-                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+            {   
+                //TODO: implement certificate to creator    
+                //var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                 _context.Add(certificate);
                 await _context.SaveChangesAsync();
                 

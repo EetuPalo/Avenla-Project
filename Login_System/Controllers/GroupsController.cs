@@ -92,7 +92,7 @@ namespace Login_System.Controllers
                 TempData["GroupName"] = group.name;
                 TempData["GroupId"] = group.id;
                 TempData["GroupCompany"] = group.company;
-                return RedirectToAction(nameof(Create), "SkillGoals", new { name = group.name });
+                return RedirectToAction(nameof(Create), "SkillGoals", new { id = group.id, name = group.name });
             }
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_Error;           
             return View(@group);
