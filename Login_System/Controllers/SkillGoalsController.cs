@@ -27,8 +27,9 @@ namespace Login_System.Controllers
 
         // GET: SkillGoals
 #nullable enable
-        public IActionResult Index(int? id)
-        {            
+        public IActionResult Index(int? id, string name, string date)
+        {
+           
             if (id == null)
             {
                 Console.WriteLine("No group selected. This is most likely an error.");
@@ -36,13 +37,13 @@ namespace Login_System.Controllers
             }
             TempData["GroupID"] = _context.Group.Where(x => x.id == id).First().id;
 
-            /*if (id != null)
+            if (id != null)
             {
                 //We can't pass a date if we are accessing the view from the groups index
                 //So we have to get the latest date from the DB
                 date = GetLatestDate(id).ToString("dd.MM.yyyy");
-                TempData["LatestDate"] = GetLatestDate(name).ToString("dd.MM.yyyy");
-            }*/
+                TempData["LatestDate"] = GetLatestDate(id).ToString("dd.MM.yyyy");
+            }
 
             //Getting skillgoals for the correct group and correct date if the date has been selected
             if (id!=null)
@@ -50,22 +51,22 @@ namespace Login_System.Controllers
                 var model = new SkillGoalIndexVM();
                 var tempModel = new List<SkillGoals>();
                 var modelCheck = new List<string>();
-                var listOfSkills = new List<Skills>(); 
+                var listOfSkills = new List<Skills>();
 
                 foreach (var skillGoal in _context.SkillGoals.Where(x => (x.Groupid == id)))
                 {
                     //modelCheck is to prevent duplicates
-                    /*if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
+                    if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
                         modelCheck.Add(skillGoal.SkillName);
-                    }*/
+                    }
                 }
 
-                /*model.Goals = tempModel;
+                model.Goals = tempModel;
                 model.SkillDates = GetDates(_context.SkillGoals, name);
-                model.DateToDelete = date;*/
+                //model.DateToDelete = date;
 
                 if (model != null)
                 {
@@ -196,7 +197,7 @@ namespace Login_System.Controllers
                 
                 return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  Groupid, group = GroupName});
             }
-            return RedirectToAction(nameof(Index), new { name = GroupName});
+            return RedirectToAction(nameof(Index), new { id = Groupid});
             
         }
 
@@ -385,11 +386,11 @@ namespace Login_System.Controllers
             return maxDate;
         }
 
-        public DateTime GetLatestDate(string group)
+        public DateTime GetLatestDate(int? group)
         {
             var dateList = new List<DateTime>();
             DateTime maxDate;
-            foreach (var goal in _context.SkillGoals.Where(x => (x.GroupName == group)))
+            foreach (var goal in _context.SkillGoals.Where(x => (x.Groupid == group)))
             {
                 if (!dateList.Contains(goal.Date))
                 {

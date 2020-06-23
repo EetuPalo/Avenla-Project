@@ -17,7 +17,7 @@
                 <input hidden asp-for="@Model.GroupName" value="@TempData.Peek("GroupName")" />
             </div>
             <div class="col-sm">                
-                <a class="btn btn-primary" asp-action="Create" asp-route-name="@TempData.Peek("GroupName")"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Create</a>
+                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData.Peek("GroupID")"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Create</a>
                 @if (Model.DateToDelete != null)
                 {
                     <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Delete</a>

@@ -418,7 +418,7 @@ namespace Login_System.Controllers
 
             //Going through all goals that are not -1
             //This dictates what skills are in the form
-            foreach (var goal in goalList.Where(x => x.SkillGoal != -1))
+            foreach (var goal in goalList.Where(x => x.SkillGoal != -2))
             {
                 //Getting the skills
                 foreach (var skill in _context.Skills.Where(x => x.Skill == goal.SkillName))
