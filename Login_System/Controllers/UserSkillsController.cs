@@ -365,13 +365,13 @@ namespace Login_System.Controllers
         {
             TempData["UserId"] = id;
             var model = new UserSkillsWithSkillVM();
-            var tempList = new Dictionary<int, string>();
+            var tempList = new List<Skills>();
 
             //Code here for creating the form based on the skillgoals (if -1, not part of the form)
             var groupList = new List<Group>();
             var skillList = new List<Skills>();
             var goalList = new List<SkillGoals>();
-            var dateList = new Dictionary<string, DateTime>();
+            //var dateList = new Dictionary<string, DateTime>();
 
             //Going through groupmember info of the specified user
             foreach (var member in _context.GroupMembers.Where(x => x.UserID == id))
@@ -380,9 +380,9 @@ namespace Login_System.Controllers
                 foreach (var group in _context.Group.Where(x => x.name == member.GroupName))
                 {
                     //Going through all goals of the groups and adding them to a dictionary with both group name and date
-                    foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == group.name))
+                    foreach (var goal in _context.SkillGoals.Where(x => x.Groupid == group.id))
                     {
-                        DateTime value = goal.Date;
+                        /*DateTime value = goal.Date;
 
                         //If group is already in the dict, only the date is replaced
                         if (dateList.ContainsKey(group.name))
@@ -394,7 +394,7 @@ namespace Login_System.Controllers
                         else
                         {
                             dateList.Add(group.name, value);
-                        }
+                        }*/
                         goalList.Add(goal);
                     }
                 }
@@ -403,7 +403,7 @@ namespace Login_System.Controllers
             DateTime latestDate = DateTime.Now;
             var latestDateList = new List<DateTime>();
 
-            if (dateList.Count() != 0)
+            /*if (dateList.Count() != 0)
             {
                 foreach (var key in dateList.Keys)
                 {
@@ -414,28 +414,27 @@ namespace Login_System.Controllers
             else
             {
                 latestDate = DateTime.Now;
-            }
+            }*/
 
             //Going through all goals that are not -1
             //This dictates what skills are in the form
+            // REMEMBER TO CHANGE BACK TO -1
             foreach (var goal in goalList.Where(x => x.SkillGoal != -2))
             {
                 //Getting the skills
                 foreach (var skill in _context.Skills.Where(x => x.Skill == goal.SkillName))
                 {
                     //Making sure the latest goal dates are used
-                    foreach (var date in latestDateList.Where(x => x == goal.Date))
-                    {
+                
                         //Skill can be added only once to the list
                         //This avoids duplicates
                         if (!skillList.Contains(skill))
                         {
                             skillList.Add(skill);
                         }
-                    }
+                    
                 }
             }
-            int dictKey = 0;
             TempData.Keep();
 
             //This is only executed if there are skills that need to be in the form
@@ -444,8 +443,8 @@ namespace Login_System.Controllers
                 //The list is populated
                 foreach (var skill in skillList)
                 {
-                    tempList.Add(dictKey, skill.Skill);
-                    dictKey++;
+                    tempList.Add(skill);
+                
                 }
                 model.SkillList = tempList;
 
@@ -462,25 +461,48 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")] UserSkillsWithSkillVM userSkills)
+        public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")]  List<Skills>SkillList ,int[] Skillid, int[] SkillLevel )
         {
             var model = new List<UserSkills>();
             int userId = Convert.ToInt32(TempData["UserId"]);
             TempData.Keep();
-
+            int i= 0;
             //Date is declared here so that it's guaranteed to be the same for all skills.
             DateTime date = DateTime.Now;
 
-            //Looping through the entries, adding them to a UserSkills object and adding that to a list.
-            for (int i = 0; i < userSkills.SkillList.Count(); i++)
+             
+            foreach(var id in Skillid)
             {
-                var tempModel = new UserSkills
+                var skill = await _context.Skills.FirstOrDefaultAsync(x=> x.Id == id);
+                var newUserSkill = new UserSkills
                 {
-                    SkillLevel = userSkills.SkillLevel[i],
+                    Skillid = id,
+                    SkillName = skill.Skill,
+                    UserID = userId,
+                    SkillLevel = SkillLevel[i],
+                    Date = DateTime.Now
+                };
+                if (User.IsInRole("Admin"))
+                {
+                    newUserSkill.AdminEval = "Admin Evaluation";
+                }
+
+                else
+                {
+                    newUserSkill.AdminEval = "Self Assessment";
+                }
+                model.Add(newUserSkill);
+            }
+
+            /*var tempModel = new UserSkills
+                {
+                    SkillLevel = SkillLevel,
                     SkillName = userSkills.SkillList[i],
                     UserID = userId,
                     Id = null,
-                    Date = date               
+                    Date = date,
+                    //Skillid = 
+                    
                 };
 
                 //info of who made the evaluation
@@ -495,7 +517,7 @@ namespace Login_System.Controllers
                 }
 
                 model.Add(tempModel);
-            }
+            */
 
             //Adding entries to database and saving
             foreach (var entry in model)

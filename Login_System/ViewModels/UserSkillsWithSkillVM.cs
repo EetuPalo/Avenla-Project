@@ -10,12 +10,19 @@ namespace Login_System.ViewModels
     {
          //public UserSkills UserSkill { get; set; }
 
-         public Dictionary<int, string> SkillList { get; set; }
+         public List<Skills> SkillList { get; set; }
+         
 
          //public string SkillName { get; set; }
 
          public int SkillCount { get; set; }
 
-         public Dictionary<int, int> SkillLevel { get; set; }
+        //testing with different way of life 
+         public List<int> SkillLevel { get; set; }
+         public List<int> Skillid { get; set; }
+
+
+
+
     }
 }

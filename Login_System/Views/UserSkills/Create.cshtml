@@ -12,34 +12,37 @@
 <fieldset>
     <form asp-action="Create" asp-controller="UserSkills">
         <div asp-validation-summary="All" class="input-validation-error"></div>
-
-        @for (int i = 0; i < Model.SkillList.Count(); i++)
+        @foreach (var item in Model.SkillList)
         {
-            counter++;
-            <div class="container-fluid p-0">
-                <div class="row mb-2">
-                    <div class="col-sm-2">
-                        <strong><label class="form-check-label align-middle">@Model.SkillList[i]</label></strong>
-                    </div>
-                    <div class="col-sm-10">
-                        <select class="form-control" asp-for="@Model.SkillLevel[i]">
-                            <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
-                            <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
-                            <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
-                            <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
-                            <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
-                            <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
-                        </select>
-                        <input hidden asp-for="@Model.SkillList[i]" />
-                        <span asp-validation-for="@Model.SkillLevel[i]"></span>
-                    </div>                   
-                </div>
-                
+          
+    <div class="container-fluid p-0">
+        <div class="row mb-2">
+            <div class="col-sm-2">
+                <strong><label class="form-check-label align-middle">@item.Skill</label></strong>
             </div>
+            <input type="hidden" asp-for="Skillid" value="@item.Id"/>
+            <div class="col-sm-10">
+                <select class="form-control" asp-for="@Model.SkillLevel">
+                    <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                    <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                    <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                    <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                    <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                    <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
+                </select>
+
+
+                <span asp-validation-for="@Model.SkillLevel"></span>
+            </div>
+        </div>
+        <input type="hidden" asp-for="@Model.SkillList" value="@item" />
+        <span asp-validation-for="@Model.SkillList"></span>
+    </div>
+
         }
-        <p>
-            <input hidden asp-for="@Model.SkillCount" value="@counter" />
-        </p>
+
+  
+
         <div class="container-fluid p-0">
             <div class="row">
                 <div class="col-sm">
