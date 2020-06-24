@@ -29,16 +29,16 @@
                     <a class="dropdown-item" href="@Url.Action("Logout", "Account")">@Resources.Resources.Layout_Logout</a>
                 </div>
             </li>
-            <li class="align-middle">
+            <li class="align-middle dropdown show">
                 <div class="align-middle">
                     <form id="selectLanguage" asp-controller="Home"
                           asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
                           method="post" class="form-horizontal" role="form">
-                        <select class="form-control form-control-sm align-middle" name="culture"
+                        <select class="form-control form-control-sm align-middle btn dropdown-toggle" name="culture"
                                 onchange="this.form.submit();"
-                                asp-for="@requestCulture.RequestCulture.UICulture.Name">
-                            <option value="fi-FI">FI</option>
-                            <option value="en-GB">EN</option>
+                                asp-for="@requestCulture.RequestCulture.UICulture.Name" style="-moz-appearance: none; outline: none; border:none;">
+                            <option class="dropdown-item" value="fi-FI">FI</option>
+                            <option class="dropdown-item" value="en-GB">EN</option>
                         </select>
                     </form>
                 </div>
