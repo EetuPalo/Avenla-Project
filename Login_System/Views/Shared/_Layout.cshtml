@@ -6,11 +6,19 @@
     <title>@ViewData["Title"] - Login_System</title>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" runat="server" />
-    <link rel="stylesheet" href="~/css/site.css" runat="server" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" runat="server">
     <link rel="stylesheet" href="~/css/jquery-ui-timepicker-addon.css" runat="server" />
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/all.css" runat="server">
+    <link rel="stylesheet" href="~/lib/bootstrap-select-1.13.14/dist/css/bootstrap-select.css" runat="server" />
+    <link rel="stylesheet" href="~/css/site.css" runat="server" />
     <script type="text/javascript" src="~/lib/jquery/dist/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js" runat="server"></script>
+    <script type="text/javascript" src="~/lib/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js" runat="server"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
 </head>
 <body>
     <header>
@@ -21,7 +29,7 @@
                         @Resources.Resources.Layout_Home
                     </button>
                 </div>
-              <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img style="width: 50px; height: auto" src="~/img/avenla-logo.png" /> AVENLA Oy</a>-->
+                <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img style="width: 50px; height: auto" src="~/img/avenla-logo.png" /> AVENLA Oy</a>-->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -40,7 +48,7 @@
 
                         }
                         <li class="nav-item">
-                          <!--<a class="text-dark btn" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>-->
+                            <!--<a class="text-dark btn" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>-->
                         </li>
                         @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                         {
@@ -71,13 +79,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-             Piilaakso Academy Oy &copy; 2020 <a asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Resources.Layout_Privacy</a>
+            Piilaakso Academy Oy &copy; 2020 <a asp-area="" asp-controller="Home" asp-action="Privacy">@Resources.Resources.Layout_Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
