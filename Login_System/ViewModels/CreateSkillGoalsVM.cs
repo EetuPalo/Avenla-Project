@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,9 @@ namespace Login_System.ViewModels
         public List<int> SkillGoal { get; set; }
         public List<SkillGoals> SkillGoals { get; set; }
 
+        [Required(ErrorMessage ="Please enter goalvalue")]
+        [Range(0, 5, ErrorMessage = "Out of range(0-5)")]
+        public int Skillgoal { get; set; }
         public string Skill { get; set; }
         public int Level { get; set; }
 

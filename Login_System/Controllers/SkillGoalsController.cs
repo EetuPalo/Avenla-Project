@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 
 namespace Login_System.Controllers
 {
@@ -53,7 +54,7 @@ namespace Login_System.Controllers
                 var modelCheck = new List<string>();
                 var listOfSkills = new List<Skills>();
 
-                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.Groupid == id)))
+                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x=>x.Date))
                 {
                     //modelCheck is to prevent duplicates
                     if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
@@ -124,35 +125,55 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillGoals/Create
-        public IActionResult Create(int id, string name)
+        public async Task<IActionResult> Create(int id, string name)
         {
             var model = new CreateSkillGoalsVM();
             var skillsList = new List<Skills>();
             var listModel = new List<SkillGoals>();
             DateTime date = DateTime.Now;
-            //int dictKey = 0;
-            //model.SkillCounter = 0;
             int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
             TempData["id"] = id;
-            foreach (var skill in _context.Skills)
-            {
-                skillsList.Add(skill);
+
+            
+            /*var skillQuery = from m in _context.SkillGoals
+                             where m.Groupid == groupId
+                             select m;
+                foreach (SkillGoals skill in skillQuery.Where(x=> x.Groupid == groupId))
+                {
+                
+                        foreach (Skills skl in _context.Skills.Where(x => x.Id == skill.Skillid))
+                        {
+                            var tempModel = new SkillGoals
+                            {
+                                Skillid = skl.Id,
+                                SkillName = skl.Skill,
+                                GroupName = name,
+                                Groupid = groupId
+                            };
+                            if (!listModel.Contains(tempModel))
+                            {
+                                listModel.Add(tempModel);
+                            }
+                        }
+                }*/
+                foreach(var item in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x => x.Date))
+                {
                 var tempModel = new SkillGoals
                 {
-                    Skillid = skill.Id,
-                    SkillName = skill.Skill,
+                    Skillid = item.Skillid,
+                    SkillName = item.SkillName,
                     GroupName = name,
-                    Groupid= groupId
+                    Groupid = groupId
                 };
-               
-                listModel.Add(tempModel);
-                //dictKey++;
-                //model.SkillCounter++;
-               
+                if (!listModel.Any(p => p.SkillName == tempModel.SkillName))
+                {
+                    listModel.Add(tempModel);
+                }
             }
+            
             model.GroupName = name;
             model.Groupid = id;
-            model.GroupSkills = skillsList;
+            //model.GroupSkills = skillsList;
             model.SkillGoals = listModel;
             model.Skills = _context.Skills.Select(x => new SelectListItem
             {
@@ -164,25 +185,26 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string source, [Bind("SkillGoal")] CreateSkillGoalsVM goals, string[] Skill, string GroupName, int Groupid, string skillName)
+        public async Task<IActionResult> Create(string source, [Bind("SkillGoal")] CreateSkillGoalsVM goals,  string[] Skill, string GroupName, int Groupid, List<int> SkillId, int[] SkillGoal)
         {
-
-            var x = goals.Groupid;
-            //var groupName = _context.Group.FirstOrDefaultAsync(x => x.id == );
-            foreach (var skill in Skill)
+            int i = 0;
+            var groupId = Groupid;
+            var group = await _context.Group.FirstOrDefaultAsync(x => x.id == groupId );
+            foreach (var skill in SkillId)
             {
-                var skillFromTable= await _context.Skills.FirstOrDefaultAsync(x => x.Skill == skill);
+                var skillFromTable= await _context.Skills.FirstOrDefaultAsync(x => x.Id  == skill);
                 var skillGoal = new SkillGoals
                 {
                     //SkillName = skill.Skill,
-                    SkillGoal = -1,
+                    SkillGoal = SkillGoal[i],
                     Date = DateTime.Now,
                     SkillName = skillFromTable.Skill,
                     Skillid = skillFromTable.Id,
-                    GroupName = GroupName,
+                    GroupName = group.name,
                     Groupid = Groupid
                 };
                 _context.Add(skillGoal);
+                i++;
             }
              await _context.SaveChangesAsync();
 
@@ -259,6 +281,8 @@ namespace Login_System.Controllers
             }
             return View(skillGoals);
         }
+
+       
 
         // GET: SkillGoals/Delete/5
         public async Task<IActionResult> Delete(int? id)

@@ -1,0 +1,67 @@
+﻿@model Login_System.ViewModels.CreateSkillGoalsVM
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string gName = "NO_DATA";
+
+}
+
+<h2>@Resources.SkillGoals.Create_Title @TempData["ActionPhase"]</h2>
+<h4>@TempData["ActionResult"]</h4>
+<hr />
+
+<fieldset>
+    <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Groupid">
+        <input type="hidden" asp-for="GroupName">
+        <div id="form" class="container-fluid p-0">
+            <div style="display:flex" id="skillForm" class="row mb-4">
+                <table>
+                    @foreach (var item in Model.GroupSkills)
+                    {
+
+                        <tr>
+                            <td>
+                                @item.Skill
+                            </td>
+                            <td>
+                                <input type="checkbox" name="Skill" value="@item.Skill" />
+                            </td>
+                        </tr>
+
+
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-sm">
+                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                    <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        var skillForm = document.getElementById("skillForm");
+        var container = document.getElementById("form");
+
+        function addToForm() {
+            var node = document.createElement("div");
+            node.className = "row mb-4";
+            form.append(skillForm.cloneNode(true));
+
+        }
+    </script>
+
+}

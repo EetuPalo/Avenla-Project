@@ -92,12 +92,87 @@ namespace Login_System.Controllers
                 TempData["GroupName"] = group.name;
                 TempData["GroupId"] = group.id;
                 TempData["GroupCompany"] = group.company;
-                return RedirectToAction(nameof(Create), "SkillGoals", new { id = group.id, name = group.name });
+                return RedirectToAction(nameof(AddSkills), "Groups", new { id = group.id, name = group.name });
             }
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_Error;           
             return View(@group);
         }
+        public IActionResult AddSkills(int id, string name)
+        {
+            var model = new CreateSkillGoalsVM();
+            var skillsList = new List<Skills>();
+            var listModel = new List<SkillGoals>();
+            DateTime date = DateTime.Now;
+            //int dictKey = 0;
+            //model.SkillCounter = 0;
+            int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
+            TempData["id"] = id;
+            foreach (var skill in _context.Skills)
+            {
+                skillsList.Add(skill);
+                var tempModel = new SkillGoals
+                {
+                    Skillid = skill.Id,
+                    SkillName = skill.Skill,
+                    GroupName = name,
+                    Groupid = groupId
+                };
 
+                listModel.Add(tempModel);
+                //dictKey++;
+                //model.SkillCounter++;
+
+            }
+            model.GroupName = name;
+            model.Groupid = id;
+            model.GroupSkills = skillsList;
+            model.SkillGoals = listModel;
+            model.Skills = _context.Skills.Select(x => new SelectListItem
+            {
+                Value = x.Skill,
+                Text = x.Skill
+            });
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddSkills(string source, [Bind("SkillGoal")] CreateSkillGoalsVM goals, string[] Skill, string GroupName, int Groupid, string skillName)
+        {
+
+            var x = goals.Groupid;
+            //var groupName = _context.Group.FirstOrDefaultAsync(x => x.id == );
+            foreach (var skill in Skill)
+            {
+                var skillFromTable = await _context.Skills.FirstOrDefaultAsync(x => x.Skill == skill);
+                var skillGoal = new SkillGoals
+                {
+                    //SkillName = skill.Skill,
+                    SkillGoal = -1,
+                    Date = DateTime.Now,
+                    SkillName = skillFromTable.Skill,
+                    Skillid = skillFromTable.Id,
+                    GroupName = GroupName,
+                    Groupid = Groupid
+                };
+                _context.Add(skillGoal);
+            }
+            await _context.SaveChangesAsync();
+
+
+            /**/
+
+            if (source == "create")
+            {
+                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSetAddUser;
+                TempData["ActionPhase"] = "[3/3]";
+
+
+                return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id = Groupid, group = GroupName });
+            }
+            return RedirectToAction(nameof(Index), new { id = Groupid });
+
+        }
         // GET: Groups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

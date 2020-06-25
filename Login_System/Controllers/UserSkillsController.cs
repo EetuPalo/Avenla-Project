@@ -419,7 +419,7 @@ namespace Login_System.Controllers
             //Going through all goals that are not -1
             //This dictates what skills are in the form
             // REMEMBER TO CHANGE BACK TO -1
-            foreach (var goal in goalList.Where(x => x.SkillGoal != -2))
+            foreach (var goal in goalList/*.Where(x => x.SkillGoal != -1)*/)
             {
                 //Getting the skills
                 foreach (var skill in _context.Skills.Where(x => x.Skill == goal.SkillName))
@@ -492,6 +492,7 @@ namespace Login_System.Controllers
                     newUserSkill.AdminEval = "Self Assessment";
                 }
                 model.Add(newUserSkill);
+                i++;
             }
 
             /*var tempModel = new UserSkills

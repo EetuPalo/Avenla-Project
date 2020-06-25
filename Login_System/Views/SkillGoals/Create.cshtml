@@ -13,18 +13,29 @@
 
     <fieldset>
         <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Groupid">
-            <input type="hidden" asp-for="GroupName">
-            <div id="form" class="container-fluid p-0">
-                <div style="display:flex" id="skillForm" class="row mb-4">
-                    @foreach (var item in Model.GroupSkills)
-                    {
-                        <div>
-                            @item.Skill <input type="checkbox" name="Skill" value="@item.Skill" />
-                            <br />
-                        </div>
-                    }
+            <div asp-validation-summary="All" class="text-danger">
+                <input type="hidden" asp-for="Groupid">
+                <input type="hidden" asp-for="GroupName">
+                <div id="form" class="container-fluid p-0">
+                    <div style="display:flex" id="skillForm" class="row mb-4">
+                        <table>
+                            @foreach (var item in Model.SkillGoals)
+                            {
+                              
+                                <tr>
+                                    <td>
+                                        <input type="hidden" value="@item.Skillid" name="SkillId" />
+                                        @item.SkillName
+                                    </td>
+                                    <td>
+
+                                        <input type="number" min="0" max="5" name="SkillGoal" />
+                                        <span asp-validation-for="Skillgoal"></span>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="container-fluid p-0">
