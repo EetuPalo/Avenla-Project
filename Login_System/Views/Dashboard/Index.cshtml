@@ -112,7 +112,7 @@
 
                             @foreach (var item in Model.UserSkills)
                             {
-                                @foreach (var goal in Model.UserGoals.Where(x => x.SkillName == item.SkillName && x.GroupName == group.GroupName))
+                                @foreach (var goal in Model.UserGoals.Where(x => x.Skillid == item.Skillid && x.Groupid == group.GroupID))
                                 {
                                     <div class="col-sm">
                                         <div>

@@ -66,12 +66,6 @@ namespace Login_System.Controllers
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
 
-            //var companyDesc = from d in _context.Company
-            //                  select d.Description;
-
-            //ViewBag.CompanyDesc = companyDesc;
-            
-
             foreach (var company in _context.Company.Where(x=> x.name == user.Company))
             {
                 companyDescList.Add(company.Description);
@@ -97,13 +91,13 @@ namespace Login_System.Controllers
             foreach (var group in groupList)
             {
                 var updatedGoalList = new List<SkillGoals>();
-                goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName && x.SkillGoal >-1).ToList();
+                goalList = _context.SkillGoals.Where(x => x.Groupid == group.GroupID && x.SkillGoal >-1).ToList();
                
-                foreach (var groupSkillGoals in goalList.Where(x=> x.GroupName == group.GroupName))
+                foreach (var groupSkillGoals in goalList.Where(x=> x.Groupid == group.GroupID))
                 {
                     var goalDate = from t in _context.SkillGoals
-                                   where t.GroupName == groupSkillGoals.GroupName
-                                   group t by t.SkillName into g
+                                   where t.Groupid == groupSkillGoals.Groupid
+                                   group t by t.Skillid into g
                                    select new { SkillName = g.Key, Date = g.Max(t => t.Date) };
                     foreach(var goaldates in goalDate.Where(x=> x.Date == groupSkillGoals.Date))
                     {
