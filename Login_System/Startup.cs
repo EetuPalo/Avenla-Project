@@ -21,6 +21,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http; // For Caching
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Login_System
 {
@@ -94,6 +95,10 @@ namespace Login_System
             {
                 options.AddPolicy("NoAdminRequired", policy => policy.RequireClaim("Id"));
             });
+
+            services
+                .AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
