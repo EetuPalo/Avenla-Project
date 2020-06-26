@@ -320,6 +320,12 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Index_BTN_CreateCategory" xml:space="preserve">
     <value>Create Category</value>
   </data>
+  <data name="Lang_eng" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Lang_fin" xml:space="preserve">
+    <value>Finnish</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
   </data>
