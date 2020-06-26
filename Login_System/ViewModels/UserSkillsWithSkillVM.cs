@@ -20,6 +20,7 @@ namespace Login_System.ViewModels
         //testing with different way of life 
          public List<int> SkillLevel { get; set; }
          public List<int> Skillid { get; set; }
+         public int Skilllevel { get; set; }
 
 
 

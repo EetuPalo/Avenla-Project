@@ -461,7 +461,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")]  List<Skills>SkillList ,int[] Skillid, int[] SkillLevel )
+        public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")]  List<Skills>SkillList ,int[] Skillid, int[] Skilllevel )
         {
             var model = new List<UserSkills>();
             int userId = Convert.ToInt32(TempData["UserId"]);
@@ -478,8 +478,8 @@ namespace Login_System.Controllers
                 {
                     Skillid = id,
                     SkillName = skill.Skill,
+                    SkillLevel = Skilllevel[i],
                     UserID = userId,
-                    SkillLevel = SkillLevel[i],
                     Date = DateTime.Now
                 };
                 if (User.IsInRole("Admin"))
