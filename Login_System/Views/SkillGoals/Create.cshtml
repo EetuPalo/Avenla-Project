@@ -12,24 +12,24 @@
 <hr />
 
     <fieldset>
-        <form asp-action="Create" asp-controller="SkillGoals" autocomplete="off">
-            <div asp-validation-summary="All" class="text-danger">
+        <form asp-action="Create" asp-controller="SkillGoals">
+            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
                 <input type="hidden" asp-for="Groupid">
                 <input type="hidden" asp-for="GroupName">
                 <div id="form" class="container-fluid p-0">
                     <div style="display:flex" id="skillForm" class="row mb-4">
                         <table>
+                            
                             @foreach (var item in Model.SkillGoals)
                             {
-                              
                                 <tr>
                                     <td>
                                         <input type="hidden" value="@item.Skillid" name="SkillId" />
                                         @item.SkillName
+                                        <span asp-validation-for="skill"></span>
                                     </td>
                                     <td>
-
-                                        <input type="number" min="0" max="5" name="SkillGoal" />
+                                        <input type="number" id="@item.Skillid" min="0" max="5"  value="@item.SkillGoal" name="SkillGoal" />
                                         <span asp-validation-for="Skillgoal"></span>
                                     </td>
                                 </tr>
@@ -37,12 +37,12 @@
                         </table>
                     </div>
                 </div>
-            </div>
+           
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
                         <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                        <button class="btn btn-primary" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
+                        <button class="btn btn-primary" onclick="checkInputs()" id="submit" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
                     </div>
                 </div>
             </div>
@@ -53,17 +53,29 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-      
+<script type="text/javascript">
+     
+           
         var skillForm = document.getElementById("skillForm");
         var container = document.getElementById("form");
+        function checkInputs(){
+            console.log("sending form...");
+           @foreach(var item in @Model.SkillGoals) {<text>
+ 
+                    var inputField = document.getElementById("</text> @item.Skillid <text>")
+                    if ($('#</text>@item.Skillid<text>').val() == "") {
+                        $('#</text>@item.Skillid<text>').val("-1") 
+                    }
 
+                        </text>
+                    }
+    }
         function addToForm() {
             var node = document.createElement("div");
             node.className = "row mb-4";
             form.append(skillForm.cloneNode(true));
-         
+
         }
-    </script>
+</script>
 
 }

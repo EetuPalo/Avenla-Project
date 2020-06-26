@@ -260,7 +260,7 @@ namespace Login_System.Controllers
             var certQuery = from s in _context.Certificates
                             where s.Name == Certificate
                             select s;
-
+            
             foreach (var UserName in _context.UserCertificates.Where(x => x.CertificateName == Certificate))
             {
                 foreach (AppUser user in UserMgr.Users.Where(x => x.Id == UserName.UserID))

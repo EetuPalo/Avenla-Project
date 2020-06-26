@@ -13,12 +13,14 @@ namespace Login_System.ViewModels
     public class CreateSkillGoalsVM
     {
         public List<Skills> GroupSkills { get; set; }
+        [DataType(DataType.Text)]
+        public Skills skill { get; set; }
         public int Skillid { get; set; }
         public List<int> SkillGoal { get; set; }
         public List<SkillGoals> SkillGoals { get; set; }
 
-        [Required(ErrorMessage ="Please enter goalvalue")]
-        [Range(0, 5, ErrorMessage = "Out of range(0-5)")]
+        [DataType(DataType.Text)]
+        
         public int Skillgoal { get; set; }
         public string Skill { get; set; }
         public int Level { get; set; }
@@ -29,10 +31,5 @@ namespace Login_System.ViewModels
         [NotMapped]
         public IEnumerable<SelectListItem> Skills { get; set; }
 
-        /*
-        public Dictionary<int, SkillGoals> SkillGoals { get; set; }
-
-        public int SkillCounter { get; set; }
-        */
     }
 }

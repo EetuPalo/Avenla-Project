@@ -125,7 +125,7 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillGoals/Create
-        public async Task<IActionResult> Create(int id, string name)
+        public  IActionResult Create(int id, string name)
         {
             var model = new CreateSkillGoalsVM();
             var skillsList = new List<Skills>();
@@ -158,28 +158,25 @@ namespace Login_System.Controllers
                 }*/
                 foreach(var item in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x => x.Date))
                 {
-                var tempModel = new SkillGoals
-                {
-                    Skillid = item.Skillid,
-                    SkillName = item.SkillName,
-                    GroupName = name,
-                    Groupid = groupId
-                };
-                if (!listModel.Any(p => p.SkillName == tempModel.SkillName))
-                {
-                    listModel.Add(tempModel);
-                }
+                    var tempModel = new SkillGoals
+                    {
+                        Skillid = item.Skillid,
+                        SkillName = item.SkillName,
+                        GroupName = name,
+                        Groupid = groupId,
+                        SkillGoal = item.SkillGoal
+                    };
+                    if (!listModel.Any(p => p.SkillName == tempModel.SkillName))
+                    {
+                        listModel.Add(tempModel);
+                    }
             }
             
             model.GroupName = name;
             model.Groupid = id;
             //model.GroupSkills = skillsList;
             model.SkillGoals = listModel;
-            model.Skills = _context.Skills.Select(x => new SelectListItem
-            {
-                Value = x.Skill,
-                Text = x.Skill
-            });
+           
             return View(model);
         }
 
@@ -187,6 +184,10 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(string source, [Bind("SkillGoal")] CreateSkillGoalsVM goals,  string[] Skill, string GroupName, int Groupid, List<int> SkillId, int[] SkillGoal)
         {
+            if (ModelState.IsValid)
+            {
+
+            
             int i = 0;
             var groupId = Groupid;
             var group = await _context.Group.FirstOrDefaultAsync(x => x.id == groupId );
@@ -219,6 +220,7 @@ namespace Login_System.Controllers
                 
                 return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id =  Groupid, group = GroupName});
             }
+          }
             return RedirectToAction(nameof(Index), new { id = Groupid});
             
         }
