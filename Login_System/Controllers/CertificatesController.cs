@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace Login_System.Controllers
 {
@@ -15,9 +16,10 @@ namespace Login_System.Controllers
         private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
 
-        public CertificatesController(GeneralDataContext context)
+        public CertificatesController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            UserMgr = userManager;
         }
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Index(string searchString)
@@ -62,16 +64,39 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin, User")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Organization")] Certificate certificate)
+        public async Task<IActionResult> Create([Bind("Id,Name,Organization")] Certificate certificate, UserCertificate userCertificate)
         {
             if (ModelState.IsValid)
-            {   
+            {
                 //TODO: implement certificate to creator    
-                //var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-                _context.Add(certificate);
-                await _context.SaveChangesAsync();
-                
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
 
+                _context.Add(certificate);
+                var certificateExists = _context.Certificates.Any(x => x.Name == certificate.Name);
+
+                if (certificateExists)
+                {
+                    ModelState.AddModelError("Certificate", "This certificate already exists");
+                    return View(certificate);
+                }
+
+                await _context.SaveChangesAsync();
+
+                var CertificateID = certificate.Id;
+
+                var newUserCert = new UserCertificate
+                {
+                    UserID = currentUser.Id,
+                    CertificateID = certificate.Id,
+                    UserName = currentUser.UserName,
+                    CertificateName = certificate.Name,
+                    Organization = certificate.Organization,
+                    GrantDate = DateTime.Now
+                };
+
+                _context.Add(newUserCert);
+
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(certificate);
