@@ -6,10 +6,12 @@
 }
 
 <h1>Index</h1>
-
+@if (User.IsInRole("Superadmin"))
+{
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>

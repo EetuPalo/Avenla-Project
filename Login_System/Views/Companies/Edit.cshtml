@@ -6,7 +6,8 @@
 }
 
 <h1>Edit</h1>
-
+@if (User.IsInRole("Superadmin"))
+{
 <h4>Company</h4>
 <hr />
 <div class="row">
@@ -25,7 +26,7 @@
         </form>
     </div>
 </div>
-
+}
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
