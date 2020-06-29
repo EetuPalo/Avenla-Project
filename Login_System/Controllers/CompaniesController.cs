@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Superadmin")]
+    
     public class CompaniesController : Controller
     {
         private readonly GeneralDataContext _context;
@@ -16,7 +16,7 @@ namespace Login_System.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Company.ToListAsync());
@@ -48,6 +48,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Create([Bind("id,name,Description")] Company company)
         {
             if (ModelState.IsValid)
@@ -58,7 +59,7 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,6 +79,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("id,name,Description")] Company company)
         {
             if (id != company.id)
@@ -107,7 +109,7 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,9 +126,10 @@ namespace Login_System.Controllers
 
             return View(company);
         }
-
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var company = await _context.Company.FindAsync(id);
@@ -134,7 +137,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Superadmin")]
         private bool CompanyExists(int id)
         {
             return _context.Company.Any(e => e.id == id);
