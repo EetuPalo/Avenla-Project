@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -281,7 +282,11 @@ namespace Login_System.Controllers
 
             Group tempGroup = await _context.Group.FindAsync(id);
             var memberList = _context.GroupMembers.Where(g => g.GroupID == id).ToList();
-            var goalList = _context.SkillGoals.Where(g => g.GroupName == tempGroup.name).ToList();
+            var goalList = _context.SkillGoals.Where(g => g.Groupid == tempGroup.id).ToList();
+            //var test = _context.SkillGoals.Where(x => (x.Groupid == tempGroup.id)).OrderByDescending(x => x.Date).ToList();
+            List<int> skillIdList = new List<int>();
+            
+            
             var userSkills = _context.UserSkills.ToList();           
             var userSkillList = new Dictionary<int, List<DateTime>>();
             var maxDateList = new Dictionary<int, DateTime>();
@@ -289,92 +294,36 @@ namespace Login_System.Controllers
 
             //Messages that are shown at the top of the page
             ViewBag.GroupName = tempGroup.name;
+            TempData["GroupID"] = tempGroup.id;
             //General data about the group
             ViewBag.MemberCount = memberList.Count(m => m.GroupID == id);
 
-            var dateList = new List<DateTime>();
-            foreach (var goal in goalList)
+            //---------------new-------------//
+            foreach(var skill in _context.Skills)
             {
-                if (!dateList.Contains(goal.Date))
+                List<UserSkills> userskills = new List<UserSkills>(); 
+                foreach (var item in _context.UserSkills.Where(x => (x.Skillid == skill.Id)).OrderByDescending(x => x.Date))
                 {
-                    dateList.Add(goal.Date);
-                }
-            }
-            DateTime? latestDate = null;
-            if (dateList.Count() > 0)
-            {
-                latestDate = dateList.Max();
-                ViewBag.LatestGoal = dateList.Max().ToString("dd.MM.yyyy");
-            }
-            else
-            {
-                ViewBag.LatestGoal = Resources.ActionMessages.Stats_Avg_NoData;
-            }
-
-            TempData["GroupID"] = id;
-            TempData["GroupName"] = tempGroup.name;
-
-            //-------------AVERAGE------------
-            foreach (var member in memberList)
-            {
-                //Empties the list at the start of the loop
-                var userDateList = new List<DateTime>();
-                foreach (var userSkill in userSkills.Where(x => x.UserID == member.UserID))
-                {
-                    if (!userDateList.Contains(userSkill.Date))
+                    if(!userskills.Any(x=> x.Skillid == skill.Id && x.UserID == item.UserID))
                     {
-                        userDateList.Add(userSkill.Date);
+                        userskills.Add(item);
                     }
                 }
-                userSkillList.Add(member.UserID, userDateList);
-            }
-            
-            foreach (var user in userSkillList.Where(x => x.Value != null))
-            {
-                try
-                {
-                    maxDateList.Add(user.Key, user.Value.Max());
-                }
-                catch
-                {
-                    Console.WriteLine("No skills for this user.");
-                }
-            }
-            foreach (var skill in _context.Skills.ToList())
-            {
-                var tempSkills = new List<int>();
-                foreach (var uskill in userSkills.Where(x => x.SkillName == skill.Skill))
-                {                    
-                    foreach (var entry in maxDateList.Where(x => (x.Key == uskill.UserID) && (x.Value == uskill.Date)))
-                    {
-                        tempSkills.Add(uskill.SkillLevel);
-                    }
-                }
-                skillAvgList.Add(skill.Skill, tempSkills);
-            }          
-
-            foreach (var goal in goalList.Where(x => (x.GroupName == tempGroup.name) && (x.Date == latestDate)))
-            {
+                var skillGoal = _context.SkillGoals.OrderByDescending(x => x.Date).FirstOrDefault(x => x.Skillid == skill.Id && x.Groupid == tempGroup.id);
                 var tempModel = new GroupStatisticsVM
                 {
-                    SkillName = goal.SkillName,
-                    SkillGoal = goal.SkillGoal
+                    Average = userskills.Average(x => x.SkillLevel).ToString(),
+                    SkillName = skill.Skill,
+                    SkillGoal = (skillGoal == null) ? -1 : skillGoal.SkillGoal
+
                 };
 
-                foreach (var skill in skillAvgList.Where(x => x.Key == tempModel.SkillName))
-                {
-                    try
-                    {
-                        var avrg = skill.Value.Average();
-                        tempModel.Average = String.Format("{0:0.00}", avrg);
-                    }
-                    catch
-                    {
-                        tempModel.Average = Resources.ActionMessages.Stats_Avg_NoData;
-                    }
-                }
                 model.Add(tempModel);
             }
+            ViewBag.LatestGoal = _context.SkillGoals.OrderByDescending(x => x.Date).Select(x=>x.Date).FirstOrDefault();
+            //---------------end-------------//
+
+
             return View(model);
         }
     }

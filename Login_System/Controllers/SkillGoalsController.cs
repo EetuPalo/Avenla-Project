@@ -30,13 +30,15 @@ namespace Login_System.Controllers
 #nullable enable
         public IActionResult Index(int? id, string name, string date)
         {
-           
+
             if (id == null)
             {
                 Console.WriteLine("No group selected. This is most likely an error.");
                 return View();
             }
-            TempData["GroupID"] = _context.Group.Where(x => x.id == id).First().id;
+            var group =_context.Group.Where(x => x.id == id).First();
+            TempData["GroupID"] = group.id;
+            TempData["GroupName"] = group.name;
 
             if (id != null)
             {
@@ -57,7 +59,7 @@ namespace Login_System.Controllers
                 foreach (var skillGoal in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x=>x.Date))
                 {
                     //modelCheck is to prevent duplicates
-                    if (!modelCheck.Contains(skillGoal.SkillName) && skillGoal.Date.ToString("dd.MM.yyyy") == date)
+                    if (!modelCheck.Contains(skillGoal.SkillName) /*&& skillGoal.Date.ToString("dd.MM.yyyy") == date*/)
                     {
                         skillGoal.LatestGoal = skillGoal.SkillGoal;
                         tempModel.Add(skillGoal);
@@ -134,28 +136,6 @@ namespace Login_System.Controllers
             int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
             TempData["id"] = id;
 
-            
-            /*var skillQuery = from m in _context.SkillGoals
-                             where m.Groupid == groupId
-                             select m;
-                foreach (SkillGoals skill in skillQuery.Where(x=> x.Groupid == groupId))
-                {
-                
-                        foreach (Skills skl in _context.Skills.Where(x => x.Id == skill.Skillid))
-                        {
-                            var tempModel = new SkillGoals
-                            {
-                                Skillid = skl.Id,
-                                SkillName = skl.Skill,
-                                GroupName = name,
-                                Groupid = groupId
-                            };
-                            if (!listModel.Contains(tempModel))
-                            {
-                                listModel.Add(tempModel);
-                            }
-                        }
-                }*/
                 foreach(var item in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x => x.Date))
                 {
                     var tempModel = new SkillGoals
