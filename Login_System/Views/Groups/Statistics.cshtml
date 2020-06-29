@@ -41,11 +41,18 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        if (item.SkillGoal != -1)
-                        {
+                       
                     <tr>
                         <td>@item.SkillName</td>
-                        <td>@item.SkillGoal</td>
+                        @if (item.SkillGoal == -1)
+                        {
+                            <td>@Resources.Groups.Stats_NoData</td>
+                        }
+                        else
+                        {
+                            <td>@item.SkillGoal</td>
+                        }
+
                         @if (item.Average != "0")
                         {
                             try
@@ -69,7 +76,7 @@
                             <td class="text-info">@Resources.Groups.Stats_NoData</td>
                         }
                     </tr>
-                        }
+                        
                     }
                 </tbody>
             </table>

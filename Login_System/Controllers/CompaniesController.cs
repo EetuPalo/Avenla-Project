@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
-    [Authorize(Roles = "Admin, Superadmin")]
+ 
     public class CompaniesController : Controller
     {
         private readonly GeneralDataContext _context;
@@ -21,7 +21,7 @@ namespace Login_System.Controllers
         {
             return View(await _context.Company.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,7 +38,7 @@ namespace Login_System.Controllers
 
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         public IActionResult Create()
         {
             return View();
@@ -48,6 +48,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Create([Bind("id,name,Description")] Company company)
         {
             if (ModelState.IsValid)
@@ -58,7 +59,7 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,6 +79,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("id,name,Description")] Company company)
         {
             if (id != company.id)
@@ -107,7 +109,7 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,7 +126,7 @@ namespace Login_System.Controllers
 
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

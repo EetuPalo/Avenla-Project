@@ -77,7 +77,7 @@ namespace Login_System.Controllers
             }
             return View(model);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,name,company")] Group @group)
@@ -298,8 +298,21 @@ namespace Login_System.Controllers
             //General data about the group
             ViewBag.MemberCount = memberList.Count(m => m.GroupID == id);
 
+            // var skillsInGroup = bb
             //---------------new-------------//
-            foreach(var skill in _context.Skills)
+            var skillsInGroup = _context.SkillGoals.Where(x=>x.Groupid == tempGroup.id);
+            List<Skills> groupSkillGoals = new List<Skills>();
+            foreach (var item in skillsInGroup)
+            {
+                Skills skill = _context.Skills.FirstOrDefault(x => x.Id == item.Skillid);
+                if (!groupSkillGoals.Contains(skill))
+                {
+                    groupSkillGoals.Add(skill);
+                }
+                
+            }
+
+            foreach(var skill in groupSkillGoals)
             {
                 List<UserSkills> userskills = new List<UserSkills>(); 
                 foreach (var item in _context.UserSkills.Where(x => (x.Skillid == skill.Id)).OrderByDescending(x => x.Date))
@@ -307,18 +320,20 @@ namespace Login_System.Controllers
                     if(!userskills.Any(x=> x.Skillid == skill.Id && x.UserID == item.UserID))
                     {
                         userskills.Add(item);
+
                     }
                 }
                 var skillGoal = _context.SkillGoals.OrderByDescending(x => x.Date).FirstOrDefault(x => x.Skillid == skill.Id && x.Groupid == tempGroup.id);
                 var tempModel = new GroupStatisticsVM
                 {
-                    Average = userskills.Average(x => x.SkillLevel).ToString(),
+                    Average = (userskills.Count != 0) ? userskills.Average(x => x.SkillLevel).ToString() : "-1",
                     SkillName = skill.Skill,
                     SkillGoal = (skillGoal == null) ? -1 : skillGoal.SkillGoal
 
                 };
 
                 model.Add(tempModel);
+
             }
             ViewBag.LatestGoal = _context.SkillGoals.OrderByDescending(x => x.Date).Select(x=>x.Date).FirstOrDefault();
             //---------------end-------------//
