@@ -21,7 +21,7 @@ namespace Login_System.Controllers
         {
             return View(await _context.Company.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,7 +38,7 @@ namespace Login_System.Controllers
 
             return View(company);
         }
-
+        [Authorize(Roles = "Superadmin")]
         public IActionResult Create()
         {
             return View();
