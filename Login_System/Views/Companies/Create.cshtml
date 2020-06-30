@@ -11,7 +11,8 @@
         selector: '#companyDesc'
     });
 </script>
-
+@if (User.IsInRole("Superadmin"))
+{
 <h1>Create</h1>
 
 <h4>Company</h4>
@@ -40,6 +41,7 @@
         </div>
     </form>
 </div>
+}
     <div>
         <a asp-action="Index">Back to List</a>
     </div>

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Login_System.Controllers
 {
- 
+    
     public class CompaniesController : Controller
     {
         private readonly GeneralDataContext _context;
@@ -16,7 +16,7 @@ namespace Login_System.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Company.ToListAsync());
@@ -126,9 +126,10 @@ namespace Login_System.Controllers
 
             return View(company);
         }
-        [Authorize(Roles = "Superadmin")]
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var company = await _context.Company.FindAsync(id);
@@ -136,7 +137,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Superadmin")]
         private bool CompanyExists(int id)
         {
             return _context.Company.Any(e => e.id == id);
