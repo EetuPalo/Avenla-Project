@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.Controllers;
+using Login_System.ViewModels;
 
 namespace Login_System.Models
 {
@@ -32,6 +33,8 @@ namespace Login_System.Models
         public DbSet<AppUser> AppUser { get; set; }
         //IDENTITY
         public DbSet<Company> Company { get; set; }
+
+        public DbSet<CompanyMembersVM> CompanyMembers {get;set;}
 
     }
 }
