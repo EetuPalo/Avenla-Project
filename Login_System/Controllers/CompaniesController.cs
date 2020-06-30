@@ -6,6 +6,9 @@ using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using Login_System.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Login_System.Controllers
 {
@@ -48,7 +51,16 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Superadmin")]
         public IActionResult Create()
         {
-            return View();
+            var model = new CompanyMembersVM();
+            var userList = new List<AppUser>();
+
+            // Populating CompanyMembersDropdown with users
+            foreach (var users in UserMgr.Users)
+            {
+                model.userList.Add(new SelectListItem() { Text = users.UserName, Value = users.Id.ToString() });
+            }
+
+            return View(model);
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -58,6 +70,8 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Create([Bind("id,name,Description")] Company company, int? id)
         {
+            
+
             if (id == null)
             {
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
@@ -66,14 +80,29 @@ namespace Login_System.Controllers
             var appUser = await UserMgr.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            AppUser user = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserId"] = id;
 
+            
 
             if (ModelState.IsValid)
             {
                 _context.Add(company);
+
+                var companyMembers = new CompanyMembersVM
+                {
+                    CompanyId = company.id,
+                    CompanyName = company.name,
+                    UserId = user.Id,
+                    UserName = user.UserName
+                };
+
+
                 await _context.SaveChangesAsync();
+
+
+
+                // return RedirectToAction(nameof(Create), "Companies", new { id = group.id, name = group.name });
                 return RedirectToAction(nameof(Index));
             }
             return View(company);
