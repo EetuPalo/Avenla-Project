@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Login_System.Controllers
 {
@@ -11,16 +13,20 @@ namespace Login_System.Controllers
     public class CompaniesController : Controller
     {
         private readonly GeneralDataContext _context;
+        private UserManager<AppUser> UserMgr { get; }
 
-        public CompaniesController(GeneralDataContext context)
+        public CompaniesController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            UserMgr = userManager;
         }
+
         [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Company.ToListAsync());
         }
+
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Details(int? id)
         {
@@ -38,6 +44,7 @@ namespace Login_System.Controllers
 
             return View(company);
         }
+
         [Authorize(Roles = "Superadmin")]
         public IActionResult Create()
         {
@@ -49,8 +56,20 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Superadmin")]
-        public async Task<IActionResult> Create([Bind("id,name,Description")] Company company)
+        public async Task<IActionResult> Create([Bind("id,name,Description")] Company company, int? id)
         {
+            if (id == null)
+            {
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+            //Finding the correct user
+            var appUser = await UserMgr.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            TempData["UserId"] = id;
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(company);
@@ -59,6 +78,7 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
+
         [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -109,6 +129,7 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
+
         [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,6 +158,7 @@ namespace Login_System.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         [Authorize(Roles = "Superadmin")]
         private bool CompanyExists(int id)
         {
