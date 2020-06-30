@@ -34,7 +34,7 @@ namespace Login_System.Models
         //IDENTITY
         public DbSet<Company> Company { get; set; }
 
-        public DbSet<CompanyMembersVM> CompanyMembers {get;set;}
+        public DbSet<CompanyMembersVM> CompanyMembers {get; set;}
 
     }
 }

@@ -57,7 +57,7 @@ namespace Login_System.Controllers
             // Populating CompanyMembersDropdown with users
             foreach (var users in UserMgr.Users)
             {
-                model.userList.Add(new SelectListItem() { Text = users.UserName, Value = users.Id.ToString() });
+                model.userList.Add(new SelectListItem() { Text = users.FirstName + " "+ users.LastName, Value = users.Id.ToString() });
             }
 
             return View(model);
@@ -68,7 +68,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Superadmin")]
-        public async Task<IActionResult> Create([Bind("id,name,Description")] Company company, int? id)
+        public async Task<IActionResult> Create([Bind("id,name,Description")] Company company, int? id, List<int> UserId )
         {
             
 
@@ -97,11 +97,22 @@ namespace Login_System.Controllers
                     UserName = user.UserName
                 };
 
-
+             
                 await _context.SaveChangesAsync();
 
-
-
+                foreach(var userid in UserId)
+                {
+                    var companyMember = UserMgr.Users.FirstOrDefault(x=> x.Id== userid);
+                    var memberToAdd = new CompanyMembersVM
+                    {
+                        CompanyId = company.id,
+                        CompanyName = company.name,
+                        UserId = companyMember.Id,
+                        UserName = companyMember.FirstName + " " + companyMember.LastName
+                    };
+                    _context.Add(memberToAdd);
+                }
+                await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Create), "Companies", new { id = group.id, name = group.name });
                 return RedirectToAction(nameof(Index));
             }
@@ -184,6 +195,14 @@ namespace Login_System.Controllers
         {
             var company = await _context.Company.FindAsync(id);
             _context.Company.Remove(company);
+           
+
+            var users = _context.CompanyMembers.Where(x => x.CompanyId == id);
+            foreach(var user in users)
+            {
+                _context.CompanyMembers.Remove(user);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        @Html.DropDownListFor(x => x.UserId, new SelectList(Model.userList, "Value", "Text"), new { @class = "form-control col-sm" })
+                        @Html.DropDownListFor(x => x.UserId, new SelectList(Model.userList, "Value", "Text"), new { @class = "user-drop-down form-control col-sm", @multiple="multiple"})
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -54,3 +54,8 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
+<script>
+    $(document).ready(function () {
+        $('.user-drop-down').select2();
+    });
+</script>
