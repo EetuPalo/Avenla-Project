@@ -50,12 +50,19 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @if (user.Company != null) 
-                            { 
-                            <li>
-                                <span class="text-dark btn"> @user.Company</span>
-                            </li>
-                            }
+                            @if (user.Company != null)
+                            {
+                                @if (user.Company.Count() == 1) 
+                                { 
+                                    <li>
+                                        <span class="text-dark btn"> @user.Company</span>
+                                    </li>
+                                }
+                                @if (user.Company.Count() > 1)
+                                {
+                                //dropdownlisttähän
+                                }
+                         }
                             <li>
                                 <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a>
                             </li>
