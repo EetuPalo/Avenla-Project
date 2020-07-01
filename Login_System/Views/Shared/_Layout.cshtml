@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using Login_System.Models
+@inject UserManager<AppUser> UserManager
+
+@{
+    Task<AppUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
+    var user = await GetCurrentUserAsync();
+    if (user != null) { var company = user.Company; }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
@@ -40,6 +50,12 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (user.Company != null) 
+                            { 
+                            <li>
+                                <span class="text-dark btn"> @user.Company</span>
+                            </li>
+                            }
                             <li>
                                 <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a>
                             </li>
