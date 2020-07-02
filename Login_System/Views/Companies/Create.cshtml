@@ -56,6 +56,13 @@
     }
 <script>
     $(document).ready(function () {
-        $('.user-drop-down').select2();
+        $('.user-drop-down').select2({templateSelection: formatSelection});
     });
+
+    function formatSelection(selection) {
+        //console.log($(selection).find('ul'))
+
+        return selection.text;
+    }
+   
 </script>

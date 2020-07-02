@@ -114,3 +114,23 @@ body {
     margin-top: 3px;
 }
 
+/*Select2 stylings*/
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    background-color: #E7E7E7;
+    color: black;
+    border-right: none;
+    border: none;
+}
+.select2-selection__choice__display {
+    background-color: #E7E7E7;
+}
+.select2-container--default .select2-selection--multiple {
+
+}
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        border: none;
+        background-color: #E7E7E7;
+    }
+    
