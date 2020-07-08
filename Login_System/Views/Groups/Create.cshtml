@@ -22,7 +22,14 @@
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
                 <label class="control-label"></label>@Resources.Resources.Company
-                @Html.DropDownListFor(x => x.company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                @if (User.IsInRole("Superadmin"))
+                {
+                    @Html.DropDownListFor(x => x.CompanyId, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                }
+                else
+                {
+                    <input asp-for="CompanyId" value="@TempData["CompanyID"]" class ="form-control col-sm" readonly/>
+                }
                 <span asp-validation-for="company" class="text-danger"></span>
             </div>
             <div class="container-fluid p-0">

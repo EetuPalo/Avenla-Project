@@ -150,7 +150,7 @@ namespace Login_System.Controllers
             //Populating the dropdown with companies
             foreach (var company in CompanyList.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.id.ToString() });
             }
             return View(model);
         }
@@ -162,7 +162,7 @@ namespace Login_System.Controllers
             var tempList = new List<Company>();
             foreach (var company in CompanyList.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.id.ToString() });
             }
             return View(model);
         }
@@ -177,6 +177,7 @@ namespace Login_System.Controllers
                   var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
+                Company company = await CompanyList.Company.FirstOrDefaultAsync(x=> x.id == appUser.Company);
                 var k = 1;
                 var veryTempUser = await UserMgr.FindByNameAsync(userName);
                 while (veryTempUser != null)
@@ -208,7 +209,8 @@ namespace Login_System.Controllers
                                 FirstName = appUser.FirstName,
                                 LastName = appUser.LastName,
                                 PhoneNumber = appUser.PhoneNumber,
-                                Company = appUser.Company
+                                Company = company.id,
+                                CompanyName = company.name
                             };
                         }
                         else
@@ -221,15 +223,27 @@ namespace Login_System.Controllers
                                 FirstName = appUser.FirstName,
                                 LastName = appUser.LastName,
                                 PhoneNumber = appUser.PhoneNumber,
-                                Company = currentUser.Company
+                                Company = currentUser.Company,
+                                CompanyName = currentUser.CompanyName
                             };
                         }
-                 
+                      
                         //we then create a new user through usermanager
                         IdentityResult result;
                         IdentityResult roleResult;
                         result = await UserMgr.CreateAsync(user, appUser.Password);
                         roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                        var newMember = new CompanyMembersVM()
+                        {
+                            CompanyId = company.id,
+                            CompanyName = company.name,
+                            UserId = user.Id,
+                            UserName = user.FirstName + " " + user.LastName
+                        };
+
+                        CompanyList.CompanyMembers.Add(newMember);
+                        await CompanyList.SaveChangesAsync();
+
                     }
                     catch
                     {

@@ -66,7 +66,7 @@ namespace Login_System.Controllers
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
 
-            foreach (var company in _context.Company.Where(x=> x.name == user.Company))
+            foreach (var company in _context.Company.Where(x=> x.id == user.Company))
             {
                 companyDescList.Add(company.Description);
             }

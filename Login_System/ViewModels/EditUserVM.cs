@@ -14,7 +14,7 @@ namespace Login_System.ViewModels
         public AppUser User { get; set; }       
 
         public List<Group> Groups { get; set; }
-        public string Company { get; set; }
+        public int Company { get; set; }
 
         public List<AppRole> Roles { get; set; }
         public IList<SelectListItem> CompanyList { get; set; }

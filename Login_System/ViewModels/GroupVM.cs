@@ -22,6 +22,7 @@ namespace Login_System.ViewModels
         public string company { get; set; }
 
         public IList<SelectListItem> CompanyList { get; set; }
+        public int CompanyId { get; set; }
 
         public GroupVM() { CompanyList = new List<SelectListItem>(); }
     }

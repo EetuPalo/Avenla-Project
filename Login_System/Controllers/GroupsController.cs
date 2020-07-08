@@ -32,7 +32,7 @@ namespace Login_System.Controllers
             IQueryable<Group> groups = null;
             if (!User.IsInRole("Superadmin"))
             {
-                groups = from g in _context.Group where g.company == currentUser.Company select g;
+                groups = from g in _context.Group where g.CompanyId == currentUser.Company select g;
             }
             else
             {
@@ -68,23 +68,36 @@ namespace Login_System.Controllers
         }
 
         // GET: Groups/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            if (User.IsInRole("Admin"))
+            {
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                TempData["CompanyID"] = currentUser.Company;
+            }
             var model = new GroupVM();
             foreach (var company in _context.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.id.ToString()});
             }
             return View(model);
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,company")] Group @group)
+        public async Task<IActionResult> Create([Bind("id,name,CompanyId")] Group @group)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@group);
+                var company = await _context.Company.FirstOrDefaultAsync(x=> x.id == group.CompanyId);
+                var addGroup = new Group
+                {
+                    company = company.name,
+                    CompanyId = company.id,
+                    name = group.name,
+
+                };
+                _context.Add(addGroup);
                 await _context.SaveChangesAsync();
                 //Some data to build the "guide"
                 TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GroupCreated;
@@ -93,7 +106,7 @@ namespace Login_System.Controllers
                 TempData["GroupName"] = group.name;
                 TempData["GroupId"] = group.id;
                 TempData["GroupCompany"] = group.company;
-                return RedirectToAction(nameof(AddSkills), "Groups", new { id = group.id, name = group.name });
+                return RedirectToAction(nameof(AddSkills), "Groups", new { id = addGroup.id, name = group.name });
             }
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_Error;           
             return View(@group);

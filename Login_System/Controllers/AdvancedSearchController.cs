@@ -36,7 +36,7 @@ namespace Login_System.Controllers
             var CompanyList = new List<AppUser>();
 
             //booleans to check if other filters have been used
-            bool skillbool = Skill!= null ? true : false ;
+            bool skillbool = Skill != null ? true : false;
             bool groupbool = Groups != null ?true :false;
             bool certificatebool = Certificate != null ? true :false;
             //Skill[0] = null;    
@@ -71,6 +71,7 @@ namespace Login_System.Controllers
                 switch (Skill[0])
                 {
                     case null:
+                        skillbool = false;
                         break;
 
                     default:
@@ -202,12 +203,13 @@ namespace Login_System.Controllers
 
                 foreach (var items in skillQuery.Where(x => x.SkillName == skillInList))
                 {
-                    var skillQuerySecond = from t in _context.UserSkills
+                    var skillQuerySecond = (from t in _context.UserSkills
                                            group t by t.UserID into g
-                                           select new { UserID = g.Key, Date = g.Max(t => t.Date) };
+                                           select new { UserID = g.Key, Date = g.Max(t => t.Date) }).ToList();
 
                     foreach (var it in skillQuerySecond.Where(x => x.Date == items.Date))
                     {
+                        //foreach(var ploo in _context.UserSkills) { }
                        
                         foreach (AppUser user in UserMgr.Users.Where(x => x.Id == items.UserID))
                         {
@@ -307,7 +309,7 @@ namespace Login_System.Controllers
 
             foreach (var Uname in _context.Company.Where(x => x.name == Company))
             {
-                foreach (AppUser user in UserMgr.Users.Where(x => x.Company == Uname.name))
+                foreach (AppUser user in UserMgr.Users.Where(x => x.Company == Uname.id))
                 {
                     //This is to prevent duplicates
                     if (!CompanyList.Contains(user))

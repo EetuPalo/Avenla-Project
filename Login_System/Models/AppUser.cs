@@ -33,8 +33,9 @@ namespace Login_System.Models
         public string TempUserName { get; set; }
 
         [Display(Name = "Company", ResourceType = typeof(Resources.Resources))]
-        public string Company { get; set; }
+        public int Company { get; set; }
+        public string CompanyName { get; set; }
 
-        
+
     }
 }

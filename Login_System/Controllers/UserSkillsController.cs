@@ -173,8 +173,6 @@ namespace Login_System.Controllers
             ViewBag.DataPoint = datapointsPerSkill;
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
-
-            Console.WriteLine(ViewBag.names[0]);
             return View(model);
         }
 
@@ -480,7 +478,7 @@ namespace Login_System.Controllers
                     SkillName = skill.Skill,
                     SkillLevel = Skilllevel[i],
                     UserID = userId,
-                    Date = DateTime.Now
+                    Date = date
                 };
                 if (User.IsInRole("Admin"))
                 {

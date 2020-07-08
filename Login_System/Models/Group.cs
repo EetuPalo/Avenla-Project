@@ -19,6 +19,8 @@ namespace Login_System.Models
 
         public string company { get; set; }
 
+        public int CompanyId { get; set; }
+
         [NotMapped]
         public bool IsSelected { get; set; }
         

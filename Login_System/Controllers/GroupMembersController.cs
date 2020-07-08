@@ -87,10 +87,17 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> Create(string? group, string? source, int id)
         {
+            List<AppUser> applicableUsers = new List<AppUser>();
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+            var companygroup = await _context.Group.FirstOrDefaultAsync(x => x.id == id);
+            foreach(var member in _context.CompanyMembers.Where(x=> x.CompanyId == companygroup.CompanyId))
+            {
+                var user = await UserMgr.Users.FirstOrDefaultAsync(x => x.Id == member.UserId);
+                applicableUsers.Add(user);
+            }
             var model = new List<GroupUser>();
             var groupMemList = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
-            foreach (var user in User.IsInRole("Superadmin")? UserMgr.Users : UserMgr.Users.Where(x => x.Company == currentUser.Company))
+            foreach (var user in applicableUsers)
             {
                 var tempUser = new GroupUser
                 {
@@ -111,6 +118,7 @@ namespace Login_System.Controllers
                 model.Add(tempUser);
             }
             TempData["Source"] = source;
+            TempData["groupid"] = companygroup.id;
             return View(model);
         }
         
