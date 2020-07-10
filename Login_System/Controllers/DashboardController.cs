@@ -35,7 +35,7 @@ namespace Login_System.Controllers
             DateTime localdate = DateTime.Now;            
 
             var user = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentCompany = user.Company;            
+            ViewBag.CurrentCompany = user.CompanyName;            
             ViewBag.CurrentUserFirstName = user.FirstName;
             ViewBag.CurrentUserLastName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;

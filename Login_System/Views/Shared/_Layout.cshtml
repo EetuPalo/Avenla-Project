@@ -52,11 +52,11 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @if (user.Company != null)
+                            @if (user.CompanyName != null)
                             {
 
                                 <li>
-                                    <span class="text-dark btn"> @user.Company</span>
+                                    <span class="text-dark btn"> @user.CompanyName</span>
                                 </li>
                             }
                             <li>
