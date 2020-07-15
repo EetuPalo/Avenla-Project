@@ -1078,6 +1078,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Users.
+        /// </summary>
+        public static string User_Label {
+            get {
+                return ResourceManager.GetString("User_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string UserSkills_Create_Submit {

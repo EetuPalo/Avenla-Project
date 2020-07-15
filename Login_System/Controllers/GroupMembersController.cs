@@ -27,21 +27,24 @@ namespace Login_System.Controllers
         {
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             ViewBag.CurrentCompany = user.Company;
-
-            var list = new List<GroupMember>();
-            var model = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
+            
+            var list = new List<AppUser>();
+            var model = new GroupMember();
+            var groupMembers = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
 
             Group tempGroup = await _context.Group.FindAsync(id);
             TempData["GroupID"] = tempGroup.id;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                model.Clear();
+                groupMembers.Clear();
                 foreach (var member in _context.GroupMembers.Where(s => (s.GroupID == id) && (s.UserName.Contains(searchString))))
                 {
-                    model.Add(member);
+                    var memberOfGroup = _context.AppUser.FirstOrDefault(x => x.Id == member.UserID);
+                    list.Add(memberOfGroup);
                 }
-                return View(model);
+                model.Members = list;
+                return View(list);
             }           
 
             try
@@ -55,17 +58,18 @@ namespace Login_System.Controllers
                 //someday would need to look into it.
             }           
 
-            foreach (var item in model)
+            foreach (var item in groupMembers)
             {
                 foreach(AppUser appuser in UserMgr.Users.Where(x=> x.Id == item.UserID))
                 {
                     if(appuser.Company == user.Company || User.IsInRole("Superadmin"))
                     {
-                        list.Add(item);
+                        list.Add(appuser);
                     }
                 }
             }
-            return View(list);
+            model.Members = list;
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int? id)

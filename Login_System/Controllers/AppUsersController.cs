@@ -47,11 +47,11 @@ namespace Login_System.Controllers
             IQueryable<AppUser> employees;
             if (User.IsInRole("Superadmin"))
             {
-                employees = from e in _context.Users select e;
+                employees = from e in _context.Users orderby e.LastName select e;
             }
             else
             {
-                employees = from e in _context.Users where e.Company == user.Company select e;
+                employees = from e in _context.Users where e.Company == user.Company orderby e.LastName select e;
             }
             
             TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;

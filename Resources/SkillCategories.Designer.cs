@@ -61,6 +61,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Create_Cancel {
+            get {
+                return ResourceManager.GetString("Create_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Category.
+        /// </summary>
+        public static string Index_Create {
+            get {
+                return ResourceManager.GetString("Index_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Here you can create, edit, remove and add skills to skillcategories. .
         /// </summary>
         public static string Index_Desc {

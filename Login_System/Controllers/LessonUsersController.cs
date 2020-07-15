@@ -25,8 +25,10 @@ namespace Login_System.Controllers
         }
 
         // GET: LessonUsers
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(int id, int courseId)
         {
+            TempData["LessonId"] = id;
+            TempData["CourseId"] = courseId;
             return View(await _context.LessonUsers.Where(x => x.LessonID == id).ToListAsync());
         }
 

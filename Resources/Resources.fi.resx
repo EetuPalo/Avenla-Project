@@ -536,4 +536,7 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="User_Hello" xml:space="preserve">
     <value>Hei, </value>
   </data>
+  <data name="User_Label" xml:space="preserve">
+    <value>Käyttäjät</value>
+  </data>
 </root>

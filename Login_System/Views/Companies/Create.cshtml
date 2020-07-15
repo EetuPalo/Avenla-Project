@@ -29,6 +29,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label class="control-label">@Resources.Resources.User_Label</label>
                         @Html.DropDownListFor(x => x.UserId, new SelectList(Model.userList, "Value", "Text"), new { @class = "user-drop-down form-control col-sm", @multiple="multiple"})
                     </div>
                 </div>

@@ -27,5 +27,8 @@ namespace Login_System.Models
         public IEnumerable<SelectListItem> Group { get; set; }
         [NotMapped]
         public IEnumerable<SelectListItem> Uname { get; set; }
+
+        [NotMapped]
+        public List<AppUser> Members { get; set; }
     }
 }

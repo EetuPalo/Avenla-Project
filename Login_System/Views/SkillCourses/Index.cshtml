@@ -189,7 +189,7 @@
                                             </td>
                                         }
                                             <td>
-                                            <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Members</a>
+                                            <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@lesson.CourseID">@Resources.Courses.Index_Lesson_Members</a>
                                             </td>
                                         @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                                         {
