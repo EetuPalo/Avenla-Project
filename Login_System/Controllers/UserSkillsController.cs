@@ -55,7 +55,7 @@ namespace Login_System.Controllers
             }
 
             //Month and year are needed for the graph
-            if (!month.HasValue)
+            /*if (!month.HasValue)
             {
                 month = DateTime.Now.Month;
             }
@@ -63,7 +63,7 @@ namespace Login_System.Controllers
             if (!year.HasValue)
             {
                 year = DateTime.Now.Year;
-            }            
+            } */           
 
             //Some data that will be shown in the view
             uId = (int)id;
@@ -74,8 +74,13 @@ namespace Login_System.Controllers
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
 
+
+            var testpoints = new List<List<SkillPoint>>();
+            var datapoint = new List<SkillPoint>();
+            var dataPoints = new List<SkillPoint>();
+
             List<List<DataPoint>> datapointsPerSkill= new List<List<DataPoint>>();
-            List<DataPoint> dataPoints = new List<DataPoint>();
+           
             List<string> dates = new List<string>();
             List<string> skillnames = new List<string>();
             int i = 0;
@@ -84,18 +89,21 @@ namespace Login_System.Controllers
             var userSkills = from c in _context.UserSkills select c;
             TempData["SearchValue"] = null;
 
+
+            //if (!String.IsNullOrEmpty(searchString))                
+            //{
+            //Reformatting the string
+            //searchString = searchString.Replace('.', '/');
+            //var splitDate = searchString.Split('/');
+            
             //SEARCH
-            if (!String.IsNullOrEmpty(searchString))                
-            {
-                //Reformatting the string
-                //searchString = searchString.Replace('/', '.');
-                var splitDate = searchString.Split('/');
-
-                foreach (var item in userSkills.Where(x => (x.Date.Day == Convert.ToInt32(splitDate[1])) && (x.Date.Month == Convert.ToInt32(splitDate[0])) && (x.Date.Year == Convert.ToInt32(splitDate[2])) && (x.UserID == id)))
-                {
-                    month = item.Date.Month;
-                    year = item.Date.Year;
-
+            if (month != null || year != null)
+            {/*
+                //check if given value is null, if is, dont take it into account when fetching from table.
+                foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : x.Date.Month != null) && ((year != null) ? (x.Date.Year == year) : x.Date.Year != null) && (x.UserID == id)))
+                {   
+                    var itemMonth = item.Date.Month;
+                    var itemYear = item.Date.Year;
                     if (!tempDate.Contains(item.Date.ToString()))
                     {
                         i++;
@@ -103,7 +111,7 @@ namespace Login_System.Controllers
                         {
                             Date = item.Date,
                             AdminEval = item.AdminEval,
-                            TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                            TempDate = item.Date.ToString("dd/MM/yyyy"),
                             Id = (int)id
                         };
                         model.Add(tempModel);
@@ -113,22 +121,62 @@ namespace Login_System.Controllers
                     if (item.Date.Month == month && item.Date.Year == year)
                     {
                         skillnames.Add(item.SkillName);
-                        dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                        dates.Add(item.Date.ToString("dd.MM.yyyy"));
                         dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                     }
-                   
+                    if (dataPoints != null)
+                    {
+                        var x = dataPoints.ToList();
+                        datapointsPerSkill.Add(x);
+                        dataPoints.Clear();
+                    }
+
                 }
-                TempData["SearchValue"] = searchString;
+             
+                TempData["SearchValue"] = searchString; 
+               */
             }
+            
+
+            /*foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : month == null) && ((year != null) ? (x.Date.Year == year) : year == null) && (x.UserID == id)))
+            {
+                month = item.Date.Month;
+                year = item.Date.Year;
+
+                if (!tempDate.Contains(item.Date.ToString()))
+                {
+                    i++;
+                    var tempModel = new DateListVM
+                    {
+                        Date = item.Date,
+                        AdminEval = item.AdminEval,
+                        TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                        Id = (int)id
+                    };
+                    model.Add(tempModel);
+                }
+                tempDate.Add(item.Date.ToString());
+
+                if (item.Date.Month == month && item.Date.Year == year)
+                {
+                    skillnames.Add(item.SkillName);
+                    dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                    dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                }
+
+            }
+            TempData["SearchValue"] = searchString;*/
+            //}
             //NO SEARCH
             else
             {
+          
                 foreach(var skillName in _context.Skills)
                 {
 
                 
                 //Getting all items of the specific user
-                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill))
+                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill).OrderBy(x=> x.Date))
                     {
                         if (!tempDate.Contains(item.Date.ToString()))
                         {
@@ -145,32 +193,38 @@ namespace Login_System.Controllers
                         }
                         tempDate.Add(item.Date.ToString());
 
-                        if (item.Date.Month == month && item.Date.Year == year)
-                        {
+                        /*if (item.Date.Month == month && item.Date.Year == year)
+                        {*/
                             if (!skillnames.Contains(item.SkillName))
                             {
                                 skillnames.Add(item.SkillName);
                             }
-                            if (dates.Contains(item.Date.ToString("dd.MM.yyyy.HH.mm.ss")))
+                            if (!dates.Contains(item.Date.ToString("MM/dd/yyyy")))
                             {
-                                dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
+                                dates.Add(item.Date.ToString("MM/dd/yyyy"));
                             }
-                           
-                            dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
-                        }
+
+                        //dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                   
+                            datapoint.Add(new SkillPoint(item.Date.ToString("MM/dd/yyyy"), item.SkillLevel, item.Skillid));
+                       
+                        //}
                         
                     }
-                    if (dataPoints.Count >0) { 
-                    var x = dataPoints.ToList();
-                    datapointsPerSkill.Add(x) ;
-                    dataPoints.Clear();
+                    if (datapoint.Count > 0)
+                    {
+
+                        testpoints.Add(datapoint.ToList());
+                        datapoint.Clear();
                     }
                 }
+            
             }
 
             //Graph stuff
             //ViewBag.DataPoint = dataPoints.ToArray();
-            ViewBag.DataPoint = datapointsPerSkill;
+            //ViewBag.DataPoint = datapointsPerSkill;
+            ViewBag.DataPoint = testpoints;
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
             return View(model);
@@ -194,18 +248,28 @@ namespace Login_System.Controllers
             TempData["UserName"] = userName;
             TempData["UserId"] = id;
             string tempName = "DATE_NOT_FOUND";
+            var skillIdList = new List<int>();           
 
             //Getting the skillgoal info for user's group(s)
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
             var goalList = new List<SkillGoals>();
+            var tempGoalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
-
+            TempData["Date"] = _context.UserSkills.OrderByDescending(x=> x.Date).FirstOrDefault().Date.ToString("dd.MM.yyyy HH.mm");
             try
             {                
                 foreach (var group in groupList)
                 {
-                    goalList = _context.SkillGoals.Where(x => x.GroupName == group.GroupName).ToList();
-                }
+                    tempGoalList = _context.SkillGoals.Where(x => x.Groupid == group.GroupID).ToList();
+                    foreach(var skillid in tempGoalList)
+                    {
+                        var latestGoal = tempGoalList.OrderByDescending(x=> x.Date).First(x => x.Skillid == skillid.Skillid);
+                        if (!goalList.Contains(latestGoal))
+                        {
+                            goalList.Add(latestGoal);
+                        }
+                    }
+                    }
             }
 
             catch
@@ -214,44 +278,28 @@ namespace Login_System.Controllers
             }          
             
             //If the skilllist is accessed directly from AppUser Index, the latest entries are automatically shown.
-            if (name == "latest")
-            {
-                try
-                {
-                    var tempDateList = new List<DateTime>();
-                    foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
-                    {
-                        if (!tempDateList.Contains(skill.Date))
-                        {
-                            tempDateList.Add(skill.Date);
-                        }
-                    }
-                    name = tempDateList.Max().ToString("dd/MM/yyyy+HH/mm");
-                    tempName = tempDateList.Max().ToString("dd.MM.yyyy HH.mm");
-                    TempData["Date"] = tempName;
-                }
-
-                catch
-                {
-                    Console.WriteLine("ERROR: An exception occured when fetching latest entries.");
-                }
-            }
+  
             //This fetches the correct entries and displays them in a list
             if (_context.UserSkills != null)
             {
                 //Looping through userskills of the current user
-                foreach (var skill in _context.UserSkills.Where(x => x.UserID == id))
+                foreach (var skill in _context.UserSkills.Where(x => x.UserID == id).OrderByDescending(x=> x.Date))
                 {
-                    var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
-                    var date2 = name;
-                    var skillGoal = 0;
-                    //Getting only the ones with the date that has been selected by the user (or the latest date)
-                    if (date1 == date2)
+                  
+                    
+                    if (!skillIdList.Contains(skill.Skillid))
                     {
-                        tempName = skill.Date.ToString("dd.MM.yyyy HH.mm");
-                        TempData["Date"] = tempName;
+                        skillIdList.Add(skill.Skillid);
 
-                        var usrSkill = new UserSkillsVM
+                        /*var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
+                        var date2 = name;*/
+                        var skillGoal = 0;
+                        //Getting only the ones with the date that has been selected by the user (or the latest date)
+                        int? maxGoal = goalList.Where(x => x.Skillid == skill.Skillid).Max(x=> x.SkillGoal);
+
+
+
+                            var usrSkill = new UserSkillsVM
                         {
                             Id = Convert.ToInt32(skill.Id),
                             UserID = skill.UserID,
@@ -259,7 +307,8 @@ namespace Login_System.Controllers
                             SkillName = skill.SkillName,
                             SkillLevel = skill.SkillLevel,
                             Date = skill.Date.ToString("dd/MM/yyyy H:mm"),
-                            AdminEval = skill.AdminEval
+                            AdminEval = skill.AdminEval,
+                            SkillGoal = (maxGoal != null && maxGoal != -1)? maxGoal : 0
                         };
 
                         //Getting goals of the group 
@@ -280,16 +329,7 @@ namespace Login_System.Controllers
                                 }
                             }
                         }
-                        //Looping through the datelist that was just populated
-                        foreach (var date in dateList.Values)
-                        {
-                            foreach (var goal in goalList.Where(x => (x.Date == date) && (x.SkillName == skill.SkillName) && (x.SkillGoal > skillGoal)))
-                            {
-                                skillGoal = goal.SkillGoal;
-                            }
-                        }
-                        usrSkill.SkillGoal = skillGoal;
-
+                     
                         if (usrSkill != null)
                         {
                             model.Add(usrSkill);
@@ -420,7 +460,7 @@ namespace Login_System.Controllers
             foreach (var goal in goalList/*.Where(x => x.SkillGoal != -1)*/)
             {
                 //Getting the skills
-                foreach (var skill in _context.Skills.Where(x => x.Skill == goal.SkillName))
+                foreach (var skill in _context.Skills.Where(x => x.Id == goal.Skillid))
                 {
                     //Making sure the latest goal dates are used
                 
@@ -728,6 +768,20 @@ namespace Login_System.Controllers
             TempData.Keep();
 
             return latestEval;
+        }
+
+        public class SkillPoint
+        {
+           public int y { get; set; }
+           public string x { get; set; }
+           public int  skillId { get; set; }
+
+            public SkillPoint(string d, int s, int sn)
+            {
+                skillId = sn;
+                y = s;
+                x = d;
+            }
         }
     }
 }

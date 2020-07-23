@@ -35,7 +35,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string searchString, string order)
         {
             var user = await UserMgr.GetUserAsync(HttpContext.User);
 
@@ -47,13 +47,27 @@ namespace Login_System.Controllers
             IQueryable<AppUser> employees;
             if (User.IsInRole("Superadmin"))
             {
-                employees = from e in _context.Users orderby e.LastName select e;
+                employees = from e in _context.Users  select e;
             }
             else
             {
-                employees = from e in _context.Users where e.Company == user.Company orderby e.LastName select e;
+                employees = from e in _context.Users where e.Company == user.Company select e;
             }
-            
+            switch (order)
+            {
+                case "FirstName":
+                    employees = employees.OrderBy(x => x.FirstName);
+                    break;
+
+                case "LastName":
+                    employees = employees.OrderBy(x => x.LastName);
+                    break;
+
+                case "Email":
+                    employees = employees.OrderBy(x => x.Email);
+                    break;
+
+            }
             TempData["SearchString"] = Resources.Resources.Employee_Index_SearchPholder;
             TempData["SearchValue"] = null;
             

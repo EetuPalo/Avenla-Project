@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "ListByDate";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
 }
 <head>
     <script src="~/js/Chart.bundle.js"></script>
@@ -22,11 +23,16 @@
         <div class="row mb-4">
             <div class="col-sm">
                 <div class="input-group">
-                    <input readonly class="form-control" id="dateSearch" type="text" name="SearchString" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder value="@TempData["SearchValue"]">
+                    <input class="form-control" id="dateSearch" type="text" hasDatepicker name="SearchString" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder value="@TempData["SearchValue"]"/>
                     <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
                         <i class="fa fa-times"></i>
                     </button>
                 </div>
+            </div>
+            <div class="col-sm">
+                <input class="form-control" id="dateSearch" type="number" name="month" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder/>
+                <input class="form-control" id="dateSearch" type="number" name="year" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder  />
+
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button>
@@ -84,22 +90,34 @@
 <h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
 <canvas id="myChart" width="1000" height="500"></canvas>
 
+
+
 <script>
+
     var ctx = document.getElementById('myChart');
 
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], //for each day of the month possible
+            labels: [@foreach(var date in ViewBag.Dates)
+            {
+                 @Html.Raw("\""+date+"\"");
+                @if (count < ViewBag.Dates.Length -1)
+                {
+                    @Html.Raw(", ");
+                    count++;
+                }
+
+            }
+            ], //for each day of the month possible
             datasets: [
               @{int j = 0, i = 0 ;
-                @foreach (var skill in ViewBag.DataPoint)
+                            @foreach (var skill in ViewBag.DataPoint)
                 {
-                    @Html.Raw("{");
-                    j = 0;
-                    var random = new Random();
-                    var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
-
+                                @Html.Raw("{");
+                                j = 0;
+                                var random = new Random();
+                                var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
 
                     <text>
 
@@ -109,23 +127,23 @@
                                 string deta = JsonConvert.SerializeObject(item);
                                 deta = deta.Replace("\"x\"", "x");//json serialize method puts quotes around X and Y and ChartJS doesn't recognize them because of that
                                 deta = deta.Replace("\"y\"", "y");
-                                @Html.Raw(deta);
+                                @Html.Raw(deta +" ");
                                 @if (j < skill.Count - 1)
-                                {
+                                 {
                                     @Html.Raw(", ")
                                     j++;
-                                }
-                            }
+                                 }
+                             }
                 ],
                     </text>
                 <text>
                 label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i]))+', the skill level is ',//this appears when hovering over a viewpoint,
                 backgroundColor: "@color",
                 borderColor: "@color",
-                borderWidth: 5,//thickness of data pooints
+                borderWidth: 5,//thickness of data points
                 tension: 0,//i honestly don't remember what it does
                 fill: false
-                    @Html.Raw("},") 
+                    @Html.Raw("},")
                 @{i++;
                     }
                     //showLine: true
@@ -134,13 +152,11 @@
                 }
 
                 }
-
         ]
-
     },
     options: {
         label: {
-            display: true
+            display: false
         },
         legend: {
             display: false //it becomes crowded when there are lot of skill evaluations made
@@ -153,9 +169,10 @@
         scales: {
             /* leftover code, will be useful when changing the X axis to actual dates, this doesn't do anything at the moment */
             xAxes: [{
+                
                     type: 'time',
                     time: {
-                        parser: 'YYYY-MM-DDTHH:mm:ss',
+                        parser: 'YYYY-MM-DD',
                         unit: 'day'
                     },
                     ticks: {

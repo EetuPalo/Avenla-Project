@@ -22,7 +22,7 @@ namespace Login_System.ViewModels
 
         public string AdminEval { get; set; }
 
-        public int SkillGoal { get; set; }
+        public int? SkillGoal { get; set; }
 
         public int GroupId { get; set; }
         public int Skillid { get; set; }
