@@ -255,7 +255,7 @@ namespace Login_System.Controllers
             var goalList = new List<SkillGoals>();
             var tempGoalList = new List<SkillGoals>();
             var dateList = new Dictionary<string, DateTime>();
-            TempData["Date"] = _context.UserSkills.OrderByDescending(x=> x.Date).FirstOrDefault().Date.ToString("dd.MM.yyyy HH.mm");
+            /*TempData["Date"] = _context.UserSkills.OrderByDescending(x=> x.Date).FirstOrDefault().Date.ToString("dd.MM.yyyy HH.mm");*/    
             try
             {                
                 foreach (var group in groupList)
@@ -269,7 +269,7 @@ namespace Login_System.Controllers
                             goalList.Add(latestGoal);
                         }
                     }
-                    }
+                }
             }
 
             catch
@@ -295,7 +295,7 @@ namespace Login_System.Controllers
                         var date2 = name;*/
                         var skillGoal = 0;
                         //Getting only the ones with the date that has been selected by the user (or the latest date)
-                        int? maxGoal = goalList.Where(x => x.Skillid == skill.Skillid).Max(x=> x.SkillGoal);
+                        var maxGoal = goalList.Where(x => x.Skillid == skill.Skillid).Max(x=> (int?)x.SkillGoal);
 
 
 
