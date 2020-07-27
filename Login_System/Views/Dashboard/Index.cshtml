@@ -135,7 +135,6 @@
                         </p>
                     }
                 }
-                <a asp-area="" asp-controller="Skills" asp-action="Index" class="btn btn-primary"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
             </div>
         </div>
     </div>
@@ -247,9 +246,8 @@
                         @foreach (var item in Model.UserCertificates)
                         {
                         <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
-                    }
-                        </p>
-                        <a asp-area="" asp-controller="Certificates" asp-action="Index" class="btn btn-primary"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
+                        }
+                    </p>                      
                     </div>
                 </div>
             </div>
