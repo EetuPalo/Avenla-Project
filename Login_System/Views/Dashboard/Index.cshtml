@@ -26,7 +26,7 @@
                         @foreach (var company in Model.CompanyDesc)
                         {
                         @Html.Raw(company)
-                        }                        
+                        }
                     </p> 
                     <p> Linkki ei toimi tällä hetkellä.</p>
                     <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
@@ -106,7 +106,7 @@
                 {
                     @foreach (var group in Model.UserGroups)
                     {
-                        <h5 class="card-title">@group.GroupName</h5>
+                        <h5 class="card-title" style="text-decoration:underline;">@group.GroupName</h5>
                         <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
                         <p class="card-text">
 
@@ -241,7 +241,7 @@
         <div class="col-sm-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@Resources.Resources.Layout_Certificates</h5>
+                    <h5 class="card-title" style="text-decoration:underline;">@Resources.Resources.Layout_Certificates</h5>
                     <p class="card-text">
                         @foreach (var item in Model.UserCertificates)
                         {
