@@ -186,7 +186,7 @@ namespace Login_System.Controllers
                             {
                                 Date = item.Date,
                                 AdminEval = item.AdminEval,
-                                TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
+                                TempDate = item.Date.ToString("dd.MM.yyyy"),
                                 Id = (int)id
                             };
                             model.Add(tempModel);
@@ -199,14 +199,14 @@ namespace Login_System.Controllers
                             {
                                 skillnames.Add(item.SkillName);
                             }
-                            if (!dates.Contains(item.Date.ToString("MM/dd/yyyy")))
+                            if (!dates.Contains(item.Date.ToString("dd.MM.yyyy")))
                             {
-                                dates.Add(item.Date.ToString("MM/dd/yyyy"));
+                                dates.Add(item.Date.ToString("dd.MM.yyyy"));
                             }
 
                         //dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                    
-                            datapoint.Add(new SkillPoint(item.Date.ToString("MM/dd/yyyy"), item.SkillLevel, item.Skillid));
+                            datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel, item.Skillid));
                        
                         //}
                         
@@ -263,6 +263,7 @@ namespace Login_System.Controllers
                     tempGoalList = _context.SkillGoals.Where(x => x.Groupid == group.GroupID).ToList();
                     foreach(var skillid in tempGoalList)
                     {
+                        //get latest goals of a skill from a group user belongs to.
                         var latestGoal = tempGoalList.OrderByDescending(x=> x.Date).First(x => x.Skillid == skillid.Skillid);
                         if (!goalList.Contains(latestGoal))
                         {
