@@ -137,53 +137,62 @@
                 }
             </div>
         </div>
-
-
 <br />
 
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
+        <div class="row">
+            <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
+            <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
+            <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_grade </h6>
+            <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
+        </div>
+        <p class="card-text">
+            @foreach (var item in Model.UserCourses)
+            {
                 <div class="row">
-                    <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
-                    <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_grade </h6>
-                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
-                </div>
-                <p class="card-text">
-                    @foreach (var item in Model.UserCourses)
-                    {
-                    <div class="row">
-                        <div class="col-sm-4">
-                            @Html.DisplayFor(modelItem => item.CourseName)
-                        </div>
-                        @if (item.Status == "Completed" || item.Status == "Suoritettu")
-                        {
-                            <div class="col-sm-3 text-success">
-                                @Html.DisplayFor(modelItem => item.Status)
-
-                            </div>
-                            <div class="col-sm-2">
-                                @item.CourseGrade
-                            </div>
-                            <div class="col-sm-3">
-                                @item.CompletionDate.ToString("dd.MM.yyyy")
-                            </div>
-
-                        }
-                        else
-                        {
-                            <div class="col-sm-4">
-                                @Html.DisplayFor(modelItem => item.Status)
-
-                            </div>
-                        }
-
+                    <div class="col-sm-4">
+                        @Html.DisplayFor(modelItem => item.CourseName)
                     </div>
+                    @if (item.Status == "Completed" || item.Status == "Suoritettu")
+                    {
+                        <div class="col-sm-3 text-success">
+                            @Html.DisplayFor(modelItem => item.Status)
+
+                        </div>
+                        <div class="col-sm-2">
+                            @item.CourseGrade
+                        </div>
+                        <div class="col-sm-3">
+                            @item.CompletionDate.ToString("dd.MM.yyyy")
+                        </div>
+
                     }
-                </p><br />
-                <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
+                    else
+                    {
+                        <div class="col-sm-4">
+                            @Html.DisplayFor(modelItem => item.Status)
+
+                        </div>
+                    }
+
+                </div>
+            }
+        </p><br />
+        <ul class="nav nav-tabs card-header-tabs" role="tablist" style="padding: 0, 0, 10px">
+            <li class="nav item">
+                <a class="nav-link active" data-toggle="tab" href="#upcoming" role="tab">Tulevat</a>
+            </li>
+            <li class="nav item">
+                <a class="nav-link" data-toggle="tab" href="#past" role="tab">Menneet</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
+            <div class="tab-pane active" id="upcoming" role="tabpanel">
                 <p class="card-text">
                     <div class="row">
                         <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Resources.Lessons_upcoming @Resources.Courses.Index_Lessons</h6>
@@ -191,6 +200,7 @@
                         <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
                         <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
                     </div>
+
                     @foreach (var lesson in Model.Lessons)
                     {
                         <div class="row">
@@ -208,31 +218,34 @@
                         </div>
 
                     }
-
-                </p>
-                <p>
+            </div>
+            </p>
+            <p>
+                <div class="tab-pane" id="past" role="tabpanel">
                     <h6 style="text-decoration:underline;">@Resources.Resources.Lessons_past @Resources.Courses.Index_Lessons</h6>
                     @foreach (var lesson in Model.PastLessons)
                     {
-                    <div class="row">
-                        <div class="col-sm-4"> @Html.DisplayFor(modelItem => lesson.CourseName) </div>
-                        <div class="col-sm-3">
-                            @Html.DisplayFor(modelItem => lesson.LessonName)
-                        </div>
-                        <div class="col-sm-2" style="text-transform: Capitalize">
-                            @Html.DisplayFor(modelItem => lesson.Location)
-                        </div>
-                        <div class="col-sm-3">
-                            @lesson.Date.ToString("HH.mm " + " - " +" dd.MM.yyyy")
-                        </div>
+                        <div class="row">
+                            <div class="col-sm-4"> @Html.DisplayFor(modelItem => lesson.CourseName) </div>
+                            <div class="col-sm-3">
+                                @Html.DisplayFor(modelItem => lesson.LessonName)
+                            </div>
+                            <div class="col-sm-2" style="text-transform: Capitalize">
+                                @Html.DisplayFor(modelItem => lesson.Location)
+                            </div>
+                            <div class="col-sm-3">
+                                @lesson.Date.ToString("HH.mm " + " - " + " dd.MM.yyyy")
+                            </div>
 
-                    </div>
+                        </div>
 
                     }
-                </p>
-                <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
-            </div>
+                </div>
         </div>
+        </p>
+        <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
+    </div>
+</div>
 
 
 
@@ -256,3 +269,12 @@
 </div>
 
     <br />
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+    $('#myTab a[href="#upcoming"]').tab('show');
+    $('#myTab a[href="#past"]').tab('show');
+</script>
