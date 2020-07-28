@@ -133,4 +133,6 @@ body {
         border: none;
         background-color: #E7E7E7;
     }
-    
+.card-columns {
+        column-count: 2;
+}
