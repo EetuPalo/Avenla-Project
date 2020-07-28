@@ -5,75 +5,69 @@
 }
 
 <h1>Dashboard</h1>
-<div class="row">
+    <div class="card-deck">
+        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+        {
+                <div class="card">
+                    <div class="card-block" style="padding: 1.25rem;">
 
-    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-    {
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-
-                    @if (ViewBag.CurrentCompany != null)
-                    {
-                        <h5 class="card-title"> @ViewBag.CurrentCompany</h5>
-                    }
-
-                    else
-                    {
-                        <h5 class="card-title">@Html.Raw("not found")</h5>
-                    }
-                    <p class="card-text">
-                        @foreach (var company in Model.CompanyDesc)
+                        @if (ViewBag.CurrentCompany != null)
                         {
-                        @Html.Raw(company)
+                            <h5 class="card-title"> @ViewBag.CurrentCompany</h5>
                         }
-                    </p> 
-                    <p> Linkki ei toimi tällä hetkellä.</p>
-                    <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
-                </div>
-            </div>
-        </div>
-    }
-    @if (User.IsInRole("User"))
-    {
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" style="text-transform: Capitalize">
-                        <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
-                    </h5>
-                    <p class="card-text">
-                        <dl class="row">
-                            <dt id="cardProfile" class="col-sm-4">
-                                @Resources.Resources.Email:
-                            </dt>
-                            <dd class="col-sm-8">
-                                @ViewBag.CurrentUserEmail
-                            </dd>
-                            <dt id="cardProfile" class="col-sm-4">
-                                @Resources.Resources.Phone:
-                            </dt>
-                            <dd class="col-sm-8">
-                                @ViewBag.CurrentUserPhone
-                            </dd>
-                            @if (ViewBag.CurrentCompany != null)
+
+                        else
+                        {
+                            <h5 class="card-title">@Html.Raw("not found")</h5>
+                        }
+                        <p class="card-text">
+                            @foreach (var company in Model.CompanyDesc)
                             {
+                                @Html.Raw(company)
+                            }
+                        </p>
+                        <p> Linkki ei toimi tällä hetkellä.</p>
+                        <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
+                    </div>
+                </div>
+        }
+        @if (User.IsInRole("User"))
+        {
+              <div class="card">
+                    <div class="card-block"  style="padding: 1.25rem;">
+                        <h5 class="card-title" style="text-transform: Capitalize">
+                            <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
+                        </h5>
+                        <p class="card-text">
+                            <dl class="row">
                                 <dt id="cardProfile" class="col-sm-4">
-                                    @Resources.Resources.Company:
+                                    @Resources.Resources.Email:
                                 </dt>
                                 <dd class="col-sm-8">
-                                    @ViewBag.CurrentCompany
+                                    @ViewBag.CurrentUserEmail
                                 </dd>
-                            }
-                        </dl>
-                    </p>
-                    <a asp-area="" asp-controller="AppUsers" asp-action="Details" class="btn btn-primary"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Layout_Profile</a>
-
+                                <dt id="cardProfile" class="col-sm-4">
+                                    @Resources.Resources.Phone:
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @ViewBag.CurrentUserPhone
+                                </dd>
+                                @if (ViewBag.CurrentCompany != null)
+                                {
+                                    <dt id="cardProfile" class="col-sm-4">
+                                        @Resources.Resources.Company:
+                                    </dt>
+                                    <dd class="col-sm-8">
+                                        @ViewBag.CurrentCompany
+                                    </dd>
+                                }
+                            </dl>
+                        </p>
+                        <a asp-area="" asp-controller="AppUsers" asp-action="Details" class="btn btn-primary"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Layout_Profile</a>
+                    </div>
                 </div>
-            </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 <br />
 
 <div class="row">
