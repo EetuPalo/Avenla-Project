@@ -37,6 +37,7 @@ namespace Login_System.Controllers
         // GET: AppUsers
         public async Task<IActionResult> Index(string searchString, string order)
         {
+           
             var user = await UserMgr.GetUserAsync(HttpContext.User);
 
             //  Stores the search input to preserve it in the text field
@@ -57,10 +58,22 @@ namespace Login_System.Controllers
             {
                 case "FirstName":
                     employees = employees.OrderBy(x => x.FirstName);
+                    TempData["order"] = "FirstName";
+                    break;
+
+                case "FirstNameDesc":
+                    employees = employees.OrderByDescending(x => x.FirstName);
+                    TempData["order"] = "FirstNameDesc";
                     break;
 
                 case "LastName":
                     employees = employees.OrderBy(x => x.LastName);
+                    TempData["order"] = "LastName";
+                    break;
+
+                case "LastNameDesc":
+                    employees = employees.OrderByDescending(x => x.LastName);
+                    TempData["order"] = "LastNameDesc";
                     break;
 
                 case "Email":

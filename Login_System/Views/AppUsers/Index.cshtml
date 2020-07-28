@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 
 <h2>@Resources.Resources.Employee_Index_Title</h2>
@@ -38,13 +39,31 @@
         <thead>
             <tr>
                 <th>
-                    <a asp-action="Index" asp-route-order="FirstName">@Resources.Resources.FirstName</a>
+
+
+                    @if (TempData["order"] == "FirstName")
+                    {
+                        <a asp-action="Index" asp-route-order="FirstNameDesc">@Resources.Resources.FirstName</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-route-order="FirstName">@Resources.Resources.FirstName</a>
+                    }
+
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-order="LastName">@Resources.Resources.LastName</a>
+                    @if (TempData["order"] == "LastName")
+                    {
+                        <a asp-action="Index" asp-route-order="LastNameDesc">@Resources.Resources.FirstName</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-route-order="LastName">@Resources.Resources.LastName</a>
+                    }
+
                 </th>
                 <th>
-                    <a asp-action="Index" asp-route-order="Email">@Resources.Resources.Email</a>
+                    @Resources.Resources.Email
                 </th>
 
                 <th>
