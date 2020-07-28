@@ -144,7 +144,7 @@ namespace Login_System.Controllers
                         SkillName = item.SkillName,
                         GroupName = name,
                         Groupid = groupId,
-                        SkillGoal = item.SkillGoal
+                        SkillGoal = (item.SkillGoal >= 0) ? item.SkillGoal : 0
                     };
                     if (!listModel.Any(p => p.SkillName == tempModel.SkillName))
                     {
@@ -154,7 +154,6 @@ namespace Login_System.Controllers
             
             model.GroupName = name;
             model.Groupid = id;
-            //model.GroupSkills = skillsList;
             model.SkillGoals = listModel;
            
             return View(model);

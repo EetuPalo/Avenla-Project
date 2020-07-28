@@ -16,7 +16,7 @@ namespace Login_System.ViewModels
         [DataType(DataType.Text)]
         public Skills skill { get; set; }
         public int Skillid { get; set; }
-        public List<int> SkillGoal { get; set; }
+        public int SkillGoal { get; set; }
         public List<SkillGoals> SkillGoals { get; set; }
 
         [DataType(DataType.Text)]

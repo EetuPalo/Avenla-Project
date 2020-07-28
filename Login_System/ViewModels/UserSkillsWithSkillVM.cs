@@ -8,10 +8,10 @@ namespace Login_System.ViewModels
 {
     public class UserSkillsWithSkillVM
     {
-         //public UserSkills UserSkill { get; set; }
-
+         
          public List<Skills> SkillList { get; set; }
          
+         public List<UserSkills> UserSkill { get; set; }
 
          //public string SkillName { get; set; }
 

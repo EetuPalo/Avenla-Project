@@ -402,10 +402,13 @@ namespace Login_System.Controllers
         // GET: UserSkills/Create
         public IActionResult Create(int id)
         {
+
+            List<int> tempSkill = new List<int>();
             TempData["UserId"] = id;
             var model = new UserSkillsWithSkillVM();
             var tempList = new List<Skills>();
 
+            List<UserSkills> usrSkl = new List<UserSkills>();
             //Code here for creating the form based on the skillgoals (if -1, not part of the form)
             var groupList = new List<Group>();
             var skillList = new List<Skills>();
@@ -416,24 +419,11 @@ namespace Login_System.Controllers
             foreach (var member in _context.GroupMembers.Where(x => x.UserID == id))
             {
                 //Going through all groups the user is part of
-                foreach (var group in _context.Group.Where(x => x.name == member.GroupName))
+                foreach (var group in _context.Group.Where(x => x.id == member.GroupID))
                 {
-                    //Going through all goals of the groups and adding them to a dictionary with both group name and date
+                    //Going through all goals of the groups and adding them to a list
                     foreach (var goal in _context.SkillGoals.Where(x => x.Groupid == group.id))
                     {
-                        /*DateTime value = goal.Date;
-
-                        //If group is already in the dict, only the date is replaced
-                        if (dateList.ContainsKey(group.name))
-                        {
-                            dateList[group.name] = value;
-                        }
-
-                        //Else it creates a new entry
-                        else
-                        {
-                            dateList.Add(group.name, value);
-                        }*/
                         goalList.Add(goal);
                     }
                 }
@@ -442,26 +432,14 @@ namespace Login_System.Controllers
             DateTime latestDate = DateTime.Now;
             var latestDateList = new List<DateTime>();
 
-            /*if (dateList.Count() != 0)
-            {
-                foreach (var key in dateList.Keys)
-                {
-                    latestDateList.Add(dateList[key]);
-                }
-            }
-
-            else
-            {
-                latestDate = DateTime.Now;
-            }*/
-
+  
             //Going through all goals that are not -1
             //This dictates what skills are in the form
             // REMEMBER TO CHANGE BACK TO -1
-            foreach (var goal in goalList/*.Where(x => x.SkillGoal != -1)*/)
+            foreach (var goal in goalList)
             {
                 //Getting the skills
-                foreach (var skill in _context.Skills.Where(x => x.Id == goal.Skillid))
+                 foreach (var skill in _context.Skills.Where(x => x.Id == goal.Skillid))
                 {
                     //Making sure the latest goal dates are used
                 
@@ -482,10 +460,19 @@ namespace Login_System.Controllers
                 //The list is populated
                 foreach (var skill in skillList)
                 {
-                    tempList.Add(skill);
+                    foreach (var userSkill in _context.UserSkills.OrderByDescending(x=> x.Date).Where(x=> x.Skillid == skill.Id && x.UserID == id))
+                    {
+                        if (!usrSkl.Exists(x=> x.SkillName == skill.Skill))
+                        {
+                            usrSkl.Add(userSkill);
+                        }
+                      
+                    }
                 
                 }
-                model.SkillList = tempList;
+                model.SkillList = skillList;
+                model.SkillLevel = tempSkill;
+                model.UserSkill = usrSkl;
 
                 return View(model);
             }

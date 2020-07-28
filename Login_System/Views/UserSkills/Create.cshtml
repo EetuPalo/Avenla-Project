@@ -16,13 +16,13 @@
         {
 
             <div class="container-fluid p-0">
-                 <div class="row">
+                <div class="row">
                     <div class="col-sm-2">
                         <strong><label class="form-check-label align-middle">@item.Skill</label></strong>
                     </div>
 
                     <div class="col-sm-10">
-                        <select class="form-control" asp-for="@Model.Skilllevel">
+                        <select class="form-control" asp-for="@Model.Skilllevel" id="@item.Id">
                             <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
                             <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
                             <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
@@ -31,21 +31,17 @@
                             <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
                         </select>
                     </div>
-            <br />
-            <div class="container-fluid p-0">
-          
-                <input type="hidden" asp-for="@Model.SkillList" value="@item" />
-                <span asp-validation-for="@Model.SkillList"></span>
-                <input type="hidden" asp-for="Skillid" value="@item.Id" />
+                    <br />
+                    <div class="container-fluid p-0">
+
+                        <input type="hidden" asp-for="@Model.SkillList" value="@item" />
+                        <span asp-validation-for="@Model.SkillList"></span>
+                        <input type="hidden" asp-for="Skillid" value="@item.Id" />
                     </div>
                 </div>
             </div>
 
-
-
         }
-
-
 
         <div class="container-fluid p-0">
             <div class="row">
@@ -59,5 +55,18 @@
 </fieldset>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+<script>
+    $(document).ready(function setDropDownDefaults() {
+    @foreach(var skill in Model.UserSkill)
+    {
+        <text>
+        $("#@skill.Skillid").val("@skill.SkillLevel");
+        </text>
+    }
+    });
+
+
+
+</script>

@@ -11,81 +11,70 @@
 <h4>@TempData["ActionResult"]</h4>
 <hr />
 
-    <fieldset>
-        <form asp-action="Create" asp-controller="SkillGoals">
-            <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
-                <input type="hidden" asp-for="Groupid">
-                <input type="hidden" asp-for="GroupName">
-                <div id="form" class="container-fluid p-0">
-                    <div style="display:flex" id="skillForm" class="row mb-4">
-                        <table>
-                            
-                            @foreach (var item in Model.SkillGoals)
-                            {
-                                <tr>
-                                    <td>
-                                        <input type="hidden" value="@item.Skillid" name="SkillId" />
-                                        @item.SkillName
-                                        <span asp-validation-for="skill"></span>
-                                    </td>
-                                    <td>
-                                        
-                                        <div class="col-sm-10">
-                                            <select class="form-control" asp-for="@Model.SkillGoal">
-                                                <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
-                                                <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
-                                                <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
-                                                <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
-                                                <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
-                                                <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
-                                            </select>
-                                        </div>
-                                        <span asp-validation-for="Skillgoal"></span>
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+<fieldset>
+    <form asp-action="Create" asp-controller="SkillGoals">
+        <div asp-validation-summary="All" class="text-danger"> </div>
+        <input type="hidden" asp-for="Groupid">
+        <input type="hidden" asp-for="GroupName">
+        <div id="form" class="container-fluid p-0">
+            <div style="display:flex" id="skillForm" class="row mb-4">
+
+
+                @foreach (var item in Model.SkillGoals)
+                {
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <strong><label class="form-check-label align-middle">@item.SkillName</label></strong>
+                            </div>
+
+
+                            <input type="hidden" value="@item.Skillid" name="Skillid" />
+                            <span asp-validation-for="skill"></span>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" asp-for="@Model.SkillGoal" id="@item.Skillid">
+                                    <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                                    <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                                    <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                                    <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                                    <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                                    <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="SkillGoal"></span>
+
+                        </div>
                     </div>
-                </div>
-           
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                        <button class="btn btn-primary" onclick="checkInputs()" id="submit" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
-                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-sm">
+                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                    <button class="btn btn-primary" id="submit" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
                 </div>
             </div>
-        </form>
-    </fieldset>
-
+        </div>
+    </form>
+</fieldset>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script type="text/javascript">
-     
-           
-        var skillForm = document.getElementById("skillForm");
-        var container = document.getElementById("form");
-        function checkInputs(){
-            console.log("sending form...");
-           @foreach(var item in @Model.SkillGoals) {<text>
- 
-                    var inputField = document.getElementById("</text> @item.Skillid <text>")
-                    if ($('#</text>@item.Skillid<text>').val() == "") {
-                        $('#</text>@item.Skillid<text>').val("-1") 
-                    }
-
-                        </text>
-                    }
-    }
-        function addToForm() {
-            var node = document.createElement("div");
-            node.className = "row mb-4";
-            form.append(skillForm.cloneNode(true));
-
-        }
-</script>
-
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+<script>
+    $(document).ready(function setDropDownDefaults() {
+    @foreach(var skill in Model.SkillGoals)
+    {
+        <text>
+        $("#@skill.Skillid").val("@skill.SkillGoal");
+        </text>
+    }
+    });
+
+
+
+</script>
