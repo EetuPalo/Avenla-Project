@@ -123,6 +123,9 @@
   <data name="Completion_grade" xml:space="preserve">
     <value>Arvosana</value>
   </data>
+  <data name="Completion_gradeDash" xml:space="preserve">
+    <value>Arvio</value>
+  </data>
   <data name="Course_end" xml:space="preserve">
     <value>Lopetus pvm</value>
   </data>
