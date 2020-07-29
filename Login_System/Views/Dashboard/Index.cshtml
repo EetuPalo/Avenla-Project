@@ -7,192 +7,219 @@
 <h1>Dashboard</h1>
 <div class="card-columns" style="column-count: 2;">
 
+    <!-- COMPANY INFORMATION -->
     @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
     {
-
-            <div class="card">
-                <div class="card-body">
-
-                    @if (ViewBag.CurrentCompany != null)
-                    {
-                        <h5 class="card-title"> @ViewBag.CurrentCompany</h5>
-                    }
-
-                    else
-                    {
-                        <h5 class="card-title">@Html.Raw("not found")</h5>
-                    }
-                    <p class="card-text">
-                        @foreach (var company in Model.CompanyDesc)
-                        {
-                        @Html.Raw(company)
-                        }
-                    </p> 
-                    <p> Linkki ei toimi tällä hetkellä.</p>
-                    <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
-                </div>
-            </div>
-
-    }
-    @if (User.IsInRole("User"))
-    {
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" style="text-transform: Capitalize">
-                        <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
-                    </h5>
-                    <p class="card-text">
-                        <dl class="row">
-                            <dt id="cardProfile" class="col-sm-4">
-                                @Resources.Resources.Email:
-                            </dt>
-                            <dd class="col-sm-8">
-                                @ViewBag.CurrentUserEmail
-                            </dd>
-                            <dt id="cardProfile" class="col-sm-4">
-                                @Resources.Resources.Phone:
-                            </dt>
-                            <dd class="col-sm-8">
-                                @ViewBag.CurrentUserPhone
-                            </dd>
-                            @if (ViewBag.CurrentCompany != null)
-                            {
-                                <dt id="cardProfile" class="col-sm-4">
-                                    @Resources.Resources.Company:
-                                </dt>
-                                <dd class="col-sm-8">
-                                    @ViewBag.CurrentCompany
-                                </dd>
-                            }
-                        </dl>
-                    </p>
-                    <a asp-area="" asp-controller="AppUsers" asp-action="Details" class="btn btn-primary"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Layout_Profile</a>
-
-                </div>
-            </div>
-
-    }
-<br />
-    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-    {
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@Resources.Resources.Quick_Options</h5>
-                    <p class="card-text">
-                        <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Admin" asp-action="ListRoles"><i class="fas fa-user-tag fa-fw"> </i> @Resources.Resources.Layout_Roles</a>
-                        <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Groups" asp-action="Index"><i class="fas fa-users fa-fw"> </i> @Resources.Resources.Layout_Groups</a>
-                        <br />   <br />
-                        <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Skills" asp-action="Index"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
-                        <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Certificates" asp-action="Index"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
-                        <br /> <br />
-                        <a role="button" class="btn btn-primary col-sm-8" asp-area="" asp-controller="AdvancedSearch" asp-action="Index"><i class="fab fa-searchengin fa-fw"> </i> @Resources.Resources.Advanced_Search</a>
-
-                    </p>
-                </div>
-            </div>
-    }
-
         <div class="card">
             <div class="card-body">
-                @if (Model.GroupsDD.Count() < 1)
-                {@Html.Raw("You have no groups.")}
-                @if (Model.GroupsDD.Count() >= 1)
+                @if (ViewBag.CurrentCompany != null)
                 {
-                    @foreach (var group in Model.UserGroups)
-                    {
-                        <h5 class="card-title" style="text-decoration:underline;">@group.GroupName</h5>
-                        <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
-                        <p class="card-text">
-
-                            @foreach (var item in Model.UserSkills)
-                            {
-                                @foreach (var goal in Model.UserGoals.Where(x => x.Skillid == item.Skillid && x.Groupid == group.GroupID))
-                                {
-                                    <div class="col-sm">
-                                        <div>
-                                            <div class="row">
-                                                <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
-                                                <span class="col-sm-1">@item.SkillLevel </span>
-                                                <div class="progress w-50" style="margin-top: 5px;">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">                                                    
-                                                    </div>
-                                                </div>
-                                                <span class="col-sm-1" style="text-align:right;">
-                                                    @Html.DisplayFor(modelItem => goal.SkillGoal)
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            }
-
-                        </p>
-                    }
+                    <h5 class="card-title"> @ViewBag.CurrentCompany</h5>
                 }
+
+                else
+                {
+                    <h5 class="card-title">@Html.Raw("not found")</h5>
+                }
+                <p class="card-text">
+                    @foreach (var company in Model.CompanyDesc)
+                    {
+                        @Html.Raw(company)
+                    }
+                </p>
+                <p> Linkki ei toimi tällä hetkellä.</p>
+                <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
             </div>
         </div>
-<br />
 
+    }
+
+    <!-- USER INFORMATION -->
+    @if (User.IsInRole("User"))
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" style="text-transform: Capitalize">
+                    <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
+                </h5>
+                <p class="card-text">
+                    <dl class="row">
+                        <dt id="cardProfile" class="col-sm-4">
+                            @Resources.Resources.Email:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @ViewBag.CurrentUserEmail
+                        </dd>
+                        <dt id="cardProfile" class="col-sm-4">
+                            @Resources.Resources.Phone:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @ViewBag.CurrentUserPhone
+                        </dd>
+                        @if (ViewBag.CurrentCompany != null)
+                        {
+                            <dt id="cardProfile" class="col-sm-4">
+                                @Resources.Resources.Company:
+                            </dt>
+                            <dd class="col-sm-8">
+                                @ViewBag.CurrentCompany
+                            </dd>
+                        }
+                    </dl>
+                </p>
+                <a asp-area="" asp-controller="AppUsers" asp-action="Details" class="btn btn-primary"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Layout_Profile</a>
+            </div>
+        </div>
+    }
+    <br />
+
+    <!-- ADMIN QUICK OPTIONS -->
+    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Resources.Resources.Quick_Options</h5>
+                <p class="card-text">
+                    <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Admin" asp-action="ListRoles"><i class="fas fa-user-tag fa-fw"> </i> @Resources.Resources.Layout_Roles</a>
+                    <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Groups" asp-action="Index"><i class="fas fa-users fa-fw"> </i> @Resources.Resources.Layout_Groups</a>
+                    <br />   <br />
+                    <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Skills" asp-action="Index"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
+                    <a role="button" class="btn btn-primary col-sm-4" asp-area="" asp-controller="Certificates" asp-action="Index"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
+                    <br /> <br />
+                    <a role="button" class="btn btn-primary col-sm-8" asp-area="" asp-controller="AdvancedSearch" asp-action="Index"><i class="fab fa-searchengin fa-fw"> </i> @Resources.Resources.Advanced_Search</a>
+
+                </p>
+            </div>
+        </div>
+    }
+    <br />
+
+    <!-- CERTIFICATES INFORMATION -->
+    @if (User.IsInRole("User"))
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" style="text-decoration:underline;">@Resources.Resources.Layout_Certificates</h5>
+                <p class="card-text">
+                    @foreach (var item in Model.UserCertificates)
+                    {
+                    <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
+                }
+                    </p>
+                </div>
+            </div>
+        }
+
+    <!-- GROUPS AND SKILLS INFORMATION -->
+    <div class="card">
+        <div class="card-body">
+            @if (Model.GroupsDD.Count() < 1)
+            {@Html.Raw("You have no groups.")}
+            @if (Model.GroupsDD.Count() >= 1)
+            {
+                @foreach (var group in Model.UserGroups)
+                {
+                    <h5 class="card-title" style="text-decoration:underline;">@group.GroupName</h5>
+                    <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+                    <p class="card-text">
+
+                        @foreach (var item in Model.UserSkills)
+                        {
+                            @foreach (var goal in Model.UserGoals.Where(x => x.Skillid == item.Skillid && x.Groupid == group.GroupID))
+                            {
+                                <div class="col-sm">
+                                    <div>
+                                        <div class="row">
+                                            <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
+                                            <span class="col-sm-1">@item.SkillLevel </span>
+                                            <div class="progress w-50" style="margin-top: 5px;">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                                </div>
+                                            </div>
+                                            <span class="col-sm-1" style="text-align:right;">
+                                                @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </p>
+                }
+            }
+        </div>
+    </div>
+    <br />
+
+    <!-- COURSE INFORMATION -->
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
+            <p class="card-text">
+                <div class="row">
+                    <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
+                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
+                    <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_gradeDash </h6>
+                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
+                </div>
+
+                @foreach (var item in Model.UserCourses)
+                {
+                    <div class="row">
+                        <div class="col-sm-4">
+                            @Html.DisplayFor(modelItem => item.CourseName)
+                        </div>
+                        @if (item.Status == "Completed" || item.Status == "Suoritettu")
+                        {
+                            <div class="col-sm-3 text-success">
+                                @Html.DisplayFor(modelItem => item.Status)
+
+                            </div>
+                            <div class="col-sm-2">
+                                @item.CourseGrade
+                            </div>
+                            <div class="col-sm-3">
+                                @item.CompletionDate.ToString("dd.MM.yyyy")
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-sm-4">
+                                @Html.DisplayFor(modelItem => item.Status)
+
+                            </div>
+                        }
+
+                    </div>
+                }
+            </p>
+            <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
+        </div>
+    </div>
+    <br />
+</div>
+
+<!-- LESSON INFORMATION -->
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
-        <div class="row">
-            <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-            <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
-            <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_grade </h6>
-            <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
-        </div>
-        <p class="card-text">
-            @foreach (var item in Model.UserCourses)
-            {
-                <div class="row">
-                    <div class="col-sm-4">
-                        @Html.DisplayFor(modelItem => item.CourseName)
-                    </div>
-                    @if (item.Status == "Completed" || item.Status == "Suoritettu")
-                    {
-                        <div class="col-sm-3 text-success">
-                            @Html.DisplayFor(modelItem => item.Status)
-
-                        </div>
-                        <div class="col-sm-2">
-                            @item.CourseGrade
-                        </div>
-                        <div class="col-sm-3">
-                            @item.CompletionDate.ToString("dd.MM.yyyy")
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="col-sm-4">
-                            @Html.DisplayFor(modelItem => item.Status)
-
-                        </div>
-                    }
-
-                </div>
-            }
-        </p>
-    <br />
         <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true">Tulevat</a>
+                <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true">@Resources.Resources.Lessons_upcoming @Resources.Courses.Index_Lessons</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false">Menneet</a>
+                <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false">@Resources.Resources.Lessons_past @Resources.Courses.Index_Lessons</a>
             </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                 <p class="card-text">
                     <div class="row">
-                        <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Resources.Lessons_upcoming @Resources.Courses.Index_Lessons</h6>
+                        <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
                         <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Lesson</h6>
-                        <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
-                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
+                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
+                        <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
                     </div>
 
                     @foreach (var lesson in Model.Lessons)
@@ -202,10 +229,10 @@
                             <div class="col-sm-3">
                                 @Html.DisplayFor(modelItem => lesson.LessonName)
                             </div>
-                            <div class="col-sm-2" style="text-transform: Capitalize">
+                            <div class="col-sm-3" style="text-transform: Capitalize">
                                 @Html.DisplayFor(modelItem => lesson.Location)
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 @lesson.Date.ToString("HH.mm " + " - " + " dd.MM.yyyy")
                             </div>
 
@@ -216,7 +243,12 @@
             </p>
             <p>
                 <div class="tab-pane" id="past" role="tabpanel" aria-labelledby="past-tab">
-                    <h6 style="text-decoration:underline;">@Resources.Resources.Lessons_past @Resources.Courses.Index_Lessons</h6>
+                    <div class="row">
+                        <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
+                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Lesson</h6>
+                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
+                        <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
+                    </div>
                     @foreach (var lesson in Model.PastLessons)
                     {
                         <div class="row">
@@ -224,10 +256,10 @@
                             <div class="col-sm-3">
                                 @Html.DisplayFor(modelItem => lesson.LessonName)
                             </div>
-                            <div class="col-sm-2" style="text-transform: Capitalize">
+                            <div class="col-sm-3" style="text-transform: Capitalize">
                                 @Html.DisplayFor(modelItem => lesson.Location)
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 @lesson.Date.ToString("HH.mm " + " - " + " dd.MM.yyyy")
                             </div>
 
@@ -237,23 +269,6 @@
                 </div>
         </div>
         </p>
-        <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
     </div>
-</div>
-
-    @if (User.IsInRole("User"))
-    {
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" style="text-decoration:underline;">@Resources.Resources.Layout_Certificates</h5>
-                    <p class="card-text">
-                        @foreach (var item in Model.UserCertificates)
-                        {
-                        <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
-                        }
-                    </p>                      
-                </div>
-            </div>
-        }
 </div>
 <br />
