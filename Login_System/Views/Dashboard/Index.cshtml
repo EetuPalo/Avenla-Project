@@ -156,13 +156,14 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
-            <div class="row">
-                <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-                <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
-                <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_gradeDash </h6>
-                <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
-            </div>
             <p class="card-text">
+                <div class="row">
+                    <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
+                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
+                    <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_gradeDash </h6>
+                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
+                </div>
+
                 @foreach (var item in Model.UserCourses)
                 {
                     <div class="row">
