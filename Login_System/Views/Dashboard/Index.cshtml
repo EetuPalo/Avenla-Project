@@ -73,13 +73,9 @@
             </div>
 
     }
-
 <br />
-
-
     @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
     {
-
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">@Resources.Resources.Quick_Options</h5>
@@ -95,7 +91,6 @@
                     </p>
                 </div>
             </div>
-
     }
 
         <div class="card">
@@ -139,8 +134,6 @@
         </div>
 <br />
 
-
-
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
@@ -181,18 +174,19 @@
 
                 </div>
             }
-        </p><br />
-        <ul class="nav nav-tabs card-header-tabs" role="tablist" style="padding: 0, 0, 10px">
-            <li class="nav item">
-                <a class="nav-link active" data-toggle="tab" href="#upcoming" role="tab">Tulevat</a>
+        </p>
+    <br />
+        <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true">Tulevat</a>
             </li>
-            <li class="nav item">
-                <a class="nav-link" data-toggle="tab" href="#past" role="tab">Menneet</a>
+            <li class="nav-item">
+                <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false">Menneet</a>
             </li>
         </ul>
         <div class="tab-content">
-            <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
-            <div class="tab-pane active" id="upcoming" role="tabpanel">
+            <div class="tab-pane active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                 <p class="card-text">
                     <div class="row">
                         <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Resources.Lessons_upcoming @Resources.Courses.Index_Lessons</h6>
@@ -221,7 +215,7 @@
             </div>
             </p>
             <p>
-                <div class="tab-pane" id="past" role="tabpanel">
+                <div class="tab-pane" id="past" role="tabpanel" aria-labelledby="past-tab">
                     <h6 style="text-decoration:underline;">@Resources.Resources.Lessons_past @Resources.Courses.Index_Lessons</h6>
                     @foreach (var lesson in Model.PastLessons)
                     {
@@ -247,11 +241,8 @@
     </div>
 </div>
 
-
-
     @if (User.IsInRole("User"))
     {
- 
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" style="text-decoration:underline;">@Resources.Resources.Layout_Certificates</h5>
@@ -261,20 +252,8 @@
                         <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
                         }
                     </p>                      
-                    </div>
                 </div>
-
+            </div>
         }
-
 </div>
-
-    <br />
-
-<script>
-    $('#myTab a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    })
-    $('#myTab a[href="#upcoming"]').tab('show');
-    $('#myTab a[href="#past"]').tab('show');
-</script>
+<br />
