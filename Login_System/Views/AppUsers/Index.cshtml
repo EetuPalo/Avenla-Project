@@ -41,7 +41,7 @@
                 <th>
 
 
-                    @if (TempData["order"] == "FirstName")
+                    @if ((string)TempData["order"] == "FirstName")
                     {
                         <a asp-action="Index" asp-route-order="FirstNameDesc">@Resources.Resources.FirstName</a>
                     }
@@ -52,7 +52,7 @@
 
                 </th>
                 <th>
-                    @if (TempData["order"] == "LastName")
+                    @if ((string)TempData["order"] == "LastName")
                     {
                         <a asp-action="Index" asp-route-order="LastNameDesc">@Resources.Resources.FirstName</a>
                     }

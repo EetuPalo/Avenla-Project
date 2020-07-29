@@ -206,7 +206,7 @@ namespace Login_System.Controllers
 
                         //dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                    
-                            datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel, item.Skillid));
+                            datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
                        
                         //}
                         
@@ -762,11 +762,10 @@ namespace Login_System.Controllers
         {
            public int y { get; set; }
            public string x { get; set; }
-           public int  skillId { get; set; }
 
-            public SkillPoint(string d, int s, int sn)
+            public SkillPoint(string d, int s)
             {
-                skillId = sn;
+                
                 y = s;
                 x = d;
             }

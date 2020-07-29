@@ -5,10 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int count = 0;
 }
-<head>
-    <script src="~/js/Chart.bundle.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
+
+        <!--<script src="~/js/Chart.bundle.js"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
 <script>
     $(function () {
         $("#dateSearch").datepicker();
@@ -93,23 +96,13 @@
 
 
 <script>
+    
 
     var ctx = document.getElementById('myChart');
-
     var myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'scatter',
         data: {
-            labels: [@foreach(var date in ViewBag.Dates)
-            {
-                 @Html.Raw("\""+date+"\"");
-                @if (count < ViewBag.Dates.Length -1)
-                {
-                    @Html.Raw(", ");
-                    count++;
-                }
-
-            }
-            ], //for each day of the month possible
+        
             datasets: [
               @{int j = 0, i = 0 ;
                             @foreach (var skill in ViewBag.DataPoint)
@@ -127,6 +120,10 @@
                                 string deta = JsonConvert.SerializeObject(item);
                                 deta = deta.Replace("\"x\"", "x");//json serialize method puts quotes around X and Y and ChartJS doesn't recognize them because of that
                                 deta = deta.Replace("\"y\"", "y");
+                                deta = deta.Remove(7, 1);
+                                deta = deta.Insert(7, "moment(\"");
+                                deta = deta.Insert(26, ",'DD.MM.YYYY')");
+
                                 @Html.Raw(deta +" ");
                                 @if (j < skill.Count - 1)
                                  {
@@ -137,7 +134,7 @@
                 ],
                     </text>
                 <text>
-                label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i]))+', the skill level is ',//this appears when hovering over a viewpoint,
+                label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i])),//this appears when hovering over a viewpoint,
                 backgroundColor: "@color",
                 borderColor: "@color",
                 borderWidth: 5,//thickness of data points
@@ -155,29 +152,27 @@
         ]
     },
     options: {
-        label: {
-            display: false
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    return "Skill: " + data.datasets[tooltipItem.datasetIndex].label + " Date: " + moment(tooltipItem.xLabel).format('DD MMMM , YYYY') + " Grade:  " + Number(tooltipItem.yLabel);
+                }
+            }
         },
-        legend: {
-            display: false //it becomes crowded when there are lot of skill evaluations made
-        }
-    }
-});
-    lineChartOptions = {
-        responsive: true,
+        responsive: false,
         maintainAspectRatio: false,
+
         scales: {
-            /* leftover code, will be useful when changing the X axis to actual dates, this doesn't do anything at the moment */
             xAxes: [{
-                
-                    type: 'time',
-                    time: {
-                        parser: 'YYYY-MM-DD',
-                        unit: 'day'
-                    },
-                    ticks: {
-                        source: 'data'
-                    }
+
+                type: 'time',
+                time: {
+                    parser: 'YYYY-MM-DD',
+                    unit: 'day'
+                },
+                ticks: {
+                    source: 'data'
+                }
             }],
 
             yAxes: [{
@@ -188,6 +183,8 @@
             }]
         }
     }
+});
+    
 
 </script>
 @section Scripts {
