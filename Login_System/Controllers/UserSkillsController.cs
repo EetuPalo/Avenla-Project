@@ -101,7 +101,7 @@ namespace Login_System.Controllers
             if (month != null || year != null)
             {
                 //check if given value is null, if is, dont take it into account when fetching from table.
-                foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month && (year != null) ? x.Date.Year == year : x.Date.Year == DateTime.Now.Year) : (x.Date.Month != null) && ((year != null) ? (x.Date.Year == year) : x.Date.Year != null) && (x.UserID == id)))
+                foreach (var item in userSkills.Where(x => (month != null) ? (x.Date.Month == month && (year != null) ? x.Date.Year == year : x.Date.Year == DateTime.Now.Year) : (x.Date.Month != null) && ((year != null) ? (x.Date.Year == year) : x.Date.Year != null) && (x.UserID == id)))
                 {   
                     var itemMonth = item.Date.Month;
                     var itemYear = item.Date.Year;
@@ -128,7 +128,7 @@ namespace Login_System.Controllers
                     if (dataPoints != null)
                     {
                         var x = dataPoints.ToList();
-                        datapointsPerSkill.Add(x);
+                        //datapointsPerSkill.Add(x);
                         dataPoints.Clear();
                     }
 
