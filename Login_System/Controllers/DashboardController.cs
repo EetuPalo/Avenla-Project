@@ -15,6 +15,7 @@ using System.Drawing.Printing;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using ASPNET_MVC_Samples.Models;
 
 namespace Login_System.Controllers
 {
@@ -23,6 +24,10 @@ namespace Login_System.Controllers
     {
         private readonly GeneralDataContext _context;
         private UserManager<AppUser> UserMgr { get; }
+
+        int uId;
+
+        public int userId;
 
         public DashboardController(GeneralDataContext context, UserManager<AppUser> userManager)
         {
@@ -155,11 +160,100 @@ namespace Login_System.Controllers
             model.PastLessons = pastLessonsList.OrderByDescending(x => x.Date).Take(5).ToList();
             model.CompanyDesc = companyDescList;
 
+            //NULL Handling
+            if (id == null)
+            {
+                //I dont understand tempdata lol
+                id = Convert.ToInt32(TempData.Peek("UserId"));
+                TempData.Keep();
+            }
+
+            else
+            {
+                TempData["UserId"] = id;
+            }
+
+            //if it's still null
+            if (id == null || id == 0)
+            {
+                id = Convert.ToInt32(UserMgr.GetUserId(User));
+            }
+
+            //Some data that will be shown in the view
+            uId = (int)id;
+            TempData["UserName"] = tempUser.UserName;
+            ViewBag.UserNames = tempUser.FirstName + " " + tempUser.LastName;
+
+            var dateModel = new List<DateListVM>();
+            var tempDate = new List<string>();
 
 
+            var testpoints = new List<List<SkillPoint>>();
+            var datapoint = new List<SkillPoint>();
+            var dataPoints = new List<SkillPoint>();
+
+            List<List<DataPoint>> datapointsPerSkill = new List<List<DataPoint>>();
+
+            List<string> dates = new List<string>();
+            List<string> skillnames = new List<string>();
+            int i = 0;
+
+            foreach (var skillName in _context.Skills)
+            {
+                //Getting all items of the specific user
+                foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill).OrderBy(x => x.Date))
+                {
+                    if (!tempDate.Contains(item.Date.ToString()))
+                    {
+                        i++;
+
+                        var tempModel = new DateListVM
+                        {
+                            Date = item.Date,
+                            AdminEval = item.AdminEval,
+                            TempDate = item.Date.ToString("dd.MM.yyyy"),
+                            Id = (int)id
+                        };
+                        dateModel.Add(tempModel);
+                    }
+                    tempDate.Add(item.Date.ToString());
+
+                    if (!skillnames.Contains(item.SkillName))
+                    {
+                        skillnames.Add(item.SkillName);
+                    }
+                    if (!dates.Contains(item.Date.ToString("dd.MM.yyyy")))
+                    {
+                        dates.Add(item.Date.ToString("dd.MM.yyyy"));
+                    }
+
+                    datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
+                }
+                if (datapoint.Count > 0)
+                {
+
+                    testpoints.Add(datapoint.ToList());
+                    datapoint.Clear();
+                }
+            }
+
+            ViewBag.DataPoint = testpoints;
+            ViewBag.Dates = dates.ToArray();
+            ViewBag.names = skillnames.ToArray();
 
             return View(model);
         }
+        public class SkillPoint
+        {
+            public int y { get; set; }
+            public string x { get; set; }
 
+            public SkillPoint(string d, int s)
+            {
+
+                y = s;
+                x = d;
+            }
+        }
     }
 }
