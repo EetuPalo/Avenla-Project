@@ -74,8 +74,9 @@ namespace Login_System.Controllers
             var model = new List<DateListVM>();
             var tempDate = new List<string>();
 
+            List<string> uniqueMonths = new List<string>();
 
-            var testpoints = new List<List<SkillPoint>>();
+            var skillPoints = new List<List<SkillPoint>>();
             var datapoint = new List<SkillPoint>();
             var dataPoints = new List<SkillPoint>();
 
@@ -98,9 +99,9 @@ namespace Login_System.Controllers
             
             //SEARCH
             if (month != null || year != null)
-            {/*
+            {
                 //check if given value is null, if is, dont take it into account when fetching from table.
-                foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : x.Date.Month != null) && ((year != null) ? (x.Date.Year == year) : x.Date.Year != null) && (x.UserID == id)))
+                foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month && (year != null) ? x.Date.Year == year : x.Date.Year == DateTime.Now.Year) : (x.Date.Month != null) && ((year != null) ? (x.Date.Year == year) : x.Date.Year != null) && (x.UserID == id)))
                 {   
                     var itemMonth = item.Date.Month;
                     var itemYear = item.Date.Year;
@@ -122,7 +123,7 @@ namespace Login_System.Controllers
                     {
                         skillnames.Add(item.SkillName);
                         dates.Add(item.Date.ToString("dd.MM.yyyy"));
-                        dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                        datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
                     }
                     if (dataPoints != null)
                     {
@@ -134,11 +135,11 @@ namespace Login_System.Controllers
                 }
              
                 TempData["SearchValue"] = searchString; 
-               */
+               
             }
             
 
-            /*foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : month == null) && ((year != null) ? (x.Date.Year == year) : year == null) && (x.UserID == id)))
+        /*    foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : month == null) && ((year != null) ? (x.Date.Year == year) : year == null) && (x.UserID == id)))
             {
                 month = item.Date.Month;
                 year = item.Date.Year;
@@ -161,12 +162,12 @@ namespace Login_System.Controllers
                 {
                     skillnames.Add(item.SkillName);
                     dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                    dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
+                    datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
                 }
 
             }
-            TempData["SearchValue"] = searchString;*/
-            //}
+            TempData["SearchValue"] = searchString;
+            }*/
             //NO SEARCH
             else
             {
@@ -176,7 +177,7 @@ namespace Login_System.Controllers
 
                 
                 //Getting all items of the specific user
-                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill).OrderBy(x=> x.Date))
+                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill    ).OrderBy(x=> x.Date))
                     {
                         if (!tempDate.Contains(item.Date.ToString()))
                         {
@@ -205,7 +206,10 @@ namespace Login_System.Controllers
                             }
 
                         //dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
-                   
+                            if(!uniqueMonths.Contains(item.Date.Month.ToString() + " " + item.Date.Month.ToString()))
+                            {
+                                uniqueMonths.Add(item.Date.Month.ToString() + " " + item.Date.Month.ToString());
+                            }
                             datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
                        
                         //}
@@ -214,7 +218,7 @@ namespace Login_System.Controllers
                     if (datapoint.Count > 0)
                     {
 
-                        testpoints.Add(datapoint.ToList());
+                        skillPoints.Add(datapoint.ToList());
                         datapoint.Clear();
                     }
                 }
@@ -224,9 +228,10 @@ namespace Login_System.Controllers
             //Graph stuff
             //ViewBag.DataPoint = dataPoints.ToArray();
             //ViewBag.DataPoint = datapointsPerSkill;
-            ViewBag.DataPoint = testpoints;
+            ViewBag.DataPoint = skillPoints;
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
+            ViewBag.numberOfMonths = uniqueMonths.ToArray();            
             return View(model);
         }
 
@@ -292,9 +297,6 @@ namespace Login_System.Controllers
                     {
                         skillIdList.Add(skill.Skillid);
 
-                        /*var date1 = skill.Date.ToString("dd/MM/yyyy+HH/mm");
-                        var date2 = name;*/
-                        var skillGoal = 0;
                         //Getting only the ones with the date that has been selected by the user (or the latest date)
                         var maxGoal = goalList.Where(x => x.Skillid == skill.Skillid).Max(x=> (int?)x.SkillGoal);
 

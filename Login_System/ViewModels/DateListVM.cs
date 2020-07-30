@@ -7,6 +7,8 @@ namespace Login_System.ViewModels
 {
     public class DateListVM
     {
+
+
         public DateTime Date { get; set; }
 
         public string AdminEval { get; set; }
@@ -14,5 +16,7 @@ namespace Login_System.ViewModels
         public string TempDate { get; set; }
 
         public int Id { get; set; }
+
+
     }
 }
