@@ -6,11 +6,6 @@
     int count = 0;
 }
     <head>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
-
-        <!--<script src="~/js/Chart.bundle.js"></script>-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
 <script>
     $(function () {
@@ -96,12 +91,11 @@
 
 
 <script>
-
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
         type: 'scatter',
         data: {
-            // setting the datasets per skill. giving them random unique color
+        
             datasets: [
               @{int j = 0, i = 0 ;
                             @foreach (var skill in ViewBag.DataPoint)
@@ -112,7 +106,7 @@
                                 var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
 
                     <text>
-                  // inserting data that chartjs recognizes while adding moment to it
+
                 data: [
                             @foreach (var item in skill)
                             {
@@ -167,23 +161,7 @@
                 type: 'time',
                 time: {
                     parser: 'YYYY-MM-DD',
-                    unit: @{
-                        if(ViewBag.numberOfMonths.Length < 3)
-                        {
-                            <text>'day'</text>
-                        }
-
-                        else if(ViewBag.numberOfMonths.Length > 3 && ViewBag.numberOfMonths.Length < 12)
-                        {
-                            <text>'month'</text>
-                        }
-
-                        else
-                        {
-                            <text>'year'</text>
-                        }
-                    }
-
+                    unit: 'day'
                 },
                 ticks: {
                     source: 'data'
@@ -199,8 +177,6 @@
         }
     }
 });
-
-
 </script>
 @section Scripts {
     <script type="text/javascript">
