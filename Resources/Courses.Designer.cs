@@ -61,7 +61,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Completion date.
+        ///   Looks up a localized string similar to Completed.
         /// </summary>
         public static string Completion_date {
             get {

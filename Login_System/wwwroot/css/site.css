@@ -136,3 +136,7 @@ body {
 .card-columns {
         column-count: 2;
 }
+
+.card {
+    background-color: #fcfcfc;
+}

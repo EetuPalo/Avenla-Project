@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int count = 0;
 }
 
 <h1>Dashboard</h1>
@@ -12,7 +11,7 @@
     <!-- COMPANY INFORMATION -->
     @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
     {
-        <div class="card">
+        <div class="card shadow-sm p-3 mb-5 rounded">
             <div class="card-body">
                 @if (ViewBag.CurrentCompany != null)
                 {
@@ -39,7 +38,7 @@
     <!-- USER INFORMATION -->
     @if (User.IsInRole("User"))
     {
-        <div class="card">
+        <div class="card shadow-sm p-3 mb-5 rounded">
             <div class="card-body">
                 <h5 class="card-title" style="text-transform: Capitalize">
                     <b>@ViewBag.CurrentUserFirstName @ViewBag.CurrentUserLastName</b>
@@ -78,7 +77,7 @@
     <!-- ADMIN QUICK OPTIONS -->
     @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
     {
-        <div class="card">
+        <div class="card shadow-sm p-3 mb-5 rounded">
             <div class="card-body">
                 <h5 class="card-title">@Resources.Resources.Quick_Options</h5>
                 <p class="card-text">
@@ -99,7 +98,7 @@
     <!-- CERTIFICATES INFORMATION -->
     @if (User.IsInRole("User"))
     {
-        <div class="card">
+        <div class="card shadow-sm p-3 mb-5 rounded">
             <div class="card-body">
                 <h5 class="card-title" style="text-decoration:underline;">@Resources.Resources.Layout_Certificates</h5>
                 <p class="card-text">
@@ -113,7 +112,7 @@
         }
 
     <!-- GROUPS AND SKILLS INFORMATION -->
-    <div class="card">
+    <div class="card shadow-sm p-3 mb-5 rounded">
         <div class="card-body">
             @if (Model.GroupsDD.Count() < 1)
             {@Html.Raw("You have no groups.")}
@@ -155,7 +154,7 @@
     <br />
 
     <!-- COURSE INFORMATION -->
-    <div class="card">
+    <div class="card shadow-sm p-3 mb-5 rounded">
         <div class="card-body">
             <h5 class="card-title">@Resources.Resources.CourseMem_Details_Title</h5>
             <p class="card-text">
@@ -202,16 +201,16 @@
     <br />
 
     <!-- SKILLCHART -->
-    <div class="card">
+    <div class="card shadow-sm p-3 mb-5 rounded">
         <div class="card-body">
             <h5>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h5>
-            <canvas id="myChart" width="500" height="250" ></canvas>
+            <canvas id="myChart" width="500" height="250"></canvas>
         </div>
     </div>
 </div>
 
 <!-- LESSON INFORMATION -->
-<div class="card">
+<div class="card shadow-sm p-3 mb-5 rounded">
     <div class="card-body">
         <h5 class="card-title">@Resources.Courses.Index_Lessons</h5>
         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
