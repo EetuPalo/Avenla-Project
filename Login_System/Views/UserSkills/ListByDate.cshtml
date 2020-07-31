@@ -18,28 +18,49 @@
 
 <form asp-controller="UserSkills" asp-action="ListByDate">
     <div class="container-fluid p-0">
-        <div class="row mb-4">
+        <div class="row">
+
+
             <div class="col-sm">
-                <div class="input-group">
-                    <input class="form-control" id="dateSearch" type="text" hasDatepicker name="SearchString" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder value="@TempData["SearchValue"]"/>
-                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
+                <select class="form-control" name="month">
+                    <option selected>@Resources.Resources.MONTH_UNSELECTED</option>
+                    <option value="1">@Resources.Resources.MONTH_JAN</option>
+                    <option value="2">@Resources.Resources.MONTH_FEB</option>
+                    <option value="3">@Resources.Resources.MONTH_MAR</option>
+                    <option value="4">@Resources.Resources.MONTH_APR</option>
+                    <option value="5">@Resources.Resources.MONTH_MAY</option>
+                    <option value="6">@Resources.Resources.MONTH_JUN</option>
+                    <option value="7">@Resources.Resources.MONTH_JUL</option>
+                    <option value="8">@Resources.Resources.MONTH_AUG</option>
+                    <option value="9">@Resources.Resources.MONTH_SEP</option>
+                    <option value="10">@Resources.Resources.MONTH_OCT</option>
+                    <option value="11">@Resources.Resources.MONTH_NOV</option>
+                    <option value="12">@Resources.Resources.MONTH_DEC</option>
+
+                </select>
+
             </div>
             <div class="col-sm">
-                <input class="form-control" id="dateSearch" type="number" name="month" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder/>
-                <input class="form-control" id="dateSearch" type="number" name="year" placeholder=@Resources.Resources.UserSkills_ListByDate_SearchPHolder  />
+                <select class="form-control" id="dateSearch" type="number" name="year">
+                    <option selected>@Resources.Resources.YEAR_UNSELECTED</option>
+                    @foreach(var year in ViewBag.years)
+                    {
+                        <option value="@year">@year</option>
+                    }
+                </select>
 
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button>
+                <a class="btn btn-info" asp-action="ListByDate"> @Resources.Resources.UserSkills_ListByDate_SHOWALL </a>
                 <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]"><i class="fas fa-plus-square fa-fw"> </i> @Resources.Resources.UserSkills_ListByDate_Create</a>
             </div>
         </div>
-    </div>
+         
+        </div>
+   
 </form>
-
+<br />
 <table class="table table-striped">
     <thead>
         <tr>

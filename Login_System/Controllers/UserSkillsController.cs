@@ -11,7 +11,7 @@ using Login_System.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using ASPNET_MVC_Samples.Models;
 using Newtonsoft.Json;
-
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -83,6 +83,7 @@ namespace Login_System.Controllers
             List<List<DataPoint>> datapointsPerSkill= new List<List<DataPoint>>();
            
             List<string> dates = new List<string>();
+            List<int> years = new List<int>();
             List<string> skillnames = new List<string>();
             int i = 0;
 
@@ -90,7 +91,7 @@ namespace Login_System.Controllers
             var userSkills = from c in _context.UserSkills select c;
             TempData["SearchValue"] = null;
 
-
+            
             //if (!String.IsNullOrEmpty(searchString))                
             //{
             //Reformatting the string
@@ -100,38 +101,49 @@ namespace Login_System.Controllers
             //SEARCH
             if (month != null || year != null)
             {
+                // if month is given but not year, user mostlikely wants to search the current years month.
+                if (month != null && year == null)
+                {
+                    year = DateTime.Now.Year;
+                }
+
                 //check if given value is null, if is, dont take it into account when fetching from table.
-                foreach (var item in userSkills.Where(x => (month != null) ? (x.Date.Month == month && (year != null) ? x.Date.Year == year : x.Date.Year == DateTime.Now.Year) : (x.Date.Month != null) && ((year != null) ? (x.Date.Year == year) : x.Date.Year != null) && (x.UserID == id)))
-                {   
-                    var itemMonth = item.Date.Month;
-                    var itemYear = item.Date.Year;
-                    if (!tempDate.Contains(item.Date.ToString()))
+                foreach(var skill in _context.Skills)
+                {
+                    foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : (x.Date.Month != null)) && x.Date.Year == year && x.UserID == id && x.Skillid == skill.Id).OrderByDescending(x=> x.Date))
                     {
-                        i++;
-                        var tempModel = new DateListVM
+                        var itemMonth = item.Date.Month;
+                        var itemYear = item.Date.Year;
+                        if (!tempDate.Contains(item.Date.ToString()))
                         {
-                            Date = item.Date,
-                            AdminEval = item.AdminEval,
-                            TempDate = item.Date.ToString("dd/MM/yyyy"),
-                            Id = (int)id
-                        };
-                        model.Add(tempModel);
+                            i++;
+                            var tempModel = new DateListVM
+                            {
+                                Date = item.Date,
+                                AdminEval = item.AdminEval,
+                                TempDate = item.Date.ToString("dd/MM/yyyy"),
+                                Id = (int)id
+                            };
+                            model.Add(tempModel);
+                        }
+                        tempDate.Add(item.Date.ToString());
+                        if (!skillnames.Contains(skill.Skill))
+                        {
+                            skillnames.Add(skill.Skill);
+                        }
+                        if ((month != null)?item.Date.Month == month : item.Date.Year == year && item.Date.Year == year)
+                        {
+                           
+                            dates.Add(item.Date.ToString("dd.MM.yyyy"));
+                            datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
+                        }
                     }
-                    tempDate.Add(item.Date.ToString());
-
-                    if (item.Date.Month == month && item.Date.Year == year)
+                    if (datapoint.Count > 0)
                     {
-                        skillnames.Add(item.SkillName);
-                        dates.Add(item.Date.ToString("dd.MM.yyyy"));
-                        datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
+                       
+                        skillPoints.Add(datapoint.ToList());
+                        datapoint.Clear();
                     }
-                    if (dataPoints != null)
-                    {
-                        var x = dataPoints.ToList();
-                        //datapointsPerSkill.Add(x);
-                        dataPoints.Clear();
-                    }
-
                 }
              
                 TempData["SearchValue"] = searchString; 
@@ -177,7 +189,7 @@ namespace Login_System.Controllers
 
                 
                 //Getting all items of the specific user
-                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill    ).OrderBy(x=> x.Date))
+                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill).OrderBy(x=> x.Date))
                     {
                         if (!tempDate.Contains(item.Date.ToString()))
                         {
@@ -194,8 +206,7 @@ namespace Login_System.Controllers
                         }
                         tempDate.Add(item.Date.ToString());
 
-                        /*if (item.Date.Month == month && item.Date.Year == year)
-                        {*/
+                      
                             if (!skillnames.Contains(item.SkillName))
                             {
                                 skillnames.Add(item.SkillName);
@@ -205,33 +216,31 @@ namespace Login_System.Controllers
                                 dates.Add(item.Date.ToString("dd.MM.yyyy"));
                             }
 
-                        //dataPoints.Add(new DataPoint(item.Date.Day, item.SkillLevel));
                             if(!uniqueMonths.Contains(item.Date.Month.ToString() + " " + item.Date.Month.ToString()))
                             {
                                 uniqueMonths.Add(item.Date.Month.ToString() + " " + item.Date.Month.ToString());
                             }
                             datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
                        
-                        //}
                         
                     }
                     if (datapoint.Count > 0)
                     {
-
                         skillPoints.Add(datapoint.ToList());
                         datapoint.Clear();
                     }
                 }
             
             }
-
+            years = (from Year in _context.UserSkills
+                     select Year.Date.Year)
+                      .Distinct().ToList();
             //Graph stuff
-            //ViewBag.DataPoint = dataPoints.ToArray();
-            //ViewBag.DataPoint = datapointsPerSkill;
             ViewBag.DataPoint = skillPoints;
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
-            ViewBag.numberOfMonths = uniqueMonths.ToArray();            
+            ViewBag.numberOfMonths = uniqueMonths.ToArray();
+            ViewBag.years = years.ToArray();
             return View(model);
         }
 

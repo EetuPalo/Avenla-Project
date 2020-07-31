@@ -16,7 +16,5 @@ namespace Login_System.ViewModels
         public string TempDate { get; set; }
 
         public int Id { get; set; }
-
-
     }
 }

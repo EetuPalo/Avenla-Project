@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-Login_System-E692E37F-4593-47AA-8521-6BE603859559</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>C:\Users\ottok\Desktop\Avenla builds\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Remove="wwwroot\js\moment.js" />
   </ItemGroup>

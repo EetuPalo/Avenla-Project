@@ -889,6 +889,123 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to April.
+        /// </summary>
+        public static string MONTH_APR {
+            get {
+                return ResourceManager.GetString("MONTH_APR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to August.
+        /// </summary>
+        public static string MONTH_AUG {
+            get {
+                return ResourceManager.GetString("MONTH_AUG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to December.
+        /// </summary>
+        public static string MONTH_DEC {
+            get {
+                return ResourceManager.GetString("MONTH_DEC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to February.
+        /// </summary>
+        public static string MONTH_FEB {
+            get {
+                return ResourceManager.GetString("MONTH_FEB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to January.
+        /// </summary>
+        public static string MONTH_JAN {
+            get {
+                return ResourceManager.GetString("MONTH_JAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to July.
+        /// </summary>
+        public static string MONTH_JUL {
+            get {
+                return ResourceManager.GetString("MONTH_JUL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to June.
+        /// </summary>
+        public static string MONTH_JUN {
+            get {
+                return ResourceManager.GetString("MONTH_JUN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to March.
+        /// </summary>
+        public static string MONTH_MAR {
+            get {
+                return ResourceManager.GetString("MONTH_MAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to May.
+        /// </summary>
+        public static string MONTH_MAY {
+            get {
+                return ResourceManager.GetString("MONTH_MAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to November.
+        /// </summary>
+        public static string MONTH_NOV {
+            get {
+                return ResourceManager.GetString("MONTH_NOV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to October.
+        /// </summary>
+        public static string MONTH_OCT {
+            get {
+                return ResourceManager.GetString("MONTH_OCT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to September.
+        /// </summary>
+        public static string MONTH_SEP {
+            get {
+                return ResourceManager.GetString("MONTH_SEP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose month.
+        /// </summary>
+        public static string MONTH_UNSELECTED {
+            get {
+                return ResourceManager.GetString("MONTH_UNSELECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -1231,6 +1348,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show all.
+        /// </summary>
+        public static string UserSkills_ListByDate_SHOWALL {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_SHOWALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to - Skill Overview.
         /// </summary>
         public static string UserSkills_ListByDate_Title {
@@ -1335,6 +1461,15 @@ namespace Resources {
         public static string UserSkills_SkillList_Worst {
             get {
                 return ResourceManager.GetString("UserSkills_SkillList_Worst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose year.
+        /// </summary>
+        public static string YEAR_UNSELECTED {
+            get {
+                return ResourceManager.GetString("YEAR_UNSELECTED", resourceCulture);
             }
         }
     }

@@ -389,6 +389,45 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Login_Title" xml:space="preserve">
     <value>Tervetuloa Oppimisportaaliin</value>
   </data>
+  <data name="MONTH_APR" xml:space="preserve">
+    <value>Huhtikuu</value>
+  </data>
+  <data name="MONTH_AUG" xml:space="preserve">
+    <value>Elokuu</value>
+  </data>
+  <data name="MONTH_DEC" xml:space="preserve">
+    <value>Joulukuu</value>
+  </data>
+  <data name="MONTH_FEB" xml:space="preserve">
+    <value>Helmikuu</value>
+  </data>
+  <data name="MONTH_JAN" xml:space="preserve">
+    <value>Tammikuu</value>
+  </data>
+  <data name="MONTH_JUL" xml:space="preserve">
+    <value>Heinäkuu</value>
+  </data>
+  <data name="MONTH_JUN" xml:space="preserve">
+    <value>Kesäkuu</value>
+  </data>
+  <data name="MONTH_MAR" xml:space="preserve">
+    <value>Maaliskuu</value>
+  </data>
+  <data name="MONTH_MAY" xml:space="preserve">
+    <value>Toukokuu</value>
+  </data>
+  <data name="MONTH_NOV" xml:space="preserve">
+    <value>Marraskuu</value>
+  </data>
+  <data name="MONTH_OCT" xml:space="preserve">
+    <value>Lokakuu</value>
+  </data>
+  <data name="MONTH_SEP" xml:space="preserve">
+    <value>Syyskuu</value>
+  </data>
+  <data name="MONTH_UNSELECTED" xml:space="preserve">
+    <value>Valitse kuukausi</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Salasana</value>
   </data>
@@ -497,6 +536,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="UserSkills_ListByDate_SearchPHolder" xml:space="preserve">
     <value>Hae päivämäärää...</value>
   </data>
+  <data name="UserSkills_ListByDate_SHOWALL" xml:space="preserve">
+    <value>Näytä kaikki</value>
+  </data>
   <data name="UserSkills_ListByDate_Title" xml:space="preserve">
     <value>- Osaamisen yleisnäkymä</value>
   </data>
@@ -538,5 +580,8 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="User_Label" xml:space="preserve">
     <value>Käyttäjät</value>
+  </data>
+  <data name="YEAR_UNSELECTED" xml:space="preserve">
+    <value>Valitse vuosi</value>
   </data>
 </root>

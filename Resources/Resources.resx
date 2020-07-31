@@ -395,6 +395,45 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Login_Title" xml:space="preserve">
     <value>Welcome to Avenla Employee Management System</value>
   </data>
+  <data name="MONTH_APR" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="MONTH_AUG" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="MONTH_DEC" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="MONTH_FEB" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="MONTH_JAN" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="MONTH_JUL" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="MONTH_JUN" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="MONTH_MAR" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="MONTH_MAY" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="MONTH_NOV" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="MONTH_OCT" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="MONTH_SEP" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="MONTH_UNSELECTED" xml:space="preserve">
+    <value>Choose month</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -503,6 +542,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="UserSkills_ListByDate_SearchPHolder" xml:space="preserve">
     <value>Search for dates...</value>
   </data>
+  <data name="UserSkills_ListByDate_SHOWALL" xml:space="preserve">
+    <value>Show all</value>
+  </data>
   <data name="UserSkills_ListByDate_Title" xml:space="preserve">
     <value>- Skill Overview</value>
   </data>
@@ -544,5 +586,8 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="User_Label" xml:space="preserve">
     <value>Users</value>
+  </data>
+  <data name="YEAR_UNSELECTED" xml:space="preserve">
+    <value>Choose year</value>
   </data>
 </root>
