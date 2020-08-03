@@ -15,7 +15,7 @@
             <div class="card-body">
                 @if (ViewBag.CurrentCompany != null)
                 {
-                    <h5 class="card-title"> @ViewBag.CurrentCompany <button onclick="hideShowFunc()"> <i class="fas fa-angle-down"></i> </button></h5>
+                    <h5 class="card-title"> @ViewBag.CurrentCompany <button class="float-right" id="dashCompany" onclick="hideShowFunc()"><i onclick="changeIcon(this)" class="fas fa-angle-down"></i></button></h5>
                 }
 
                 else
@@ -397,5 +397,8 @@
         } else {
             x.style.display = "none";
         }
+    }
+    function changeIcon(x) {
+        x.classList.toggle("fa-angle-up");
     }
 </script>
