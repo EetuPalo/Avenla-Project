@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h1>@Html.DisplayFor(model => model.name)</h1>
+    <h1>@Html.DisplayFor(model => model.Name)</h1>
 
 <div>
     <hr />
@@ -18,7 +18,7 @@
 @if (User.IsInRole("Superadmin"))
 {
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
 }

@@ -29,11 +29,11 @@
                             </div>
 
 
-                            <input type="hidden" value="@item.Skillid" name="Skillid" />
+                            <input type="hidden" value="@item.SkillId" name="Skillid" />
                             <span asp-validation-for="skill"></span>
 
                             <div class="col-sm-10">
-                                <select class="form-control" asp-for="@Model.SkillGoal" id="@item.Skillid">
+                                <select class="form-control" asp-for="@Model.SkillGoal" id="@item.SkillId">
                                     <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
                                     <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
                                     <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
@@ -70,7 +70,7 @@
     @foreach(var skill in Model.SkillGoals)
     {
         <text>
-        $("#@skill.Skillid").val("@skill.SkillGoal");
+        $("#@skill.SkillId").val("@skill.SkillGoal");
         </text>
     }
     });

@@ -63,7 +63,7 @@ namespace Login_System.Controllers
 
             foreach (var companies in _context.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = companies.name, Value = companies.name });
+                model.CompanyList.Add(new SelectListItem() { Text = companies.Name, Value = companies.Name });
             }
             
             if(Skill.Length> 0)
@@ -307,9 +307,9 @@ namespace Login_System.Controllers
                              where i.name == Company
                              select i;*/
 
-            foreach (var Uname in _context.Company.Where(x => x.name == Company))
+            foreach (var Uname in _context.Company.Where(x => x.Name == Company))
             {
-                foreach (AppUser user in UserMgr.Users.Where(x => x.Company == Uname.id))
+                foreach (AppUser user in UserMgr.Users.Where(x => x.Company == Uname.Id))
                 {
                     //This is to prevent duplicates
                     if (!CompanyList.Contains(user))

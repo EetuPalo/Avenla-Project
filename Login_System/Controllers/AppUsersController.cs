@@ -177,7 +177,7 @@ namespace Login_System.Controllers
             //Populating the dropdown with companies
             foreach (var company in CompanyList.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.id.ToString() });
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
             }
             return View(model);
         }
@@ -189,7 +189,7 @@ namespace Login_System.Controllers
             var tempList = new List<Company>();
             foreach (var company in CompanyList.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.id.ToString() });
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
             }
             return View(model);
         }
@@ -204,7 +204,7 @@ namespace Login_System.Controllers
                   var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
-                Company company = await CompanyList.Company.FirstOrDefaultAsync(x=> x.id == appUser.Company);
+                Company company = await CompanyList.Company.FirstOrDefaultAsync(x=> x.Id == appUser.Company);
                 var k = 1;
                 var veryTempUser = await UserMgr.FindByNameAsync(userName);
                 while (veryTempUser != null)
@@ -236,8 +236,8 @@ namespace Login_System.Controllers
                                 FirstName = appUser.FirstName,
                                 LastName = appUser.LastName,
                                 PhoneNumber = appUser.PhoneNumber,
-                                Company = company.id,
-                                CompanyName = company.name
+                                Company = company.Id,
+                                CompanyName = company.Name
                             };
                         }
                         else
@@ -260,12 +260,12 @@ namespace Login_System.Controllers
                         IdentityResult roleResult;
                         result = await UserMgr.CreateAsync(user, appUser.Password);
                         roleResult = await UserMgr.AddToRoleAsync(user, "User");
-                        var newMember = new CompanyMembersVM()
+                        var newMember = new CompanyMember
                         {
-                            CompanyId = company.id,
-                            CompanyName = company.name,
-                            UserId = user.Id,
-                            UserName = user.FirstName + " " + user.LastName
+                            CompanyId = company.Id,
+                           
+                            UserId = user.Id
+                    
                         };
 
                         CompanyList.CompanyMembers.Add(newMember);
@@ -350,7 +350,7 @@ namespace Login_System.Controllers
                 var tempList = new List<Company>();
                 foreach (var company in CompanyList.Company)
                 {
-                    mainModel.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                    mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Name });
                 }
                 mainModel.User = tempUser;
 

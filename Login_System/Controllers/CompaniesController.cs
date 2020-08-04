@@ -39,7 +39,7 @@ namespace Login_System.Controllers
             }
 
             var company = await _context.Company
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
                 return NotFound();
@@ -68,7 +68,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Superadmin")]
-        public async Task<IActionResult> Create([Bind("id,name,Description")] Company company, int? id, List<int> UserId )
+        public async Task<IActionResult> Create(/*[Bind("id,name,Description")] Company company, int? id,*/CompanyMembersVM data, int id )
         {
             
 
@@ -87,36 +87,37 @@ namespace Login_System.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(company);
+                //_context.Add(data);
 
-                var companyMembers = new CompanyMembersVM
-                {
-                    CompanyId = company.id,
-                    CompanyName = company.name,
-                    UserId = user.Id,
-                    UserName = user.UserName
-                };
+                //var companyMembers = new CompanyMembersVM
+                //{
+                //    CompanyId = data.Id,
+                //    CompanyName = data.CompanyName,
+                //    UserId = user.Id,
+                //    UserName = user.UserName
+                //};
 
-             
+                var company = (await _context.Company.AddAsync(new Company { Name = data.CompanyName, Description = data.Description})).Entity;
                 await _context.SaveChangesAsync();
 
-                foreach(var userid in UserId)
+
+
+                foreach(var userid in data.SelectedUserIds)
                 {
-                    var companyMember = UserMgr.Users.FirstOrDefault(x=> x.Id== userid);
-                    var memberToAdd = new CompanyMembersVM
+                    var companyMember = UserMgr.Users.FirstOrDefault(x=> x.Id == userid);
+                    var memberToAdd = new CompanyMember
                     {
-                        CompanyId = company.id,
-                        CompanyName = company.name,
+                        CompanyId = company.Id,
                         UserId = companyMember.Id,
-                        UserName = companyMember.FirstName + " " + companyMember.LastName
+         
                     };
-                    _context.Add(memberToAdd);
+                    _context.CompanyMembers .Add(memberToAdd);
                 }
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Create), "Companies", new { id = group.id, name = group.name });
                 return RedirectToAction(nameof(Index));
             }
-            return View(company);
+            return View(data);
         }
 
         [Authorize(Roles = "Superadmin")]
@@ -142,7 +143,7 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("id,name,Description")] Company company)
         {
-            if (id != company.id)
+            if (id != company.Id)
             {
                 return NotFound();
             }
@@ -156,7 +157,7 @@ namespace Login_System.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompanyExists(company.id))
+                    if (!CompanyExists(company.Id))
                     {
                         return NotFound();
                     }
@@ -179,7 +180,7 @@ namespace Login_System.Controllers
             }
 
             var company = await _context.Company
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
                 return NotFound();
@@ -210,7 +211,7 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Superadmin")]
         private bool CompanyExists(int id)
         {
-            return _context.Company.Any(e => e.id == id);
+            return _context.Company.Any(e => e.Id == id);
         }
     }
 }

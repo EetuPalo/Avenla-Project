@@ -34,7 +34,19 @@ namespace Login_System.Models
         //IDENTITY
         public DbSet<Company> Company { get; set; }
 
-        public DbSet<CompanyMembersVM> CompanyMembers {get; set;}
+        public DbSet<CompanyMember> CompanyMembers {get; set;}
+
+        protected override void OnModelCreating(ModelBuilder mb) { 
+        
+
+            mb.Entity<SkillsInCategory>()
+                .HasKey(x => new { x.SkillId, x.CategoryId});
+
+
+            mb.Entity<CompanyMember>()
+                .HasKey(x => new { x.CompanyId, x.UserId});
+
+        }
 
     }
 }

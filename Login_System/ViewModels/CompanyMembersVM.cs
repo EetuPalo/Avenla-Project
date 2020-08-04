@@ -10,15 +10,15 @@ namespace Login_System.ViewModels
     public class CompanyMembersVM
     {
         public int Id { get; set; }
-        [NotMapped]
+        public List<int> SelectedUserIds { get; set; }
         public string name { get; set; }
-        [NotMapped]
+   
         public string Description { get; set; }
         public int CompanyId { get; set; }
         public int UserId { get; set; }
         public string CompanyName { get; set; }
         public string UserName { get; set; }
-        [NotMapped]
+      
         public IList<SelectListItem> userList { get; set; }
     
         public CompanyMembersVM() 

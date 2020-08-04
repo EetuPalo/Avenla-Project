@@ -49,7 +49,7 @@ namespace Login_System.Controllers
   
             foreach (var company in generalContext.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Name });
             }
             return View(model);
         }
@@ -136,7 +136,7 @@ namespace Login_System.Controllers
             //In case form is not valid, the companylist is populated again
             foreach (var company in generalContext.Company)
             {
-                newUser.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.name });
+                newUser.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Name });
             }
 
             return View(newUser);

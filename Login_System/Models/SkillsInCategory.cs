@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 namespace Login_System.Models
 {
     public class SkillsInCategory
-    {
-        public int id { get; set; }
-
+    { 
         public int SkillId { get; set; }
 
         public int CategoryId { get; set; }

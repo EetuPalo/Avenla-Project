@@ -23,8 +23,8 @@ namespace Login_System.Models
 
         [Display(Name = "MODEL_Date", ResourceType = typeof(Resources.SkillGoals))]
         public DateTime Date { get; set; }
-        public int Skillid { get; set; }
-        public int Groupid { get; set; }
+        public int SkillId { get; set; }
+        public int GroupId { get; set; }
 
         [NotMapped]
         public IList<SelectListItem> Skills { get; set; }

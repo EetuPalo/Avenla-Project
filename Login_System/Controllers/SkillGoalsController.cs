@@ -56,7 +56,7 @@ namespace Login_System.Controllers
                 var modelCheck = new List<string>();
                 var listOfSkills = new List<Skills>();
 
-                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x=>x.Date))
+                foreach (var skillGoal in _context.SkillGoals.Where(x => (x.GroupId == id)).OrderByDescending(x=>x.Date))
                 {
                     //modelCheck is to prevent duplicates
                     if (!modelCheck.Contains(skillGoal.SkillName) /*&& skillGoal.Date.ToString("dd.MM.yyyy") == date*/)
@@ -136,14 +136,14 @@ namespace Login_System.Controllers
             int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
             TempData["id"] = id;
 
-                foreach(var item in _context.SkillGoals.Where(x => (x.Groupid == id)).OrderByDescending(x => x.Date))
+                foreach(var item in _context.SkillGoals.Where(x => (x.GroupId == id)).OrderByDescending(x => x.Date))
                 {
                     var tempModel = new SkillGoals
                     {
-                        Skillid = item.Skillid,
+                        SkillId = item.SkillId,
                         SkillName = item.SkillName,
                         GroupName = name,
-                        Groupid = groupId,
+                        GroupId = groupId,
                         SkillGoal = (item.SkillGoal >= 0) ? item.SkillGoal : 0
                     };
                     if (!listModel.Any(p => p.SkillName == tempModel.SkillName))
@@ -179,9 +179,9 @@ namespace Login_System.Controllers
                     SkillGoal = SkillGoal[i],
                     Date = DateTime.Now,
                     SkillName = skillFromTable.Skill,
-                    Skillid = skillFromTable.Id,
+                    SkillId = skillFromTable.Id,
                     GroupName = group.name,
-                    Groupid = Groupid
+                    GroupId = Groupid
                 };
                 _context.Add(skillGoal);
                 i++;
@@ -395,7 +395,7 @@ namespace Login_System.Controllers
         {
             var dateList = new List<DateTime>();
             DateTime maxDate;
-            foreach (var goal in _context.SkillGoals.Where(x => (x.Groupid == group)))
+            foreach (var goal in _context.SkillGoals.Where(x => (x.GroupId == group)))
             {
                 if (!dateList.Contains(goal.Date))
                 {

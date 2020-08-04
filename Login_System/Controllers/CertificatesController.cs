@@ -48,7 +48,7 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(certificate);
         }
 

@@ -110,7 +110,7 @@ namespace Login_System.Controllers
                 //check if given value is null, if is, dont take it into account when fetching from table.
                 foreach(var skill in _context.Skills)
                 {
-                    foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : (x.Date.Month != null)) && x.Date.Year == year && x.UserID == id && x.Skillid == skill.Id).OrderByDescending(x=> x.Date))
+                    foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : (x.Date.Month != null)) && x.Date.Year == year && x.UserID == id && x.SkillId == skill.Id).OrderByDescending(x=> x.Date))
                     {
                         var itemMonth = item.Date.Month;
                         var itemYear = item.Date.Year;
@@ -274,11 +274,11 @@ namespace Login_System.Controllers
             {                
                 foreach (var group in groupList)
                 {
-                    tempGoalList = _context.SkillGoals.Where(x => x.Groupid == group.GroupID).ToList();
+                    tempGoalList = _context.SkillGoals.Where(x => x.GroupId == group.GroupID).ToList();
                     foreach(var skillid in tempGoalList)
                     {
                         //get latest goals of a skill from a group user belongs to.
-                        var latestGoal = tempGoalList.OrderByDescending(x=> x.Date).First(x => x.Skillid == skillid.Skillid);
+                        var latestGoal = tempGoalList.OrderByDescending(x=> x.Date).First(x => x.SkillId == skillid.SkillId);
                         if (!goalList.Contains(latestGoal))
                         {
                             goalList.Add(latestGoal);
@@ -302,12 +302,12 @@ namespace Login_System.Controllers
                 {
                   
                     
-                    if (!skillIdList.Contains(skill.Skillid))
+                    if (!skillIdList.Contains(skill.SkillId))
                     {
-                        skillIdList.Add(skill.Skillid);
+                        skillIdList.Add(skill.SkillId);
 
                         //Getting only the ones with the date that has been selected by the user (or the latest date)
-                        var maxGoal = goalList.Where(x => x.Skillid == skill.Skillid).Max(x=> (int?)x.SkillGoal);
+                        var maxGoal = goalList.Where(x => x.SkillId == skill.SkillId).Max(x=> (int?)x.SkillGoal);
 
 
 
@@ -433,7 +433,7 @@ namespace Login_System.Controllers
                 foreach (var group in _context.Group.Where(x => x.id == member.GroupID))
                 {
                     //Going through all goals of the groups and adding them to a list
-                    foreach (var goal in _context.SkillGoals.Where(x => x.Groupid == group.id))
+                    foreach (var goal in _context.SkillGoals.Where(x => x.GroupId == group.id))
                     {
                         goalList.Add(goal);
                     }
@@ -450,7 +450,7 @@ namespace Login_System.Controllers
             foreach (var goal in goalList)
             {
                 //Getting the skills
-                 foreach (var skill in _context.Skills.Where(x => x.Id == goal.Skillid))
+                 foreach (var skill in _context.Skills.Where(x => x.Id == goal.SkillId))
                 {
                     //Making sure the latest goal dates are used
                 
@@ -471,7 +471,7 @@ namespace Login_System.Controllers
                 //The list is populated
                 foreach (var skill in skillList)
                 {
-                    foreach (var userSkill in _context.UserSkills.OrderByDescending(x=> x.Date).Where(x=> x.Skillid == skill.Id && x.UserID == id))
+                    foreach (var userSkill in _context.UserSkills.OrderByDescending(x=> x.Date).Where(x=> x.SkillId == skill.Id && x.UserID == id))
                     {
                         if (!usrSkl.Exists(x=> x.SkillName == skill.Skill))
                         {
@@ -513,7 +513,7 @@ namespace Login_System.Controllers
                 var skill = await _context.Skills.FirstOrDefaultAsync(x=> x.Id == id);
                 var newUserSkill = new UserSkills
                 {
-                    Skillid = id,
+                    SkillId = id,
                     SkillName = skill.Skill,
                     SkillLevel = Skilllevel[i],
                     UserID = userId,

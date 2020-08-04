@@ -10,11 +10,11 @@ namespace Login_System.Models
 {
     public class Company
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [DataType(DataType.Text)]
         [DisplayName("Company")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [AllowHtml]
         public string Description { get; set; }

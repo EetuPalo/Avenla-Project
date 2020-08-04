@@ -78,7 +78,7 @@ namespace Login_System.Controllers
             var model = new GroupVM();
             foreach (var company in _context.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.name, Value = company.id.ToString()});
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString()});
             }
             return View(model);
         }
@@ -89,11 +89,11 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                var company = await _context.Company.FirstOrDefaultAsync(x=> x.id == group.CompanyId);
+                var company = await _context.Company.FirstOrDefaultAsync(x=> x.Id == group.CompanyId);
                 var addGroup = new Group
                 {
-                    company = company.name,
-                    CompanyId = company.id,
+                    company = company.Name,
+                    CompanyId = company.Id,
                     name = group.name,
 
                 };
@@ -126,10 +126,10 @@ namespace Login_System.Controllers
                 skillsList.Add(skill);
                 var tempModel = new SkillGoals
                 {
-                    Skillid = skill.Id,
+                    SkillId = skill.Id,
                     SkillName = skill.Skill,
                     GroupName = name,
-                    Groupid = groupId
+                    GroupId = groupId
                 };
 
                 listModel.Add(tempModel);
@@ -165,9 +165,9 @@ namespace Login_System.Controllers
                     SkillGoal = -1,
                     Date = DateTime.Now,
                     SkillName = skillFromTable.Skill,
-                    Skillid = skillFromTable.Id,
+                    SkillId = skillFromTable.Id,
                     GroupName = GroupName,
-                    Groupid = Groupid
+                    GroupId = Groupid
                 };
                 _context.Add(skillGoal);
             }
@@ -295,7 +295,7 @@ namespace Login_System.Controllers
 
             Group tempGroup = await _context.Group.FindAsync(id);
             var memberList = _context.GroupMembers.Where(g => g.GroupID == id).ToList();
-            var goalList = _context.SkillGoals.Where(g => g.Groupid == tempGroup.id).ToList();
+            var goalList = _context.SkillGoals.Where(g => g.GroupId == tempGroup.id).ToList();
             //var test = _context.SkillGoals.Where(x => (x.Groupid == tempGroup.id)).OrderByDescending(x => x.Date).ToList();
             List<int> skillIdList = new List<int>();
             
@@ -313,11 +313,11 @@ namespace Login_System.Controllers
 
             // var skillsInGroup = bb
             //---------------new-------------//
-            var skillsInGroup = _context.SkillGoals.Where(x=>x.Groupid == tempGroup.id);
+            var skillsInGroup = _context.SkillGoals.Where(x=>x.GroupId == tempGroup.id);
             List<Skills> groupSkillGoals = new List<Skills>();
             foreach (var item in skillsInGroup)
             {
-                Skills skill = _context.Skills.FirstOrDefault(x => x.Id == item.Skillid);
+                Skills skill = _context.Skills.FirstOrDefault(x => x.Id == item.SkillId);
                 if (!groupSkillGoals.Contains(skill))
                 {
                     groupSkillGoals.Add(skill);
@@ -328,15 +328,15 @@ namespace Login_System.Controllers
             foreach(var skill in groupSkillGoals)
             {
                 List<UserSkills> userskills = new List<UserSkills>(); 
-                foreach (var item in _context.UserSkills.Where(x => (x.Skillid == skill.Id)).OrderByDescending(x => x.Date))
+                foreach (var item in _context.UserSkills.Where(x => (x.SkillId == skill.Id)).OrderByDescending(x => x.Date))
                 {
-                    if(!userskills.Any(x=> x.Skillid == skill.Id && x.UserID == item.UserID))
+                    if(!userskills.Any(x=> x.SkillId == skill.Id && x.UserID == item.UserID))
                     {
                         userskills.Add(item);
 
                     }
                 }
-                var skillGoal = _context.SkillGoals.OrderByDescending(x => x.Date).FirstOrDefault(x => x.Skillid == skill.Id && x.Groupid == tempGroup.id);
+                var skillGoal = _context.SkillGoals.OrderByDescending(x => x.Date).FirstOrDefault(x => x.SkillId == skill.Id && x.GroupId == tempGroup.id);
                 var tempModel = new GroupStatisticsVM
                 {
                     Average = (userskills.Count != 0) ? userskills.Average(x => x.SkillLevel).ToString() : "-1",

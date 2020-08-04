@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int count = 0;
 }
-    <head>
-    </head>
+
 <script>
     $(function () {
         $("#dateSearch").datepicker();
@@ -43,7 +42,7 @@
             <div class="col-sm">
                 <select class="form-control" id="dateSearch" type="number" name="year">
                     <option selected>@Resources.Resources.YEAR_UNSELECTED</option>
-                    @foreach(var year in ViewBag.years)
+                    @foreach (var year in ViewBag.years)
                     {
                         <option value="@year">@year</option>
                     }
@@ -56,155 +55,176 @@
                 <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]"><i class="fas fa-plus-square fa-fw"> </i> @Resources.Resources.UserSkills_ListByDate_Create</a>
             </div>
         </div>
-         
-        </div>
-   
+
+    </div>
+
 </form>
 <br />
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Resources.Resources.UserSkills_ListByDate_Date
-            </th>
-            <th>
-                @Resources.Resources.UserSkills_ListByDate_EvaluationType
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="col-sm-4"></div>
+<div class="col-sm-4" data-toggle="collapse" href="#collapseData" aria-expanded="false" aria-controls="collapseData" onclick="changeCaret()" id="evaluationsCollapse">
+    <h2>Evaluations <i class="fas fa-angle-down" id="evaluationCaret"></i></h2> 
+</div>
+<div class="col-sm-4"></div>
+<div class="collapse" id="collapseData">
+
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                @if (item.AdminEval == "Admin Evaluation")
-                {
-                    <td>
-                        <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AdminEval)
-                    </td>
-                }
-                <td>
-                    <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
-                    <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
-                        <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
-                    }
-                </td>
+                <th>
+                    @Resources.Resources.UserSkills_ListByDate_Date
+                </th>
+                <th>
+                    @Resources.Resources.UserSkills_ListByDate_EvaluationType
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-<h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
-<h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
-<canvas id="myChart" width="1000" height="500"></canvas>
+        </thead>
+        <tbody>
 
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    @if (item.AdminEval == "Admin Evaluation")
+                    {
+                        <td>
+                            <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AdminEval)
+                        </td>
+                    }
+                    <td>
+                        <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
+                        <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
+                            <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+        <h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
+        <h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
+        <style>
 
+        </style>
+        <canvas id="myChart" width="1000" height="500"></canvas>
 
 <script>
-    var ctx = document.getElementById('myChart');
-    var myChart = new Chart(ctx, {
-        type: 'scatter',
-        data: {
-        
-            datasets: [
-              @{int j = 0, i = 0 ;
-                            @foreach (var skill in ViewBag.DataPoint)
-                {
-                                @Html.Raw("{");
-                                j   = 0;
-                                var random = new Random();
-                                var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
+    
+function changeCaret() {
+    $('#collapseData').on('shown.bs.collapse', function () {
+        $("#evaluationCaret").attr('class', 'fas fa-angle-up')
+    });
 
-                    <text>
-
-                data: [
-                            @foreach (var item in skill)
-                            {
-                                string deta = JsonConvert.SerializeObject(item);
-                                deta = deta.Replace("\"x\"", "x");//json serialize method puts quotes around X and Y and ChartJS doesn't recognize them because of that
-                                deta = deta.Replace("\"y\"", "y");
-                                deta = deta.Remove(7, 1);
-                                deta = deta.Insert(7, "moment(\"");
-                                deta = deta.Insert(26, ",'DD.MM.YYYY')");
-
-                                @Html.Raw(deta +" ");
-                                @if (j < skill.Count - 1)
-                                 {
-                                    @Html.Raw(", ")
-                                    j++;
-                                 }
-                             }
-                ],
-                    </text>
-                <text>
-                label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i])),//this appears when hovering over a viewpoint,
-                backgroundColor: "@color",
-                borderColor: "@color",
-                borderWidth: 5,//thickness of data points
-                tension: 0,//i honestly don't remember what it does
-                fill: false
-                    @Html.Raw("},")
-                @{i++;
-                    }
-                    //showLine: true
-                </text>
-
-                }
-
-                }
-        ]
-    },
-    options: {
-        tooltips: {
-            callbacks: {
-                label: function (tooltipItem, data) {
-                    return "Skill: " + data.datasets[tooltipItem.datasetIndex].label + " Date: " + moment(tooltipItem.xLabel).format('DD MMMM , YYYY') + " Grade:  " + Number(tooltipItem.yLabel);
-                }
-            }
-        },
-        responsive: false,
-        maintainAspectRatio: false,
-
-        scales: {
-            xAxes: [{
-
-                type: 'time',
-                time: {
-                    parser: 'YYYY-MM-DD',
-                    unit: 'day'
-                },
-                ticks: {
-                    source: 'data'
-                }
-            }],
-
-            yAxes: [{
-                beginAtZero: true,
-                suggestedMin: 0,
-                suggestedMax: 5,
-                stepSize: 1
-            }]
-        }
-    }
-});
-</script>
-@section Scripts {
-    <script type="text/javascript">
-        function clearForm() {
-            var search = document.getElementById('dateSearch');
-            search.value = '';
-            document.forms[0].submit();
-        }
-    </script>
+    $('#collapseData').on('hidden.bs.collapse', function () {
+        $("#evaluationCaret").attr('class', 'fas fa-angle-down')
+    });
 }
+    //chart javascript
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'scatter',
+    data: {
+
+        datasets: [
+            @{int j = 0, i = 0 ;
+                        @foreach (var skill in ViewBag.DataPoint)
+            {
+                            @Html.Raw("{");
+                            j   = 0;
+                            var random = new Random();
+                            var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
+
+                <text>
+
+            data: [
+                        @foreach (var item in skill)
+                        {
+                            string deta = JsonConvert.SerializeObject(item);
+                            deta = deta.Replace("\"x\"", "x");//json serialize method puts quotes around X and Y and ChartJS doesn't recognize them because of that
+                            deta = deta.Replace("\"y\"", "y");
+                            deta = deta.Remove(7, 1);
+                            deta = deta.Insert(7, "moment(\"");
+                            deta = deta.Insert(26, ",'DD.MM.YYYY')");
+
+                            @Html.Raw(deta +" ");
+                            @if (j < skill.Count - 1)
+                                {
+                                @Html.Raw(", ")
+                                j++;
+                                }
+                            }
+            ],
+                </text>
+            <text>
+            label: @Html.Raw(JsonConvert.SerializeObject(ViewBag.names[i])),//this appears when hovering over a viewpoint,
+            backgroundColor: "@color",
+            borderColor: "@color",
+            borderWidth: 5,//thickness of data points
+            tension: 0,//i honestly don't remember what it does
+            fill: false
+                @Html.Raw("},")
+            @{i++;
+                }
+                //showLine: true
+            </text>
+
+            }
+
+            }
+    ]
+},
+options: {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                return "Skill: " + data.datasets[tooltipItem.datasetIndex].label + " Date: " + moment(tooltipItem.xLabel).format('DD MMMM , YYYY') + " Grade:  " + Number(tooltipItem.yLabel);
+            }
+        }
+    },
+    responsive: false,
+    maintainAspectRatio: false,
+
+    scales: {
+        xAxes: [{
+
+            type: 'time',
+            time: {
+                parser: 'YYYY-MM-DD',
+                unit: 'day'
+            },
+            ticks: {
+                source: 'data'
+            }
+        }],
+
+        yAxes: [{
+            beginAtZero: true,
+            suggestedMin: 0,
+            suggestedMax: 5,
+            stepSize: 1
+        }]
+    }
+}
+});
+    </script>
+    @section Scripts {
+        <script type="text/javascript">
+            function clearForm() {
+                var search = document.getElementById('dateSearch');
+                search.value = '';
+                document.forms[0].submit();
+            }
+        </script>
+    }

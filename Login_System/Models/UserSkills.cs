@@ -11,7 +11,7 @@ namespace Login_System.Models
 {
     public class UserSkills
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public int UserID { get; set; }
 
@@ -25,7 +25,7 @@ namespace Login_System.Models
         public List<Skills> SkillList { get; set; }
 
         public string AdminEval { get; set; }
-        public int Skillid { get; set; }
+        public int SkillId { get; set; }
 
         /*
         SqlDataReader dr;

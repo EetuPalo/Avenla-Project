@@ -16,5 +16,3 @@ HOW TO CREATE A SQL SCRIPT:
 https://blog.sqlauthority.com/2011/05/07/sql-server-2008-2008-r2-create-script-to-copy-database-schema-and-all-the-objects-data-schema-stored-procedure-functions-triggers-tables-views-constraints-and-all-other-database-objects/
 
 Other option is to just return a copy of your localDB, but this might not always work if there are version differences, etc...
-
-

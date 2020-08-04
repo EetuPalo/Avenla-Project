@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Boolean active = true;
 }
 
 <h1>Dashboard</h1>
@@ -23,7 +24,7 @@
                     <h5 class="card-title">@Html.Raw("not found")</h5>
                 }
                 <p class="card-text">
-                    
+
                     <div id="hideshowDIV">
                         @foreach (var company in Model.CompanyDesc)
                         {
@@ -115,46 +116,114 @@
         }
 
     <!-- GROUPS AND SKILLS INFORMATION -->
-    <div class="card shadow-sm p-3 mb-5 rounded">
-        <div class="card-body">
-            @if (Model.GroupsDD.Count() < 1)
-            {@Html.Raw("You have no groups.")}
-            @if (Model.GroupsDD.Count() >= 1)
-            {
-                @foreach (var group in Model.UserGroups)
+    @*<div class="card shadow-sm p-3 mb-5 rounded">
+            <div class="card-body">
+                @if (Model.GroupsDD.Count() < 1)
+                {@Html.Raw("You have no groups.")}
+                @if (Model.GroupsDD.Count() >= 1)
                 {
-                    <h5 class="card-title" style="text-decoration:underline;">@group.GroupName</h5>
-                    <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
-                    <p class="card-text">
+                    @foreach (var group in Model.UserGroups)
+                    {
+                        <h5 class="card-title" style="text-decoration:underline;">@group.GroupName</h5>
+                        <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+                        <p class="card-text">
 
-                        @foreach (var item in Model.UserSkills)
-                        {
-                            @foreach (var goal in Model.UserGoals.Where(x => x.Skillid == item.Skillid && x.Groupid == group.GroupID))
+                            @foreach (var item in Model.UserSkills)
                             {
-                                <div class="col-sm">
-                                    <div>
-                                        <div class="row">
-                                            <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
-                                            <span class="col-sm-1">@item.SkillLevel </span>
-                                            <div class="progress w-50" style="margin-top: 5px;">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                @foreach (var goal in Model.UserGoals.Where(x => x.Skillid == item.Skillid && x.Groupid == group.GroupID))
+                                {
+                                    <div class="col-sm">
+                                        <div>
+                                            <div class="row">
+                                                <span class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</span>
+                                                <span class="col-sm-1">@item.SkillLevel </span>
+                                                <div class="progress w-50" style="margin-top: 5px;">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                                    </div>
                                                 </div>
+                                                <span class="col-sm-1" style="text-align:right;">
+                                                    @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                                </span>
                                             </div>
-                                            <span class="col-sm-1" style="text-align:right;">
-                                                @Html.DisplayFor(modelItem => goal.SkillGoal)
-                                            </span>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
 
-                    </p>
+                        </p>
+                    }
                 }
-            }
+            </div>
+        </div>
+        <br />*@
+
+
+
+    <!-- GROUPS AND SKILLS INFORMATION -->
+    <div class="card shadow-sm p-3 mb-5 rounded">
+        <div class="card-body">
+            <div class="container">
+                @if (Model.GroupsDD.Count() < 1)
+                {@Html.Raw("You have no groups.")}
+                @if (Model.GroupsDD.Count() >= 1)
+                {
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        @foreach (var group in Model.UserGroups)
+                        {
+
+                            <li class="nav-item active">
+                                <a data-toggle="tab" href="#tab-@group.GroupID"> <h5 class="card-title" style="text-decoration:underline;">@group.GroupName</h5></a>
+                            </li>
+
+                        }
+                    </ul>
+                    <span class="row"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+
+
+
+                    <div class="tab-content">
+                        @foreach (var group in Model.UserGroups)
+                        {
+                            <div id="tab-@group.GroupID" class="tab-pane fade">
+
+                                @foreach (var item in Model.UserSkills)
+                                {
+                                    @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
+                                    {
+
+                                        <div class="col-sm">
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</div>
+                                                    <div class="col-sm-1">@item.SkillLevel </div>
+                                                    <div class="progress w-50" style="margin-top: 5px;">
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1" style="text-align:right;">
+                                                        @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+
+
+                }
+
+
+            </div>
         </div>
     </div>
     <br />
+
+
+
 
     <!-- COURSE INFORMATION -->
     <div class="card shadow-sm p-3 mb-5 rounded">
@@ -303,38 +372,39 @@
 <!-- JAVASCRIPT FOR THE CHART -->
 <script>
     var ctx = document.getElementById('myChart');
-    var myChart = new Chart(ctx, {
-        type: 'scatter',
+                                var myChart = new Chart(ctx, {
+
+                                    type: 'scatter',
         data: {
 
             datasets: [
               @{int j = 0, i = 0 ;
-                            @foreach (var skill in ViewBag.DataPoint)
-                {
-                                @Html.Raw("{");
-                                j   = 0;
-                                var random = new Random();
-                                var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
+                                @foreach (var skill in ViewBag.DataPoint)
+                                {
+                                    @Html.Raw("{");
+                                    j   = 0;
+                                    var random = new Random();
+                                    var color = String.Format("#{0:X6}", random.Next(0x1000000));//generating a random color for the labels
 
                     <text>
 
                 data: [
                             @foreach (var item in skill)
                             {
-                                string deta = JsonConvert.SerializeObject(item);
-                                deta = deta.Replace("\"x\"", "x");//json serialize method puts quotes around X and Y and ChartJS doesn't recognize them because of that
-                                deta = deta.Replace("\"y\"", "y");
-                                deta = deta.Remove(7, 1);
-                                deta = deta.Insert(7, "moment(\"");
-                                deta = deta.Insert(26, ",'DD.MM.YYYY')");
+                                        string deta = JsonConvert.SerializeObject(item);
+                                        deta = deta.Replace("\"x\"", "x");//json serialize method puts quotes around X and Y and ChartJS doesn't recognize them because of that
+                                        deta = deta.Replace("\"y\"", "y");
+                                        deta = deta.Remove(7, 1);
+                                        deta = deta.Insert(7, "moment(\"");
+                                        deta = deta.Insert(26, ",'DD.MM.YYYY')");
 
-                                @Html.Raw(deta +" ");
-                                @if (j < skill.Count - 1)
+                                        @Html.Raw(deta +" ");
+                                        @if (j < skill.Count - 1)
                                  {
-                                    @Html.Raw(", ")
+                                            @Html.Raw(", ")
                                     j++;
-                                 }
-                             }
+                                        }
+                                    }
                 ],
                     </text>
                 <text>
@@ -344,9 +414,9 @@
                 borderWidth: 5,//thickness of data points
                 tension: 0,//i honestly don't remember what it does
                 fill: false
-                    @Html.Raw("},")
-                @{i++;
-                    }
+                        @Html.Raw("},")
+                    @{i++;
+                                    }
                     //showLine: true
                 </text>
 
@@ -359,8 +429,8 @@
         tooltips: {
             callbacks: {
                 label: function (tooltipItem, data) {
-                    return "Skill: " + data.datasets[tooltipItem.datasetIndex].label + " Date: " + moment(tooltipItem.xLabel).format('DD MMMM , YYYY') + " Grade:  " + Number(tooltipItem.yLabel);
-                }
+                                    return "Skill: " + data.datasets[tooltipItem.datasetIndex].label + " Date: " + moment(tooltipItem.xLabel).format('DD MMMM , YYYY') + " Grade:  " + Number(tooltipItem.yLabel);
+                                }
             }
         },
         responsive: true,
