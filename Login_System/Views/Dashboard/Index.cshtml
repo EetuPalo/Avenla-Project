@@ -122,33 +122,31 @@
             {@Html.Raw("You have no groups.")}
             @if (Model.GroupsDD.Count() >= 1)
             {
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    @if (Model.GroupsDD.Count() <= 3)
-                    {
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                @if (Model.GroupsDD.Count() <= 3)
+                {
 
-                        @foreach (var group in Model.UserGroups)
-                        {
-                            <li class="nav-item active">
-                                <a class="nav-link" data-toggle="tab" href="#tab-@group.GroupID" role="tab"> <h5 class="card-title">@group.GroupName </h5></a>
-                            </li>
-                        }
-
-                    }
-                    @if (Model.GroupsDD.Count() > 3)
+                    @foreach (var group in Model.UserGroups)
                     {
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 1.25rem;">@Resources.Groups.Index_Group</a>
-                            <ul class="dropdown-menu">
-                                @foreach (var group in Model.UserGroups)
-                                {
-                                    <li>
-                                        <a class="dropdown-item" href="#tab-@group.GroupID" role="tab" data-toggle="tab">@group.GroupName</a>
-                                    </li>
-                                }
-                            </ul>
+                        <li class="nav-item active">
+                            <a class="nav-link" data-toggle="tab" href="#tab-@group.GroupID" role="tab"> <h5 class="card-title">@group.GroupName </h5></a>
                         </li>
                     }
-                 </ul>
+
+                }
+                @if (Model.GroupsDD.Count() > 3)
+                {
+                    <li class="nav-item dropdown mb-5">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Group</a>
+                        <div class="dropdown-menu">
+                            @foreach (var group in Model.UserGroups)
+                             {
+                                <a class="dropdown-item" href="#tab-@group.GroupID" role="tab" data-toggle="tab">@group.GroupName</a>
+                             }
+                        </div>
+                    </li>
+                }
+            </ul>
                 <br />
                 <span class="row" style="text-decoration: underline;"> <span class="col-sm-4" style="text-align:center;"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
                 <div class="tab-content">
