@@ -136,8 +136,8 @@
                 }
                 @if (Model.GroupsDD.Count() > 3)
                 {
-                    <li class="nav-item dropdown mb-5">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Group</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">@Resources.Groups.Index_Group</a>
                         <div class="dropdown-menu">
                             @foreach (var group in Model.UserGroups)
                              {
