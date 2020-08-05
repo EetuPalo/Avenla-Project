@@ -13,6 +13,10 @@ a {
   color: #0366d6;
 }
 
+a.nav-link {
+color: black;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
