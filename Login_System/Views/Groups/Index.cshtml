@@ -7,7 +7,7 @@
 
 <h2>@Resources.Groups.Index_Title</h2>
 <h4>@TempData["ActionResult"]</h4>
-
+<hr />
 <form asp-controller="Groups" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -21,7 +21,7 @@
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Groups.Index_BTN_Search</button>
-                <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Groups.Index_BTN_Create</a>
+                <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Groups.Index_BTN_Create</a>
             </div>
         </div>
     </div>

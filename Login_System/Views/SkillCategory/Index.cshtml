@@ -6,7 +6,7 @@
 }
 
 <h2>@Resources.SkillCategories.Index_Title</h2>
-
+<hr />
 <form asp-controller="SkillCategory" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -20,7 +20,7 @@
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Skills.Index_BTN_Search</button>
-                <a class="btn btn-primary" asp-controller="SkillCategory" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCategories.Index_Create</a>
+                <a class="btn btn-primary float-right" asp-controller="SkillCategory" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillCategories.Index_Create</a>
             </div>
         </div>
     </div>

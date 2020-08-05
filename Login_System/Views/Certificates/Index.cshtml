@@ -6,6 +6,7 @@
 }
 
 <h2>@Resources.Certificates.Index_Title</h2>
+<hr />
 <form asp-controller="Certificates" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -19,11 +20,12 @@
             </div>
             <div class="col-sm">
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Certificates.Index_BTN_Search</button>
-                <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Certificates.Index_BTN_Create</a>
+                <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Certificates.Index_BTN_Create</a>
             </div>
         </div>
     </div>
 </form>
+<hr />
 <div class="container-fluid p-0">
     <div class="row">
         <div class="col-sm-6 border-right border-dark">

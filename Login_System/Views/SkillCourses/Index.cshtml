@@ -22,6 +22,7 @@
 <h2>@Resources.Courses.Index_Title</h2>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
 <p>@Resources.Courses.Index_TitleDesc</p>
+<hr />
 <form asp-controller="SkillCourses" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -37,7 +38,7 @@
                 <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
                 @if (User.IsInRole("Admin")|| User.IsInRole("Superadmin"))
                 {
-                    <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
+                    <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
                 }
             </div>
         </div>
