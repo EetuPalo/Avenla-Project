@@ -235,6 +235,7 @@ namespace Login_System.Controllers
                                 Email = appUser.EMail,
                                 FirstName = appUser.FirstName,
                                 LastName = appUser.LastName,
+                                EmpStatus = "Active",
                                 PhoneNumber = appUser.PhoneNumber,
                                 Company = company.Id,
                                 CompanyName = company.Name
@@ -249,6 +250,7 @@ namespace Login_System.Controllers
                                 Email = appUser.EMail,
                                 FirstName = appUser.FirstName,
                                 LastName = appUser.LastName,
+                                EmpStatus = "Active",
                                 PhoneNumber = appUser.PhoneNumber,
                                 Company = currentUser.Company,
                                 CompanyName = currentUser.CompanyName
