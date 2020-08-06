@@ -62,7 +62,7 @@
 <br />
 <div class="col-sm-4"></div>
 <div class="col-sm-4" data-toggle="collapse" href="#collapseData" aria-expanded="false" aria-controls="collapseData" onclick="changeCaret()" id="evaluationsCollapse">
-    <h2>Evaluations <i class="fas fa-angle-down" id="evaluationCaret"></i></h2> 
+    <h2>Evaluations <i class="fas fa-angle-down" id="evaluationCaret"></i></h2>
 </div>
 <div class="col-sm-4"></div>
 <div class="collapse" id="collapseData">
@@ -112,16 +112,15 @@
             }
         </tbody>
     </table>
-    </div>
-        <h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
-        <h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
-        <style>
-
-        </style>
-        <canvas id="myChart" width="1000" height="500"></canvas>
+</div>
+<h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
+<h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
+<style>
+</style>
+<canvas id="myChart" width="1000" height="500"></canvas>
 
 <script>
-    
+
 function changeCaret() {
     $('#collapseData').on('shown.bs.collapse', function () {
         $("#evaluationCaret").attr('class', 'fas fa-angle-up')
@@ -218,13 +217,13 @@ options: {
     }
 }
 });
+</script>
+@section Scripts {
+    <script type="text/javascript">
+        function clearForm() {
+            var search = document.getElementById('dateSearch');
+            search.value = '';
+            document.forms[0].submit();
+        }
     </script>
-    @section Scripts {
-        <script type="text/javascript">
-            function clearForm() {
-                var search = document.getElementById('dateSearch');
-                search.value = '';
-                document.forms[0].submit();
-            }
-        </script>
-    }
+}
