@@ -34,8 +34,5 @@ namespace Login_System.Models
 
         [Display(Name = "Company", ResourceType = typeof(Resources.Resources))]
         public int Company { get; set; }
-        public string CompanyName { get; set; }
-
-
     }
 }

@@ -238,7 +238,6 @@ namespace Login_System.Controllers
                                 EmpStatus = "Active",
                                 PhoneNumber = appUser.PhoneNumber,
                                 Company = company.Id,
-                                CompanyName = company.Name
                             };
                         }
                         else
@@ -253,7 +252,6 @@ namespace Login_System.Controllers
                                 EmpStatus = "Active",
                                 PhoneNumber = appUser.PhoneNumber,
                                 Company = currentUser.Company,
-                                CompanyName = currentUser.CompanyName
                             };
                         }
                       
@@ -352,7 +350,7 @@ namespace Login_System.Controllers
                 var tempList = new List<Company>();
                 foreach (var company in CompanyList.Company)
                 {
-                    mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Name });
+                    mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
                 }
                 mainModel.User = tempUser;
 

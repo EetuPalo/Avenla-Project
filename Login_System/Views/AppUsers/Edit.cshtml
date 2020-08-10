@@ -64,7 +64,7 @@
                         <select class="form-control" asp-for="User.EmpStatus">
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
-                            <option selected="selected" value="@Model.User.EmpStatus">@Model.User.EmpStatus</option>
+                            @*<option selected="selected" value="@Model.User.EmpStatus">@Model.User.EmpStatus</option>*@
                         </select>
                         <span asp-validation-for="User.EmpStatus" class="text-danger"></span>
                     </div>
