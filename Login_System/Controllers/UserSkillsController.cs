@@ -80,6 +80,9 @@ namespace Login_System.Controllers
             var datapoint = new List<SkillPoint>();
             var dataPoints = new List<SkillPoint>();
 
+            //this list is to hel get the latest evaluation on daily basis
+            List<string> evaluationDates = new List<string>();
+
             List<List<DataPoint>> datapointsPerSkill= new List<List<DataPoint>>();
            
             List<string> dates = new List<string>();
@@ -187,26 +190,29 @@ namespace Login_System.Controllers
                 foreach(var skillName in _context.Skills)
                 {
 
-                
+                    evaluationDates.Clear();
                 //Getting all items of the specific user
-                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill).OrderBy(x=> x.Date))
+                    foreach (var item in _context.UserSkills.Where(x => x.UserID == id && x.SkillName == skillName.Skill).OrderByDescending(x=> x.Date))
                     {
-                        if (!tempDate.Contains(item.Date.ToString()))
+                        if (!evaluationDates.Contains(item.Date.ToString("dd.MM.yyyy")))
                         {
-                            i++;
-
-                            var tempModel = new DateListVM
+                            evaluationDates.Add(item.Date.ToString("dd.MM.yyyy"));
+                            if (!tempDate.Contains(item.Date.ToString()))
                             {
-                                Date = item.Date,
-                                AdminEval = item.AdminEval,
-                                TempDate = item.Date.ToString("dd.MM.yyyy"),
-                                Id = (int)id
-                            };
-                            model.Add(tempModel);
-                        }
-                        tempDate.Add(item.Date.ToString());
+                                i++;
 
-                      
+                                var tempModel = new DateListVM
+                                {
+                                    Date = item.Date,
+                                    AdminEval = item.AdminEval,
+                                    TempDate = item.Date.ToString("dd.MM.yyyy"),
+                                    Id = (int)id
+                                };
+                                model.Add(tempModel);
+                            }
+                            tempDate.Add(item.Date.ToString());
+
+
                             if (!skillnames.Contains(item.SkillName))
                             {
                                 skillnames.Add(item.SkillName);
@@ -216,13 +222,13 @@ namespace Login_System.Controllers
                                 dates.Add(item.Date.ToString("dd.MM.yyyy"));
                             }
 
-                            if(!uniqueMonths.Contains(item.Date.Month.ToString() + " " + item.Date.Month.ToString()))
+                            if (!uniqueMonths.Contains(item.Date.Month.ToString() + " " + item.Date.Month.ToString()))
                             {
                                 uniqueMonths.Add(item.Date.Month.ToString() + " " + item.Date.Month.ToString());
                             }
                             datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
-                       
-                        
+
+                        }
                     }
                     if (datapoint.Count > 0)
                     {
