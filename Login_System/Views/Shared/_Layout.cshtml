@@ -1,11 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Login_System.Models
 @inject UserManager<AppUser> UserManager
+@inject GeneralDataContext _context
 
 @{
     Task<AppUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
     var user = await GetCurrentUserAsync();
-    if (user != null) { var company = user.Company; }
+    AppUser tempUser = await UserManager.FindByIdAsync(user.Id.ToString());
+    var companyID = tempUser.Company;
+    string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
+    ViewBag.CompanyName = companyName;
 }
 
 <!DOCTYPE html>
@@ -54,11 +58,11 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @if (user.Company != null)
+                            @if (user.Company > 0)
                             {
 
                                 <li>
-                                    <span class="text-dark btn"> @user.Company</span>
+                                    <span class="text-dark btn"> @ViewBag.CompanyName</span>
                                 </li>
                             }
                             <li>
