@@ -455,6 +455,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="ResetPassword_Title" xml:space="preserve">
     <value>Salasanan vaihto</value>
   </data>
+  <data name="RoleDropDown" xml:space="preserve">
+    <value>Valitse rooli</value>
+  </data>
   <data name="Skill_Dropdownlist" xml:space="preserve">
     <value>Valitse taito</value>
   </data>

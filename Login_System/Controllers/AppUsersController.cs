@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using System.Text;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Login_System.Controllers
 {
@@ -174,6 +175,13 @@ namespace Login_System.Controllers
             TempData["Company"] = currentUser.Company;
             var model = new RegisterVM();
             var tempList = new List<Company>();
+
+            // Populating rolelist dropdown
+            foreach (var roles in roleManager.Roles)
+            {
+                model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Id.ToString() });
+            }
+
             //Populating the dropdown with companies
             foreach (var company in CompanyList.Company)
             {
@@ -213,6 +221,7 @@ namespace Login_System.Controllers
                     veryTempUser = await UserMgr.FindByNameAsync(userName);
                     k++;
                 }
+
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
                 tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
@@ -347,6 +356,14 @@ namespace Login_System.Controllers
                 {
                     return NotFound();
                 }
+
+                // Populating rolelist dropdown
+                foreach (var roles in roleManager.Roles)
+                {
+                    mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Id.ToString() });
+                }
+
+
                 var tempList = new List<Company>();
                 foreach (var company in CompanyList.Company)
                 {
@@ -705,6 +722,6 @@ namespace Login_System.Controllers
             {
                 return RedirectToAction("Index", "AppUsers");
             }
-        } 
+        }
     }
 }
