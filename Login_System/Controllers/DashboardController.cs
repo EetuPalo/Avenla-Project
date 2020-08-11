@@ -44,6 +44,7 @@ namespace Login_System.Controllers
             var companyID = tempUser.Company;
             string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
            
+            //-------VIEWBAGS FOR THE DASHBOARD VIEW--------//
             ViewBag.CurrentCompany = companyName;
             ViewBag.CurrentUserFirstName = user.FirstName;
             ViewBag.CurrentUserLastName = user.LastName;
@@ -54,6 +55,7 @@ namespace Login_System.Controllers
             {
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
+
             //Finding the correct user
             var appUser = await UserMgr.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -74,6 +76,7 @@ namespace Login_System.Controllers
 
             var groupList = _context.GroupMembers.Where(x => x.UserID == id).ToList();
 
+            // Getting the company description
             foreach (var company in _context.Company.Where(x=> x.Id == user.Company))
             {
                 companyDescList.Add(company.Description);
@@ -144,7 +147,6 @@ namespace Login_System.Controllers
                     {
                         pastLessonsList.Add(lessons);
                     }
-                    //lessonList.Add(lessons);
                 }
             }            
 
@@ -153,7 +155,6 @@ namespace Login_System.Controllers
             {
                 certificateList.Add(userCertificate);
             }
-            //ViewBag.CompanyDesc = company.Description;
             model.UserGroups = groupList;
             model.UserSkills = skillList;
             model.UserCourses = courseList.OrderBy(x=>x.Status).ToList();
@@ -182,15 +183,14 @@ namespace Login_System.Controllers
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
 
-            //Some data that will be shown in the view
+            //----USER INFORMATION FOR THE VIEW----//
             uId = (int)id;
             TempData["UserName"] = tempUser.UserName;
             ViewBag.UserNames = tempUser.FirstName + " " + tempUser.LastName;
 
+            //------CREATING VARIABLES FOR THE GRAPH------//
             var dateModel = new List<DateListVM>();
             var tempDate = new List<string>();
-
-
             var testpoints = new List<List<SkillPoint>>();
             var datapoint = new List<SkillPoint>();
             var dataPoints = new List<SkillPoint>();
@@ -240,6 +240,7 @@ namespace Login_System.Controllers
                 }
             }
 
+            //-------VIEWBAG FOR THE GRAPH IN DASHBOARD ------//
             ViewBag.DataPoint = testpoints;
             ViewBag.Dates = dates.ToArray();
             ViewBag.names = skillnames.ToArray();
@@ -253,7 +254,6 @@ namespace Login_System.Controllers
 
             public SkillPoint(string d, int s)
             {
-
                 y = s;
                 x = d;
             }
