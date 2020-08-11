@@ -40,7 +40,11 @@ namespace Login_System.Controllers
             DateTime localdate = DateTime.Now;            
 
             var user = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentCompany = user.Company;            
+            AppUser tempUser = await UserMgr.FindByIdAsync(user.Id.ToString());
+            var companyID = tempUser.Company;
+            string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
+           
+            ViewBag.CurrentCompany = companyName;
             ViewBag.CurrentUserFirstName = user.FirstName;
             ViewBag.CurrentUserLastName = user.LastName;
             ViewBag.CurrentUserEmail = user.Email;
@@ -54,7 +58,6 @@ namespace Login_System.Controllers
             var appUser = await UserMgr.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserId"] = id;
 
             //Populating the VM with all needed info

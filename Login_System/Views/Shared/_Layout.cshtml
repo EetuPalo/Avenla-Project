@@ -6,10 +6,13 @@
 @{
     Task<AppUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
     var user = await GetCurrentUserAsync();
-    AppUser tempUser = await UserManager.FindByIdAsync(user.Id.ToString());
-    var companyID = tempUser.Company;
-    string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
-    ViewBag.CompanyName = companyName;
+    if (User?.Identity.IsAuthenticated == true)
+    {
+        AppUser tempUser = await UserManager.FindByIdAsync(user.Id.ToString());
+        var companyID = tempUser.Company;
+        string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
+        ViewBag.CompanyName = companyName;
+    }
 }
 
 <!DOCTYPE html>
