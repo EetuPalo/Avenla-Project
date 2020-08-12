@@ -44,20 +44,22 @@
                         <div class="form-group">
                             @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
                         </div>
+
+                        <label>@Resources.Resources.Layout_Roles</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
+                        </div>
                     }
                     else if (empty)
                     {
                         <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
+                        <input type="hidden" asp-for="SelectedRole" value="Superadmin" class="form-control" />
                     }
                     else
                     {
                         <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
                     }
-                    <label>@Resources.Resources.Layout_Roles</label>
-                    <div class="form-group">
-                        @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
-                    </div>
-
+                   
                     <div class="form-group">
                         <label asp-for="Password"></label>
                         <input asp-for="Password" class="form-control" placeholder=@Resources.Resources.Password />

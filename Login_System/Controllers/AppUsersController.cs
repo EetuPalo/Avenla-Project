@@ -191,6 +191,7 @@ namespace Login_System.Controllers
                 await roleManager.CreateAsync(userRole);
                 await roleManager.CreateAsync(superAdminRole);
                 await roleManager.CreateAsync(adminRole);
+                
             }
             if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
             {
@@ -198,14 +199,14 @@ namespace Login_System.Controllers
                 TempData["Company"] = currentUser.Company;
                 var model = new RegisterVM();
                 var tempList = new List<Company>();
-                foreach (var roles in roleManager.Roles)
-                {
-                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
-                }
                 //Populating the dropdown with companies
                 foreach (var company in CompanyList.Company)
                 {
                     model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                }
+                foreach (var roles in roleManager.Roles)
+                {
+                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
                 }
                 return View(model);
             }
@@ -219,7 +220,12 @@ namespace Login_System.Controllers
                 var company = (await dataContext.Company.AddAsync(new Company { Name = "Superadmin", Description = "Placeholder"})).Entity;
                 await dataContext.SaveChangesAsync();
                 TempData["Company"] = company.Id;
+             
                 return View(model);
+            }
+            if (User.Identity.IsAuthenticated)
+            {
+                return new RedirectResult("~/Identity/Account/AccessDenied");
             }
 
             return RedirectToAction("Login", "Account");
