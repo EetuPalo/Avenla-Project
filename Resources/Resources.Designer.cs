@@ -1087,6 +1087,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select role.
+        /// </summary>
+        public static string RoleDropDown {
+            get {
+                return ResourceManager.GetString("RoleDropDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select skill.
         /// </summary>
         public static string Skill_Dropdownlist {

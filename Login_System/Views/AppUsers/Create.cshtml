@@ -40,7 +40,8 @@
                     </div>
                     @if (User.IsInRole("Superadmin"))
                     {
-                        <div>
+                        <label>@Resources.Resources.Company</label>
+                        <div class="form-group">
                             @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
                         </div>
                     }
@@ -52,6 +53,11 @@
                     {
                         <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
                     }
+                    <label>@Resources.Resources.Layout_Roles</label>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.RolesList, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
+                    </div>
+
                     <div class="form-group">
                         <label asp-for="Password"></label>
                         <input asp-for="Password" class="form-control" placeholder=@Resources.Resources.Password />

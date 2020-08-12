@@ -80,6 +80,14 @@
                         <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
                     }
 
+                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+                    {
+                    <label>@Resources.Resources.Layout_Roles</label>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.RolesList, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
+                    </div>
+                    }
+
                     <span style="font-weight: bold; color: red; font-size: 15px;">@ViewBag.Message</span>
                     <div class="form-group">
                         <label asp-for="User.NewPassword" class="control-label">@Resources.Resources.Employee_Edit_NewPass</label>

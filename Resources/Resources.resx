@@ -461,6 +461,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="ResetPassword_Title" xml:space="preserve">
     <value>Change your password</value>
   </data>
+  <data name="RoleDropDown" xml:space="preserve">
+    <value>Select role</value>
+  </data>
   <data name="Skill_Dropdownlist" xml:space="preserve">
     <value>Select skill</value>
   </data>
