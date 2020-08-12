@@ -179,7 +179,7 @@ namespace Login_System.Controllers
             // Populating rolelist dropdown
             foreach (var roles in roleManager.Roles)
             {
-                model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Id.ToString() });
+                model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
             }
 
             //Populating the dropdown with companies
@@ -205,11 +205,12 @@ namespace Login_System.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser)
+        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser, string SelectedRole)
         {
             if (ModelState.IsValid)
             {
-                  var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                var value = SelectedRole;
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
                 Company company = await CompanyList.Company.FirstOrDefaultAsync(x=> x.Id == appUser.Company);
@@ -267,8 +268,9 @@ namespace Login_System.Controllers
                         //we then create a new user through usermanager
                         IdentityResult result;
                         IdentityResult roleResult;
+
                         result = await UserMgr.CreateAsync(user, appUser.Password);
-                        roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                        roleResult = await UserMgr.AddToRoleAsync(user, SelectedRole);
                         var newMember = new CompanyMember
                         {
                             CompanyId = company.Id,

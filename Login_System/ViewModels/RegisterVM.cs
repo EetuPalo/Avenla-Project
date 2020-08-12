@@ -66,6 +66,7 @@ namespace Login_System.ViewModels
         public IList<SelectListItem> CompanyList { get; set; }
 
         public IList<SelectListItem> RolesList { get; set; }
+        public string SelectedRole { get; set; }
 
         public RegisterVM() 
         { 

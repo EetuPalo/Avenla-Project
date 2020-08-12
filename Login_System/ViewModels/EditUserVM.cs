@@ -19,6 +19,7 @@ namespace Login_System.ViewModels
         public List<AppRole> Roles { get; set; }
         public IList<SelectListItem> CompanyList { get; set; }
         public IList<SelectListItem> RolesList { get; set; }
+        public string SelectedRole { get; set; }
 
         public EditUserVM() 
         { 
