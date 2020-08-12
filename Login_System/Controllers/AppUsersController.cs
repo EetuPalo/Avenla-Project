@@ -170,7 +170,27 @@ namespace Login_System.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Create()
         {
-            if(User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+            if (!_context.UserRoles.Any())
+            {
+                AppRole userRole = new AppRole
+                {
+                    Name = "User"
+                };
+
+                AppRole superAdminRole = new AppRole
+                {
+                    Name = "Superadmin"
+                };
+                AppRole adminRole = new AppRole
+                {
+                    Name = "Admin"
+                };
+
+                await roleManager.CreateAsync(userRole);
+                await roleManager.CreateAsync(superAdminRole);
+                await roleManager.CreateAsync(adminRole);
+            }
+            if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
             {
                 var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                 TempData["Company"] = currentUser.Company;
@@ -247,26 +267,7 @@ namespace Login_System.Controllers
                 if (user == null)
                 {
                     //if no roles exist, create required ones
-                    if (!_context.UserRoles.Any())
-                    {
-                        AppRole userRole = new AppRole
-                        {
-                            Name = "User"
-                        };
-
-                        AppRole superAdminRole = new AppRole
-                        {
-                            Name = "Superadmin"
-                        };
-                        AppRole adminRole = new AppRole
-                        {
-                            Name = "Admin"
-                        };
-
-                        await roleManager.CreateAsync(userRole);
-                        await roleManager.CreateAsync(superAdminRole);
-                        await roleManager.CreateAsync(adminRole);
-                    }
+                    
                     try
                     {
                         if (User.IsInRole("Superadmin"))
@@ -407,6 +408,10 @@ namespace Login_System.Controllers
                 {
                     mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
                 }
+                foreach (var roles in roleManager.Roles)
+                {
+                    mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                }
                 mainModel.User = tempUser;
 
                 TempData["UserId"] = id;
@@ -420,7 +425,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize(Roles = "User, Admin, Superadmin")]
-        public async Task<IActionResult> Edit(int id, EditUserVM model)
+        public async Task<IActionResult> Edit(int id, EditUserVM model, string SelectedRole)
         {
             if (ModelState.IsValid)
             {
