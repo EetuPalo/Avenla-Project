@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -466,50 +468,53 @@ namespace Login_System.Controllers
                             await dataContext.SaveChangesAsync();
                         }
                     }
-                }              
+                }
 
                 //--ROLES--//
-                for (int i = 0; i < model.Roles.Count; i++)
-                {
-                    AppRole role = await roleManager.FindByIdAsync(model.Roles[i].Id.ToString());
+                //for (int i = 0; i < model.Roles.Count; i++)
+                //{
+                //AppRole role = await roleManager.FindByIdAsync(model.Roles.Id.ToString());
+                ////roleManager.FindByIdAsync(model.Roles.Select(x => x.Id).ToString());
 
-                    //PROTECTS USERS IN ROLE ADMIN
-                    if (role.Name == "Superadmin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Superadmin"))
-                    {
-                        var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
-                        if (tempRoleList.Count == 1)
-                        {
-                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
-                            return RedirectToAction("Edit", "AppUsers", new { Id = id });
-                        }
-                    }
-                    //PROTECTS USERS IN ROLE SUPERADMIN
-                    if (role.Name == "Admin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Admin"))
-                    {
-                        var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
-                        if (tempRoleList.Count == 1)
-                        {
-                            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
-                            return RedirectToAction("Edit", "AppUsers", new { Id = id });
-                        }
-                    }
-                    //
+                
 
-                    IdentityResult? result = null;
+                ////PROTECTS USERS IN ROLE ADMIN
+                //if (role.Name == "Superadmin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Superadmin"))
+                //{
+                //    var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
+                //    if (tempRoleList.Count == 1)
+                //    {
+                //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
+                //        return RedirectToAction("Edit", "AppUsers", new { Id = id });
+                //    }
+                //}
+                ////PROTECTS USERS IN ROLE SUPERADMIN
+                //if (role.Name == "Admin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Admin"))
+                //{
+                //    var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
+                //    if (tempRoleList.Count == 1)
+                //    {
+                //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
+                //        return RedirectToAction("Edit", "AppUsers", new { Id = id });
+                //    }
+                //}
+                //
 
-                    if (model.Roles[i].IsSelected && !(await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name)))
-                    {
-                        result = await UserMgr.AddToRoleAsync(tempUser, role.Name);
-                    }
-                    else if (!model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name))
-                    {
-                        result = await UserMgr.RemoveFromRoleAsync(tempUser, role.Name);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
+                IdentityResult ? result = null;
+
+                var oldRole = await roleManager.FindByIdAsync(_context.UserRoles.FirstOrDefault(x => x.UserId == tempUser.Id).RoleId.ToString());
+                result = await UserMgr.RemoveFromRoleAsync(tempUser, oldRole.Name);
+                result = await UserMgr.AddToRoleAsync(tempUser, SelectedRole);
+                    
+                //if (model.Roles[i].IsSelected && !(await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name)))
+                //{
+                //    result = await UserMgr.AddToRoleAsync(tempUser, role.Name);
+                //}
+                //else if (!model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name))
+                //{
+                //    result = await UserMgr.RemoveFromRoleAsync(tempUser, role.Name);
+                //}
+                //}
 
                 //--USER INFO--//
                 var compareUser = User.Identity.Name;
@@ -554,7 +559,7 @@ namespace Login_System.Controllers
                 {
                     try
                     {
-                        var result = await UserMgr.UpdateAsync(user);
+                        result = await UserMgr.UpdateAsync(user);
                         TempData["ActionResult"] = "User" + " " + model.User.UserName + " " + "edited!";
                         return RedirectToAction(nameof(Index));
                     }
@@ -573,7 +578,7 @@ namespace Login_System.Controllers
                         var hashResult = UserMgr.PasswordHasher.HashPassword(model.User, model.User.NewPassword);
                         var token = await UserMgr.GeneratePasswordResetTokenAsync(user);
                         var passwordResult = await UserMgr.ResetPasswordAsync(user, token, model.User.NewPassword);
-                        var result = await UserMgr.UpdateAsync(user);
+                        result = await UserMgr.UpdateAsync(user);
 
                         TempData["ActionResult"] = Resources.ActionMessages.ActionResult_EditSuccess;
                         return RedirectToAction(nameof(Index));
