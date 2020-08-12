@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    bool empty = (ViewBag.EmptySet = true)?true:false ;
 }
 
 <div class="container-fluid">
@@ -43,6 +44,10 @@
                         <div class="form-group">
                             @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
                         </div>
+                    }
+                    else if (empty)
+                    {
+                        <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
                     }
                     else
                     {

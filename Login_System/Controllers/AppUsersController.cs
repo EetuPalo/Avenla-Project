@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using System.Text;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Login_System.Controllers
 {
@@ -168,26 +167,36 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Superadmin")]
+        [AllowAnonymous]
         public async Task<IActionResult> Create()
         {
-            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-            TempData["Company"] = currentUser.Company;
-            var model = new RegisterVM();
-            var tempList = new List<Company>();
-
-            // Populating rolelist dropdown
-            foreach (var roles in roleManager.Roles)
+            if(User.IsInRole("Admin") || User.IsInRole("Superadmin"))
             {
-                model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                TempData["Company"] = currentUser.Company;
+                var model = new RegisterVM();
+                var tempList = new List<Company>();
+                //Populating the dropdown with companies
+                foreach (var company in CompanyList.Company)
+                {
+                    model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                }
+                
             }
 
-            //Populating the dropdown with companies
-            foreach (var company in CompanyList.Company)
+            else if (!_context.Users.Any())
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                ViewBag.EmptySet = true;
+                var model = new RegisterVM();
+                //create a company to put user in. This should only be run if there are no companies and since all users have to belong to a company, we must create a placeholder here
+                
+                var company = (await dataContext.Company.AddAsync(new Company { Name = "Superadmin", Description = "Placeholder"})).Entity;
+                await dataContext.SaveChangesAsync();
+                TempData["Company"] = company.Id;
+                return View(model);
             }
-            return View(model);
+
+            return RedirectToAction("Login", "Account");
         }
         public async Task<IActionResult> AppUserEdit()
         {
@@ -204,16 +213,17 @@ namespace Login_System.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser, string SelectedRole)
+        //[Authorize(Roles = "Admin, Superadmin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser)
         {
-            if (ModelState.IsValid)
+             if (ModelState.IsValid)
             {
-                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-                var value = SelectedRole;
+                  var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
-                Company company = await CompanyList.Company.FirstOrDefaultAsync(x=> x.Id == appUser.Company);
+                Company company = await dataContext.Company.FirstOrDefaultAsync(x=> x.Id == appUser.Company);
                 var k = 1;
                 var veryTempUser = await UserMgr.FindByNameAsync(userName);
                 while (veryTempUser != null)
@@ -222,7 +232,6 @@ namespace Login_System.Controllers
                     veryTempUser = await UserMgr.FindByNameAsync(userName);
                     k++;
                 }
-
                 //This is supposed to remove any special characters from the userName string
                 byte[] tempBytes;
                 tempBytes = Encoding.GetEncoding("ISO-8859-8").GetBytes(userName);
@@ -233,7 +242,27 @@ namespace Login_System.Controllers
                 AppUser user = await UserMgr.FindByNameAsync(fixedUn);
                 if (user == null)
                 {
-                  
+                    //if no roles exist, create required ones
+                    if (!_context.UserRoles.Any())
+                    {
+                        AppRole userRole = new AppRole
+                        {
+                            Name = "User"
+                        };
+
+                        AppRole superAdminRole = new AppRole
+                        {
+                            Name = "Superadmin"
+                        };
+                        AppRole adminRole = new AppRole
+                        {
+                            Name = "Admin"
+                        };
+
+                        await roleManager.CreateAsync(userRole);
+                        await roleManager.CreateAsync(superAdminRole);
+                        await roleManager.CreateAsync(adminRole);
+                    }
                     try
                     {
                         if (User.IsInRole("Superadmin"))
@@ -261,26 +290,36 @@ namespace Login_System.Controllers
                                 LastName = appUser.LastName,
                                 EmpStatus = "Active",
                                 PhoneNumber = appUser.PhoneNumber,
-                                Company = currentUser.Company,
+                                Company = (currentUser != null)? currentUser.Company : appUser.Company,
                             };
                         }
                       
                         //we then create a new user through usermanager
                         IdentityResult result;
                         IdentityResult roleResult;
-
                         result = await UserMgr.CreateAsync(user, appUser.Password);
-                        roleResult = await UserMgr.AddToRoleAsync(user, SelectedRole);
+
+                        //checking if there are users that have roles that exist in database. if not, mostlikely the first user, assign as a superadmin
+                        if (!_context.UserRoles.Any())
+                        {
+                            roleResult = await UserMgr.AddToRoleAsync(user, "Superadmin");
+                        }
+                        else
+                        {
+                            roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                        }
+                       
                         var newMember = new CompanyMember
                         {
-                            CompanyId = company.Id,
+                            CompanyId = user.Company,
                            
                             UserId = user.Id
                     
                         };
 
                         CompanyList.CompanyMembers.Add(newMember);
-                        await CompanyList.SaveChangesAsync();
+                        await dataContext.SaveChangesAsync();
+                      
 
                     }
                     catch
@@ -297,11 +336,12 @@ namespace Login_System.Controllers
                     return RedirectToAction("Index");
                 }
             }
+          
             return View(appUser);
         }
 
         // GET: AppUsers/Edit/5
-        [Authorize(Roles = "User, Admin, Superadmin")]
+        //[Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             //EDIT has been changed so now edting of user groups, and roles can be edited from the same page. Other edit routes are still available
@@ -358,14 +398,6 @@ namespace Login_System.Controllers
                 {
                     return NotFound();
                 }
-
-                // Populating rolelist dropdown
-                foreach (var roles in roleManager.Roles)
-                {
-                    mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Id.ToString() });
-                }
-
-
                 var tempList = new List<Company>();
                 foreach (var company in CompanyList.Company)
                 {
@@ -383,7 +415,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "User, Admin, Superadmin")]
+        //[Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, EditUserVM model)
         {
             if (ModelState.IsValid)
@@ -559,7 +591,7 @@ namespace Login_System.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin, Superadmin")]
+        //[Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -582,7 +614,7 @@ namespace Login_System.Controllers
             return View(appUser);
         }
 
-        [Authorize(Roles = "Admin, Superadmin")]
+        //[Authorize(Roles = "Admin, Superadmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -724,6 +756,6 @@ namespace Login_System.Controllers
             {
                 return RedirectToAction("Index", "AppUsers");
             }
-        }
+        } 
     }
 }
