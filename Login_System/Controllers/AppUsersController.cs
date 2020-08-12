@@ -176,12 +176,16 @@ namespace Login_System.Controllers
                 TempData["Company"] = currentUser.Company;
                 var model = new RegisterVM();
                 var tempList = new List<Company>();
+                foreach (var roles in roleManager.Roles)
+                {
+                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                }
                 //Populating the dropdown with companies
                 foreach (var company in CompanyList.Company)
                 {
                     model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
                 }
-                
+                return View(model);
             }
 
             else if (!_context.Users.Any())
