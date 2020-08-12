@@ -215,11 +215,11 @@ namespace Login_System.Controllers
         //[ValidateAntiForgeryToken]
         //[Authorize(Roles = "Admin, Superadmin")]
         [AllowAnonymous]
-        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser)
+        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser, string SelectedRole)
         {
              if (ModelState.IsValid)
             {
-                  var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
 
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
@@ -306,7 +306,7 @@ namespace Login_System.Controllers
                         }
                         else
                         {
-                            roleResult = await UserMgr.AddToRoleAsync(user, "User");
+                            roleResult = await UserMgr.AddToRoleAsync(user, SelectedRole);
                         }
                        
                         var newMember = new CompanyMember
