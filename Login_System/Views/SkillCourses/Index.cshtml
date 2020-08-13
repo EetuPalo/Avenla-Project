@@ -60,10 +60,9 @@
             <th>
                 @Resources.Courses.Index_Duration
             </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
         </tr>
     </thead>
     <tbody>
@@ -81,9 +80,9 @@
             <td>
                 @Model.Durations.FirstOrDefault(x => x.Key == item.id).Value
             </td>
-            <td>
-                @if (item.MemberStatus == false)
-                {
+            <!--adding your self to a course or completing one-->
+            @if (item.MemberStatus == false)
+            {
                 <td>
                     <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> </span>
                 </td>
@@ -116,8 +115,10 @@
             <td>
                 @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
+
                     <a asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
                     <span> </span>
+
                 }
             </td>
             <td>
@@ -136,76 +137,8 @@
                     </div>
                 }
             </td>
-            </tr>
-        <tr class="content border border-secondary">
-            <td colspan="8">
-            <div class="container-fluid p-2 ">
-                <div class="row">
-                    <div class="col-sm">
-                        @Html.Raw(item.CourseContents)
-                    </div>
-                </div>
-                <div class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Resources.Courses.Index_Lesson_Lesson
-                                </th>
-                                <th>
-                                    @Resources.Courses.Index_Lesson_Date
-                                </th>
-                                <th>
-                                    @Resources.Courses.Index_Lesson_Location
-                                </th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var lesson in Model.Lessons.Where(x => x.CourseID == item.id))
-                            {
-                                <tr>
-                                    <td colspan="1">
-                                        @lesson.LessonName
-                                    </td>
-                                    <td colspan="1">
-                                        @lesson.Date.ToString("dd.MM.yyyy HH.mm")
-                                    </td>
-                                    <td colspan="1">
-                                        @lesson.Location
-                                    </td>
-                                    <td>
-                                        @if (lesson.LessonStatus != true)
-                                        {   <td>
-                                            <a asp-action="Attend" asp-controller="Lessons" asp-route-id="@lesson.Id">@Resources.Courses.Index_Lesson_Attend</a> <span> </span>
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-
-                                            </td>
-                                        }
-                                            <td>
-                                            <a asp-action="Index" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@lesson.CourseID">@Resources.Courses.Index_Lesson_Members</a>
-                                            </td>
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-                                        {
-                                            <td>
-                                            <span> </span><a asp-action="Create" asp-controller="LessonUsers" asp-route-id="@lesson.Id" asp-route-courseId="@item.id">@Resources.Courses.Index_Lesson_Attending</a>
-                                            </td>
-                                        }                                   
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-           </td>
         </tr>
+
 }
     </tbody>
 </table>

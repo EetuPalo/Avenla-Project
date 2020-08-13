@@ -41,25 +41,10 @@
                 <th>
 
 
-                    @if ((string)TempData["order"] == "FirstName")
-                    {
-                        <a asp-action="Index" asp-route-order="FirstNameDesc">@Resources.Resources.FirstName</a>
-                    }
-                    else
-                    {
-                        <a asp-action="Index" asp-route-order="FirstName">@Resources.Resources.FirstName</a>
-                    }
-
+                    @Resources.Resources.FirstName
                 </th>
                 <th>
-                    @if ((string)TempData["order"] == "LastName")
-                    {
-                        <a asp-action="Index" asp-route-order="LastNameDesc">@Resources.Resources.LastName</a>
-                    }
-                    else
-                    {
-                        <a asp-action="Index" asp-route-order="LastName">@Resources.Resources.LastName</a>
-                    }
+                    @Resources.Resources.LastName
 
                 </th>
                 <th>
@@ -72,9 +57,9 @@
                 <th>
                     @Resources.Resources.Employee_Index_Status
                 </th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>
+                    
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -102,30 +87,10 @@
                         @if (User.IsInRole("Admin") | User.IsInRole("Superadmin") | item.UserName == User.Identity.Name)
                         {
                             <a class="btn btn-info btn-sm" type="button" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Employee_Index_Details</a><span> </span>
-                            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-                            {
-
-                                <a class="btn btn-danger btn-sm" type="button" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.Employee_Index_Delete</a>
-
-                            }
+                       
                         }
                     </td>
-                    <td>
-                        @if (User.IsInRole("Admin") | User.IsInRole("Superadmin") | item.UserName == User.Identity.Name)
-                        {
-                            <div class="dropdown show">
-                                <a class="dropdown-toggle" href="#" role="button" id="userDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    @Resources.Resources.Employee_Index_Details
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="userDropDown">
-                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-route-source="index">@Resources.Resources.Layout_Profile</a>
-                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id" asp-controller="SkillCourseMembers">@Resources.Resources.Layout_Courses</a>
-                                    <a class="dropdown-item" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@item.Id" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@item.Id">@Resources.Resources.Layout_Certificates</a>
-                                </div>
-                            </div>
-                        }
-                    </td>
+             
                 </tr>
             }
         </tbody>
@@ -133,6 +98,8 @@
 </div>
 @section Scripts {
     <script type="text/javascript">
+  
+
         function clearForm() {
             var search = document.getElementById('search-bar');
             search.value = '';

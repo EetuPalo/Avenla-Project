@@ -3,6 +3,10 @@
 
 // Write your JavaScript code.
 
+$(document).ready(function () {
+    $('.table').DataTable();
+});
+
 function goBack() {
     window.history.back();
 }
