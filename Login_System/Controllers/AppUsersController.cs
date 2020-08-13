@@ -98,8 +98,10 @@ namespace Login_System.Controllers
 
         // GET: AppUsers/Details/5
 #nullable enable
+        [HttpGet]
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
         {
+            var skillList = new List<UserSkills>();
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
            
             //Sources are for storing the info of the previous page, so that the back button can take the user back to the right place
@@ -149,6 +151,22 @@ namespace Login_System.Controllers
             var tempList = new List<string>();
             var courseList = new List<SkillCourseMember>();
             var certificateList = new List<UserCertificate>();
+
+            // Skills
+            foreach (var skill in dataContext.UserSkills.Where(x => x.UserID == id))
+            {
+                var skillQueryDate = from t in dataContext.UserSkills
+                                     group t by t.UserID into g
+                                     select new { UserID = g.Key, Date = g.Max(t => t.Date) };
+
+                foreach (var it in skillQueryDate.Where(x => x.Date == skill.Date))
+                {
+                    if (!skillList.Contains(skill))
+                    {
+                        skillList.Add(skill);
+                    }
+                }
+            }
             foreach (var groupMember in dataContext.GroupMembers.Where(x => x.UserID == id))
             {
                 tempList.Add(groupMember.GroupName);
@@ -172,27 +190,7 @@ namespace Login_System.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Create()
         {
-            if (!_context.UserRoles.Any())
-            {
-                AppRole userRole = new AppRole
-                {
-                    Name = "User"
-                };
-
-                AppRole superAdminRole = new AppRole
-                {
-                    Name = "Superadmin"
-                };
-                AppRole adminRole = new AppRole
-                {
-                    Name = "Admin"
-                };
-
-                await roleManager.CreateAsync(userRole);
-                await roleManager.CreateAsync(superAdminRole);
-                await roleManager.CreateAsync(adminRole);
-                
-            }
+          
             if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
             {
                 var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
@@ -204,10 +202,7 @@ namespace Login_System.Controllers
                 {
                     model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
                 }
-                foreach (var roles in roleManager.Roles)
-                {
-                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
-                }
+      
                 return View(model);
             }
 
@@ -215,17 +210,12 @@ namespace Login_System.Controllers
             {
                 ViewBag.EmptySet = true;
                 var model = new RegisterVM();
-                //create a company to put user in. This should only be run if there are no companies and since all users have to belong to a company, we must create a placeholder here
                 
                 var company = (await dataContext.Company.AddAsync(new Company { Name = "Superadmin", Description = "Placeholder"})).Entity;
                 await dataContext.SaveChangesAsync();
                 TempData["Company"] = company.Id;
              
                 return View(model);
-            }
-            if (User.Identity.IsAuthenticated)
-            {
-                return new RedirectResult("~/Identity/Account/AccessDenied");
             }
 
             return RedirectToAction("Login", "Account");
@@ -245,8 +235,8 @@ namespace Login_System.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin, Superadmin")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Superadmin")]
+      
         public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser, string SelectedRole)
         {
              if (ModelState.IsValid)
@@ -303,7 +293,7 @@ namespace Login_System.Controllers
                                 LastName = appUser.LastName,
                                 EmpStatus = "Active",
                                 PhoneNumber = appUser.PhoneNumber,
-                                Company = (currentUser != null)? currentUser.Company : appUser.Company,
+                                Company =  currentUser.Company,
                             };
                         }
                       
@@ -354,7 +344,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
-        //[Authorize(Roles = "User, Admin, Superadmin")]
+        [Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             //EDIT has been changed so now edting of user groups, and roles can be edited from the same page. Other edit routes are still available
@@ -432,7 +422,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "User, Admin, Superadmin")]
+        [Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, EditUserVM model, string SelectedRole)
         {
             if (ModelState.IsValid)
@@ -611,7 +601,7 @@ namespace Login_System.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin, Superadmin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -634,7 +624,7 @@ namespace Login_System.Controllers
             return View(appUser);
         }
 
-        //[Authorize(Roles = "Admin, Superadmin")]
+        [Authorize(Roles = "Admin, Superadmin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

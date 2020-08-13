@@ -102,7 +102,8 @@ namespace Login_System
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager,
+        RoleManager<AppRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -174,6 +175,25 @@ namespace Login_System
                     pattern: "{culture=fi_FI}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });  
+        }
+
+        public static class MyIdentityDataInitializer
+        {
+            public static void SeedData
+        (UserManager<AppUser> userManager,
+        RoleManager<AppRole> roleManager)
+            {
+            }
+
+            public static void SeedUsers
+        (UserManager<AppRole> userManager)
+            {
+            }
+
+            public static void SeedRoles
+        (RoleManager<AppRole> roleManager)
+            {
+            }
         }
     }
 }
