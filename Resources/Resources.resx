@@ -497,6 +497,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="UCertificates_Index_Title" xml:space="preserve">
     <value>- Certificates</value>
   </data>
+  <data name="UserInfo_profile" xml:space="preserve">
+    <value>User information</value>
+  </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Submit</value>
   </data>

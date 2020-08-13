@@ -1213,6 +1213,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User information.
+        /// </summary>
+        public static string UserInfo_profile {
+            get {
+                return ResourceManager.GetString("UserInfo_profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string UserSkills_Create_Submit {

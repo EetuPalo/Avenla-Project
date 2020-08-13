@@ -25,6 +25,8 @@ namespace Login_System.ViewModels
 
         public List<string> UserGroups { get; set; }
 
+        public List<UserSkills> UserSkills { get; set; }
+
         public List<SkillCourseMember> UserCourses { get; set; }
         
         public List<UserCertificate> UserCertificates { get; set; }

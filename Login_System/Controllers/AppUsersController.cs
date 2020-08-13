@@ -179,6 +179,7 @@ namespace Login_System.Controllers
             {
                 certificateList.Add(userCertificate);
             }
+            model.UserSkills = skillList;
             model.UserGroups = tempList;
             model.UserCourses = courseList;
             model.UserCertificates = certificateList;
