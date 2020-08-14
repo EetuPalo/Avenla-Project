@@ -637,6 +637,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Groups and skills.
+        /// </summary>
+        public static string GroupsAndSkillsDash {
+            get {
+                return ResourceManager.GetString("GroupsAndSkillsDash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mi nisl, varius non mauris ut, tristique pretium neque. Nam eu ante in tortor tincidunt cursus at sed nulla. Sed sed massa tempor, sagittis felis ac, consequat lacus. In vestibulum commodo ullamcorper. Curabitur vel aliquam ipsum, et tincidunt sapien. Duis molestie libero vitae ipsum venenatis ullamcorper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus nec orci lobortis, congue nunc non, por [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Home_Description_p1 {

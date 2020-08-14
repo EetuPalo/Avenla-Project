@@ -113,32 +113,35 @@
     }
 
     <!-- GROUPS AND SKILLS INFORMATION -->
-    <div class="card">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        @if (Model.GroupsDD.Count() <= 3)
-        {
-        @if (Model.GroupsDD.Count() == 0) { @Html.Raw("Add yourself to a group first.") }
-            @foreach (var group in Model.UserGroups)
+<div class="card">
+    <h5 class="card-header"> @Resources.Resources.GroupsAndSkillsDash </h5>
+    <div class="card-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            @if (Model.GroupsDD.Count() <= 3)
             {
-                <li class="nav-item active">
-                    <a class="nav-link card-header" data-toggle="tab" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
+                @if (Model.GroupsDD.Count() == 0)
+                {@Html.Raw("Add yourself to a group first.")}
+                @foreach (var group in Model.UserGroups)
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" data-toggle="tab" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
+                    </li>
+                }
+            }
+            @if (Model.GroupsDD.Count() > 3)
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> @Resources.Groups.Index_Group</a>
+                    <div class="dropdown-menu">
+                        @foreach (var group in Model.UserGroups)
+                        {
+                            <a class="dropdown-item" href="#tab-@group.GroupID" role="tab" data-toggle="tab">@group.GroupName</a>
+                        }
+                    </div>
                 </li>
             }
-        }
-        @if (Model.GroupsDD.Count() > 3)
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle card-header" data-toggle="dropdown" href="#" style="font-size: 1.25rem;"> @Resources.Groups.Index_Group</a>
-                <div class="dropdown-menu">
-                    @foreach (var group in Model.UserGroups)
-                    {
-                        <a class="dropdown-item" href="#tab-@group.GroupID" role="tab" data-toggle="tab">@group.GroupName</a>
-                    }
-                </div>
-            </li>
-        }
-    </ul>
-    <div class="card-body">
+        </ul>
+        <br />
         <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
         <div class="tab-content">
             @foreach (var group in Model.UserGroups)
@@ -173,7 +176,7 @@
     <div class="card">
         <h5 class="card-header">@Resources.Resources.CourseMem_Details_Title</h5>
         <div class="card-body">
-                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="enrolled-tab" data-toggle="tab" href="#enrolled" role="tab" aria-controls="enrolled" aria-selected="true">Enrolled</a>
                     </li>
@@ -241,7 +244,7 @@
 <div class="card">
     <h5 class="card-header">@Resources.Courses.Index_Lessons</h5>
     <div class="card-body">
-        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="true">@Resources.Resources.Lessons_upcoming @Resources.Courses.Index_Lessons</a>
             </li>

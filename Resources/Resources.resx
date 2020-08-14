@@ -306,6 +306,9 @@
   <data name="GroupMember_Delete_Name" xml:space="preserve">
     <value>Group member</value>
   </data>
+  <data name="GroupsAndSkillsDash" xml:space="preserve">
+    <value>Groups and skills</value>
+  </data>
   <data name="Group_Dropdownlist" xml:space="preserve">
     <value>Select group</value>
   </data>

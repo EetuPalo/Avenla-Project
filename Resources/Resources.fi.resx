@@ -303,6 +303,9 @@
   <data name="GroupMember_Delete_Name" xml:space="preserve">
     <value>Ryhmän jäsen</value>
   </data>
+  <data name="GroupsAndSkillsDash" xml:space="preserve">
+    <value>Ryhmät ja taidot</value>
+  </data>
   <data name="Group_Dropdownlist" xml:space="preserve">
     <value>Valitse ryhmä</value>
   </data>
