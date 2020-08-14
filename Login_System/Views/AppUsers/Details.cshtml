@@ -16,81 +16,105 @@
     </div>
 </div>*@
 @*<div class="container-fluid p-0">*@
-<!--PROFILE CARD-->
-    <div class="card-columns" style="column-count: 2;">
-        <div class="card">
-            <h5 class="card-header">@Resources.Resources.UserInfo_profile</h5>
-            <div class="card-body ">
-                <div>
-                    <dl class="row">
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.FirstName
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.FirstName)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.LastName
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.LastName)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Email
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Email)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Phone
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.PhoneNumber)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Employee_Edit_Status
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.EmpStatus)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Company
-                        </dt>
-                        <dd class="col-sm-8">
 
-                        </dd>
-                    </dl>
-                    <div>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
-                        {
-                            <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
-                        }
-                    </div>
+<!--PROFILE CARD-->
+<div class="card-columns" style="column-count: 2;">
+    <div class="card">
+        <h5 class="card-header">@Resources.Resources.UserInfo_profile</h5>
+        <div class="card-body ">
+            <div>
+                <dl class="row">
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.FirstName
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.LastName
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Email
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Phone
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Employee_Edit_Status
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.EmpStatus)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Company
+                    </dt>
+                    <dd class="col-sm-8">
+
+                    </dd>
+                </dl>
+                <div>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
+                    {
+                        <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                    }
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--GROUPS CARD-->
-        <div class="card">
-            <h5 class="card-header">@Resources.Resources.Layout_Groups</h5>
-            <div class="card-body">
-                    @foreach (var group in Model.UserGroups)
-                    {
-                        <div>@group</div>
-                    }
-            </div>
+<!--GROUPS CARD-->
+    <div class="card">
+        <h5 class="card-header">@Resources.Resources.Layout_Groups</h5>
+        <div class="card-body">
+            <dl class="row">
+                @foreach (var group in Model.UserGroups)
+                {
+                    <dd class="col-sm-6">@group</dd>
+                }
+            </dl>
         </div>
-        <!--SKILLS CARD-->
-        <div class="card">
-            <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
-            <div class="card-body">
+    </div>
+
+<!--SKILLS CARD-->
+    <div class="card">
+        <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
+        <div class="card-body">
+            <dl class="row">
                 @foreach (var item in Model.UserSkills)
                 {
-                    <div>@item.SkillName</div>
+                    <dd class="col-sm-6">
+                        @item.SkillName
+                    </dd>
                 }
-            </div>
+            </dl>
         </div>
-        <div class="col-sm-6">
+    </div>
+
+<!--CERTIFICATES CARD-->
+    <div class="card">
+        <h5 class="card-header">@Resources.Certificates.Index_Title</h5>
+        <div class="card-body">
+            <dl class="row">
+                @foreach (var item in Model.UserCertificates)
+                {
+                    <dd class="col-sm-12">
+                        @Html.DisplayFor(modelItem => item.CertificateName)
+                    </dd>
+                }
+            </dl>
+        </div>
+    </div>
+</div>
+        @*<div class="col-sm-6">
             <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="true">@Resources.Resources.Layout_Groups</a>
@@ -194,6 +218,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>*@
+
 @*</div>*@

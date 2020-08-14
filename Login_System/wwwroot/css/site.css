@@ -141,7 +141,7 @@ body {
         column-count: 2;
 }
 
-.card {
+.card, .list-group-item {
     background-color: #fcfcfc;
 }
 
