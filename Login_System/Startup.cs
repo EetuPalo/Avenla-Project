@@ -22,14 +22,19 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http; // For Caching
 using Microsoft.AspNetCore.Mvc.Razor;
+using SQLitePCL;
+using Resources;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Login_System
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -103,7 +108,7 @@ namespace Login_System
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager,
-        RoleManager<AppRole> roleManager)
+        RoleManager<AppRole> roleManager, GeneralDataContext _context)
         {
             if (env.IsDevelopment())
             {
@@ -165,6 +170,9 @@ namespace Login_System
 
 
             app.UseAuthentication();
+            int id = MyIdentityDataInitializer.SeedData(userManager, _context);
+            MyIdentityDataInitializer.SeedUsers(userManager, id);
+
             app.UseAuthorization();
 
             
@@ -179,15 +187,55 @@ namespace Login_System
 
         public static class MyIdentityDataInitializer
         {
-            public static void SeedData
-        (UserManager<AppUser> userManager,
-        RoleManager<AppRole> roleManager)
+            public static int SeedData
+        (
+        UserManager<AppUser> userManager, GeneralDataContext _context)
             {
+                int id = 0;
+                Company company = new Company
+                {
+                    Name = "Superadmin",
+                    Description = "Placeholder"
+                };
+                if (!_context.Company.Any())
+                {
+
+                    _context.Company.Add(company);
+                    _context.SaveChanges();
+
+                    id = company.Id;
+
+                    Console.Write("");
+                  
+                }
+
+                return id;
             }
 
-            public static void SeedUsers
-        (UserManager<AppRole> userManager)
+            public static void SeedUsers(UserManager<AppUser> userManager, int id)
             {
+            
+                if (!userManager.Users.Any())
+                {
+                    AppUser user = new AppUser
+                    {
+                        UserName = "adminadmin",
+                        Email = "admin@admin.fi",
+                        FirstName = "Admin",
+                        LastName = "Admin",
+                        EmpStatus = "Active",
+                        PhoneNumber = "87650",
+                        Company = id
+
+                    };
+                    IdentityResult result = userManager.CreateAsync(user , "Koodaus1!").Result;
+
+                    if (result.Succeeded)
+                    {
+                        userManager.AddToRoleAsync(user,
+                               "Superadmin").Wait();
+                    }
+                }
             }
 
             public static void SeedRoles

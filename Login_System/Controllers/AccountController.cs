@@ -175,7 +175,15 @@ namespace Login_System.Controllers
                     TempData["UserFullNames"] = appUser.FirstName + " " + appUser.LastName;
                     //Sends the userID in viewbag to the view
                     ViewBag.UserID = appUser.Id;
-                    return RedirectToAction("Index", "Home");
+                    if(user.Password=="Koodaus1!" && user.Email =="admin@admin.fi")
+                    {
+                        return RedirectToAction("Edit", "Appusers", new { id = appUser.Id});
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    //return RedirectToAction("Index", "Home");
                 }
                 else
                 {

@@ -208,7 +208,10 @@ namespace Login_System.Controllers
                 {
                     model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
                 }
-      
+                foreach (var roles in roleManager.Roles)
+                {
+                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                }
                 return View(model);
             }
 
@@ -218,6 +221,10 @@ namespace Login_System.Controllers
                 var model = new RegisterVM();
                 
                 var company = (await dataContext.Company.AddAsync(new Company { Name = "Superadmin", Description = "Placeholder"})).Entity;
+                foreach (var roles in roleManager.Roles)
+                {
+                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                }
                 await dataContext.SaveChangesAsync();
                 TempData["Company"] = company.Id;
              
