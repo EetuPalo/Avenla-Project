@@ -15,25 +15,25 @@
     {
         <div class="card">
 
-        @if (ViewBag.CurrentCompany != null)
-        {
-            <h5 class="card-header"> @ViewBag.CurrentCompany </h5>
-        }
-        else
-        {
-            <h5 class="card-header">@Html.Raw("not found")</h5>
-        }
-        <div class="card-body">
-            <button class="float-right" id="dashCompany" onclick="hideShowFunc()"><i onclick="changeIcon(this)" class="fas fa-angle-down"></i></button>
-            @foreach (var company in Model.CompanyDesc)
+            @if (ViewBag.CurrentCompany != null)
             {
-                <div id="hideshowDIV">
-                    @Html.Raw(company)
-                </div>
+                <h5 class="card-header"> @ViewBag.CurrentCompany </h5>
             }
-            <p> Linkki ei toimi tällä hetkellä.</p>
-            <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
-        </div>
+            else
+            {
+                <h5 class="card-header">@Html.Raw("not found")</h5>
+            }
+            <div class="card-body">
+                <button class="float-right" id="dashCompany" onclick="hideShowFunc()"><i onclick="changeIcon(this)" class="fas fa-angle-down"></i></button>
+                @foreach (var company in Model.CompanyDesc)
+                {
+                    <div id="hideshowDIV">
+                        @Html.Raw(company)
+                    </div>
+                }
+                <p> Linkki ei toimi tällä hetkellä.</p>
+                <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
+            </div>
         </div>
 
     }
@@ -90,8 +90,8 @@
                     <dd class="col-6">
                         <a role="button" class="btn btn-primary w-100" asp-area="" asp-controller="Certificates" asp-action="Index"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
                     </dd>
-                    <dd class="col-6"> 
-                    <a role="button" class="btn btn-primary w-100" asp-area="" asp-controller="AdvancedSearch" asp-action="Index"><i class="fab fa-searchengin fa-fw"> </i> @Resources.Resources.Advanced_Search</a>
+                    <dd class="col-6">
+                        <a role="button" class="btn btn-primary w-100" asp-area="" asp-controller="AdvancedSearch" asp-action="Index"><i class="fab fa-searchengin fa-fw"> </i> @Resources.Resources.Advanced_Search</a>
                     </dd>
                 </dl>
             </div>
@@ -104,130 +104,130 @@
         <div class="card">
             <h5 class="card-header">@Resources.Resources.Layout_Certificates</h5>
             <div class="card-body">
-            @foreach (var item in Model.UserCertificates)
-            {
-            <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
-            }
+                @foreach (var item in Model.UserCertificates)
+                {
+                    <p>@Html.DisplayFor(modelItem => item.CertificateName)</p>
+                }
             </div>
         </div>
     }
-
-    <!-- GROUPS AND SKILLS INFORMATION -->
-<div class="card">
-    <h5 class="card-header"> @Resources.Resources.GroupsAndSkillsDash </h5>
-    <div class="card-body">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            @if (Model.GroupsDD.Count() <= 3)
-            {
-                @if (Model.GroupsDD.Count() == 0)
-                {@Html.Raw("Add yourself to a group first.")}
-                @foreach (var group in Model.UserGroups)
-                {
-                    <li class="nav-item active">
-                        <a class="nav-link" data-toggle="tab" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
-                    </li>
-                }
-            }
-            @if (Model.GroupsDD.Count() > 3)
-            {
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> @Resources.Groups.Index_Group</a>
-                    <div class="dropdown-menu">
-                        @foreach (var group in Model.UserGroups)
-                        {
-                            <a class="dropdown-item" href="#tab-@group.GroupID" role="tab" data-toggle="tab">@group.GroupName</a>
-                        }
-                    </div>
-                </li>
-            }
-        </ul>
-        <br />
-        <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
-        <div class="tab-content">
-            @foreach (var group in Model.UserGroups)
-            {
-                <div id="tab-@group.GroupID" class="tab-pane fade">
-                    @foreach (var item in Model.UserSkills)
-                    {
-                        @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
-                        {
-                            <div class="col-sm">
-                                <div class="row">
-                                    <div class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</div>
-                                    <div class="col-sm-1">@item.SkillLevel </div>
-                                    <div class="progress w-50" style="margin-top: 5px;">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2" style="text-align:center;">
-                                        @Html.DisplayFor(modelItem => goal.SkillGoal)
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    }
-                </div>
-            }
-        </div>
-    </div>
-</div>
 
     <!-- COURSE INFORMATION -->
     <div class="card">
         <h5 class="card-header">@Resources.Resources.CourseMem_Details_Title</h5>
         <div class="card-body">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="enrolled-tab" data-toggle="tab" href="#enrolled" role="tab" aria-controls="enrolled" aria-selected="true">Enrolled</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="false">Completed</a>
-                    </li>
-                </ul>
-                <br />
-                <div class="tab-content">
-                    @foreach (var item in Model.UserCourses)
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="enrolled-tab" data-toggle="tab" href="#enrolled" role="tab" aria-controls="enrolled" aria-selected="true">Enrolled</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="completed-tab" data-toggle="tab" href="#completed" role="tab" aria-controls="completed" aria-selected="false">Completed</a>
+                </li>
+            </ul>
+            <br />
+            <div class="tab-content">
+                @foreach (var item in Model.UserCourses)
+                {
+                    @if (item.Status == "Enrolled" || item.Status == "Enrolled")
                     {
-                        @if (item.Status == "Enrolled" || item.Status == "Enrolled")
-                        {
-                            <div class="tab-pane active" id="enrolled" role="tabpanel" aria-labelledby="enrolled-tab">
-                                <div class="row"><h6 class="col-sm-12" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6></div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        @item.CourseName
-                                    </div>
+                        <div class="tab-pane active" id="enrolled" role="tabpanel" aria-labelledby="enrolled-tab">
+                            <div class="row"><h6 class="col-sm-12" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    @item.CourseName
                                 </div>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                                <div class="row">
-                                    <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-                                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
-                                    <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_gradeDash </h6>
-                                    <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        @item.CourseName
-                                    </div>
-                                    <div class="col-sm-3 text-success">
-                                        @item.Status
-                                    </div>
-                                    <div class="col-sm-2">
-                                        @item.CourseGrade
-                                    </div>
-                                    <div class="col-sm-3">
-                                        @item.CompletionDate.ToString("dd.MM.yyyy")
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                        </div>
                     }
-                    <p></p>
-                </div>
+                    else
+                    {
+                        <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                            <div class="row">
+                                <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
+                                <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
+                                <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_gradeDash </h6>
+                                <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    @item.CourseName
+                                </div>
+                                <div class="col-sm-3 text-success">
+                                    @item.Status
+                                </div>
+                                <div class="col-sm-2">
+                                    @item.CourseGrade
+                                </div>
+                                <div class="col-sm-3">
+                                    @item.CompletionDate.ToString("dd.MM.yyyy")
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <p></p>
+            </div>
             <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
+        </div>
+    </div>
+
+    <!-- GROUPS AND SKILLS INFORMATION -->
+    <div class="card">
+        <h5 class="card-header"> @Resources.Resources.GroupsAndSkillsDash </h5>
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                @if (Model.GroupsDD.Count() <= 3)
+                {
+                    @if (Model.GroupsDD.Count() == 0)
+                    {@Html.Raw("Add yourself to a group first.")}
+                    @foreach (var group in Model.UserGroups)
+                    {
+                        <li class="nav-item active">
+                            <a class="nav-link" data-toggle="tab" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
+                        </li>
+                    }
+                }
+                @if (Model.GroupsDD.Count() > 3)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> @Resources.Groups.Index_Group</a>
+                        <div class="dropdown-menu">
+                            @foreach (var group in Model.UserGroups)
+                            {
+                                <a class="dropdown-item" href="#tab-@group.GroupID" role="tab" data-toggle="tab">@group.GroupName</a>
+                            }
+                        </div>
+                    </li>
+                }
+            </ul>
+            <br />
+            <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+            <div class="tab-content">
+                @foreach (var group in Model.UserGroups)
+                {
+                    <div id="tab-@group.GroupID" class="tab-pane fade">
+                        @foreach (var item in Model.UserSkills)
+                        {
+                            @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
+                            {
+                                <div class="col-sm">
+                                    <div class="row">
+                                        <div class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</div>
+                                        <div class="col-sm-1">@item.SkillLevel </div>
+                                        <div class="progress w-50" style="margin-top: 5px;">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2" style="text-align:center;">
+                                            @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
         </div>
     </div>
 
