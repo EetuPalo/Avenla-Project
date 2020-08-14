@@ -58,7 +58,16 @@
                         @Resources.Resources.Company
                     </dt>
                     <dd class="col-sm-8">
-
+                        @ViewBag.CurrentCompany
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Layout_Groups
+                    </dt>
+                    <dd class="col-sm-8">
+                        @foreach (var group in Model.UserGroups) 
+                        { 
+                            @group @Html.Raw(", ");
+                        }
                     </dd>
                 </dl>
                 <div>
@@ -68,19 +77,6 @@
                     }
                 </div>
             </div>
-        </div>
-    </div>
-
-<!--GROUPS CARD-->
-    <div class="card">
-        <h5 class="card-header">@Resources.Resources.Layout_Groups</h5>
-        <div class="card-body">
-            <dl class="row">
-                @foreach (var group in Model.UserGroups)
-                {
-                    <dd class="col-sm-6">@group</dd>
-                }
-            </dl>
         </div>
     </div>
 

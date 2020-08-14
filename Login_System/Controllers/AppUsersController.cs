@@ -103,7 +103,9 @@ namespace Login_System.Controllers
         {
             var skillList = new List<UserSkills>();
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-           
+
+            //AppUser tempUser = await UserMgr.FindByIdAsync(currentUser.Id.ToString());
+
             //Sources are for storing the info of the previous page, so that the back button can take the user back to the right place
             if (String.IsNullOrWhiteSpace(source))
             {
@@ -131,8 +133,11 @@ namespace Login_System.Controllers
             }
 
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            var companyID = tempUser.Company;
+            string companyName = dataContext.Company.FirstOrDefault(x => x.Id == companyID).Name;
             TempData["UserId"] = id;
             TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
+            ViewBag.CurrentCompany = companyName;
 
             //Populating the VM with user info
             AppUserVM model = new AppUserVM
