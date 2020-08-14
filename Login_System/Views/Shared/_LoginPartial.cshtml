@@ -19,64 +19,78 @@
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
-<ul class="navbar-nav">
+    <ul class="navbar-nav">
 
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="dropdown show">
-            <a class="btn dropdown-toggle text-dark" href="#" role="button" id="nameDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 20px;">
-                @Resources.Resources.User_Hello @TempData.Peek("UserFullNames")!
-            </a>
-            <div class="dropdown-menu" aria-labelledby="nameDropdown">
-                <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index">@Resources.Resources.Dashboard</a>
-                <a class="dropdown-item" asp-area="" asp-controller="AppUsers" asp-action="Details" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Profile</a>
-                <a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
-                <a class="dropdown-item" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Certificates</a>
-                <a class="dropdown-item" href="@Url.Action("Logout", "Account")">@Resources.Resources.Layout_Logout</a>
-            </div>
-        </li>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+            {
+                <li class="nav-item dropdown show">
+                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @Resources.Resources.Layout_Admin
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" asp-area="" asp-controller="Groups" asp-action="Index">@Resources.Resources.Layout_Groups</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="SkillCategory" asp-action="Index">@Resources.Resources.Layout_SkillCategory</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Skills" asp-action="Index">@Resources.Resources.Layout_Skills</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Certificates" asp-action="Index">@Resources.Resources.Layout_Certificates</a>
+                    </div>
+                </li>
+            }
+            <li class="dropdown show">
+                <a class="btn dropdown-toggle text-dark" href="#" role="button" id="nameDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right: 20px;">
+                    @Resources.Resources.User_Hello @TempData.Peek("UserFullNames")!
+                </a>
+                <div class="dropdown-menu" aria-labelledby="nameDropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index">@Resources.Resources.Dashboard</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="AppUsers" asp-action="Details" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Profile</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Certificates</a>
+                    <a class="dropdown-item" href="@Url.Action("Logout", "Account")">@Resources.Resources.Layout_Logout</a>
+                </div>
+            </li>
 
-        <li>
-            <div>
-                <form id="selectLanguage" asp-controller="Home"
-                      asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
-                      method="post" class="form-horizontal" role="form">
+            <li>
+                <div>
+                    <form id="selectLanguage" asp-controller="Home"
+                          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+                          method="post" class="form-horizontal" role="form">
 
-                    <select class="selectpicker form-control form-control-sm" name="culture"
-                            onchange="this.form.submit();"
-                            asp-for="@requestCulture.RequestCulture.UICulture.Name">
+                        <select class="selectpicker form-control form-control-sm" name="culture"
+                                onchange="this.form.submit();"
+                                asp-for="@requestCulture.RequestCulture.UICulture.Name">
 
-                        <option value="fi-FI" data-content='<img src="/img/fin-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">@Resources.Resources.Lang_fin'>FI</option>
-                        <option value="en-GB" data-content='<img src="/img/us-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">@Resources.Resources.Lang_eng'>EN</option>
-                    </select>
-                </form>
-            </div>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" href="@Url.Action("Login", "Account")">@Resources.Resources.Layout_Login</a>
-        </li>
-        <li class="nav-item">
-            <!--<a class="nav-link text-dark" href="@Url.Action("Register", "Account")">Register</a>-->
-        </li>
-        <li>
-            <div>
-                <form id="selectLanguage" asp-controller="Home"
-                      asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
-                      method="post" class="form-horizontal" role="form">
-                    <select class="selectpicker form-control form-control-sm" name="culture"
-                            onchange="this.form.submit();"
-                            asp-for="@requestCulture.RequestCulture.UICulture.Name">
-                        <option value="fi-FI" data-content='<img src="/img/fin-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">Finnish'>FI</option>
-                        <option value="en-GB" data-content='<img src="/img/us-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">English'>EN</option>
-                    </select>
-                </form>
-            </div>
-        </li>
-    }
-</ul>
+                            <option value="fi-FI" data-content='<img src="/img/fin-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">@Resources.Resources.Lang_fin'>FI</option>
+                            <option value="en-GB" data-content='<img src="/img/us-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">@Resources.Resources.Lang_eng'>EN</option>
+                        </select>
+                    </form>
+                </div>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="@Url.Action("Login", "Account")">@Resources.Resources.Layout_Login</a>
+            </li>
+            <li class="nav-item">
+                <!--<a class="nav-link text-dark" href="@Url.Action("Register", "Account")">Register</a>-->
+            </li>
+            <li>
+                <div>
+                    <form id="selectLanguage" asp-controller="Home"
+                          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+                          method="post" class="form-horizontal" role="form">
+                        <select class="selectpicker form-control form-control-sm" name="culture"
+                                onchange="this.form.submit();"
+                                asp-for="@requestCulture.RequestCulture.UICulture.Name">
+                            <option value="fi-FI" data-content='<img src="/img/fin-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">Finnish'>FI</option>
+                            <option value="en-GB" data-content='<img src="/img/us-flag.png" width="21" height="16" style="margin: 3px;" class="d-inline-block align-top" alt="">English'>EN</option>
+                        </select>
+                    </form>
+                </div>
+            </li>
+        }
+    </ul>
 
 
 <script>
