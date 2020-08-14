@@ -18,98 +18,111 @@
 @*<div class="container-fluid p-0">*@
 
 <!--PROFILE CARD-->
-<div class="card-columns" style="column-count: 2;">
-    <div class="card">
-        <h5 class="card-header">@Resources.Resources.UserInfo_profile</h5>
-        <div class="card-body ">
-            <div>
-                <dl class="row">
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.FirstName
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.FirstName)
-                    </dd>
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.LastName
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.LastName)
-                    </dd>
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.Email
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Email)
-                    </dd>
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.Phone
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.PhoneNumber)
-                    </dd>
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.Employee_Edit_Status
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.EmpStatus)
-                    </dd>
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.Company
-                    </dt>
-                    <dd class="col-sm-8">
-                        @ViewBag.CurrentCompany
-                    </dd>
-                    <dt id="Profile" class="col-sm-4">
-                        @Resources.Resources.Layout_Groups
-                    </dt>
-                    <dd class="col-sm-8">
-                        @foreach (var group in Model.UserGroups) 
-                        { 
-                            @group @Html.Raw(", ");
-                        }
-                    </dd>
-                </dl>
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <h5 class="card-header">@Resources.Resources.UserInfo_profile</h5>
+            <div class="card-body ">
                 <div>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
-                    {
-                        <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
-                    }
+                    <dl class="row">
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.FirstName
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.FirstName)
+                        </dd>
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.LastName
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.LastName)
+                        </dd>
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.Email
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.Phone
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.PhoneNumber)
+                        </dd>
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.Employee_Edit_Status
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.EmpStatus)
+                        </dd>
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.Company
+                        </dt>
+                        <dd class="col-sm-8">
+                            @ViewBag.CurrentCompany
+                        </dd>
+                        <dt id="Profile" class="col-sm-4">
+                            @Resources.Resources.Layout_Groups
+                        </dt>
+                        <dd class="col-sm-8">
+                            @foreach (var group in Model.UserGroups)
+                            {
+                                @group @Html.Raw(", ");
+                            }
+                        </dd>
+                    </dl>
+                    <div>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
+                        {
+                            <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-<!--SKILLS CARD-->
-    <div class="card">
-        <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
-        <div class="card-body">
-            <dl class="row">
-                @foreach (var item in Model.UserSkills)
-                {
-                    <dd class="col-sm-6">
-                        @item.SkillName
-                    </dd>
-                }
-            </dl>
+        <!--CERTIFICATES CARD-->
+        <div class="card">
+            <h5 class="card-header">@Resources.Certificates.Index_Title</h5>
+            <div class="card-body">
+                <dl class="row">
+                    @foreach (var item in Model.UserCertificates)
+                    {
+                        <dd class="col-sm-12">
+                            @Html.DisplayFor(modelItem => item.CertificateName)
+                        </dd>
+                    }
+                </dl>
+            </div>
+        </div>
+
+        <!--SKILLS CARD-->
+        <div class="card">
+            <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
+            <div class="card-body">
+                <dl class="row">
+                    @foreach (var item in Model.UserSkills)
+                    {
+                        <dd class="col-sm-6">
+                            @item.SkillName
+                        </dd>
+                    }
+                </dl>
+            </div>
+        </div>
+
+        <!--COURSES CARD-->
+        <div class="card">
+            <h5 class="card-header">@Resources.Resources.Layout_Courses</h5>
+            <div class="card-body">
+                <dl class="row">
+                    @foreach (var course in Model.UserCourses)
+                    {
+                        <dd class="col-sm-12"> @Html.DisplayFor(modelItem => course.CourseName) </dd>
+                    }
+                </dl>
+            </div>
         </div>
     </div>
-
-<!--CERTIFICATES CARD-->
-    <div class="card">
-        <h5 class="card-header">@Resources.Certificates.Index_Title</h5>
-        <div class="card-body">
-            <dl class="row">
-                @foreach (var item in Model.UserCertificates)
-                {
-                    <dd class="col-sm-12">
-                        @Html.DisplayFor(modelItem => item.CertificateName)
-                    </dd>
-                }
-            </dl>
-        </div>
-    </div>
-</div>
         @*<div class="col-sm-6">
             <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                 <li class="nav-item">
