@@ -101,17 +101,18 @@ namespace Login_System.Controllers
                 await _context.SaveChangesAsync();
 
 
-
-                foreach(var userid in data.SelectedUserIds)
-                {
-                    var companyMember = UserMgr.Users.FirstOrDefault(x=> x.Id == userid);
-                    var memberToAdd = new CompanyMember
+                if (data.SelectedUserIds != null) { 
+                    foreach(var userid in data.SelectedUserIds)
                     {
-                        CompanyId = company.Id,
-                        UserId = companyMember.Id,
+                        var companyMember = UserMgr.Users.FirstOrDefault(x=> x.Id == userid);
+                        var memberToAdd = new CompanyMember
+                        {
+                            CompanyId = company.Id,
+                            UserId = companyMember.Id,
          
-                    };
-                    _context.CompanyMembers .Add(memberToAdd);
+                        };
+                        _context.CompanyMembers .Add(memberToAdd);
+                    }
                 }
                 await _context.SaveChangesAsync();
                 // return RedirectToAction(nameof(Create), "Companies", new { id = group.id, name = group.name });
