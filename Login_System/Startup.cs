@@ -170,7 +170,7 @@ namespace Login_System
 
 
             app.UseAuthentication();
-            int id = MyIdentityDataInitializer.SeedData(userManager, _context);
+            int id = MyIdentityDataInitializer.SeedData(userManager, roleManager,_context);
             MyIdentityDataInitializer.SeedUsers(userManager, id);
 
             app.UseAuthorization();
@@ -189,7 +189,7 @@ namespace Login_System
         {
             public static int SeedData
         (
-        UserManager<AppUser> userManager, GeneralDataContext _context)
+        UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, GeneralDataContext _context)
             {
                 int id = 0;
                 Company company = new Company
@@ -197,6 +197,27 @@ namespace Login_System
                     Name = "Superadmin",
                     Description = "Placeholder"
                 };
+                AppRole role = new AppRole
+                {
+                    Name = "Superadmin"
+                };
+
+                roleManager.CreateAsync(role);
+
+                AppRole adminrole = new AppRole
+                {
+                    Name = "Admin"
+                };
+
+                roleManager.CreateAsync(adminrole);
+
+                AppRole userrole = new AppRole
+                {
+                    Name = "User"
+                };
+
+                roleManager.CreateAsync(userrole);
+
                 if (!_context.Company.Any())
                 {
 
@@ -217,6 +238,7 @@ namespace Login_System
             
                 if (!userManager.Users.Any())
                 {
+                    
                     AppUser user = new AppUser
                     {
                         UserName = "adminadmin",
