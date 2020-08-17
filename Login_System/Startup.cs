@@ -170,8 +170,11 @@ namespace Login_System
 
 
             app.UseAuthentication();
-            int id = MyIdentityDataInitializer.SeedData(userManager, roleManager,_context);
-            MyIdentityDataInitializer.SeedUsers(userManager, id);
+         
+                int id = MyIdentityDataInitializer.SeedData(userManager, roleManager, _context);
+                MyIdentityDataInitializer.SeedUsers(userManager, id);
+            
+     
 
             app.UseAuthorization();
 
@@ -187,9 +190,7 @@ namespace Login_System
 
         public static class MyIdentityDataInitializer
         {
-            public static int SeedData
-        (
-        UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, GeneralDataContext _context)
+            public static int SeedData(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, GeneralDataContext _context)
             {
                 int id = 0;
                 Company company = new Company
@@ -197,26 +198,7 @@ namespace Login_System
                     Name = "Superadmin",
                     Description = "Placeholder"
                 };
-                AppRole role = new AppRole
-                {
-                    Name = "Superadmin"
-                };
-
-                roleManager.CreateAsync(role);
-
-                AppRole adminrole = new AppRole
-                {
-                    Name = "Admin"
-                };
-
-                roleManager.CreateAsync(adminrole);
-
-                AppRole userrole = new AppRole
-                {
-                    Name = "User"
-                };
-
-                roleManager.CreateAsync(userrole);
+                createRoles(roleManager);
 
                 if (!_context.Company.Any())
                 {
@@ -250,6 +232,7 @@ namespace Login_System
                         Company = id
 
                     };
+
                     IdentityResult result = userManager.CreateAsync(user , "Koodaus1!").Result;
 
                     if (result.Succeeded)
@@ -260,9 +243,26 @@ namespace Login_System
                 }
             }
 
-            public static void SeedRoles
-        (RoleManager<AppRole> roleManager)
+            public static async void createRoles(RoleManager<AppRole> roleManager)
             {
+                AppRole role = new AppRole
+                {
+                    Name = "Superadmin"
+                };
+
+                AppRole adminrole = new AppRole
+                {
+                    Name = "Admin"
+                };
+
+                AppRole userrole = new AppRole
+                {
+                    Name = "User"
+                };
+
+                await roleManager.CreateAsync(role);
+                await roleManager.CreateAsync(adminrole);
+                await roleManager.CreateAsync(userrole);
             }
         }
     }
