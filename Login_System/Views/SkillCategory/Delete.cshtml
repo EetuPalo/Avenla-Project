@@ -1,0 +1,23 @@
+﻿@model Login_System.Models.SkillCategories
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Resources.Resources.DELETE_Title</h1>
+<h3>@Model.Name</h3>
+
+<h4>@Resources.Resources.DELETE_Desc</h4>
+<div>
+    <hr />
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="id" />
+        <input type="hidden" asp-for="Name" value="@Model.Name" />
+
+        <button type="button" class="btn btn-outline-primary btn-sm" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+
+    </form>
+</div>

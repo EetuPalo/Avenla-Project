@@ -1,4 +1,4 @@
-﻿@model List<SkillCategories>
+﻿@model IEnumerable<Login_System.Models.SkillCategories>
 
 @{
     ViewData["Title"] = "Index";
@@ -39,15 +39,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < Model.Count; i++)
+                    @foreach (var item in Model)
                     {
                         <tr class="expandable-row">
                             <td>
-                                @Html.DisplayFor(modelItem => Model[i].Name)
+                                @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>    
-                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model[i].id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model[i].id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
+                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
                             </td>
                         </tr>
                         <tr class="content border border-secondary">
@@ -55,7 +55,7 @@
                                 <div class="container-fluid p-2 ">
                                     <div class="row">
                                         <div class="col-sm">
-                                            @Model[i].Name
+                                            @item.Name
                                         </div>
                                     </div>
                                 </div>
