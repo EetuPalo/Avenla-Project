@@ -242,7 +242,7 @@ namespace Login_System
                     }
                 }
             }
-
+            // function to create roles during first bootup
             public static async void createRoles(RoleManager<AppRole> roleManager)
             {
                 AppRole role = new AppRole
