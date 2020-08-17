@@ -86,7 +86,7 @@
                     <td colspan="2">
                         @if (User.IsInRole("Admin") | User.IsInRole("Superadmin") | item.UserName == User.Identity.Name)
                         {
-                            <a class="btn btn-info btn-sm" type="button" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Employee_Index_Details</a><span> </span>
+                            <a class="btn btn-primary btn-sm" type="button" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-user fa-fw"> </i> @Resources.Resources.Employee_Index_Details</a><span> </span>
                        
                         }
                     </td>
