@@ -5,83 +5,88 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Resources.Groups.Index_Title</h2>
+@*<h2>@Resources.Groups.Index_Title</h2>
 <h4>@TempData["ActionResult"]</h4>
-<hr />
-<form asp-controller="Groups" asp-action="Index">
-    <div class="container-fluid p-0">
-        <div class="row mb-4">
-            <div class="col-sm">
-                <div class="input-group">
-                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Groups.Index_Search value="@TempData["SearchValue"]">
-                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
-                        <i class="fa fa-times"></i>
-                    </button>
+<hr />*@
+
+        @*<form asp-controller="Groups" asp-action="Index">
+            <div class="container-fluid p-0">
+                <div class="row mb-4">
+                    <div class="col-sm">
+                        <div class="input-group">
+                            <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Groups.Index_Search value="@TempData["SearchValue"]">
+                            <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Groups.Index_BTN_Search</button>
+                        <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Groups.Index_BTN_Create</a>
+                    </div>
                 </div>
             </div>
-            <div class="col-sm">
-                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Groups.Index_BTN_Search</button>
-                <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Groups.Index_BTN_Create</a>
+        </form>*@
+        @*<hr />*@
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header"><h5>@Resources.Groups.Index_Title</h5></div>
+            <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Resources.Groups.Index_Group
+                                        </th>
+
+                                        @if (User.IsInRole("Superadmin"))
+                                        {
+                                            <th>@Resources.Resources.Company</th>
+                                        }
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.name)
+                                            </td>
+                                            @if (User.IsInRole("Superadmin"))
+                                            {
+                                                <td>
+                                                    @item.company
+                                                </td>
+                                            }
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" asp-action="Statistics" asp-route-id="@item.id"><i class="fas fa-eye fa-fw"> </i> @Resources.Groups.Index_View</a>
+                                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+        <div class="card">
+        <div class="card-header"><h5>@Resources.Groups.Index_SubTitle</h5></div>
+            <div class="card-body">
+                <p>
+                    @Resources.Groups.Index_SubDesc
+                </p>
             </div>
         </div>
     </div>
-</form>
-<hr />
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm-6 border-right border-dark">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Resources.Groups.Index_Group
-                        </th>
-
-                        @if (User.IsInRole("Superadmin"))
-                        {
-                            <th>@Resources.Resources.Company</th>
-                        }
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.name)
-                            </td>
-                            @if (User.IsInRole("Superadmin"))
-                            {
-                            <td>
-                                @item.company
-                            </td>
-                            }
-                            <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Statistics" asp-route-id="@item.id"><i class="fas fa-eye fa-fw"> </i> @Resources.Groups.Index_View</a>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
-                            </td>
-                        </tr>
+            @section Scripts {
+                <script type="text/javascript">
+                    function clearForm() {
+                        var search = document.getElementById('search-bar');
+                        search.value = '';
+                        document.forms[0].submit();
                     }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-sm-6">
-            <h4>@Resources.Groups.Index_SubTitle</h4>
-            <p>
-                @Resources.Groups.Index_SubDesc
-            </p>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script type="text/javascript">
-        function clearForm() {
-            var search = document.getElementById('search-bar');
-            search.value = '';
-            document.forms[0].submit();
-        }
-    </script>
-}
+                </script>
+            }
 
