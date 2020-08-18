@@ -13,52 +13,55 @@
     });
 </script>
 
-<h2>@Resources.Courses.Edit_Title</h2>
+@*<h2>@Resources.Courses.Edit_Title</h2>
 
-<hr />
-<div class="container-fluid p-0">
-    <form asp-action="Edit">
-        <div class="row">
-            <div class="col-md-6">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="id" />
-                <div class="form-group">
-                    <label asp-for="CourseName" class="control-label"></label>
-                    <input asp-for="CourseName" class="form-control" />
-                    <span asp-validation-for="CourseName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Location" class="control-label"></label>
-                    <textarea asp-for="Location" class="form-control"></textarea>
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Length" class="control-label"></label>
-                    <textarea asp-for="Length" class="form-control"></textarea>
-                    <span asp-validation-for="Length" class="text-danger"></span>
-                </div>
+<hr />*@
+<div class="card">
+    <div class="card-header"><h5>@Resources.Courses.Edit_Title</h5></div>
+    <div class="container-fluid p-0">
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="id" />
+                        <div class="form-group">
+                            <label asp-for="CourseName" class="control-label"></label>
+                            <input asp-for="CourseName" class="form-control" />
+                            <span asp-validation-for="CourseName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Location" class="control-label"></label>
+                            <textarea asp-for="Location" class="form-control"></textarea>
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Length" class="control-label"></label>
+                            <textarea asp-for="Length" class="form-control"></textarea>
+                            <span asp-validation-for="Length" class="text-danger"></span>
+                        </div>
 
-                <div class="container-fluid p-0">
-                    <div class="row">
-                        <div class="col-sm">
-                            <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"> </i> @Resources.Courses.Edit_BTN_Save</button>
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"> </i> @Resources.Courses.Edit_BTN_Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CourseContents" class="control-label"></label>
+                            <textarea asp-for="CourseContents" class="form-control" id="courseDescEdit"></textarea>
+                            <span asp-validation-for="CourseContents" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="CourseContents" class="control-label"></label>
-                    <textarea asp-for="CourseContents" class="form-control" id="courseDescEdit"></textarea>
-                    <span asp-validation-for="CourseContents" class="text-danger"></span>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
-
-
 <div>
 
 </div>
