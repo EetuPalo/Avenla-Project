@@ -6,93 +6,99 @@
     bool empty = (ViewBag.EmptySet = true)?true:false ;
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-4 border-right border-dark">
-            <h4>
-                @Resources.Resources.Employee_Create_Title
-            </h4>
-            <hr />
-            <fieldset>
-                <form asp-action="Create" asp-controller="AppUsers">
-                    <div asp-validation-summary="All" class="input-validation-error"></div>
-                    <div class="form-group">
-                        <label asp-for="EMail"></label>
-                        <input asp-for="EMail" class="form-control" placeholder=@Resources.Resources.Email autofocus />
-                        <span asp-validation-for="EMail"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="FirstName"></label>
-                        <input asp-for="FirstName" class="form-control" placeholder=@Resources.Resources.FirstName />
-                        <span asp-validation-for="FirstName"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="LastName"></label>
-                        <input asp-for="LastName" class="form-control" placeholder=@Resources.Resources.LastName />
-                        <span asp-validation-for="LastName"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PhoneNumber"></label>
-                        <input asp-for="PhoneNumber" class="form-control" placeholder=@Resources.Resources.Phone />
-                        <span asp-validation-for="PhoneNumber"></span>
-                    </div>
-                    @if (User.IsInRole("Superadmin"))
-                    {
-                        <label>@Resources.Resources.Company</label>
+@*<div class="container-fluid">*@
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header"><h5> @Resources.Resources.Employee_Create_Title </h5> </div>
+            <div class="card-body">
+                @*<h4>
+                    @Resources.Resources.Employee_Create_Title
+                </h4>
+                <hr />*@
+                <fieldset>
+                    <form asp-action="Create" asp-controller="AppUsers">
+                        <div asp-validation-summary="All" class="input-validation-error"></div>
                         <div class="form-group">
-                            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                            <label asp-for="EMail"></label>
+                            <input asp-for="EMail" class="form-control" placeholder=@Resources.Resources.Email autofocus />
+                            <span asp-validation-for="EMail"></span>
                         </div>
 
-                        <label>@Resources.Resources.Layout_Roles</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
+                            <label asp-for="FirstName"></label>
+                            <input asp-for="FirstName" class="form-control" placeholder=@Resources.Resources.FirstName />
+                            <span asp-validation-for="FirstName"></span>
                         </div>
-                    }
-                    else if (empty)
-                    {
-                        <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
-                        <input type="hidden" asp-for="SelectedRole" value="Superadmin" class="form-control" />
-                    }
-                    else
-                    {
-                        <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
-                    }
-                   
-                    <div class="form-group">
-                        <label asp-for="Password"></label>
-                        <input asp-for="Password" class="form-control" placeholder=@Resources.Resources.Password />
-                        <span asp-validation-for="Password"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ConfirmPassword"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" placeholder=@Resources.Resources.ConfirmPassword />
-                        <span asp-validation-for="ConfirmPassword"></span>
-                    </div>
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-sm">
-                                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                                <button class="btn btn-primary" type="submit"><i class="fas fa-file-invoice fa-fw"> </i> @Resources.Resources.Employee_Create_Register</button>
 
+                        <div class="form-group">
+                            <label asp-for="LastName"></label>
+                            <input asp-for="LastName" class="form-control" placeholder=@Resources.Resources.LastName />
+                            <span asp-validation-for="LastName"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber"></label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder=@Resources.Resources.Phone />
+                            <span asp-validation-for="PhoneNumber"></span>
+                        </div>
+                        @if (User.IsInRole("Superadmin"))
+                        {
+                            <label>@Resources.Resources.Company</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
                             </div>
-                        </div>
 
-                    </div>
-                </form>
-            </fieldset>
+                            <label>@Resources.Resources.Layout_Roles</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
+                            </div>
+                        }
+                        else if (empty)
+                        {
+                            <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
+                            <input type="hidden" asp-for="SelectedRole" value="Superadmin" class="form-control" />
+                        }
+                        else
+                        {
+                            <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
+                        }
+
+                        <div class="form-group">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" class="form-control" placeholder=@Resources.Resources.Password />
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder=@Resources.Resources.ConfirmPassword />
+                            <span asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                                    <button class="btn btn-primary" type="submit"><i class="fas fa-file-invoice fa-fw"> </i> @Resources.Resources.Employee_Create_Register</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
         </div>
-        <div class="col-sm-8">
-            <h4>@Resources.Resources.Employee_Create_DescTitle</h4>
-            <p>
-                @Resources.Resources.Employee_Create_Desc
-            </p>
+        <div class="card">
+            <div class="card-body">
+                <div class="col-sm-8">
+                    <h4>@Resources.Resources.Employee_Create_DescTitle</h4>
+                    <p>
+                        @Resources.Resources.Employee_Create_Desc
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
 </div>
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
