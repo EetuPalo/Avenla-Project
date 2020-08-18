@@ -4,14 +4,17 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Login_System.Models;
+using Login_System.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SQLitePCL;
 
 namespace Login_System.Controllers
 {
+    [Authorize(Roles = "Admin, Superadmin")]
     public class SkillCategoryController : Controller
     {
         private readonly GeneralDataContext _context;
@@ -34,18 +37,40 @@ namespace Login_System.Controllers
             }
             return View(await skills.ToListAsync());
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var model = new SkillCategoryVM();
+
+            //filling a dropdown for available skills
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+            }
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Name")] SkillCategories skillcat)
+        public async Task<IActionResult> Create(SkillCategoryVM skillcat)
         {
             if (ModelState.IsValid)
             {
-                var model = new SkillCategories();
-                _context.SkillCategories.Add(skillcat);
+                var category = _context.SkillCategories.Add(new SkillCategories
+                {
+                    Name = skillcat.Name,
+
+                }).Entity;
+                await _context.SaveChangesAsync();
+
+                foreach (var skill in skillcat.Skills)
+                {
+                     _context.SkillsInCategory.Add(new SkillsInCategory
+                    {
+                        SkillId = skill,
+                        CategoryId = category.id
+                    });
+                }
+
+               
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -68,12 +93,80 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
                 _context.SkillCategories.Remove(skillcat);
-                _context.SkillsInCategory.RemoveRange(_context.SkillsInCategory.Where(x => x.SkillId == skillcat.id));
+                _context.SkillsInCategory.RemoveRange(_context.SkillsInCategory.Where(x => x.CategoryId == skillcat.id));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            var model = new SkillCategoryVM();
+            var skillcat = _context.SkillCategories.FirstOrDefault(x => x.id == id);
+            List<Skills> skillList = new List<Skills>();
+            var skills = _context.SkillsInCategory.Where(x => x.CategoryId == id).ToList();
+            foreach(var item in skills)
+            {
+                
+                skillList.Add(await _context.Skills.FirstOrDefaultAsync(x=> x.Id == item.SkillId));
+            }
+            model.SkillsInCategory = skillList;
+            model.Name = skillcat.Name;
+            model.Id = skillcat.id;
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var model = new SkillCategoryVM();
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+            }
+            model.Id = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(SkillCategoryVM skillCat)
+        {
+            //first we edit the category itself
+            var category = _context.SkillCategories.FirstOrDefault(x=> x.id == skillCat.Id);
+            category.Name = skillCat.Name;
+           _context.Update(category);
+            // then we edit the skills that are included in the category
+            foreach(var item in _context.SkillsInCategory.Where(x=> x.CategoryId == skillCat.Id))
+            {
+                if (!skillCat.Skills.Contains(item.SkillId))
+                {
+                    _context.SkillsInCategory.Remove(item);
+                }
+                
+            }
+            await _context.SaveChangesAsync();
+            foreach (var newItem in skillCat.Skills)
+            {
+                var skill = new SkillsInCategory 
+                {
+                    SkillId = newItem,
+                    CategoryId = skillCat.Id
+                };
+                if (!_context.SkillsInCategory.Any(x=> x.CategoryId == skill.CategoryId && x.SkillId == skill.SkillId))
+                {
+                    _context.SkillsInCategory.Add(skill);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new {id = skillCat.Id });
+        }
+
+
+
+
     }
 }

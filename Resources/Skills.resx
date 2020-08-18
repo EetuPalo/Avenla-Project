@@ -147,6 +147,9 @@
   <data name="Index_BTN_Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Index_BTN_Details" xml:space="preserve">
+    <value />
+  </data>
   <data name="Index_BTN_Edit" xml:space="preserve">
     <value>Edit</value>
   </data>

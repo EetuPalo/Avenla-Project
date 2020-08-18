@@ -150,6 +150,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SkillCourseMembers.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Skills.fi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Skills.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Skills.Designer.cs</LastGenOutput>
