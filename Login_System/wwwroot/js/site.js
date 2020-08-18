@@ -5,6 +5,7 @@
 
 $(document).ready(function () {
     $('.table').DataTable();
+    $('.disable_arrow').css("background", "none");
 });
 
 function goBack() {
