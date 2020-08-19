@@ -186,4 +186,7 @@
   <data name="Index_User" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="Select_grade" xml:space="preserve">
+    <value>Select grade</value>
+  </data>
 </root>
