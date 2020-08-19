@@ -5,31 +5,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Resources.Certificates.Edit_Title</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Certificates.Edit_Title</h5></div><div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Organization" class="control-label"></label>
+                            <input asp-for="Organization" class="form-control" />
+                            <span asp-validation-for="Organization" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> @Resources.Resources.GENERAL_Back </button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Certificates.Edit_BTN_Submit </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Organization" class="control-label"></label>
-                <input asp-for="Organization" class="form-control" />
-                <span asp-validation-for="Organization" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> @Resources.Resources.GENERAL_Back </button>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Certificates.Edit_BTN_Submit </button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
