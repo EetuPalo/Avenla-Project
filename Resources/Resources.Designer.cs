@@ -619,6 +619,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string Group_options {
+            get {
+                return ResourceManager.GetString("Group_options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select group.
         /// </summary>
         public static string groupDD_pick {

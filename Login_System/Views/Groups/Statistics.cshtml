@@ -3,85 +3,88 @@
     ViewData["Title"] = "Statistics";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header"><h5>@ViewBag.GroupName @Resources.Groups.Stats_Title</h5></div>
+            <div class="card-body">
+                <div class="container-fluid p-0">
+                    <p><span class="font-weight-bold"><i class="fas fa-users fa-fw"> </i> @Resources.Groups.Stats_Members</span> @ViewBag.MemberCount</p>
+                    <p><span class="font-weight-bold"><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_GoalsUpdated</span> @ViewBag.LatestGoal</p>
+                </div>
+                <div class="col-sm-10">
+                    <table class="table table-hover p-0">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-graduation-cap fa-fw"> </i> @Resources.Groups.Stats_Skill</th>
+                                <th><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_Goal</th>
+                                <th class="font-weight-bold">@Resources.Groups.Stats_GroupAvg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
 
-<h2>@ViewBag.GroupName @Resources.Groups.Stats_Title</h2>
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="">
-            <div class="p-1 mr-2 border border-light rounded">
-                <a class="btn btn-primary" asp-action="Index" asp-controller="GroupMembers" asp-route-id="@TempData["GroupID"]"><i class="fas fa-users fa-fw"> </i> @Resources.Groups.Stats_BTN_Members</a>
-                <a class="btn btn-primary" asp-action="Index" asp-controller="SkillGoals" asp-route-id="@TempData["GroupID"]" ><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_BTN_Goals</a>
+                                <tr>
+                                    <td>@item.SkillName</td>
+                                    @if (item.SkillGoal == -1)
+                                    {
+                                        <td>@Resources.Groups.Stats_NoData</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.SkillGoal</td>
+                                    }
+
+                                    @if (item.Average != "0")
+                                    {
+                                        try
+                                        {
+                                            if (Convert.ToDouble(item.Average) < item.SkillGoal)
+                                            {
+                                                <td class="text-danger font-weight-bold">@item.Average</td>
+                                            }
+                                            else if (Convert.ToDouble(item.Average) >= item.SkillGoal)
+                                            {
+                                                <td class="text-success font-weight-bold">@item.Average</td>
+                                            }
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("ERROR");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td class="text-info">@Resources.Groups.Stats_NoData</td>
+                                    }
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="">
-            <div class="p-1 mr-2 border border-light rounded">
-                <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Stats_BTN_Edit</a>
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]" asp-route-source="stats"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</a>
+        <div class="card">
+            <div class="card-header"><h5>@Resources.Resources.Group_options</h5></div>
+            <div class="card-body">
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="">
+                            <div class="p-1 mr-2 border border-light rounded">
+                                <a class="btn btn-primary" asp-action="Index" asp-controller="GroupMembers" asp-route-id="@TempData["GroupID"]"><i class="fas fa-users fa-fw"> </i> @Resources.Groups.Stats_BTN_Members</a>
+                                <a class="btn btn-primary" asp-action="Index" asp-controller="SkillGoals" asp-route-id="@TempData["GroupID"]"><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_BTN_Goals</a>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="p-1 mr-2 border border-light rounded">
+                                <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Stats_BTN_Edit</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]" asp-route-source="stats"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<hr />
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm-2 border-right border-dark">
-            <p><span class="font-weight-bold"><i class="fas fa-users fa-fw"> </i> @Resources.Groups.Stats_Members</span> @ViewBag.MemberCount</p>
-            <p><span class="font-weight-bold"><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_GoalsUpdated</span> @ViewBag.LatestGoal</p>
-        </div>
-        <div class="col-sm-10">
-            <table class="table table-hover p-0">
-                <thead>
-                    <tr>
-                        <th><i class="fas fa-graduation-cap fa-fw"> </i> @Resources.Groups.Stats_Skill</th>
-                        <th><i class="fas fa-trophy fa-fw"> </i> @Resources.Groups.Stats_Goal</th>
-                        <th class="font-weight-bold">@Resources.Groups.Stats_GroupAvg</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                       
-                    <tr>
-                        <td>@item.SkillName</td>
-                        @if (item.SkillGoal == -1)
-                        {
-                            <td>@Resources.Groups.Stats_NoData</td>
-                        }
-                        else
-                        {
-                            <td>@item.SkillGoal</td>
-                        }
-
-                        @if (item.Average != "0")
-                        {
-                            try
-                            {
-                                if (Convert.ToDouble(item.Average) < item.SkillGoal)
-                                {
-                                    <td class="text-danger font-weight-bold">@item.Average</td>
-                                }
-                                else if (Convert.ToDouble(item.Average) >= item.SkillGoal)
-                                {
-                                    <td class="text-success font-weight-bold">@item.Average</td>
-                                }
-                            }
-                            catch
-                            {
-                                Console.WriteLine("ERROR");
-                            }
-                        }
-                        else
-                        {
-                            <td class="text-info">@Resources.Groups.Stats_NoData</td>
-                        }
-                    </tr>
-                        
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
 

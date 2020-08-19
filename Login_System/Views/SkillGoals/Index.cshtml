@@ -5,72 +5,80 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData.Peek("GroupName"): @Resources.SkillGoals.Index_Title @TempData.Peek("LatestDate")</h2>
-<h4 class="text-info">@TempData["ActionResult"]</h4>
-<h4 class="text-danger">@TempData["ActionWarning"]</h4>
+@*<h2>@TempData.Peek("GroupName"): @Resources.SkillGoals.Index_Title @TempData.Peek("LatestDate")</h2>
+    <h4 class="text-info">@TempData["ActionResult"]</h4>
+    <h4 class="text-danger">@TempData["ActionWarning"]</h4>*@
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header"><h5>@TempData.Peek("GroupName"): @Resources.SkillGoals.Index_Title @TempData.Peek("LatestDate")</h5></div><div class="card-body">
+                <form id="dateForm" asp-controller="SkillGoals" asp-action="RefreshIndex">
+                    <div class="container-fluid p-0">
+                        <div class="row mb-4">
+                            @*<div class="col-sm">
+                                @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), Resources.SkillGoals.Index_SelectDropdown, new { @class = "form-control col-sm", @onchange = "reloadPage()" })
+                                <input hidden asp-for="@Model.GroupName" value="@TempData.Peek("GroupName")" />
+                            </div>*@
+                            <div class="col-sm">
+                                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData.Peek("GroupID")"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Create</a>
+                                <a class="btn btn-primary" asp-action="EditAllGoals" asp-route-id="@TempData.Peek("GroupID")"><i class="fas fa-wrench fa-fw"> </i> Edit Goals</a>
+                                @if (Model.DateToDelete != null)
+                                {
+                                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Delete</a>
+                                }
+                                else
+                                {
+                                    Model.DateToDelete = TempData.Peek("LatestDate").ToString();
+                                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Delete</a>
+                                }
 
-<form id="dateForm" asp-controller="SkillGoals" asp-action="RefreshIndex">
-    <div class="container-fluid p-0">
-        <div class="row mb-4">
-            <div class="col-sm">
-                @Html.DropDownListFor(x => x.SelectedDate, new SelectList(Model.SkillDates, "Value", "Text"), Resources.SkillGoals.Index_SelectDropdown, new { @class = "form-control col-sm", @onchange = "reloadPage()" })
-                <input hidden asp-for="@Model.GroupName" value="@TempData.Peek("GroupName")" />
-            </div>
-            <div class="col-sm">
-                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData.Peek("GroupID")"><i class="fas fa-plus fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Create</a>
-                <a class="btn btn-primary" asp-action="EditAllGoals" asp-route-id="@TempData.Peek("GroupID")"><i class="fas fa-wrench fa-fw"> </i> Edit Goals</a>
-                @if (Model.DateToDelete != null)
-                {
-                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Delete</a>
-                }
-                else
-                {
-                    Model.DateToDelete = TempData.Peek("LatestDate").ToString();
-                    <a class="btn btn-danger" asp-action="DeleteForm" asp-route-date="@Model.DateToDelete" asp-route-group="@TempData.Peek("GroupName")"><i class="fas fa-trash fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Delete</a>
-                }
-
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>    
-</form>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Resources.SkillGoals.Index_Skill
-            </th>
-            <th>
-                @Resources.SkillGoals.Index_Goal
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Goals)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SkillName)
-                </td>
-                <td>
-                    @if (item.LatestGoal == -1)
-                    {
-                    <span class="text-danger">@Resources.SkillGoals.Index_NoGoal</span>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.LatestGoal)
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Edit</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+        <div class="card">
+            <div class="card-header"><h5>@TempData.Peek("GroupName")</h5></div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.SkillGoals.Index_Skill
+                            </th>
+                            <th>
+                                @Resources.SkillGoals.Index_Goal
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Goals)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SkillName)
+                                </td>
+                                <td>
+                                    @if (item.LatestGoal == -1)
+                                    {
+                                        <span class="text-danger">@Resources.SkillGoals.Index_NoGoal</span>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.LatestGoal)
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.SkillGoals.Index_BTN_Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">

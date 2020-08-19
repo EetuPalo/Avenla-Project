@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@TempData["GroupName"]</h2>
+@*<h2>@TempData["GroupName"]</h2>
 <form asp-controller="GroupMembers" asp-action="Index">
     <div class="container-fluid p-0">
         <div class="row mb-4">
@@ -19,45 +19,56 @@
         </div>
     </div>
 </form>
-<hr />
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-6 border-right border-dark">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            First Name
-                        </th>
-                        <th>
-                            Last Name
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Members)
-                    {
-                        <tr>
-                            <td>
-                                @item.FirstName
-                            </td>
-                            <td>
-                                @item.LastName
-                            </td>
-                            <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.Id" asp-route-source="GroupMembers"> <i class="fas fa-user-circle fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Details</a> 
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-sm-6">
-            <h4>@Resources.Groups.Members_Index_SubTitle @TempData["GroupName"]</h4>
-            <p>@Resources.Groups.Members_Index_SubDesc @Model.Members.Count()</p>
+<hr />*@
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header">
+                <h5>
+                    @TempData["GroupName"]
+                <a class="btn btn-info float-right" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Members_Index_BTN_EditMembers</a>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            First Name
+                                        </th>
+                                        <th>
+                                            Last Name
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Members)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.FirstName
+                                            </td>
+                                            <td>
+                                                @item.LastName
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.Id" asp-route-source="GroupMembers"> <i class="fas fa-user-circle fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Details</a>
+                                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="card">
+            <div class="card-header"><h5>@Resources.Groups.Members_Index_SubTitle @TempData["GroupName"]</h5></div>
+            <div class="card-body">
+                <p>@Resources.Groups.Members_Index_SubDesc @Model.Members.Count()</p>
+            </div>
         </div>
     </div>
-</div>
 
