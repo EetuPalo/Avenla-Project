@@ -2,36 +2,42 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="card">
     <div class="text-center">
-        <h1 class="display-3">
-            @Resources.Home.Index_Title
-        </h1>
-        @if (!User.Identity.IsAuthenticated)
-        {
-            <h4 class="mt-4">
-                @Resources.Home.Index_NoLogin
-            </h4>
-            <div>
-                <p>
-                    @Resources.Resources.Home_Description_p1
-                </p>
-                <p>
-                    @Resources.Resources.Home_Description_p2
-                </p>
-            </div>
-        }
-        else if (User.Identity.IsAuthenticated)
-        {
-            <h4 class="mt-4">
-                @Resources.Home.Index_Login
-            </h4>
-            <div>
-                <p>
-                    @Resources.Resources.Home_Description_p1
-                </p>
-                <p>
-                    @Resources.Resources.Home_Description_p2
-                </p>
-            </div>
-        }
+        <div class="card-header">
+            <h1 class="display-3">
+                @Resources.Home.Index_Title
+            </h1>
+        </div>
+        <div class="card-body">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <h4 class="mt-4">
+                    @Resources.Home.Index_NoLogin
+                </h4>
+                <div>
+                    <p>
+                        @Resources.Resources.Home_Description_p1
+                    </p>
+                    <p>
+                        @Resources.Resources.Home_Description_p2
+                    </p>
+                </div>
+            }
+            else if (User.Identity.IsAuthenticated)
+            {
+                <h4 class="mt-4">
+                    @Resources.Home.Index_Login
+                </h4>
+                <div>
+                    <p>
+                        @Resources.Resources.Home_Description_p1
+                    </p>
+                    <p>
+                        @Resources.Resources.Home_Description_p2
+                    </p>
+                </div>
+            }
+        </div>
     </div>
+</div>
