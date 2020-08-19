@@ -5,76 +5,77 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     int userId = 0;
 }
-
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm-8">
-            <h2>@TempData["UserName"] @Resources.Resources.UserSkills_SkillList_Title</h2>
-            <h4>@TempData["Date"]</h4>
-            <h4>@TempData["ActionResult"]</h4>
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header"><h5>@TempData["UserName"] @Resources.Resources.UserSkills_SkillList_Title</h5></div>
+            <div class="card-body">
+                <div class="container-fluid p-0">
+                        </div>
+                            <p class="font-weight-bold">
+                                @Resources.Resources.UserSkills_SkillList_Best <span class="font-weight-lighter">@TempData["MaxSkillLabel"] <span style="color: green; font-weight: bold;">@TempData["MaxSkillVal"]</span></span> <br />
+                                @Resources.Resources.UserSkills_SkillList_Worst <span class="font-weight-lighter">@TempData["MinSkillLabel"] <span style="color: darkred; font-weight: bold;">@TempData["MinSkillVal"]</span></span><br />
+                                @Resources.Resources.UserSkills_SkillList_Average <span>@TempData["AverageScore"]</span>
+                            </p>
+                <div class="container-fluid p-0 pb-4">
+                    <div class="row">
+                        <div class="col-sm">
+                            <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" class="btn btn-info">@Resources.Resources.UserSkills_SkillList_History</a>
+                            <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">@Resources.Resources.UserSkills_SkillList_Evaluate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-4 border border-dark">
-            <p class="font-weight-bold">
-                @Resources.Resources.UserSkills_SkillList_Best <span class="font-weight-lighter">@TempData["MaxSkillLabel"] <span style="color: green; font-weight: bold;">@TempData["MaxSkillVal"]</span></span> <br />
-                @Resources.Resources.UserSkills_SkillList_Worst <span class="font-weight-lighter">@TempData["MinSkillLabel"] <span style="color: darkred; font-weight: bold;">@TempData["MinSkillVal"]</span></span><br />
-                @Resources.Resources.UserSkills_SkillList_Average <span>@TempData["AverageScore"]</span>
-            </p>
-        </div>
-    </div>  
-</div>
-<hr />
-<div class="container-fluid p-0 pb-4">
-    <div class="row">
-        <div class="col-sm">
-            <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" class="btn btn-info">@Resources.Resources.UserSkills_SkillList_History</a>
-            <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]">@Resources.Resources.UserSkills_SkillList_Evaluate</a>
+        <div class="card">
+            <div class="card-header"><h5>@Resources.Resources.Layout_Skills</h5></div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Resources.UserSkills_SkillList_Name
+                            </th>
+                            <th>
+                                @Resources.Resources.UserSkills_SkillList_Level
+                            </th>
+                            <th>
+                                @Resources.Resources.UserSkills_SkillList_Goal
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            userId = item.UserID;
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SkillName)
+                                </td>
+                                <td>
+                                    @if (item.SkillLevel < item.SkillGoal)
+                                    {
+                                        <span class="text-danger"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
+                                    }
+                                    else if (item.SkillLevel == item.SkillGoal || item.SkillLevel > item.SkillGoal)
+                                    {
+                                        <span class="text-success"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
+                                    }
+                                </td>
+                                <td>
+                                    <span><strong>@Html.DisplayFor(modelItem => item.SkillGoal)</strong></span>
+                                </td>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+                                {
+                                    <td>
+                                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.Employee_Index_Delete</a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Resources.Resources.UserSkills_SkillList_Name
-            </th>
-            <th>
-                @Resources.Resources.UserSkills_SkillList_Level
-            </th>
-            <th>
-                @Resources.Resources.UserSkills_SkillList_Goal
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-    userId = item.UserID;
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SkillName)
-            </td>
-            <td>
-                @if (item.SkillLevel < item.SkillGoal)
-                {
-                    <span class="text-danger"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
-                }
-                else if (item.SkillLevel == item.SkillGoal || item.SkillLevel > item.SkillGoal)
-                {
-                    <span class="text-success"><strong>@Html.DisplayFor(modelItem => item.SkillLevel)</strong></span>
-                }
-            </td>
-            <td>
-                <span><strong>@Html.DisplayFor(modelItem => item.SkillGoal)</strong></span>                
-            </td>
-            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-            {
-                <td>
-                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a> 
-                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.Employee_Index_Delete</a>
-                </td>
-            }
-        </tr>
-}
-    </tbody>
-</table>
