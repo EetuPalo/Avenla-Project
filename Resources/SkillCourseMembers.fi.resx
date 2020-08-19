@@ -186,4 +186,7 @@
   <data name="Index_User" xml:space="preserve">
     <value>Käyttäjä</value>
   </data>
+  <data name="Select_grade" xml:space="preserve">
+    <value>Valitse arvosana</value>
+  </data>
 </root>

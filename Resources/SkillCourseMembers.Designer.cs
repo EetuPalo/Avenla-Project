@@ -266,5 +266,14 @@ namespace Resources {
                 return ResourceManager.GetString("Index_User", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select grade.
+        /// </summary>
+        public static string Select_grade {
+            get {
+                return ResourceManager.GetString("Select_grade", resourceCulture);
+            }
+        }
     }
 }
