@@ -5,85 +5,94 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Resources.Skills.Index_Title</h2>
-<hr />
-<form asp-controller="Skills" asp-action="Index">
-    <div class="container-fluid p-0">
-        <div class="row mb-4">
-            <div class="col-sm">
-                <div class="input-group">
-                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Skills.Index_Search value="@TempData["SearchValue"]">
-                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
-                        <i class="fa fa-times"></i>
-                    </button>
+@*<h2>@Resources.Skills.Index_Title</h2>
+    <hr />
+    <form asp-controller="Skills" asp-action="Index">
+        <div class="container-fluid p-0">
+            <div class="row mb-4">
+                <div class="col-sm">
+                    <div class="input-group">
+                        <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@Resources.Skills.Index_Search value="@TempData["SearchValue"]">
+                        <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Skills.Index_BTN_Search</button>
+                    <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Skills.Index_BTN_Create </a>
                 </div>
             </div>
-            <div class="col-sm">
-                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Skills.Index_BTN_Search</button>
-                <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Skills.Index_BTN_Create </a>
+        </div>
+    </form>
+    <hr />*@
+    <div class="card-columns" style="column-count: 2;">
+        <div class="card">
+            <div class="card-header">
+                <h5>
+                    @Resources.Skills.Index_Title
+                    <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Skills.Index_BTN_Create </a>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="container-fluid p-0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Resources.Skills.Index_Skill
+                                </th>
+                                <th class="disable_arrow"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr class="expandable-row">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model[i].Skill)
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
+                                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model[i].Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
-    </div>
-</form>
-<hr />
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm-4 border-right border-dark">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Resources.Skills.Index_Skill
-                        </th>
-                        <th class="disable_arrow"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        <tr class="expandable-row">
-                            <td>
-                                @Html.DisplayFor(modelItem => Model[i].Skill)
-                            </td>
-                            <td>
-                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model[i].Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model[i].Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
-                            </td>
-                 
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="card">
+            <div class="card-header"><h5>@Resources.Skills.Index_SubTitle</h5></div>
+            <div class="card-body">
+                <p>
+                    @Resources.Skills.Index_SubDesc <a asp-action="Index" asp-controller="Groups">@Resources.Skills.Index_SubLink</a>
+                </p>
+            </div>
         </div>
-        <div class="col-sm-8">
-            <h4>@Resources.Skills.Index_SubTitle</h4>
-            <p>
-                @Resources.Skills.Index_SubDesc <a asp-action="Index" asp-controller="Groups">@Resources.Skills.Index_SubLink</a>
-            </p>
         </div>
-    </div>
-</div>
+        @section Scripts {
+            <script type="text/javascript">
+                function clearForm() {
+                    var search = document.getElementById('search-bar');
+                    search.value = '';
+                    document.forms[0].submit();
+                }
+            </script>
+            <script>
+                $(function () {
+                    $(".content").hide();
+                    $('.content2').css('background-color', '#F8F8FF');
 
+                    $('.expandable-row').click(function (e) {
+                        $(this).next('.content').toggle();
+                        $(this).next('.content').css('background-color', '#F8F8FF');
+                        //$(this).next('.content').slideToggle();
+                    });
 
-    @section Scripts {
-        <script type="text/javascript">
-            function clearForm() {
-                var search = document.getElementById('search-bar');
-                search.value = '';
-                document.forms[0].submit();
-            }
-        </script>
-        <script>
-            $(function () {
-                $(".content").hide();
-                $('.content2').css('background-color', '#F8F8FF');
-
-                $('.expandable-row').click(function (e) {
-                    $(this).next('.content').toggle();
-                    $(this).next('.content').css('background-color', '#F8F8FF');
-                    //$(this).next('.content').slideToggle();
                 });
-
-            });
-        </script>
-    }
+            </script>
+        }
