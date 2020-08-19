@@ -16,6 +16,8 @@ namespace Login_System.ViewModels
 
         public List<int> Skills { get;set; }
 
+        public List<string> currentSkills { get; set; }
+
         public List<Skills> SkillsInCategory {get; set;}
 
         public IList<SelectListItem> SkillList { get; set; }

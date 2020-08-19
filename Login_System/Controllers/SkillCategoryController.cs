@@ -128,6 +128,8 @@ namespace Login_System.Controllers
             {
                 model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
             }
+
+            model.currentSkills = _context.SkillsInCategory.Where(x => x.CategoryId == id).Select(x=> x.SkillId.ToString()).ToList();
             model.Id = id;
             return View(model);
         }

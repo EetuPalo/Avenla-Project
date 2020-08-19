@@ -40,9 +40,20 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 <script>
+    var options = [];
     $(document).ready(function () {
         $('.skill-drop-down').select2({ templateSelection: formatSelection });
-    });
+        //selectin options based on what skills are already in the category that is being edited
+            @foreach(var item in Model.currentSkills)
+            {
+                    <text>
+                        options.push('@item');
+                    </text>
+            }
+        $('.skill-drop-down').select2().val(options)
+        $('.skill-drop-down').trigger('change');
+        });
+    
 
     function formatSelection(selection) {
         //console.log($(selection).find('ul'))
