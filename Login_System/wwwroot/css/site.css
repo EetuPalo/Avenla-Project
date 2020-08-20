@@ -7,6 +7,9 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+#navigationBar {
+    background-color: #f0f0f0;
+}
 
 /* Provide sufficient contrast against white background */
 a {
@@ -112,6 +115,10 @@ body {
 
 #skillDropdown{
     margin-left: 2px;
+}
+
+.dropdown-toggle {
+    background-color: #f0f0f0;
 }
 
 #selectLanguage {
