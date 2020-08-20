@@ -853,6 +853,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User certificates.
+        /// </summary>
+        public static string Layout_Usercertificates {
+            get {
+                return ResourceManager.GetString("Layout_Usercertificates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Userskills.
+        /// </summary>
+        public static string Layout_Userskills {
+            get {
+                return ResourceManager.GetString("Layout_Userskills", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Past.
         /// </summary>
         public static string Lessons_past {

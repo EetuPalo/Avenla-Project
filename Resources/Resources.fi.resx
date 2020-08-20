@@ -377,6 +377,12 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Skills" xml:space="preserve">
     <value>Taidot</value>
   </data>
+  <data name="Layout_Usercertificates" xml:space="preserve">
+    <value>Käyttäjän sertifikaatit</value>
+  </data>
+  <data name="Layout_Userskills" xml:space="preserve">
+    <value>Käyttäjätaidot</value>
+  </data>
   <data name="Lessons_past" xml:space="preserve">
     <value>Menneet</value>
   </data>
