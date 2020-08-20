@@ -359,6 +359,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Home" xml:space="preserve">
     <value>LOGO_TBD</value>
   </data>
+  <data name="Layout_info" xml:space="preserve">
+    <value>Info</value>
+  </data>
   <data name="Layout_Lang" xml:space="preserve">
     <value>Language</value>
   </data>
