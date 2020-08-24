@@ -10,89 +10,101 @@
     <div class="card">
         <div class="card-header"> <h5> @Resources.Resources.Advanced_Search </h5> </div>
         <div class="card-body">
-        <div class="row">
-            @if (User.IsInRole("Superadmin"))
-            {
-                <div class="col-sm">
-                    <label asp-for="Company">@Resources.Resources.Company</label>
-                    @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple form-control col-sm" })
-                </div>
-            }
-            <div class="col-sm">
-                <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
-                @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
-            </div>
-            <div class="col-sm">
-                <label asp-for="Groups">@Resources.Groups.Index_Group</label>
-                @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
-            </div>
-            <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button></div>
-            <div class="col-sm"></div>
-        </div>
-        <br />
-        <br />
-        <div id="skillFilters">
-            <div class="row" id="skillfilter">
-                <div class="col-sm-2" id="skill">
-
-                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "form-control col-sm" })
-                    <br />
-
-                </div>
-                <br />
-                <div class="col-sm-2">
-                    <input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">
-                </div>
-                <div class="col-sm-2">
-                    <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">
-                </div>
-                <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
-            </div>
-        </div>
-        <br />
-
-
-        <!--Results-->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>@Resources.Resources.FirstName</th>
-                    <th>@Resources.Resources.LastName</th>
-                    <th class="disable_arrow">@Resources.Resources.Email</th>
-                    <th class="disable_arrow">@Resources.Resources.Phone</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Users.Count() != 0)
+            <div class="row">
+                @if (User.IsInRole("Superadmin"))
                 {
-                    @foreach (var user in Model.Users)
-                    {
-                        @if (ViewBag.CurrentCompany == user.Company || User.IsInRole("Superadmin"))
-                        {
-                            <tr>
-                                <td>@user.FirstName</td>
-                                <td>@user.LastName</td>
-                                <td>@user.Email</td>
-                                <td>@user.PhoneNumber</td>
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr>
-                                <td>@user.Company</td>
-                                <td>@user.Id</td>
-                            </tr>
-
-                        }
-
-                    }
+                    <div class="col-sm">
+                        <label asp-for="Company">@Resources.Resources.Company</label>
+                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple form-control col-sm" })
+                    </div>
                 }
-            </tbody>
-        </table>
-        <div>
+                <div class="col-sm">
+                    <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
+                    @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
+                </div>
+                <div class="col-sm">
+                    <label asp-for="Groups">@Resources.Groups.Index_Group</label>
+                    @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
+                </div>
+                <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button></div>
+                <div class="col-sm"></div>
+            </div>
+            <br />
+            <br />
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <label>Skills</label>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <div id="skillFilters">
+                                <div class="row" id="skillfilter">
+                                    <div class="col-sm-2" id="skill">
+
+                                        @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "form-control col-sm" })
+                                        <br />
+
+                                    </div>
+                                    <br />
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">
+                                    </div>
+                                    <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+                <br />
+
+
+                <!--Results-->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Resources.Resources.FirstName</th>
+                            <th>@Resources.Resources.LastName</th>
+                            <th class="disable_arrow">@Resources.Resources.Email</th>
+                            <th class="disable_arrow">@Resources.Resources.Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Users.Count() != 0)
+                        {
+                            @foreach (var user in Model.Users)
+                            {
+                                @if (ViewBag.CurrentCompany == user.Company || User.IsInRole("Superadmin"))
+                                {
+                                    <tr>
+                                        <td>@user.FirstName</td>
+                                        <td>@user.LastName</td>
+                                        <td>@user.Email</td>
+                                        <td>@user.PhoneNumber</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@user.Company</td>
+                                        <td>@user.Id</td>
+                                    </tr>
+
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
 </form>
 <div class="test">
 

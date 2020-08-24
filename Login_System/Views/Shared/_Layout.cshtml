@@ -9,12 +9,20 @@
     if (User?.Identity.IsAuthenticated == true)
     {
         try
-        {   
+        {
             AppUser tempUser = await UserManager.FindByIdAsync(user.Id.ToString());
+            TempData["id"] = tempUser.Id;
             var companyID = tempUser.Company;
+            List<Company> companyList = new List<Company>();
 
             string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
             ViewBag.CompanyName = companyName;
+            foreach(var company in _context.CompanyMembers.Where(x=> x.UserId == tempUser.Id))
+            {
+                companyList.Add(_context.Company.FirstOrDefault(x => x.Id == company.CompanyId));
+            }
+
+            ViewBag.Companies = companyList;
         }
         catch(Exception e)
         {
@@ -72,13 +80,29 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @if (user.Company > 0)
-                            {
+                            <li>
+                                <div>
+                                    <form id="SetActiveCompany" asp-controller="Home"
+                                          asp-action="SetActiveCompany" asp-route-returnUrl="@Context.Request.Path"
+                                          method="post" class="form-horizontal" role="form">
 
-                                <li>
-                                    <span class="text-dark btn"> @ViewBag.CompanyName</span>
-                                </li>
-                            }
+                                        <select class="selectpicker form-control form-control-sm" name="company"
+                                                onchange="this.form.submit();" 
+                                                >
+                                            @if (ViewBag.Companies != null)
+                                            {
+                                                @foreach (var company in ViewBag.Companies)
+                                                {
+                                                    <option value="@company.Id">@company.Name</option>
+                                                }
+                                            }
+
+                                        </select>
+
+                                    </form>
+                                </div>
+                            </li>
+
                             <li>
                                 <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a>
                             </li>

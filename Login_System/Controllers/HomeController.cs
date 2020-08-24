@@ -18,11 +18,13 @@ namespace Login_System.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> UserMgr;
+        private readonly GeneralDataContext _context;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, GeneralDataContext context)
         {
             _logger = logger;
             UserMgr = userManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -58,5 +60,21 @@ namespace Login_System.Controllers
             );
             return LocalRedirect(returnUrl);
         }
+
+         [HttpPost]
+         public async Task<IActionResult> SetActiveCompany(string company, string returnUrl)
+         {
+
+             Company Comp = _context.Company.FirstOrDefault(x => x.Id == int.Parse(company));
+             await changeActiveCompany(Comp);
+             return LocalRedirect(returnUrl);
+         }
+
+         public async Task<IdentityResult> changeActiveCompany(Company company)
+         {
+             var user = await UserMgr.FindByIdAsync(TempData["id"].ToString());
+             user.Company = company.Id;
+             return await UserMgr.UpdateAsync(user);
+         }
     }
 }

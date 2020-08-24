@@ -18,6 +18,7 @@
         .Select(c => new SelectListItem { Value = c.Name, Text = c.Parent.NativeName })
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+   
 }
     <ul class="navbar-nav">
 
