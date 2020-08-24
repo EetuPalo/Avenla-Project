@@ -6,16 +6,18 @@
 @{
     Task<AppUser> GetCurrentUserAsync() => UserManager.GetUserAsync(User);
     var user = await GetCurrentUserAsync();
+    var companyId = 0;
+
     if (User?.Identity.IsAuthenticated == true)
     {
         try
         {
             AppUser tempUser = await UserManager.FindByIdAsync(user.Id.ToString());
             TempData["id"] = tempUser.Id;
-            var companyID = tempUser.Company;
+            companyId = tempUser.Company;
             List<Company> companyList = new List<Company>();
 
-            string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
+            string companyName = _context.Company.FirstOrDefault(x => x.Id == companyId).Name;
             ViewBag.CompanyName = companyName;
             foreach(var company in _context.CompanyMembers.Where(x=> x.UserId == tempUser.Id))
             {
@@ -87,13 +89,20 @@
                                           method="post" class="form-horizontal" role="form">
 
                                         <select class="selectpicker form-control form-control-sm" name="company"
-                                                onchange="this.form.submit();" 
-                                                >
+                                                onchange="this.form.submit();">
                                             @if (ViewBag.Companies != null)
                                             {
                                                 @foreach (var company in ViewBag.Companies)
                                                 {
-                                                    <option value="@company.Id">@company.Name</option>
+                                                    @if (company.Id != companyId)
+                                                    {
+                                                        <option value="@company.Id">@company.Name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@company.Id" selected>@company.Name</option>
+                                                    }
+
                                                 }
                                             }
 

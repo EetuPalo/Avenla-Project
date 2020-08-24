@@ -14,7 +14,7 @@
                 @if (User.IsInRole("Superadmin"))
                 {
                     <div class="col-sm">
-                        <label asp-for="Company">@Resources.Resources.Company</label>
+                         <label asp-for="Company">@Resources.Resources.Company</label>
                         @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple form-control col-sm" })
                     </div>
                 }
@@ -34,7 +34,7 @@
             <hr />
             <div id="accordion">
                 <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <label>Skills</label>
+                    <label>Skills  &nbsp; </label><i onclick="changeIcon(this)" class="fas fa-angle-down"></i>
                 </div>
 
 
@@ -145,6 +145,10 @@
     function removeIt() {
         console.log("remove called");
         this.parentNode.parentNode.remove();
+    }
+
+    function changeIcon(x) {
+        x.classList.toggle("fa-angle-up");
     }
     
 </script>
