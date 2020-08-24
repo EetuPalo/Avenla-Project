@@ -353,6 +353,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Employees" xml:space="preserve">
     <value>Employees</value>
   </data>
+  <data name="Layout_groupmembers" xml:space="preserve">
+    <value>Group members</value>
+  </data>
   <data name="Layout_Groups" xml:space="preserve">
     <value>Groups</value>
   </data>

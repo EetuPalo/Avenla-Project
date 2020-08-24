@@ -763,6 +763,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group members.
+        /// </summary>
+        public static string Layout_groupmembers {
+            get {
+                return ResourceManager.GetString("Layout_groupmembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Groups.
         /// </summary>
         public static string Layout_Groups {

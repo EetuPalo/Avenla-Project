@@ -347,6 +347,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Employees" xml:space="preserve">
     <value>Työntekijät</value>
   </data>
+  <data name="Layout_groupmembers" xml:space="preserve">
+    <value>Ryhmän jäsenet</value>
+  </data>
   <data name="Layout_Groups" xml:space="preserve">
     <value>Ryhmät</value>
   </data>

@@ -20,12 +20,14 @@
     </div>
 </form>
 <hr />*@
+<h1>@Resources.Resources.Layout_groupmembers</h1>
+<hr />
     <div class="card-columns" style="column-count: 2;">
         <div class="card">
             <div class="card-header">
                 <h5>
-                    @TempData["GroupName"]
-                <a class="btn btn-info float-right" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Members_Index_BTN_EditMembers</a>
+                    @Resources.Groups.Members_Index_SubTitle @TempData["GroupName"]
+                    <a class="btn btn-info float-right" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Members_Index_BTN_EditMembers</a>
                 </h5>
             </div>
             <div class="card-body">
@@ -64,11 +66,11 @@
                     </div>
                 </div>
 
-        <div class="card">
+        @*<div class="card">
             <div class="card-header"><h5>@Resources.Groups.Members_Index_SubTitle @TempData["GroupName"]</h5></div>
             <div class="card-body">
                 <p>@Resources.Groups.Members_Index_SubDesc @Model.Members.Count()</p>
             </div>
-        </div>
+        </div>*@
     </div>
 

@@ -5,9 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h1>@Resources.Resources.Layout_Certificates <span class="float-right" style="font-size:medium;">Certificates/Create</span></h1> 
+<hr />
     <div class="card-columns" style="column-count: 2;">
         <div class="card">
-            <div class="card-header"><h5>@Resources.Certificates.Create_Title</h5></div><div class="card-body">
+            <div class="card-header"><h5>@Resources.Certificates.Create_Title</h5></div>
+            <div class="card-body">
                 <div class="container-fluid p-0">
                     <form asp-action="Create">
                         <div asp-validation-summary="All" class="text-danger"></div>
@@ -34,7 +37,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header"><h5>@Resources.Certificates.Index_Title</h5></div>
+            <div class="card-header"><h5>@Resources.Resources.Layout_info</h5></div>
             <div class="card-body">
                 <p>
                     @Resources.Certificates.Create_SubDesc1
