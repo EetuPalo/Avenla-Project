@@ -31,36 +31,36 @@
             </div>
             <br />
             <br />
+            <hr />
             <div id="accordion">
-                <div class="card">
-                    <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <label>Skills</label>
-                    </div>
+                <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <label>Skills</label>
+                </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body">
-                            <div id="skillFilters">
-                                <div class="row" id="skillfilter">
-                                    <div class="col-sm-2" id="skill">
 
-                                        @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "form-control col-sm" })
-                                        <br />
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div id="skillFilters">
+                            <div class="row" id="skillfilter">
+                                <div class="col-sm-2" id="skill">
 
-                                    </div>
+                                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "form-control col-sm" })
                                     <br />
-                                    <div class="col-sm-2">
-                                        <input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">
-                                    </div>
-                                    <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
+
                                 </div>
+                                <br />
+                                <div class="col-sm-2">
+                                    <input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">
+                                </div>
+                                <div class="col-sm-2">
+                                    <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">
+                                </div>
+                                <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
                             </div>
                         </div>
                     </div>
                 </div>
-              
+
                 <br />
 
 
@@ -104,6 +104,7 @@
                 <div>
                 </div>
             </div>
+        </div>
         </div>
 </form>
 <div class="test">
