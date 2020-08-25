@@ -105,8 +105,11 @@
                 <dl class="row">
                     @foreach (var item in Model.UserSkills)
                     {
-                        <dd class="col-sm-6">
+                        <dd class="col-sm-5">
                             @item.SkillName
+                        </dd>
+                        <dd class="col-sm-1">
+                            @item.SkillLevel
                         </dd>
                     }
                 </dl>
