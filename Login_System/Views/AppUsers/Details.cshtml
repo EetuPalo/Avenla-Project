@@ -94,6 +94,7 @@
                         </dd>
                     }
                 </dl>
+                <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
             </div>
         </div>
 
@@ -109,6 +110,7 @@
                         </dd>
                     }
                 </dl>
+                <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
             </div>
         </div>
 
