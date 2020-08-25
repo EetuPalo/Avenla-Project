@@ -5,20 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h1>@Html.DisplayFor(model => model.Name)</h1>
+    <h1>@Resources.Resources.Companies_index</h1>
+<hr />
+<div class="card">
+    <div class="card-header"><h5>@Html.DisplayFor(model => model.Name)</h5> </div>
+    <div class="card-body">
+        @Html.Raw(Model.Description)
 
-<div>
-    <hr />
-    <dl class="row">
-        <dd class = "col-sm-6" style="text-align:justify;">
-            @Html.Raw(Model.Description)
-        </dd>
-    </dl>
+        @if (User.IsInRole("Superadmin"))
+        {
+            <div>
+                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+            </div>
+        }
+    </div>
 </div>
-@if (User.IsInRole("Superadmin"))
-{
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
-}
