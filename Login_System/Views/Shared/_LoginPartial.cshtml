@@ -35,7 +35,7 @@
                         <a class="dropdown-item" asp-area="" asp-controller="SkillCategory" asp-action="Index">@Resources.Resources.Layout_SkillCategory</a>
                         <a class="dropdown-item" asp-area="" asp-controller="Skills" asp-action="Index">@Resources.Resources.Layout_Skills</a>
                         <a class="dropdown-item" asp-area="" asp-controller="Certificates" asp-action="Index">@Resources.Resources.Layout_Certificates</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="Companies" asp-action="Index">@Resources.Resources.Company</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Companies" asp-action="Index">@Resources.Resources.Companies_index</a>
                     </div>
                 </li>
             }
@@ -44,10 +44,10 @@
                     @Resources.Resources.User_Hello @TempData.Peek("UserFullNames")!
                 </a>
                 <div class="dropdown-menu" aria-labelledby="nameDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index">@Resources.Resources.Dashboard</a>
+                    @*<a class="dropdown-item" asp-area="" asp-controller="Dashboard" asp-action="Index">@Resources.Resources.Dashboard</a>*@
                     <a class="dropdown-item" asp-area="" asp-controller="AppUsers" asp-action="Details" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Profile</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Certificates</a>
+                    @*<a class="dropdown-item" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@ViewBag.UserID" asp-route-name="latest">@Resources.Resources.Layout_Skills</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@ViewBag.UserID" asp-route-source="shortcut">@Resources.Resources.Layout_Certificates</a>*@
                     <a class="dropdown-item" href="@Url.Action("Logout", "Account")">@Resources.Resources.Layout_Logout</a>
                 </div>
             </li>

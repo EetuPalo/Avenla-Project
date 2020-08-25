@@ -123,6 +123,9 @@
   <data name="CompaniesSelectDropdown" xml:space="preserve">
     <value>Valitse yritys</value>
   </data>
+  <data name="Companies_index" xml:space="preserve">
+    <value>Yritykset</value>
+  </data>
   <data name="Company" xml:space="preserve">
     <value>Yritys</value>
   </data>

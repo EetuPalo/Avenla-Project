@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Companies.
+        /// </summary>
+        public static string Companies_index {
+            get {
+                return ResourceManager.GetString("Companies_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select company.
         /// </summary>
         public static string CompaniesSelectDropdown {
