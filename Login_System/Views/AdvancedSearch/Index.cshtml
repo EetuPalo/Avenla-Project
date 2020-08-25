@@ -50,10 +50,10 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-2">
-                                    <input class="form-control" id="min" type="number" name="Min" placeholder="Min value: " value="@TempData["inValue"]" min="0" max="5">
+                                    <input class="min form-control" id="min" type="number" name="Min" placeholder="Min value: " onchange = "modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
                                 </div>
                                 <div class="col-sm-2">
-                                    <input class="form-control" id="max" type="number" name="Max" placeholder="Max value: " value="@TempData["MaxValue"]" min="0" max="5">
+                                    <input class="max form-control" id="max" type="number" name="Max" placeholder="Max value: " onchange = "modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
                                 </div>
                                 <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
                             </div>
@@ -168,12 +168,21 @@
 
     function modifyHeading() {
         var array = []
-        var heading = document.getElementById(headingOne);
-        var item = $(".skillName").each(function () {
-            array.push(this.value+" ")
-        }).get();
-        console.log(array);
-        document.getElementById("headingOne").children[0].innerText =   array 
+        var amountOfFilters = $("#skillFilters").children().length
+        for (var i = 0; i < amountOfFilters; i++) {
+
+            var skillname = $(".skillName")[i].value;
+            if (skillname == "") { skillname= "no skill"}
+            var skillMin = 0;
+            ($(".min")[i].value != "") ? skillMin = $(".min")[i].value : skillMin = 0;
+            var skillMax = 5;
+            ($(".max")[i].value != "") ? skillMax = $(".max")[i].value : skillMax = 5;
+
+            array.push(skillname + " (" + skillMin.toString() + "-" + skillMax.toString()+")");
+        }
+
+        var headerArray = array.join(', ');
+        document.getElementById("headingOne").children[0].innerText = headerArray;
       
     }
 </script>
