@@ -916,6 +916,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List of companies.
+        /// </summary>
+        public static string List_Companies {
+            get {
+                return ResourceManager.GetString("List_Companies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List of course members.
         /// </summary>
         public static string ListofCourseMembers {

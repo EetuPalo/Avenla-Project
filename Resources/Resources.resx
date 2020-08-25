@@ -407,6 +407,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>List of course members</value>
   </data>
+  <data name="List_Companies" xml:space="preserve">
+    <value>List of companies</value>
+  </data>
   <data name="Login_Desc" xml:space="preserve">
     <value>Please log in with your email and password. If you have forgotten your password, click "Forgot your password?" link to get instructions.</value>
   </data>
