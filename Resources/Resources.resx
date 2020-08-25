@@ -567,7 +567,7 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
     <value>Evaluation Type</value>
   </data>
   <data name="UserSkills_ListByDate_GraphDesc" xml:space="preserve">
-    <value>X: day of the month, Y: SKill level. Hover on the point to reveal details</value>
+    <value>X: Day of the month, Y: Skill level. Hover on the point to reveal details</value>
   </data>
   <data name="UserSkills_ListByDate_GraphTitle" xml:space="preserve">
     <value>Skill progression graph for the chosen date</value>

@@ -1420,7 +1420,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to X: day of the month, Y: SKill level. Hover on the point to reveal details.
+        ///   Looks up a localized string similar to X: Day of the month, Y: Skill level. Hover on the point to reveal details.
         /// </summary>
         public static string UserSkills_ListByDate_GraphDesc {
             get {

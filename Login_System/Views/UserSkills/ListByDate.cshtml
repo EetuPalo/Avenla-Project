@@ -12,113 +12,118 @@
     });
 </script>
 
-<h2>@ViewBag.UserNames @Resources.Resources.UserSkills_ListByDate_Title</h2>
-<h2 class="text-danger">@TempData["ActionResult"]</h2>
+<h1>@Resources.Resources.Layout_Userskills</h1>
+@*<h2 class="text-danger">@TempData["ActionResult"]</h2>*@
+<hr />
 
-<form asp-controller="UserSkills" asp-action="ListByDate">
-    <div class="container-fluid p-0">
-        <div class="row">
+<div class="card">
+    <div class="card-header"><h5>@ViewBag.UserNames @Resources.Resources.UserSkills_ListByDate_Title</h5></div>
+    <div class="card-body">
+        <form asp-controller="UserSkills" asp-action="ListByDate">
+            <div class="container-fluid p-0">
+                <div class="row">
 
 
-            <div class="col-sm">
-                <select class="form-control" name="month">
-                    <option selected>@Resources.Resources.MONTH_UNSELECTED</option>
-                    <option value="1">@Resources.Resources.MONTH_JAN</option>
-                    <option value="2">@Resources.Resources.MONTH_FEB</option>
-                    <option value="3">@Resources.Resources.MONTH_MAR</option>
-                    <option value="4">@Resources.Resources.MONTH_APR</option>
-                    <option value="5">@Resources.Resources.MONTH_MAY</option>
-                    <option value="6">@Resources.Resources.MONTH_JUN</option>
-                    <option value="7">@Resources.Resources.MONTH_JUL</option>
-                    <option value="8">@Resources.Resources.MONTH_AUG</option>
-                    <option value="9">@Resources.Resources.MONTH_SEP</option>
-                    <option value="10">@Resources.Resources.MONTH_OCT</option>
-                    <option value="11">@Resources.Resources.MONTH_NOV</option>
-                    <option value="12">@Resources.Resources.MONTH_DEC</option>
+                    <div class="col-sm">
+                        <select class="form-control" name="month">
+                            <option selected>@Resources.Resources.MONTH_UNSELECTED</option>
+                            <option value="1">@Resources.Resources.MONTH_JAN</option>
+                            <option value="2">@Resources.Resources.MONTH_FEB</option>
+                            <option value="3">@Resources.Resources.MONTH_MAR</option>
+                            <option value="4">@Resources.Resources.MONTH_APR</option>
+                            <option value="5">@Resources.Resources.MONTH_MAY</option>
+                            <option value="6">@Resources.Resources.MONTH_JUN</option>
+                            <option value="7">@Resources.Resources.MONTH_JUL</option>
+                            <option value="8">@Resources.Resources.MONTH_AUG</option>
+                            <option value="9">@Resources.Resources.MONTH_SEP</option>
+                            <option value="10">@Resources.Resources.MONTH_OCT</option>
+                            <option value="11">@Resources.Resources.MONTH_NOV</option>
+                            <option value="12">@Resources.Resources.MONTH_DEC</option>
 
-                </select>
+                        </select>
+
+                    </div>
+                    <div class="col-sm">
+                        <select class="form-control" id="dateSearch" type="number" name="year">
+                            <option selected>@Resources.Resources.YEAR_UNSELECTED</option>
+                            @foreach (var year in ViewBag.years)
+                            {
+                                <option value="@year">@year</option>
+                            }
+                        </select>
+
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button>
+                        <a class="btn btn-info" asp-action="ListByDate"> @Resources.Resources.UserSkills_ListByDate_SHOWALL </a>
+                        <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]"><i class="fas fa-plus-square fa-fw"> </i> @Resources.Resources.UserSkills_ListByDate_Create</a>
+                    </div>
+                </div>
 
             </div>
-            <div class="col-sm">
-                <select class="form-control" id="dateSearch" type="number" name="year">
-                    <option selected>@Resources.Resources.YEAR_UNSELECTED</option>
-                    @foreach (var year in ViewBag.years)
-                    {
-                        <option value="@year">@year</option>
-                    }
-                </select>
 
-            </div>
-            <div class="col-sm">
-                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button>
-                <a class="btn btn-info" asp-action="ListByDate"> @Resources.Resources.UserSkills_ListByDate_SHOWALL </a>
-                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserId"]"><i class="fas fa-plus-square fa-fw"> </i> @Resources.Resources.UserSkills_ListByDate_Create</a>
-            </div>
+        </form>
+        <br />
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4" data-toggle="collapse" href="#collapseData" aria-expanded="false" aria-controls="collapseData" onclick="changeCaret()" id="evaluationsCollapse">
+            <h2>Evaluations <i class="fas fa-angle-down" id="evaluationCaret"></i></h2>
         </div>
+        <div class="col-sm-4"></div>
+        <div class="collapse" id="collapseData">
 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resources.Resources.UserSkills_ListByDate_Date
+                        </th>
+                        <th>
+                            @Resources.Resources.UserSkills_ListByDate_EvaluationType
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            @if (item.AdminEval == "Admin Evaluation")
+                            {
+                                <td>
+                                    <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdminEval)
+                                </td>
+                            }
+                            <td>
+                                <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
+                                <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
+                                    <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
+        <h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
+        <style>
+        </style>
+        <canvas id="myChart" width="1000" height="500"></canvas>
     </div>
-
-</form>
-<br />
-<div class="col-sm-4"></div>
-<div class="col-sm-4" data-toggle="collapse" href="#collapseData" aria-expanded="false" aria-controls="collapseData" onclick="changeCaret()" id="evaluationsCollapse">
-    <h2>Evaluations <i class="fas fa-angle-down" id="evaluationCaret"></i></h2>
 </div>
-<div class="col-sm-4"></div>
-<div class="collapse" id="collapseData">
-
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    @Resources.Resources.UserSkills_ListByDate_Date
-                </th>
-                <th>
-                    @Resources.Resources.UserSkills_ListByDate_EvaluationType
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    @if (item.AdminEval == "Admin Evaluation")
-                    {
-                        <td>
-                            <span class="text-danger">@Html.DisplayFor(modelItem => item.AdminEval)</span>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AdminEval)
-                        </td>
-                    }
-                    <td>
-                        <a asp-action="SkillList" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_View</a> |
-                        <a asp-action="ListByDate" asp-route-id="@TempData["UserId"]" asp-route-month="@item.Date.Month" asp-route-year="@item.Date.Year">@Resources.Resources.UserSkills_ListByDate_ViewGraph</a> |
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-action="EditForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id" asp-route-date="@item.Date">@Resources.Resources.UserSkills_ListByDate_Edit</a> <span> | </span>
-                            <a asp-action="DeleteForm" asp-route-name="@item.TempDate" asp-route-id="@item.Id">@Resources.Resources.UserSkills_ListByDate_Delete</a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-<h1>@Resources.Resources.UserSkills_ListByDate_GraphTitle</h1>
-<h3>@Resources.Resources.UserSkills_ListByDate_GraphDesc</h3>
-<style>
-</style>
-<canvas id="myChart" width="1000" height="500"></canvas>
-
 <script>
 
 function changeCaret() {

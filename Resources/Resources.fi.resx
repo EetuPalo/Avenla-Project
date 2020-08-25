@@ -561,7 +561,7 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
     <value>Arvion tyyppi</value>
   </data>
   <data name="UserSkills_ListByDate_GraphDesc" xml:space="preserve">
-    <value>X: Päivä, Y: Osaamistaso.</value>
+    <value>X: Päivä, Y: Osaamistaso. Paljasta yksityiskohdat menemällä hiirellä pallon päälle graafissa.</value>
   </data>
   <data name="UserSkills_ListByDate_GraphTitle" xml:space="preserve">
     <value>Taitotaulukko</value>
