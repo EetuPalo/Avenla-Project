@@ -87,7 +87,7 @@
                                           asp-action="SetActiveCompany" asp-route-returnUrl="@Context.Request.Path"
                                           method="post" class="form-horizontal" role="form">
 
-                                        <select class="selectpicker form-control form-control-sm" name="company"
+                                        <select class="text-dark btn selectpicker form-control form-control-sm" name="company"
                                                 onchange="this.form.submit();">
                                             @if (ViewBag.Companies != null)
                                             {
