@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
+@*<script>
     $(function() {
         $(".content").hide();
         $('.content2').css('background-color', '#F8F8FF');
@@ -17,7 +17,7 @@
   });
 
     });
-</script>
+</script>*@
 
 @*<h2>@Resources.Courses.Index_Title</h2>
 <h4 class="text-info">@TempData["ActionResult"]</h4>
@@ -101,17 +101,17 @@
                                 <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> </span>
                             </td>
                         }
-                        else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus != true)
+                        else if (item.MemberStatus == true && item.CompleteStatus != true)
                         {
                             <td>
                                 <a class="btn btn-success btn-sm" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-check"> </i> @Resources.Courses.Index_BTN_Complete</a><span>  </span>
-                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a><span>  </span>
+                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a><span>  </span>
                             </td>
                         }
-                        else if (item.MemberStatus == true && !User.IsInRole("Admin") && item.CompleteStatus == true)
+                        else if (item.MemberStatus == true && item.CompleteStatus == true)
                         {
                             <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Details</a>
+                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
                             </td>
                         }
                         else if (item.MemberStatus == true && (User.IsInRole("Admin") || User.IsInRole("Superadmin")) && item.CompleteStatus != true)
@@ -126,7 +126,7 @@
                                 <span class="text-success">@Resources.Courses.Index_Status_Completed</span><span>  </span>
                             </td>
                         }
-                        <td>
+                        @*<td>
                             @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                             {
 
@@ -134,7 +134,7 @@
                                 <span> </span>
 
                             }
-                        </td>
+                        </td>*@
                         <td>
                             @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                             {

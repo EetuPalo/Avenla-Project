@@ -907,6 +907,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List of course members.
+        /// </summary>
+        public static string ListofCourseMembers {
+            get {
+                return ResourceManager.GetString("ListofCourseMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please log in with your email and password. If you have forgotten your password, click &quot;Forgot your password?&quot; link to get instructions..
         /// </summary>
         public static string Login_Desc {

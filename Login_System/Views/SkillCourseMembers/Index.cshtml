@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<h1> @Resources.Resources.Layout_Courses</h1>
+<hr />
     <div class="card-columns" style="column-count: 2;">
         <div class="card mb-3">
 
@@ -12,7 +13,7 @@
             {
                 <div class="card-header">
                     <h5>
-                        @TempData["CourseName"] @Resources.SkillCourseMembers.Index_SubTitle
+                        @TempData["CourseName"] - @Resources.Resources.Layout_info
                     </h5>
                 </div>
                 <div class="card-body">
@@ -53,6 +54,7 @@
         </div>
     </div>
         <div class="card">
+            <div class="card-header"><h5>@Resources.Resources.ListofCourseMembers</h5></div>
             <div class="card-body">
                 <div class="container-fluid p-0">
                     <div class="row">
