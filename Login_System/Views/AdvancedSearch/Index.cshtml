@@ -33,8 +33,8 @@
             <br />
             <hr />
             <div id="accordion">
-                <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <label>Skills  &nbsp; </label><i onclick="changeIcon(this)" class="fas fa-angle-down"></i>
+                <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
+                    <label>Skills  </label> &nbsp;<i id="caret" class="fas fa-angle-down"></i>
                 </div>
 
 
@@ -44,7 +44,7 @@
                             <div class="row" id="skillfilter">
                                 <div class="col-sm-2" id="skill">
 
-                                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "form-control col-sm" })
+                                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
                                     <br />
 
                                 </div>
@@ -147,10 +147,35 @@
         this.parentNode.parentNode.remove();
     }
 
-    function changeIcon(x) {
-        x.classList.toggle("fa-angle-up");
+    function changeIcon() {
+        //get caret into variable
+        var caret = document.getElementById("caret");
+
+        //if the accordion shows its contents, turn caret up and vice versa for collapsed state
+        if (document.getElementById("collapseOne").className == "collapse show") {
+
+            caret.setAttribute("class", "")
+            caret.classList.add("fas","fa-angle-up") ;
+            console.log("caret up");
+        }
+        else {
+
+            caret.setAttribute("class", "")
+            caret.classList.add("fas", "fa-angle-down");
+            console.log("caret down");
+        }
     }
-    
+
+    function modifyHeading() {
+        var array = []
+        var heading = document.getElementById(headingOne);
+        var item = $(".skillName").each(function () {
+            array.push(this.value+" ")
+        }).get();
+        console.log(array);
+        document.getElementById("headingOne").children[0].innerText =   array 
+      
+    }
 </script>
 
 }

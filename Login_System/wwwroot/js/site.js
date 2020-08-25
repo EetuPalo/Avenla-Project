@@ -4,7 +4,9 @@
 // Write your JavaScript code.
 
 $(document).ready(function () {
-    $('.table').DataTable();
+    $('.table').DataTable({
+        stateSave: true
+    });
     $('.disable_arrow').css("background", "none");
 });
 
