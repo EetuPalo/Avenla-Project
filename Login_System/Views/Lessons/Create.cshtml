@@ -7,63 +7,67 @@
 <script type="text/javascript" src="~/lib/jquery/dist/datepicker-en-GB.js">
 </script>
 <script>
-  $( function() {
-      $("#lessonDate").datepicker({
-          dateFormat: "dd.mm.yy"
-      });
-  });
+    $(function () {
+        $("#lessonDate").datepicker({
+            dateFormat: "dd.mm.yy"
+        });
+    });
 
 </script>
 
-<h2>@Resources.Lessons.Create_Title</h2>
-
+<h1>@Resources.Resources.Layout_Lessons</h1>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input hidden asp-for="CourseID" value="@Model.CourseID" />
-            <div class="form-group">
-                <label asp-for="LessonName" class="control-label">@Resources.Lessons.Create_Name</label>
-                <input asp-for="LessonName" class="form-control" />
-                <span asp-validation-for="LessonName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <p>@Resources.Lessons.Create_Date <input class="form-control" asp-for="DateString" type="text" id="lessonDate" /></p>
-                <span asp-validation-for="DateString" class="text-danger"></span>
-            </div>
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label asp-for="HourString" class="control-label">@Resources.Lessons.Create_Hour</label>
-                            <input type="number" min="0" max="23" asp-for="HourString" class="form-control" />
-                            <span asp-validation-for="HourString" class="text-danger"></span>
+
+<div class="card">
+    <div class="card-header"><h5>@Resources.Lessons.Create_Title</h5></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input hidden asp-for="CourseID" value="@Model.CourseID" />
+                    <div class="form-group">
+                        <label asp-for="LessonName" class="control-label">@Resources.Lessons.Create_Name</label>
+                        <input asp-for="LessonName" class="form-control" />
+                        <span asp-validation-for="LessonName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <p>@Resources.Lessons.Create_Date <input class="form-control" asp-for="DateString" type="text" id="lessonDate" /></p>
+                        <span asp-validation-for="DateString" class="text-danger"></span>
+                    </div>
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label asp-for="HourString" class="control-label">@Resources.Lessons.Create_Hour</label>
+                                    <input type="number" min="0" max="23" asp-for="HourString" class="form-control" />
+                                    <span asp-validation-for="HourString" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label asp-for="MinuteString" class="control-label">@Resources.Lessons.Create_Minute</label>
+                                    <input type="number" min="0" max="59" asp-for="MinuteString" class="form-control" />
+                                    <span asp-validation-for="MinuteString" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <label asp-for="MinuteString" class="control-label">@Resources.Lessons.Create_Minute</label>
-                            <input type="number" min="0" max="59" asp-for="MinuteString" class="form-control" />
-                            <span asp-validation-for="MinuteString" class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="Location" class="control-label">@Resources.Lessons.Create_Location</label>
+                        <input asp-for="Location" class="form-control" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm">
+                                <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Lessons.Create_BTN_Create </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label">@Resources.Lessons.Create_Location</label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Lessons.Create_BTN_Create </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
