@@ -1,10 +1,14 @@
 ﻿@model Login_System.ViewModels.AdvancedSearchVM
+@using System.Threading;
+@using System.Net;
 @{
     ViewData["Title"] = "AdvancedSearch";
-
+    var display = Thread.CurrentThread.CurrentCulture.DisplayName;
+    Console.Write(display);
+    string finUrl = "'url' : '//cdn.datatables.net/plug-ins/1.10.21/i18n/Finnish.json'";
 }
 
-    <h1>@Resources.Resources.Advanced_Search</h1>
+<h1>@Resources.Resources.Advanced_Search</h1>
 <hr />
 <form asp-controller="AdvancedSearch" asp-action="Index">
     <div class="card">
@@ -14,7 +18,7 @@
                 @if (User.IsInRole("Superadmin"))
                 {
                     <div class="col-sm">
-                         <label asp-for="Company">@Resources.Resources.Company</label>
+                        <label asp-for="Company">@Resources.Resources.Company</label>
                         @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple form-control col-sm" })
                     </div>
                 }
@@ -34,7 +38,7 @@
             <hr />
             <div id="accordion">
                 <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
-                    <label>Skills  </label> &nbsp;<i id="caret" class="fas fa-angle-down"></i>
+                    <label>Skills  </label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
                 </div>
 
 
@@ -50,10 +54,10 @@
                                 </div>
                                 <br />
                                 <div class="col-sm-2">
-                                    <input class="min form-control" id="min" type="number" name="Min" placeholder="Min value: " onchange = "modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
+                                    <input class="min form-control" id="min" type="number" name="Min" placeholder="Min value: " onchange="modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
                                 </div>
                                 <div class="col-sm-2">
-                                    <input class="max form-control" id="max" type="number" name="Max" placeholder="Max value: " onchange = "modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
+                                    <input class="max form-control" id="max" type="number" name="Max" placeholder="Max value: " onchange="modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
                                 </div>
                                 <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
                             </div>
@@ -96,7 +100,6 @@
                                     </tr>
 
                                 }
-
                             }
                         }
                     </tbody>
@@ -105,14 +108,14 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 </form>
 <div class="test">
 
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script type="text/javascript" language="javascript">
+    <script type="text/javascript" language="javascript">
 
     //get the dropdown menu to multiply it in javascript
     var skillDropClone = document.getElementById("skillfilter")
@@ -126,7 +129,7 @@
         var aContainer = document.createElement('div');
         aContainer.className = "row";
         aContainer.setAttribute('id', $('#skillFilters').children().length);
-        
+
         //create button for deletion not included in original filter
         var deleteBtn = document.createElement("button");
         deleteBtn.type = "button";
@@ -149,9 +152,15 @@
 
     function changeIcon() {
         //get caret into variable
-        var caret = document.getElementById("caret");
+        //var caret = document.getElementById("caret");
+        $('#collapseOne').on('shown.bs.collapse', function () {
+            $("#caret").attr('class', 'fas fa-angle-up')
+        });
 
-        //if the accordion shows its contents, turn caret up and vice versa for collapsed state
+        $('#collapseOne').on('hidden.bs.collapse', function () {
+            $("#caret").attr('class', 'fas fa-angle-down')
+        });
+        /*//if the accordion shows its contents, turn caret up and vice versa for collapsed state
         if (document.getElementById("collapseOne").className == "collapse show") {
 
             caret.setAttribute("class", "")
@@ -163,7 +172,7 @@
             caret.setAttribute("class", "")
             caret.classList.add("fas", "fa-angle-down");
             console.log("caret down");
-        }
+        }*/
     }
 
     function modifyHeading() {
@@ -183,8 +192,8 @@
 
         var headerArray = array.join(', ');
         document.getElementById("headingOne").children[0].innerText = headerArray;
-      
+
     }
-</script>
+    </script>
 
 }
