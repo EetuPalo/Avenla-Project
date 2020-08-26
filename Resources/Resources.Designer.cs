@@ -817,6 +817,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lessons.
+        /// </summary>
+        public static string Layout_Lessons {
+            get {
+                return ResourceManager.GetString("Layout_Lessons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Layout_Login {

@@ -4,48 +4,43 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Resources.SkillCourseMembers.AddUsers_Title</h2>
+<h1>@Resources.Resources.Layout_Courses</h1>
+<hr />
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddUsers">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>@Resources.SkillCourseMembers.AddUsers_User</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        <tr>
+<div class="card">
+    <div class="card-header"><h5>@Resources.SkillCourseMembers.AddUsers_Title</h5></div>
+    <div class="card-body">
+                <form asp-action="AddUsers">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>@Resources.SkillCourseMembers.AddUsers_User</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
 
-                            <td>
-                                @Model[i].UserName
-                            </td>
-                            <td>
-                                <input hidden asp-for="@Model[i].UserID" />
-                                <input hidden asp-for="@Model[i].CourseID" />
-                                <input hidden asp-for="@Model[i].UserName" />
-                                <input hidden asp-for="@Model[i].Status" />
-                                <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-                            </td>
+                                    <td>
+                                        @Model[i].UserName
+                                    </td>
+                                    <td>
+                                        <input hidden asp-for="@Model[i].UserID" />
+                                        <input hidden asp-for="@Model[i].CourseID" />
+                                        <input hidden asp-for="@Model[i].UserName" />
+                                        <input hidden asp-for="@Model[i].Status" />
+                                        <input asp-for="@Model[i].IsSelected" class="form-check-input" />
+                                    </td>
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
-           
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                        <button asp-route-id="@Model[0].CourseID" type="submit" class="btn btn-primary"><i class="fas fa-user-plus fa-fw"> </i> @Resources.SkillCourseMembers.AddUsers_Add</button>
-                    </div>
-                </div>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="goBack()" class="btn btn-danger"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                    <button asp-route-id="@Model[0].CourseID" type="submit" class="btn btn-primary"><i class="fas fa-user-plus fa-fw"> </i> @Resources.SkillCourseMembers.AddUsers_Add</button>
+                </form>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
