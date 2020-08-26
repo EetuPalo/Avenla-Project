@@ -125,7 +125,7 @@ body {
     background-color: /*#f0f0f0*/ #e6efff;
 }
 
-#selectLanguage {
+#selectLanguage, #SetActiveCompany {
     margin-top: 3px;
 }
 
