@@ -1195,6 +1195,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skill progression graph.
+        /// </summary>
+        public static string SkillProgressionGraph {
+            get {
+                return ResourceManager.GetString("SkillProgressionGraph", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string UCertificates_Create_Add {

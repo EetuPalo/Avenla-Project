@@ -488,6 +488,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="RoleDropDown" xml:space="preserve">
     <value>Valitse rooli</value>
   </data>
+  <data name="SkillProgressionGraph" xml:space="preserve">
+    <value>Taitotaulukko</value>
+  </data>
   <data name="Skill_Dropdownlist" xml:space="preserve">
     <value>Valitse taito</value>
   </data>

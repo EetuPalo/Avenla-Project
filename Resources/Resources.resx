@@ -494,6 +494,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="RoleDropDown" xml:space="preserve">
     <value>Select role</value>
   </data>
+  <data name="SkillProgressionGraph" xml:space="preserve">
+    <value>Skill progression graph</value>
+  </data>
   <data name="Skill_Dropdownlist" xml:space="preserve">
     <value>Select skill</value>
   </data>
