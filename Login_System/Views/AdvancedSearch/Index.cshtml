@@ -1,11 +1,9 @@
 ﻿@model Login_System.ViewModels.AdvancedSearchVM
-@using System.Threading;
-@using System.Net;
+
 @{
     ViewData["Title"] = "AdvancedSearch";
-    var display = Thread.CurrentThread.CurrentCulture.DisplayName;
-    Console.Write(display);
-    string finUrl = "'url' : '//cdn.datatables.net/plug-ins/1.10.21/i18n/Finnish.json'";
+ 
+    
 }
 
 <h1>@Resources.Resources.Advanced_Search</h1>
@@ -15,13 +13,11 @@
         <div class="card-header"> <h5> @Resources.Resources.Advanced_Search </h5> </div>
         <div class="card-body">
             <div class="row">
-                @if (User.IsInRole("Superadmin"))
-                {
                     <div class="col-sm">
                         <label asp-for="Company">@Resources.Resources.Company</label>
                         @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple form-control col-sm" })
                     </div>
-                }
+                
                 <div class="col-sm">
                     <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
                     @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
@@ -83,20 +79,20 @@
                         {
                             @foreach (var user in Model.Users)
                             {
-                                @if (ViewBag.CurrentCompany == user.Company || User.IsInRole("Superadmin"))
+                                @if (Model.adminCompanyIds.Any(x=> user.Item2.Any(y=> x==y))|| User.IsInRole("Superadmin"))
                                 {
                                     <tr>
-                                        <td>@user.FirstName</td>
-                                        <td>@user.LastName</td>
-                                        <td>@user.Email</td>
-                                        <td>@user.PhoneNumber</td>
+                                        <td>@user.Item1.FirstName</td>
+                                        <td>@user.Item1.LastName</td>
+                                        <td>@user.Item1.Email</td>
+                                        <td>@user.Item1.PhoneNumber</td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
-                                        <td>@user.Company</td>
-                                        <td>@user.Id</td>
+                                        <td>@user.Item1.Company</td>
+                                        <td>@user.Item1.Id</td>
                                     </tr>
 
                                 }

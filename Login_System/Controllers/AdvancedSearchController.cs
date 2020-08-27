@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace Login_System.Controllers
 {
@@ -29,19 +30,28 @@ namespace Login_System.Controllers
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
-            var usersInFilter = new List<AppUser>();
+            var companyIdList = new List<int>();
+            var testlist = new List<(AppUser, List<int>)>();
+
+            //filter lists
             var SkillList = new List<AppUser>();
             var GroupList = new List<AppUser>();
             var CertList = new List<AppUser>();
             var CompanyList = new List<AppUser>();
-
+           
             //booleans to check if other filters have been used
             bool skillbool = Skill != null ? true : false;
             bool groupbool = Groups != null ?true :false;
             bool certificatebool = Certificate != null ? true :false;
             //Skill[0] = null;    
             var user = await UserMgr.GetUserAsync(HttpContext.User);
-            ViewBag.CurrentCompany = user.Company;
+            List<int> usercompanies = new List<int>();
+            foreach (var item in _context.CompanyMembers.Where(x => x.UserId== user.Id).ToList())
+            {
+                usercompanies.Add(_context.Company.FirstOrDefault(x => x.Id == item.CompanyId).Id);
+            }
+            model.adminCompanyIds = usercompanies;
+            //ViewBag.CurrentCompany = userCompanies;
 
             //Populating certificate dropdown with certificates
             foreach (var certificate in _context.Certificates)
@@ -60,10 +70,23 @@ namespace Login_System.Controllers
             {
                 model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
             }
-
-            foreach (var companies in _context.Company)
+            if (User.IsInRole("Superadmin"))
             {
-                model.CompanyList.Add(new SelectListItem() { Text = companies.Name, Value = companies.Name });
+                foreach (var companies in _context.Company)
+                {
+                    model.CompanyList.Add(new SelectListItem() { Text = companies.Name, Value = companies.Id.ToString()});
+                }
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                companyIdList = _context.CompanyMembers.Where(x => x.UserId == user.Id).Select(x => x.CompanyId).ToList();
+                foreach(var id in companyIdList)
+                {
+                    foreach (var company in _context.Company.Where(x=> x.Id == id))
+                    {
+                        model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString()});  
+                    }
+                }
             }
             
             if(Skill.Length> 0)
@@ -84,7 +107,6 @@ namespace Login_System.Controllers
                         break;
                 }
             }
-          
             
             switch (Certificate)
             {
@@ -139,50 +161,17 @@ namespace Login_System.Controllers
                     break;
             }
 
-            //var SkillCertList = new List<AppUser>();
-
-            /*if (SkillList.Count == 0 && CertList.Count == 0)
+            foreach (var applicableUser in userList)
             {
-                    userList = GroupList;
-            }
+                List<int> ids = _context.CompanyMembers.Where(x=>x.UserId == applicableUser.Id).Select(x=> x.CompanyId).ToList();
 
-            if (CertList.Count == 0 && GroupList.Count == 0)
-            {      
-                    userList = SkillList;
+                
+
+                testlist.Add((applicableUser, ids));
             }
 
-            if(GroupList.Count == 0 && SkillList.Count == 0)
-            {
-                    userList = CertList; 
-            }
-            if (GroupList.Count == 0 && SkillList.Count == 0 && CertList.Count == 0)
-            {
-                userList = CompanyList;
-            }
-            if (GroupList.Count > 0 && SkillList.Count > 0 && CertList.Count > 0 && CompanyList.Count > 0)
-            {
-                SkillCertList = SkillList.Intersect(CertList).ToList();
-                userList = SkillCertList.Intersect(GroupList).ToList();
-                userList = SkillCertList.Intersect(CompanyList).ToList();
-            }
-            if (GroupList.Count == 0 && SkillList.Count > 0 && CertList.Count > 0 && ) 
-            {
-                userList = SkillList.Intersect(CertList).ToList();
-            }
-            if (GroupList.Count > 0 && SkillList.Count == 0 && CertList.Count > 0)
-            {
-                userList = CertList.Intersect(GroupList).ToList();
-            }
-            if (GroupList.Count > 0 && SkillList.Count > 0 && CertList.Count == 0)
-            {
-                userList = GroupList.Intersect(SkillList).ToList();
-            }
-
-            userList = userList.OrderBy(x=> x.Company != user.Company).ToList();*/
-
-            
-            model.Users = userList;
-            
+            model.Users = testlist;
+            //model.differentCompanyUsers = differentCompanyUsers;
             return View(model);
         }
 
@@ -230,10 +219,8 @@ namespace Login_System.Controllers
                                         currentSkillList.Add(user);
                                     }
                                 }
-                               
                             }
                         }
-                      
                     }
                  }
                 //add final loop here
@@ -307,9 +294,9 @@ namespace Login_System.Controllers
                              where i.name == Company
                              select i;*/
 
-            foreach (var Uname in _context.Company.Where(x => x.Name == Company))
+            foreach (var Uname in _context.CompanyMembers.Where(x => x.CompanyId == Int32.Parse(Company)))
             {
-                foreach (AppUser user in UserMgr.Users.Where(x => x.Company == Uname.Id))
+                foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserId))
                 {
                     //This is to prevent duplicates
                     if (!CompanyList.Contains(user))
