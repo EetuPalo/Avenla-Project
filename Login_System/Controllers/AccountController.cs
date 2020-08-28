@@ -188,8 +188,9 @@ namespace Login_System.Controllers
                 else
                 {
                     ViewBag.Result = result.ToString();
-                }               
+                }                
             }
+            ModelState.AddModelError("", "Invalid username or password");
             return View(user);
         }        
 

@@ -39,7 +39,7 @@
                 </form>
             </fieldset>
         </div>
-   
+
         <div class="col-sm-6">
             <h4>@Resources.Resources.Login_Title</h4>
             <p>
@@ -47,8 +47,12 @@
             </p>
         </div>
     </div>
-   
+
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
 
 
