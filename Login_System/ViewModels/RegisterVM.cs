@@ -50,6 +50,8 @@ namespace Login_System.ViewModels
 
         public int Company { get; set; }
 
+        public List<int> Companies { get; set; }
+
         [Required(ErrorMessageResourceType = typeof(Resources.Resources),
             ErrorMessageResourceName = "PasswordRequired")]
         [DataType(DataType.Password)]

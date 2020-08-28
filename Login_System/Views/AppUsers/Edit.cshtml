@@ -59,11 +59,11 @@
                                 </select>
                                 <span asp-validation-for="User.EmpStatus" class="text-danger"></span>
                             </div>
-                            @if (User.IsInRole("Superadmin"))
+                            @if (User.IsInRole("Superadmin")|| User.IsInRole("Admin"))
                             {
                                 <div class="form-group">
                                     <label asp-for="Company">@Resources.Resources.Company</label>
-                                    @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                                    @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "company form-control col-sm", @multiple = "multiple" })
                                 </div>
                             }
                             else
@@ -75,7 +75,7 @@
                             {
                                 <label>@Resources.Resources.Layout_Roles</label>
                                 <div class="form-group">
-                                    @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "form-control col-sm" })
+                                    @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "role form-control col-sm" })
                                 </div>
                             }
 
@@ -144,3 +144,17 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $(document).ready(function () {
+        $('.company').select2();
+        $('.company').val([@foreach (var item in ViewBag.Companies) 
+        {
+            <text> @item.CompanyId, </text>
+        } ]);
+
+        $('.company').trigger('change');
+
+        $(".role").val("@ViewBag.role")
+    });
+
+</script>

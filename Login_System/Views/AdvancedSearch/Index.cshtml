@@ -15,7 +15,7 @@
             <div class="row">
                     <div class="col-sm">
                         <label asp-for="Company">@Resources.Resources.Company</label>
-                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-example-basic-multiple form-control col-sm" })
+                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-examp le-basic-multiple form-control col-sm" })
                     </div>
                 
                 <div class="col-sm">
@@ -91,8 +91,8 @@
                                 else
                                 {
                                     <tr>
-                                        <td>@user.Item1.Company</td>
                                         <td>@user.Item1.Id</td>
+                                        <td>@user.Item1.</td>
                                     </tr>
 
                                 }

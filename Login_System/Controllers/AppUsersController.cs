@@ -203,10 +203,28 @@ namespace Login_System.Controllers
                 TempData["Company"] = currentUser.Company;
                 var model = new RegisterVM();
                 var tempList = new List<Company>();
+                List<CompanyMember> companyList = new List<CompanyMember>();
+                if (User.IsInRole("Admin"))
+                {
+                    companyList = CompanyList.CompanyMembers.Where(x => x.UserId == currentUser.Id).ToList();
+                }
+                
                 //Populating the dropdown with companies
                 foreach (var company in CompanyList.Company)
                 {
-                    model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                    if(User.IsInRole("Superadmin"))
+                    {
+                        model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                    }
+
+                    else
+                    {
+                        if(companyList.Any(x=> x.CompanyId == company.Id))
+                        {
+                            model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                        }
+                    }
+                  
                 }
                 foreach (var roles in roleManager.Roles)
                 {
@@ -250,15 +268,15 @@ namespace Login_System.Controllers
         //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
       
-        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser, string SelectedRole)
+        public async Task<IActionResult> Create([Bind("EMail, FirstName, LastName, PhoneNumber, Company, Password, ConfirmPassword")] RegisterVM appUser, string SelectedRole,List<int> Companies)
         {
              if (ModelState.IsValid)
             {
                 var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-
+                Console.Write(appUser.Company);
                 //This constructs the username from the users first and last names
                 string userName = appUser.FirstName + appUser.LastName;
-                Company company = await dataContext.Company.FirstOrDefaultAsync(x=> x.Id == appUser.Company);
+                Company company = await dataContext.Company.FirstOrDefaultAsync(x=> x.Id == Companies.First());
                 var k = 1;
                 var veryTempUser = await UserMgr.FindByNameAsync(userName);
                 while (veryTempUser != null)
@@ -325,15 +343,18 @@ namespace Login_System.Controllers
                             roleResult = await UserMgr.AddToRoleAsync(user, SelectedRole);
                         }
                        
-                        var newMember = new CompanyMember
+                   
+                        foreach (var companyId in Companies)
                         {
-                            CompanyId = user.Company,
-                           
-                            UserId = user.Id
-                    
-                        };
+                            
+                            var newMember = new CompanyMember
+                            {
+                                CompanyId = companyId,
 
-                        CompanyList.CompanyMembers.Add(newMember);
+                                UserId = user.Id
+                            };
+                            CompanyList.CompanyMembers.Add(newMember);
+                        }
                         await dataContext.SaveChangesAsync();
                       
 
@@ -357,6 +378,7 @@ namespace Login_System.Controllers
         }
 
         // GET: AppUsers/Edit/5
+        [HttpGet]
         [Authorize(Roles = "User, Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -365,13 +387,33 @@ namespace Login_System.Controllers
             EditUserVM mainModel = new EditUserVM();
             //GROUP//
             ViewBag.UserId = id;
-            AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
+            AppUser appUser = await UserMgr.FindByIdAsync(id.ToString());
+
+            var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+
             var model = new List<Group>();
             var userMembership = new List<GroupMember>();
+            var currentCompanies = new List<CompanyMember>();
+            List<CompanyMember> companyList = new List<CompanyMember>();
+            if (User.IsInRole("Admin"))
+            {
+                companyList = CompanyList.CompanyMembers.Where(x => x.UserId == currentUser.Id).ToList();
+            }
 
+            try
+            {
+                var oldRole = await roleManager.FindByIdAsync(_context.UserRoles.FirstOrDefault(x => x.UserId == appUser.Id).RoleId.ToString());
+
+                ViewBag.role = oldRole.Name;
+            }
+          
+            catch(Exception e)
+            {
+
+            }
             foreach (var group in dataContext.Group)
             {
-                userMembership = dataContext.GroupMembers.Where(x => (x.UserID == tempUser.Id) && (x.GroupName == group.name)).ToList();
+                userMembership = dataContext.GroupMembers.Where(x => (x.UserID == appUser.Id) && (x.GroupName == group.name)).ToList();
                 model.Add(group);
                 int index = userMembership.FindIndex(f => f.GroupName == group.name);
                 if (index >= 0)
@@ -389,7 +431,7 @@ namespace Login_System.Controllers
             List<AppRole> roleList = new List<AppRole>();
             foreach (var role in roleManager.Roles)
             {               
-                if (await UserMgr.IsInRoleAsync(tempUser, role.Name))
+                if (await UserMgr.IsInRoleAsync(appUser, role.Name))
                 {
                     role.IsSelected = true;
                 }
@@ -408,26 +450,48 @@ namespace Login_System.Controllers
                     return NotFound();
                 }
 
-                var appUser = await UserMgr.FindByIdAsync(id.ToString());
+               
 
                 if (appUser == null)
                 {
                     return NotFound();
                 }
                 var tempList = new List<Company>();
-                foreach (var company in CompanyList.Company)
-                {
-                    mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
-                }
+                //List<CompanyMember> companyList = new List<CompanyMember>();
+
+                //Populating the dropdown with companies
+               
+                    foreach (var company in CompanyList.Company)
+                    {
+                        if (User.IsInRole("Superadmin"))
+                        {
+                            mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                        }
+
+                        else
+                        {
+                            if (companyList.Any(x => x.CompanyId == company.Id))
+                            {
+                                mainModel.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                            }
+                        }
+
+                    }
+
+                
                 foreach (var roles in roleManager.Roles)
                 {
-                    mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                    mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name});
                 }
-                mainModel.User = tempUser;
+                mainModel.User = appUser;
 
+
+
+                currentCompanies = CompanyList.CompanyMembers.Where(x => x.UserId == appUser.Id).ToList();
+                ViewBag.Companies = currentCompanies;
                 TempData["UserId"] = id;
-                TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
-                appUser.TempUserName = tempUser.UserName;
+                TempData["UserFullName"] = appUser.FirstName + " " + appUser.LastName;
+                appUser.TempUserName = appUser.UserName;
                 return View(mainModel);
             }
             return View();
@@ -436,7 +500,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "User, Admin, Superadmin")]
-        public async Task<IActionResult> Edit(int id, EditUserVM model, string SelectedRole)
+        public async Task<IActionResult> Edit(int id, EditUserVM model, string SelectedRole, List<int> Companies)
         {
             if (ModelState.IsValid)
             {
@@ -485,8 +549,22 @@ namespace Login_System.Controllers
                 //AppRole role = await roleManager.FindByIdAsync(model.Roles.Id.ToString());
                 ////roleManager.FindByIdAsync(model.Roles.Select(x => x.Id).ToString());
 
-                
 
+                var previousCompaniesList = CompanyList.CompanyMembers.Where(x => x.UserId == tempUser.Id);
+                foreach (var companyMember in previousCompaniesList)
+                {
+                    CompanyList.CompanyMembers.Remove(companyMember);
+                }
+                
+                foreach(var company in Companies)
+                {
+                    CompanyList.CompanyMembers.Add(new CompanyMember
+                    {
+                        CompanyId = company,
+                        UserId = tempUser.Id
+                    });
+                }
+                await CompanyList.SaveChangesAsync();
                 ////PROTECTS USERS IN ROLE ADMIN
                 //if (role.Name == "Superadmin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Superadmin"))
                 //{
@@ -510,11 +588,18 @@ namespace Login_System.Controllers
                 //
 
                 IdentityResult ? result = null;
+                try
+                {
+                    var oldRole = await roleManager.FindByIdAsync(_context.UserRoles.FirstOrDefault(x => x.UserId == tempUser.Id).RoleId.ToString());
+                    result = await UserMgr.RemoveFromRoleAsync(tempUser, oldRole.Name);
+                   
+                }
+                catch(Exception e)
+                {
 
-                var oldRole = await roleManager.FindByIdAsync(_context.UserRoles.FirstOrDefault(x => x.UserId == tempUser.Id).RoleId.ToString());
-                result = await UserMgr.RemoveFromRoleAsync(tempUser, oldRole.Name);
+                }
                 result = await UserMgr.AddToRoleAsync(tempUser, SelectedRole);
-                    
+
                 //if (model.Roles[i].IsSelected && !(await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name)))
                 //{
                 //    result = await UserMgr.AddToRoleAsync(tempUser, role.Name);
@@ -546,14 +631,10 @@ namespace Login_System.Controllers
                     user.UserName = fixedUn;
                     user.Email = model.User.Email;
                     user.PhoneNumber = model.User.PhoneNumber;
-                    if(User.IsInRole("Superadmin"))
-                    {
-                        user.Company = model.Company;
-                    }
-                    else
-                    {
-                        user.Company = currentUser.Company;
-                    }
+                    
+                    user.Company = model.Companies.First();
+                    
+                  
                     if (model.User.EmpStatus != "-1")
                     {
                         user.EmpStatus = model.User.EmpStatus;

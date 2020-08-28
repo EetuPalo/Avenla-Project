@@ -42,11 +42,11 @@
                         <input asp-for="PhoneNumber" class="form-control" placeholder=@Resources.Resources.Phone />
                         <span asp-validation-for="PhoneNumber"></span>
                     </div>
-                    @if (User.IsInRole("Superadmin"))
+                    @if (User.IsInRole("Superadmin")|| User.IsInRole("Admin"))
                     {
                         <label>@Resources.Resources.Company</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                            @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "company form-control col-sm", @multiple = "multiple" })
                         </div>
 
                         <label>@Resources.Resources.Layout_Roles</label>
@@ -59,10 +59,7 @@
                         <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
                         <input type="hidden" asp-for="SelectedRole" value="Superadmin" class="form-control" />
                     }
-                    else
-                    {
-                        <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
-                    }
+               
 
                     <div class="form-group">
                         <label asp-for="Password"></label>
@@ -102,3 +99,9 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $(document).ready(function () {
+        $('.company').select2();
+    });
+
+</script>
