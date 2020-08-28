@@ -228,7 +228,11 @@ namespace Login_System.Controllers
                 }
                 foreach (var roles in roleManager.Roles)
                 {
-                    model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                    if((roles.Name != "Superadmin" && User.IsInRole("Admin")) || User.IsInRole("Superadmin"))
+                    {
+                        model.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                    }
+                   
                 }
                 return View(model);
             }
@@ -481,7 +485,11 @@ namespace Login_System.Controllers
                 
                 foreach (var roles in roleManager.Roles)
                 {
-                    mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name});
+                    if ((roles.Name!="Superadmin" && User.IsInRole("Admin"))|| User.IsInRole("Superadmin"))
+                    {
+                        mainModel.RolesList.Add(new SelectListItem() { Text = roles.Name, Value = roles.Name });
+                    }
+                   
                 }
                 mainModel.User = appUser;
 
