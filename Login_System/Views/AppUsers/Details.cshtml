@@ -76,6 +76,7 @@
                         @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
                         {
                             <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                            <a class="btn btn-danger float-right" asp-action="Delete" asp-controller="AppUsers" asp-route-source="details" asp-route-id="@Model.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
                         }
                     </div>
                 </div>

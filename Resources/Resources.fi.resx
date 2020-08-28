@@ -458,6 +458,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="MONTH_UNSELECTED" xml:space="preserve">
     <value>Valitse kuukausi</value>
   </data>
+  <data name="No_button" xml:space="preserve">
+    <value>Ei</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Salasana</value>
   </data>
