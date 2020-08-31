@@ -133,6 +133,7 @@
         deleteBtn.innerHTML = "Delete";
         deleteBtn.id = $('#skillFilters').children().length;
         deleteBtn.addEventListener('click', removeIt);
+        deleteBtn.addEventListener('click', modifyHeading);
         var buttoncontainer = completenode.querySelectorAll(".buttons")[0];
         buttoncontainer.innerHTML = "";
        //appending button to cloned div and that div to skillfilters div

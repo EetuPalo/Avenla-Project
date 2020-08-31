@@ -26,7 +26,7 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(string?[] Skill, string Certificate, string Groups, string Company, int?[] min, int?[] max)
+        public async Task<IActionResult> Index(string?[] Skill, string Certificate, int? Groups, string Company, int?[] min, int?[] max)
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
@@ -60,10 +60,6 @@ namespace Login_System.Controllers
             }
 
             // Populating group dropdown with groups
-            foreach (var group in _context.Group)
-            {
-                model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.name });
-            }
 
             // Populating skill dropdown with skills
             foreach (var skill in _context.Skills)
@@ -76,6 +72,13 @@ namespace Login_System.Controllers
                 {
                     model.CompanyList.Add(new SelectListItem() { Text = companies.Name, Value = companies.Id.ToString()});
                 }
+
+
+                foreach (var group in _context.Group)
+                {
+                    model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.id.ToString() });
+                }
+
             }
             else if (User.IsInRole("Admin"))
             {
@@ -86,7 +89,14 @@ namespace Login_System.Controllers
                     {
                         model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString()});  
                     }
+
+                    foreach(var group in _context.Group)
+                    {
+                        model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.id.ToString() });
+                    }
                 }
+
+
             }
             
             if(Skill.Length> 0)
@@ -263,15 +273,15 @@ namespace Login_System.Controllers
             return CertList;
         }
         // Group Filter
-        public List<AppUser> GroupFilter(List<AppUser> GroupList, string Groups)
+        public List<AppUser> GroupFilter(List<AppUser> GroupList, int? Groups)
         {
             List<AppUser> tempList = new List<AppUser>();
 
             var groupQuery = from i in _context.Group
-                             where i.name == Groups
+                             where i.id == Groups
                              select i;
 
-            foreach (var Uname in _context.GroupMembers.Where(x => x.GroupName == Groups))
+            foreach (var Uname in _context.GroupMembers.Where(x => x.GroupID == Groups))
             {
                 foreach (AppUser user in UserMgr.Users.Where(x => x.Id == Uname.UserID))
                 {
