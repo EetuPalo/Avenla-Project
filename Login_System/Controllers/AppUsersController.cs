@@ -482,7 +482,6 @@ namespace Login_System.Controllers
 
                     }
 
-                
                 foreach (var roles in roleManager.Roles)
                 {
                     if ((roles.Name!="Superadmin" && User.IsInRole("Admin"))|| User.IsInRole("Superadmin"))

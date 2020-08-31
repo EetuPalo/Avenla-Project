@@ -46,7 +46,7 @@
                     {
                         <label>@Resources.Resources.Company</label>
                         <div class="form-group">
-                            @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "company form-control col-sm", @multiple = "multiple" })
+                            @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"),  new { @class = "company form-control col-sm", @multiple = "multiple" })
                         </div>
 
                         <label>@Resources.Resources.Layout_Roles</label>
@@ -101,7 +101,9 @@
 }
 <script>
     $(document).ready(function () {
-        $('.company').select2();
+        $('.company').select2({
+            placeholder: "@Resources.Resources.CompaniesSelectDropdown"
+        });
     });
 
 </script>

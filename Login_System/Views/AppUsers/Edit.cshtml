@@ -63,7 +63,7 @@
                             {
                                 <div class="form-group">
                                     <label asp-for="Company">@Resources.Resources.Company</label>
-                                    @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "company form-control col-sm", @multiple = "multiple" })
+                                    @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"),  new { @class = "company form-control col-sm", @multiple = "multiple" })
                                 </div>
                             }
                             else
@@ -146,7 +146,9 @@
 }
 <script>
     $(document).ready(function () {
-        $('.company').select2();
+        $('.company').select2({
+            placeholder: "@Resources.Resources.CompaniesSelectDropdown"
+        });
         $('.company').val([@foreach (var item in ViewBag.Companies) 
         {
             <text> @item.CompanyId, </text>
