@@ -68,7 +68,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Superadmin")]
-        public async Task<IActionResult> Create(/*[Bind("id,name,Description")] Company company, int? id,*/CompanyMembersVM data, int id )
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Company company, int? id, CompanyMembersVM data)
         {
             
 
@@ -97,7 +97,7 @@ namespace Login_System.Controllers
                 //    UserName = user.UserName
                 //};
 
-                var company = (await _context.Company.AddAsync(new Company { Name = data.CompanyName, Description = data.Description})).Entity;
+                company = (await _context.Company.AddAsync(new Company { Name = data.CompanyName, Description = data.Description})).Entity;
                 await _context.SaveChangesAsync();
 
 
@@ -142,9 +142,9 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Superadmin")]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name,Description")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Company company)
         {
-            if (id != company.Id)
+            if (company != null && id != company.Id)
             {
                 return NotFound();
             }

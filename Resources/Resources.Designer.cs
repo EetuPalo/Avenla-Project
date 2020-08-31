@@ -97,6 +97,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company name.
+        /// </summary>
+        public static string CompanyName {
+            get {
+                return ResourceManager.GetString("CompanyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company is required.
         /// </summary>
         public static string CompanyRequired {
@@ -183,6 +192,15 @@ namespace Resources {
         public static string CourseMem_Details_Title {
             get {
                 return ResourceManager.GetString("CourseMem_Details_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create company.
+        /// </summary>
+        public static string Create_company {
+            get {
+                return ResourceManager.GetString("Create_company", resourceCulture);
             }
         }
         

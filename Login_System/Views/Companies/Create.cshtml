@@ -13,51 +13,49 @@
 </script>
 @if (User.IsInRole("Superadmin"))
 {
-<h1>Create</h1>
+<h1>@Resources.Resources.Companies_index</h1>
+    <hr />
 
-<h4>Company</h4>
-<hr />
-<div class="container-fluid p-0">
-    <form asp-action="Create">
-        <div class="row">
-            <div class="col-md-12">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group col-md-6">
-                    <label asp-for="CompanyName" class="control-label"></label>
-                    <input asp-for="CompanyName" class="form-control" />
-                    <span asp-validation-for="CompanyName" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">@Resources.Resources.User_Label</label>
-                        @Html.DropDownListFor(x => x.SelectedUserIds, new SelectList(Model.userList, "Value", "Text"), new { @class = "user-drop-down form-control col-sm", @multiple="multiple"})
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Resources.Create_company</h5></div>
+        <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="CompanyName" class="control-label">@Resources.Resources.CompanyName</label>
+                        <input asp-for="CompanyName" class="form-control" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label asp-for="Description" class="control-label">@Resources.Resources.Desc_company</label>
-                        <textarea asp-for="Description" class="form-control" id="companyDesc"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@Resources.Resources.User_Label</label>
+                            @Html.DropDownListFor(x => x.SelectedUserIds, new SelectList(Model.userList, "Value", "Text"), new { @class = "user-drop-down form-control col-sm", @multiple = "multiple" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label">@Resources.Resources.Desc_company</label>
+                            <textarea asp-for="Description" class="form-control" id="companyDesc"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
-</div>
 }
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 <script>
     $(document).ready(function () {
-        $('.user-drop-down').select2({templateSelection: formatSelection});
+        $('.user-drop-down').select2({ templateSelection: formatSelection });
     });
 
     function formatSelection(selection) {
@@ -65,5 +63,5 @@
 
         return selection.text;
     }
-   
+
 </script>
