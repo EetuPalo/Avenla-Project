@@ -28,62 +28,70 @@
     <hr />*@
 <h1>@Resources.Resources.Layout_Certificates</h1>
 <hr />
-<div class="card mb-3">
-    <div class="card-header"><h5>@Resources.Resources.Layout_info</h5></div>
-    <div class="card-body">
-        <p>@Resources.Certificates.Index_SubDesc1</p>
-        <p>@Resources.Certificates.Index_SubDesc2</p>
-    </div>
-</div>
-<div class="card">
-    <div class="card-header">
-        <h5>
-            @Resources.Certificates.Index_SubTitle
-            <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Certificates.Index_BTN_Create</a>
-        </h5>
-    </div>
-    <div class="card-body">
-        <div class="container-fluid p-0">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Organization)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Organization)
-                            </td>
-                            <td>
-                                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Certificates.Index_BTN_Edit</a>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Certificates.Index_BTN_Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<div class="card-columns" style="column-count: 2;">
+    <div class="card mb-3">
+        <div class="card-header"><h5>@Resources.Resources.Layout_info</h5></div>
+        <div class="card-body">
+            <p>@Resources.Certificates.Index_SubDesc1</p>
+            <p>@Resources.Certificates.Index_SubDesc2</p>
         </div>
-
+    </div>
+    <div class="card mb-3">
+        <div class="card-header"><h5>@Resources.Resources.Group_options</h5></div>
+        <div class="card-body">
+            <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Certificates.Index_BTN_Create</a>
+            <a class="btn btn-primary" asp-controller="UserCertificates" asp-action="Create" asp-route-id="@TempData["id"]"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
+        </div>
     </div>
 </div>
-@section Scripts {
-    <script type="text/javascript">
-        function clearForm() {
-            var search = document.getElementById('search-bar');
-            search.value = '';
-            document.forms[0].submit();
-        }
-    </script>
-}
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                @Resources.Certificates.Index_SubTitle
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid p-0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Organization)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Organization)
+                                </td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Certificates.Index_BTN_Edit</a>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Certificates.Index_BTN_Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    @section Scripts {
+        <script type="text/javascript">
+            function clearForm() {
+                var search = document.getElementById('search-bar');
+                search.value = '';
+                document.forms[0].submit();
+            }
+        </script>
+    }
