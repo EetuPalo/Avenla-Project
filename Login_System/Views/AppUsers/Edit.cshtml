@@ -18,6 +18,27 @@
     </div>
     <hr />*@
 <h1>@TempData["UserFullName"]</h1>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserId"]>@TempData["UserFullName"]</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
+        </ol>
+    </nav>
+}
 <hr />
 <div class="card">
     <div class="card-header"><h5>@Resources.Resources.Employee_Index_Edit</h5></div>
@@ -59,11 +80,11 @@
                                 </select>
                                 <span asp-validation-for="User.EmpStatus" class="text-danger"></span>
                             </div>
-                            @if (User.IsInRole("Superadmin")|| User.IsInRole("Admin"))
+                            @if (User.IsInRole("Superadmin") || User.IsInRole("Admin"))
                             {
                                 <div class="form-group">
                                     <label asp-for="Company">@Resources.Resources.Company</label>
-                                    @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"),  new { @class = "company form-control col-sm", @multiple = "multiple" })
+                                    @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
                                 </div>
                             }
                             else
@@ -149,7 +170,7 @@
         $('.company').select2({
             placeholder: "@Resources.Resources.CompaniesSelectDropdown"
         });
-        $('.company').val([@foreach (var item in ViewBag.Companies) 
+        $('.company').val([@foreach (var item in ViewBag.Companies)
         {
             <text> @item.CompanyId, </text>
         } ]);

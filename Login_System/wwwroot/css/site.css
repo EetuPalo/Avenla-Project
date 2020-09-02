@@ -1,6 +1,21 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/* Breadsrumb styling. small h1 uses display:inline to have breadcrumb navigation links inside h1 whitespace. */
+.breadcrumb  {
+    font-size:medium;    
+    float:right;
+    background-color: white;
+}
+
+.breadcrumb_nav {
+    float: right;
+}
+
+h1 {
+    display: inline;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -165,4 +180,6 @@ body {
     cursor: pointer;
     outline: inherit;
 }
+
+
 
