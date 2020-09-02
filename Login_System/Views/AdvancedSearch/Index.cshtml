@@ -7,6 +7,12 @@
 }
 
 <h1>@Resources.Resources.Advanced_Search</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Advanced_Search</li>
+    </ol>
+</nav>
 <hr />
 <form asp-controller="AdvancedSearch" asp-action="Index">
     <div class="card">
