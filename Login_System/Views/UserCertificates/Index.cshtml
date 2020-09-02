@@ -28,6 +28,7 @@
             <h5>
                 @TempData["UserName"] @Resources.Resources.UCertificates_Index_Title
                 <a class="btn btn-primary float-right" asp-action="Create" asp-controller="Certificates"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Certificates.Create_New_Btn</a>
+                <a class="btn btn-primary float-right" asp-action="Create" asp-route-id="@TempData["UserID"]"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
             </h5>
         </div>
             <div class="card-body">
