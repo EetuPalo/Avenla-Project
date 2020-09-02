@@ -6,164 +6,172 @@
 }
 
 @*<script>
-    $(function() {
-        $(".content").hide();
-        $('.content2').css('background-color', '#F8F8FF');
+        $(function() {
+            $(".content").hide();
+            $('.content2').css('background-color', '#F8F8FF');
 
-  $('.expandable-row').click(function(e) {
-      $(this).next('.content').toggle();
-      $(this).next('.content').css('background-color', '#F8F8FF');
-    //$(this).next('.content').slideToggle();
-  });
+      $('.expandable-row').click(function(e) {
+          $(this).next('.content').toggle();
+          $(this).next('.content').css('background-color', '#F8F8FF');
+        //$(this).next('.content').slideToggle();
+      });
 
-    });
-</script>*@
+        });
+    </script>*@
 
 @*<h2>@Resources.Courses.Index_Title</h2>
-<h4 class="text-info">@TempData["ActionResult"]</h4>
-<p>@Resources.Courses.Index_TitleDesc</p>
-<hr />
-<form asp-controller="SkillCourses" asp-action="Index">
-    <div class="container-fluid p-0">
-        <div class="row mb-4">
-            <div class="col-sm">
-                <div class="input-group">
-                    <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
-                    <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
-                        <i class="fa fa-times"></i>
-                    </button>
+    <h4 class="text-info">@TempData["ActionResult"]</h4>
+    <p>@Resources.Courses.Index_TitleDesc</p>
+    <hr />
+    <form asp-controller="SkillCourses" asp-action="Index">
+        <div class="container-fluid p-0">
+            <div class="row mb-4">
+                <div class="col-sm">
+                    <div class="input-group">
+                        <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
+                        <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
+                    @if (User.IsInRole("Admin")|| User.IsInRole("Superadmin"))
+                    {
+                        <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
+                    }
                 </div>
             </div>
-            <div class="col-sm">
-                <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
-                @if (User.IsInRole("Admin")|| User.IsInRole("Superadmin"))
+        </div>
+    </form>
+    <hr />*@
+
+<h1>@Resources.Resources.Layout_Courses</h1>
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page">@Resources.Resources.Layout_Courses</li>
+        </ol>
+    </nav>
+
+<hr />
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                @Resources.Courses.Index_Title
+                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                 {
                     <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
                 }
-            </div>
+            </h5>
         </div>
-    </div>    
-</form>
-<hr />*@
-<h1>@Resources.Resources.Layout_Courses</h1>
-<hr />
-<div class="card">
-    <div class="card-header">
-        <h5>
-            @Resources.Courses.Index_Title
-            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-            {
-                <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
-            }
-        </h5>
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Resources.Courses.Index_CourseName
-                    </th>
-                    <th>
-                        @Resources.Courses.Index_Lesson_Location
-                    </th>
-                    <th>
-                        @Resources.Courses.Index_Lessons
-                    </th>
-                    <th>
-                        @Resources.Courses.Index_Duration
-                    </th>
-                    <th class="disable_arrow"> </th>
-                    <th class="disable_arrow"> </th>
-                    <th class="disable_arrow"> </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Courses)
-                {
-                    <tr class="expandable-row">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CourseName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Location)
-                        </td>
-                        <td>
-                            @Model.Lessons.Where(x => x.CourseID == item.id).Count() / @item.Length
-                        </td>
-                        <td>
-                            @Model.Durations.FirstOrDefault(x => x.Key == item.id).Value
-                        </td>
-                        <!--adding your self to a course or completing one-->
-                        @if (item.MemberStatus == false)
-                        {
-                            <td>
-                                <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> </span>
-                            </td>
-                        }
-                        else if (item.MemberStatus == true && item.CompleteStatus != true)
-                        {
-                            <td>
-                                <a class="btn btn-success btn-sm" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-check"> </i> @Resources.Courses.Index_BTN_Complete</a><span>  </span>
-                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a><span>  </span>
-                            </td>
-                        }
-                        else if (item.MemberStatus == true && item.CompleteStatus == true)
-                        {
-                            <td>
-                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
-                            </td>
-                        }
-                        else if (item.MemberStatus == true && (User.IsInRole("Admin") || User.IsInRole("Superadmin")) && item.CompleteStatus != true)
-                        {
-                            <td>
-                                <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
-                            </td>
-                        }
-                        else if (item.MemberStatus == true && item.CompleteStatus == true)
-                        {
-                            <td>
-                                <span class="text-success">@Resources.Courses.Index_Status_Completed</span><span>  </span>
-                            </td>
-                        }
-                        @*<td>
-                            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-                            {
-
-                                <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
-                                <span> </span>
-
-                            }
-                        </td>*@
-                        <td>
-                            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-                            {
-                                <div class="dropdown show">
-                                    <a class="dropdown-toggle btn btn-info btn-sm" href="#" role="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-edit fa-fw"> </i> @Resources.Courses.Index_BTN_Edit
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="courseDropdown">
-                                        <a class="dropdown-item" asp-action="Create" asp-controller="Lessons" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddLesson</a>
-                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Edit</a>
-                                        <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.id">@Resources.Resources.DELETE_Button</a>
-                                        <a class="dropdown-item" asp-action="AddUsers" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddMembers</a>
-                                    </div>
-                                </div>
-                            }
-                        </td>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resources.Courses.Index_CourseName
+                        </th>
+                        <th>
+                            @Resources.Courses.Index_Lesson_Location
+                        </th>
+                        <th>
+                            @Resources.Courses.Index_Lessons
+                        </th>
+                        <th>
+                            @Resources.Courses.Index_Duration
+                        </th>
+                        <th class="disable_arrow"> </th>
+                        <th class="disable_arrow"> </th>
+                        <th class="disable_arrow"> </th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Courses)
+                    {
+                        <tr class="expandable-row">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CourseName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @Model.Lessons.Where(x => x.CourseID == item.id).Count() / @item.Length
+                            </td>
+                            <td>
+                                @Model.Durations.FirstOrDefault(x => x.Key == item.id).Value
+                            </td>
+                            <!--adding your self to a course or completing one-->
+                            @if (item.MemberStatus == false)
+                            {
+                                <td>
+                                    <a class="text-info" asp-action="Join" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Join</a> <span> </span>
+                                </td>
+                            }
+                            else if (item.MemberStatus == true && item.CompleteStatus != true)
+                            {
+                                <td>
+                                    <a class="btn btn-success btn-sm" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-check"> </i> @Resources.Courses.Index_BTN_Complete</a><span>  </span>
+                                    <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a><span>  </span>
+                                </td>
+                            }
+                            else if (item.MemberStatus == true && item.CompleteStatus == true)
+                            {
+                                <td>
+                                    <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
+                                </td>
+                            }
+                            else if (item.MemberStatus == true && (User.IsInRole("Admin") || User.IsInRole("Superadmin")) && item.CompleteStatus != true)
+                            {
+                                <td>
+                                    <a class="text-success" asp-action="Complete" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Complete</a><span>  </span>
+                                </td>
+                            }
+                            else if (item.MemberStatus == true && item.CompleteStatus == true)
+                            {
+                                <td>
+                                    <span class="text-success">@Resources.Courses.Index_Status_Completed</span><span>  </span>
+                                </td>
+                            }
+                            @*<td>
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+                                    {
 
-                }
-            </tbody>
-        </table>
+                                        <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="SkillCourseMembers" asp-route-id="@item.id"><i class="fas fa-users fa-fw"> </i> @Resources.Courses.Index_BTN_Members</a>
+                                        <span> </span>
+
+                                    }
+                                </td>*@
+                            <td>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+                                {
+                                    <div class="dropdown show">
+                                        <a class="dropdown-toggle btn btn-info btn-sm" href="#" role="button" id="courseDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-edit fa-fw"> </i> @Resources.Courses.Index_BTN_Edit
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="courseDropdown">
+                                            <a class="dropdown-item" asp-action="Create" asp-controller="Lessons" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddLesson</a>
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.id">@Resources.Courses.Index_BTN_Edit</a>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.id">@Resources.Resources.DELETE_Button</a>
+                                            <a class="dropdown-item" asp-action="AddUsers" asp-controller="SkillCourseMembers" asp-route-id="@item.id">@Resources.Courses.Index_BTN_AddMembers</a>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-@section Scripts {
-    <script type="text/javascript">
-        function clearForm() {
-            var search = document.getElementById('search-bar');
-            search.value = '';
-            document.forms[0].submit();
-        }
-    </script>
-}
+    @section Scripts {
+        <script type="text/javascript">
+            function clearForm() {
+                var search = document.getElementById('search-bar');
+                search.value = '';
+                document.forms[0].submit();
+            }
+        </script>
+    }
