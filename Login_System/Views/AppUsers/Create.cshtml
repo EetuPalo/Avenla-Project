@@ -7,7 +7,14 @@
 }
 
 @*<div class="container-fluid">*@
-<h1>@Resources.Resources.Layout_Employees<span class="float-right" style="font-size:medium;">Employees/Create</span></h1>
+<h1>@Resources.Resources.Layout_Employees</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"> <a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Create_DescTitle</li>
+    </ol>
+</nav>
 <hr />
 <div class="card-columns" style="column-count: 2;">
     <div class="card">

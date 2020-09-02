@@ -5,236 +5,255 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @*<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm-2">
-            <h2>@TempData["UserFullName"]</h2>           
+        <div class="row">
+            <div class="col-sm-2">
+                <h2>@TempData["UserFullName"]</h2>
+            </div>
+            <div class="col-sm-10">
+                <a class="btn btn-primary" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@Model.Id" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
+                <a class="btn btn-primary" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@Model.Id"><i class="fas fa-certificate fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
+            </div>
         </div>
-        <div class="col-sm-10">
-            <a class="btn btn-primary" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@Model.Id" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
-            <a class="btn btn-primary" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@Model.Id"><i class="fas fa-certificate fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
-        </div>
-    </div>
-</div>*@
+    </div>*@
 @*<div class="container-fluid p-0">*@
 
-<h1>@Resources.Resources.Layout_Profile</h1>
+<h1>@Resources.Resources.Layout_Profile    </h1>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Layout_Profile</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@TempData["UserFullName"]</li>            
+        </ol>
+    </nav>
+}
 <hr />
 <!--PROFILE CARD-->
-    <div class="card-columns" style="column-count: 2;">
-        <div class="card">
-            <h5 class="card-header">@Resources.Resources.UserInfo_profile</h5>
-            <div class="card-body ">
-                <div>
-                    <dl class="row">
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.FirstName
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.FirstName)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.LastName
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.LastName)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Email
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Email)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Phone
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.PhoneNumber)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Employee_Edit_Status
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.EmpStatus)
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Company
-                        </dt>
-                        <dd class="col-sm-8">
-                            @ViewBag.CurrentCompany
-                        </dd>
-                        <dt id="Profile" class="col-sm-4">
-                            @Resources.Resources.Layout_Groups
-                        </dt>
-                        <dd class="col-sm-8">
-                            @foreach (var group in Model.UserGroups)
-                            {
-                                @group @Html.Raw(", ");
-                            }
-                        </dd>
-                    </dl>
-                    <div>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
+<div class="card-columns" style="column-count: 2;">
+    <div class="card">
+        <h5 class="card-header">@Resources.Resources.UserInfo_profile</h5>
+        <div class="card-body ">
+            <div>
+                <dl class="row">
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.FirstName
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.FirstName)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.LastName
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.LastName)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Email
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Phone
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Employee_Edit_Status
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.EmpStatus)
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Company
+                    </dt>
+                    <dd class="col-sm-8">
+                        @ViewBag.CurrentCompany
+                    </dd>
+                    <dt id="Profile" class="col-sm-4">
+                        @Resources.Resources.Layout_Groups
+                    </dt>
+                    <dd class="col-sm-8">
+                        @foreach (var group in Model.UserGroups)
                         {
-                            <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
-                            <a class="btn btn-danger float-right" asp-action="Delete" asp-controller="AppUsers" asp-route-source="details" asp-route-id="@Model.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
+                            @group @Html.Raw(", ");
                         }
-                    </div>
+                    </dd>
+                </dl>
+                <div>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
+                    {
+                        <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                        <a class="btn btn-danger float-right" asp-action="Delete" asp-controller="AppUsers" asp-route-source="details" asp-route-id="@Model.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
+                    }
                 </div>
-            </div>
-        </div>
-
-        <!--CERTIFICATES CARD-->
-        <div class="card">
-            <h5 class="card-header">@Resources.Certificates.Index_Title</h5>
-            <div class="card-body">
-                <dl class="row">
-                    @foreach (var item in Model.UserCertificates)
-                    {
-                        <dd class="col-sm-12">
-                            @Html.DisplayFor(modelItem => item.CertificateName)
-                        </dd>
-                    }
-                </dl>
-                <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@Model.Id" asp-route-source="shortcut"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
-            </div>
-        </div>
-
-        <!--SKILLS CARD-->
-        <div class="card">
-            <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
-            <div class="card-body">
-                <dl class="row">
-                    @foreach (var item in Model.UserSkills)
-                    {
-                        <dd class="col-sm-5">
-                            @item.SkillName
-                        </dd>
-                        <dd class="col-sm-1">
-                            @item.SkillLevel
-                        </dd>
-                    }
-                </dl>
-                <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@Model.Id" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
-            </div>
-        </div>
-
-        <!--COURSES CARD-->
-        <div class="card">
-            <h5 class="card-header">@Resources.Resources.Layout_Courses</h5>
-            <div class="card-body">
-                <dl class="row">
-                    @foreach (var course in Model.UserCourses)
-                    {
-                        <dd class="col-sm-12"> @Html.DisplayFor(modelItem => course.CourseName) </dd>
-                    }
-                </dl>
             </div>
         </div>
     </div>
-        @*<div class="col-sm-6">
-            <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="true">@Resources.Resources.Layout_Groups</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="courses-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">@Resources.Resources.Layout_Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="certs-tab" data-toggle="tab" href="#certs" role="tab" aria-controls="certs" aria-selected="false">@Resources.Resources.Layout_Certificates</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="groups" role="tabpanel" aria-labelledby="groups-tab">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Resources.Resources.Details_Table_Group
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var group in Model.UserGroups)
-                        {
-                                <tr>
-                                    <td>@group</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Resources.Resources.CourseMem_Details_Course
-                                </th>
-                                <th>
-                                    @Resources.Resources.Employee_Edit_Status
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.UserCourses)
-                        {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CourseName)
-                                    </td>
-                                    <td>
-                                        @if (item.Status == "Completed")
-                                        {
-                                            <span class="text-success"><strong>@Resources.Resources.CourseMem_Details_Completed</strong></span>
-                                        }
-                                        else
-                                        {
-                                            @Resources.Resources.CourseMem_Details_NotCompleted
-                }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="certs" role="tabpanel" aria-labelledby="certs-tab">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Resources.Resources.UCertificates_Index_Cert
-                                </th>
-                                <th>
-                                    @Resources.Resources.UCertificates_Index_GrantDate
-                                </th>
-                                <th>
-                                    @Resources.Resources.UCertificates_Index_Granter
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.UserCertificates)
+
+    <!--CERTIFICATES CARD-->
+    <div class="card">
+        <h5 class="card-header">@Resources.Certificates.Index_Title</h5>
+        <div class="card-body">
+            <dl class="row">
+                @foreach (var item in Model.UserCertificates)
                 {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CertificateName)
-                                    </td>
-                                    <td>
-                                        @item.GrantDate.ToShortDateString()
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Organization)
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="UserCertificates" asp-route-source="details" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                    <dd class="col-sm-12">
+                        @Html.DisplayFor(modelItem => item.CertificateName)
+                    </dd>
+                }
+            </dl>
+            <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserCertificates" asp-action="Index" asp-route-id="@Model.Id" asp-route-source="shortcut"><i class="fas fa-award fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
+        </div>
+    </div>
+
+    <!--SKILLS CARD-->
+    <div class="card">
+        <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
+        <div class="card-body">
+            <dl class="row">
+                @foreach (var item in Model.UserSkills)
+                {
+                    <dd class="col-sm-5">
+                        @item.SkillName
+                    </dd>
+                    <dd class="col-sm-1">
+                        @item.SkillLevel
+                    </dd>
+                }
+            </dl>
+            <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserSkills" asp-action="SkillList" asp-route-id="@Model.Id" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
+        </div>
+    </div>
+
+    <!--COURSES CARD-->
+    <div class="card">
+        <h5 class="card-header">@Resources.Resources.Layout_Courses</h5>
+        <div class="card-body">
+            <dl class="row">
+                @foreach (var course in Model.UserCourses)
+                {
+                    <dd class="col-sm-12"> @Html.DisplayFor(modelItem => course.CourseName) </dd>
+                }
+            </dl>
+        </div>
+    </div>
+</div>
+@*<div class="col-sm-6">
+        <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="groups-tab" data-toggle="tab" href="#groups" role="tab" aria-controls="groups" aria-selected="true">@Resources.Resources.Layout_Groups</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="courses-tab" data-toggle="tab" href="#courses" role="tab" aria-controls="courses" aria-selected="false">@Resources.Resources.Layout_Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="certs-tab" data-toggle="tab" href="#certs" role="tab" aria-controls="certs" aria-selected="false">@Resources.Resources.Layout_Certificates</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="groups" role="tabpanel" aria-labelledby="groups-tab">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Resources.Details_Table_Group
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var group in Model.UserGroups)
+                    {
+                            <tr>
+                                <td>@group</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-        </div>*@
+            <div class="tab-pane fade" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Resources.CourseMem_Details_Course
+                            </th>
+                            <th>
+                                @Resources.Resources.Employee_Edit_Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.UserCourses)
+                    {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CourseName)
+                                </td>
+                                <td>
+                                    @if (item.Status == "Completed")
+                                    {
+                                        <span class="text-success"><strong>@Resources.Resources.CourseMem_Details_Completed</strong></span>
+                                    }
+                                    else
+                                    {
+                                        @Resources.Resources.CourseMem_Details_NotCompleted
+            }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="certs" role="tabpanel" aria-labelledby="certs-tab">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Resources.UCertificates_Index_Cert
+                            </th>
+                            <th>
+                                @Resources.Resources.UCertificates_Index_GrantDate
+                            </th>
+                            <th>
+                                @Resources.Resources.UCertificates_Index_Granter
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.UserCertificates)
+            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CertificateName)
+                                </td>
+                                <td>
+                                    @item.GrantDate.ToShortDateString()
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Organization)
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-controller="UserCertificates" asp-route-source="details" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>*@
 
 @*</div>*@
