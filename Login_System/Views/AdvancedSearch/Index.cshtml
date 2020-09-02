@@ -34,30 +34,33 @@
             <hr />
             <div id="accordion">
                 <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
-                    <label>Skills  </label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
+                    <label>Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
                 </div>
-
-
+         
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
-                        <div id="skillFilters">
-                            <div class="row" id="skillfilter">
-                                <div class="col-sm-2" id="skill">
+                        <div class="buttons col-sm-3 float-right"><button type="button" onclick="addSkillFilter()"  class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button></div>
+                        
+                            <div id="skillFilters">
 
-                                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
+                                <div class="row" id="skillfilter">
+                                    <div class="col-sm-4" id="skill">
+
+                                        @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
+                                        <br />
+                                    </div>
                                     <br />
+                                    <div class="col-sm-3">
+                                        <input class="min form-control" id="min" type="number" name="Min" placeholder="Min value: " onchange="modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input class="max form-control" id="max" type="number" name="Max" placeholder="Max value: " onchange="modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
+                                    </div>
+                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger"> Clear</button></div>
 
                                 </div>
-                                <br />
-                                <div class="col-sm-2">
-                                    <input class="min form-control" id="min" type="number" name="Min" placeholder="Min value: " onchange="modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
-                                </div>
-                                <div class="col-sm-2">
-                                    <input class="max form-control" id="max" type="number" name="Max" placeholder="Max value: " onchange="modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
-                                </div>
-                                <div class="buttons col-sm-2"><button type="button" onclick="addSkillFilter()" class="btn btn-info"><i class="fas fa-plus fa-fw"> </i> Add</button></div>
                             </div>
-                        </div>
+                      
                     </div>
                 </div>
 
@@ -94,7 +97,6 @@
                                         <td>@user.Item1.Id</td>
                                         <td>@user.Item1.</td>
                                     </tr>
-
                                 }
                             }
                         }
@@ -136,6 +138,7 @@
         deleteBtn.addEventListener('click', modifyHeading);
         var buttoncontainer = completenode.querySelectorAll(".buttons")[0];
         buttoncontainer.innerHTML = "";
+
        //appending button to cloned div and that div to skillfilters div
         buttoncontainer.appendChild(deleteBtn);
         completenode.appendChild(buttoncontainer)
@@ -147,9 +150,7 @@
         this.parentNode.parentNode.remove();
     }
 
-    function changeIcon() {
-        //get caret into variable
-        //var caret = document.getElementById("caret");
+    function changeIcon() { 
         $('#collapseOne').on('shown.bs.collapse', function () {
             $("#caret").attr('class', 'fas fa-angle-up')
         });
@@ -157,19 +158,7 @@
         $('#collapseOne').on('hidden.bs.collapse', function () {
             $("#caret").attr('class', 'fas fa-angle-down')
         });
-        /*//if the accordion shows its contents, turn caret up and vice versa for collapsed state
-        if (document.getElementById("collapseOne").className == "collapse show") {
-
-            caret.setAttribute("class", "")
-            caret.classList.add("fas","fa-angle-up") ;
-            console.log("caret up");
-        }
-        else {
-
-            caret.setAttribute("class", "")
-            caret.classList.add("fas", "fa-angle-down");
-            console.log("caret down");
-        }*/
+  
     }
 
     function modifyHeading() {
@@ -190,7 +179,15 @@
         var headerArray = array.join(', ');
         document.getElementById("headingOne").children[0].innerText = headerArray;
 
-    }
+        }
+
+        function clearSelection() {
+            $(".skillName")[0].value = "";
+            $("#skillFilters #skillfilter #min")[0].value = "";
+            $("#skillFilters #skillfilter #max")[0].value = "";
+            modifyHeading();
+
+        }
     </script>
 
 }

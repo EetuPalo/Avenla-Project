@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Skill.
+        /// </summary>
+        public static string Advanced_Search_AddSkill {
+            get {
+                return ResourceManager.GetString("Advanced_Search_AddSkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Companies.
         /// </summary>
         public static string Companies_index {

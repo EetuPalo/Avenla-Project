@@ -120,6 +120,9 @@
   <data name="Advanced_Search" xml:space="preserve">
     <value>Advanced search</value>
   </data>
+  <data name="Advanced_Search_AddSkill" xml:space="preserve">
+    <value>Add Skill</value>
+  </data>
   <data name="CompaniesSelectDropdown" xml:space="preserve">
     <value>Select company</value>
   </data>
