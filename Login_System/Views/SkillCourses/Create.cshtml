@@ -13,48 +13,55 @@
     });
 </script>
 
-<h1>@Resources.Resources.Layout_Courses <span class="float-right" style="font-size:medium;">Courses/Create</span></h1>
+<h1>@Resources.Resources.Layout_Courses</h1>
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"> <a asp-controller="SkillCourses" asp-action="Index">@Resources.Resources.Layout_Courses</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Courses.Create_Title</li>
+        </ol>
+    </nav>
 <hr />
-<div class="card">
-    <div class="card-header"><h5>@Resources.Courses.Create_Title</h5></div>
-    <div class="card-body">
-        <div class="container-fluid p-0">
-            <form asp-action="Create">
-                <div class="row">
-                    <div class="col-md-6 border-right border-secondary">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="CourseName" class="control-label">@Resources.Courses.Create_CourseName</label>
-                            <input asp-for="CourseName" class="form-control" />
-                            <span asp-validation-for="CourseName" class="text-danger"></span>
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Courses.Create_Title</h5></div>
+        <div class="card-body">
+            <div class="container-fluid p-0">
+                <form asp-action="Create">
+                    <div class="row">
+                        <div class="col-md-6 border-right border-secondary">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="CourseName" class="control-label">@Resources.Courses.Create_CourseName</label>
+                                <input asp-for="CourseName" class="form-control" />
+                                <span asp-validation-for="CourseName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Location" class="control-label">@Resources.Courses.Create_Location</label>
+                                <input asp-for="Location" class="form-control" />
+                                <span asp-validation-for="Location" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Length" class="control-label">@Resources.Courses.Create_Length</label>
+                                <input asp-for="Length" class="form-control" />
+                                <span asp-validation-for="Length" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Create_BTN_Create </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="Location" class="control-label">@Resources.Courses.Create_Location</label>
-                            <input asp-for="Location" class="form-control" />
-                            <span asp-validation-for="Location" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Length" class="control-label">@Resources.Courses.Create_Length</label>
-                            <input asp-for="Length" class="form-control" />
-                            <span asp-validation-for="Length" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Create_BTN_Create </button>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="CourseContents" class="control-label">@Resources.Courses.Create_Desc</label>
+                                <textarea asp-for="CourseContents" class="form-control" id="courseDesc"></textarea>
+                                <span asp-validation-for="CourseContents" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label asp-for="CourseContents" class="control-label">@Resources.Courses.Create_Desc</label>
-                            <textarea asp-for="CourseContents" class="form-control" id="courseDesc"></textarea>
-                            <span asp-validation-for="CourseContents" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
