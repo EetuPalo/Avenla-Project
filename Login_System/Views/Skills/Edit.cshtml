@@ -6,6 +6,13 @@
 }
 
 <h1>@Resources.Resources.Layout_Skills</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"> <a asp-controller="Skills" asp-action="Index">@Resources.Resources.Layout_Skills</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Skills.Edit_Title</li>
+    </ol>
+</nav>
 <hr />
 <div class="card">
     <div class="card-header"><h5>@Resources.Skills.Edit_Title</h5></div>
