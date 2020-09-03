@@ -268,6 +268,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date_layout {
+            get {
+                return ResourceManager.GetString("Date_layout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string DELETE_Back {
@@ -984,6 +993,15 @@ namespace Resources {
         public static string ListofCourseMembers {
             get {
                 return ResourceManager.GetString("ListofCourseMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string Location_layout {
+            get {
+                return ResourceManager.GetString("Location_layout", resourceCulture);
             }
         }
         

@@ -25,9 +25,15 @@ namespace Login_System.Controllers
         }
 
         // GET: Lessons
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int id)
         {
-            return View(await _context.Lessons.ToListAsync());
+            var lessons = _context.Lessons.Where(x => x.CourseID == id).ToList();
+            Lesson Lmodel = new Lesson();
+            Lmodel.LessonList = lessons;
+
+            ViewBag.CourseName = lessons.First().CourseName;
+
+            return View(Lmodel);
         }
 
 	public async Task<IActionResult> Attend(int id)

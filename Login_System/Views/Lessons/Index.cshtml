@@ -1,61 +1,70 @@
-﻿@model IEnumerable<Login_System.Models.Lesson>
+﻿@model Login_System.Models.Lesson
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>@Resources.Resources.Layout_Lessons</h1>
+<hr />
+<div class="card">
+    <div class="card-header">
+        <h5>
+            @Resources.Resources.Layout_Lessons - @ViewBag.CourseName
+            <a asp-action="Create" class="btn btn-primary float-right"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
 
-<p>
-    <a asp-action="Create"><i class="fas fa-plus fa-fw"> </i> Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-		Course name
-            </th>
-            <th>
-                Lesson name
-            </th>
-            <th>
-		Date
-            </th>
-            <th>
-		Location
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LessonName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-		    <a asp-action="Attend" asp-route-id="@item.Id">Attend</a> 
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
-             </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        </h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Resources.Courses.Index_CourseName
+                    </th>
+                    <th>
+                        @Resources.Lessons.LessonName
+                    </th>
+                    <th>
+                        @Resources.Resources.Date_layout
+                    </th>
+                    <th>
+                        @Resources.Resources.Location_layout
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.LessonList)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LessonName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-action="Attend" asp-route-id="@item.Id">@Resources.Lessons.Model_attend</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">@Resources.Resources.Layout_info</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id">@Resources.Resources.Employee_Index_Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">@Resources.Resources.DELETE_Title</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

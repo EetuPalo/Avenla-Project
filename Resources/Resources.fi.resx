@@ -186,6 +186,9 @@
   <data name="Dashboard_progress" xml:space="preserve">
     <value>Edistyminen</value>
   </data>
+  <data name="Date_layout" xml:space="preserve">
+    <value>Päivämäärä</value>
+  </data>
   <data name="DELETE_Back" xml:space="preserve">
     <value>Takaisin listaan</value>
   </data>
@@ -421,6 +424,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="List_Companies" xml:space="preserve">
     <value>Lista yrityksistä</value>
+  </data>
+  <data name="Location_layout" xml:space="preserve">
+    <value>Sijainti</value>
   </data>
   <data name="Login_Desc" xml:space="preserve">
     <value>Kirjaudu sisään käyttäen sähköpostiasi ja salasanaasi. Jos olet unohtanut salasanasi, klikkaa "Unohdin salasanani" linkkiä saadaksesi lisäohjeita.</value>

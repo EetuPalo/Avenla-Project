@@ -91,7 +91,7 @@
                     {
                         <tr class="expandable-row">
                             <td>
-                                @Html.DisplayFor(modelItem => item.CourseName)
+                                <a asp-controller="Lessons" asp-action="Index" asp-route-id="@item.id">@Html.DisplayFor(modelItem => item.CourseName)</a>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Location)

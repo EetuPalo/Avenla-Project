@@ -5,45 +5,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Lesson</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseID)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CourseID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LessonName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LessonName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-    </dl>
+<h1>@Resources.Resources.Layout_Lessons</h1>
+<hr />
+<div class="card">
+    <div class="card-header"><h5>@Resources.Resources.Employee_Index_Details</h5></div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Resources.Courses.Index_CourseName
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseName)
+            </dd>
+            <dt class="col-sm-2">
+                @Resources.Lessons.LessonName
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LessonName)
+            </dd>
+            <dt class="col-sm-2">
+                @Resources.Resources.Date_layout
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+            <dt class="col-sm-2">
+                @Resources.Resources.Location_layout
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Location)
+            </dd>
+        </dl>
+        <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> Edit</a>
+    </div>
 </div>
-<div>
+@*<div>
     <button class="btn btn-outline-primary btn-sm" onclick="goBack()"><i class="fas fa-left-arrow fa-fw"> </i> Back to List</button>
-    <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> Edit</a>
-</div>
+    
+</div>*@

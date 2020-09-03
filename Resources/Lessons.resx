@@ -138,6 +138,12 @@
   <data name="Create_Title" xml:space="preserve">
     <value>Add a lesson</value>
   </data>
+  <data name="LessonName" xml:space="preserve">
+    <value>Lesson name</value>
+  </data>
+  <data name="Model_attend" xml:space="preserve">
+    <value>Attend</value>
+  </data>
   <data name="MODEL_User_Attending" xml:space="preserve">
     <value>Attending</value>
   </data>
