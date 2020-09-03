@@ -29,6 +29,12 @@
         </form>*@
         @*<hr />*@
 <h1>@Resources.Resources.Layout_Groups</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>        
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Layout_Groups</li>
+    </ol>
+</nav>
 <hr />
     <div class="card-columns" style="column-count: 2;">
         <div class="card">
