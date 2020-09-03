@@ -120,6 +120,9 @@
   <data name="Advanced_Search" xml:space="preserve">
     <value>Tarkka haku</value>
   </data>
+  <data name="Advanced_Search_AddSkill" xml:space="preserve">
+    <value>Lisää taito</value>
+  </data>
   <data name="CertificateGrant" xml:space="preserve">
     <value>Myönnä</value>
   </data>
