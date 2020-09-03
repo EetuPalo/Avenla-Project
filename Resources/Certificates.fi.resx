@@ -124,7 +124,7 @@
     <value>Sertifikaatti: Tämä on sertifikaatin myöntäjän määrittelemä virallinen nimi. Käytä sertifikaatin koko nimeä.</value>
   </data>
   <data name="Create_SubDesc2" xml:space="preserve">
-    <value>Organisaatio: Sertifikaatin myöntäjä. Esimerkiksi: Microsoft</value>
+    <value>Myöntäjä: Sertifikaatin myöntäjä. Esimerkiksi: Microsoft</value>
   </data>
   <data name="Create_Submit" xml:space="preserve">
     <value>Lisää</value>
@@ -178,6 +178,6 @@
     <value>Sertifikaatti</value>
   </data>
   <data name="MODEL_Organization" xml:space="preserve">
-    <value>Organisaatio</value>
+    <value>Myöntäjä</value>
   </data>
 </root>

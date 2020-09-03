@@ -70,6 +70,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grant certificate to user.
+        /// </summary>
+        public static string Certificate_granting {
+            get {
+                return ResourceManager.GetString("Certificate_granting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grant.
+        /// </summary>
+        public static string CertificateGrant {
+            get {
+                return ResourceManager.GetString("CertificateGrant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Companies.
         /// </summary>
         public static string Companies_index {

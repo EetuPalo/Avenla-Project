@@ -79,7 +79,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Organization: The organization granting the certificate. For example: Microsoft.
+        ///   Looks up a localized string similar to Issuer: The organization granting the certificate. For example: Microsoft.
         /// </summary>
         public static string Create_SubDesc2 {
             get {
@@ -241,7 +241,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Organization.
+        ///   Looks up a localized string similar to Issuer.
         /// </summary>
         public static string MODEL_Organization {
             get {

@@ -120,6 +120,12 @@
   <data name="Advanced_Search" xml:space="preserve">
     <value>Advanced search</value>
   </data>
+  <data name="CertificateGrant" xml:space="preserve">
+    <value>Grant</value>
+  </data>
+  <data name="Certificate_granting" xml:space="preserve">
+    <value>Grant certificate to user</value>
+  </data>
   <data name="CompaniesSelectDropdown" xml:space="preserve">
     <value>Select company</value>
   </data>

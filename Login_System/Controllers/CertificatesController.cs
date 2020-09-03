@@ -190,5 +190,10 @@ namespace Login_System.Controllers
         {
             return _context.Certificates.Any(e => e.Id == id);
         }
+        public async Task<IActionResult> Grant(int id)
+        {
+            var certificate = await _context.Certificates.FindAsync(id);
+            return View(certificate);
+        }
     }
 }

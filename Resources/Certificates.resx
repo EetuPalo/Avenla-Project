@@ -124,7 +124,7 @@
     <value>Certificate: This is the official name of the certificate. Please use the full name.</value>
   </data>
   <data name="Create_SubDesc2" xml:space="preserve">
-    <value>Organization: The organization granting the certificate. For example: Microsoft</value>
+    <value>Issuer: The organization granting the certificate. For example: Microsoft</value>
   </data>
   <data name="Create_Submit" xml:space="preserve">
     <value>Create</value>
@@ -178,6 +178,6 @@
     <value>Certificate</value>
   </data>
   <data name="MODEL_Organization" xml:space="preserve">
-    <value>Organization</value>
+    <value>Issuer</value>
   </data>
 </root>
