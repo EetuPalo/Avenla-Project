@@ -6,12 +6,35 @@
 }
 
 <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
+    $(function () {
+        $("#datepicker").datepicker();
+    });
 </script>
 
-<h2>@Resources.Resources.UCertificates_Create_Title</h2>
+<h2 style="display:inline">@Resources.Resources.UCertificates_Create_Title</h2>
+
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index" asp-route-id=@ViewContext.RouteData.Values["id"].ToString()>@Resources.Resources.Layout_Usercertificates</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UCertificates_Create_Title</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UCertificates_Create_Title</li>
+        </ol>
+    </nav>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">

@@ -22,51 +22,72 @@
     </form>
     <hr />*@
 <h1>@Resources.Resources.Layout_Usercertificates</h1>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Layout_Usercertificates</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UCertificates_Index_Title</li>
+        </ol>
+    </nav>
+}
 <hr />
-    <div class="card">
-        <div class="card-header">
-            <h5>
-                @TempData["UserName"] @Resources.Resources.UCertificates_Index_Title
-                <a class="btn btn-primary float-right" asp-action="Create" asp-controller="Certificates"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Certificates.Create_New_Btn</a>
-                <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
-            </h5>
-        </div>
-            <div class="card-body">
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>
-                            @Resources.Resources.UCertificates_Index_Cert
-                        </th>
-                        <th>
-                            @Resources.Resources.UCertificates_Index_GrantDate
-                        </th>
-                        <th>
-                            @Resources.Resources.UCertificates_Index_Granter
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CertificateName)
-                            </td>
-                            <td>
-                                @item.GrantDate.ToShortDateString()
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Organization)
-                            </td>
-                            <td>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <h5>
+            @TempData["UserName"] @Resources.Resources.UCertificates_Index_Title
+            <a class="btn btn-primary float-right" asp-action="Create" asp-controller="Certificates"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Certificates.Create_New_Btn</a>
+            <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
+        </h5>
     </div>
+    <div class="card-body">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        @Resources.Resources.UCertificates_Index_Cert
+                    </th>
+                    <th>
+                        @Resources.Resources.UCertificates_Index_GrantDate
+                    </th>
+                    <th>
+                        @Resources.Resources.UCertificates_Index_Granter
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CertificateName)
+                        </td>
+                        <td>
+                            @item.GrantDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Organization)
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 

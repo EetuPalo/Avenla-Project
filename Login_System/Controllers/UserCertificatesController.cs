@@ -31,7 +31,7 @@ namespace Login_System.Controllers
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
 
-            TempData["UserID"] = id;
+            TempData["UserId"] = id;
 
             if (source != null)
             {
@@ -45,6 +45,7 @@ namespace Login_System.Controllers
 
             AppUser tempUser = await UserMgr.FindByIdAsync(id.ToString());
             TempData["UserName"] = tempUser.FirstName + " " + tempUser.LastName;
+            TempData.Keep();
 
             var certificates = from c in _context.UserCertificates.Where(c => c.UserID == id) select c;
 
