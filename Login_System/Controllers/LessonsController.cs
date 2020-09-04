@@ -31,7 +31,7 @@ namespace Login_System.Controllers
             Lesson Lmodel = new Lesson();
             Lmodel.LessonList = lessons;
 
-            ViewBag.CourseName = lessons.First().CourseName;
+            ViewBag.CourseName = _context.Courses.FirstOrDefault(x => x.id == id).CourseName;
 
             return View(Lmodel);
         }
