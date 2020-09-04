@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using Login_System.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -14,12 +17,14 @@ namespace Login_System.Controllers
     public class CertificatesController : Controller
     {
         private readonly GeneralDataContext _context;
+        private readonly IdentityDataContext _identityContext;
         private UserManager<AppUser> UserMgr { get; }
 
-        public CertificatesController(GeneralDataContext context, UserManager<AppUser> userManager)
+        public CertificatesController(GeneralDataContext context, UserManager<AppUser> userManager, IdentityDataContext identity)
         {
             _context = context;
             UserMgr = userManager;
+            _identityContext = identity;
         }
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Index(string searchString)
@@ -190,10 +195,56 @@ namespace Login_System.Controllers
         {
             return _context.Certificates.Any(e => e.Id == id);
         }
+        [HttpGet]
         public async Task<IActionResult> Grant(int id)
         {
-            var certificate = await _context.Certificates.FindAsync(id);
-            return View(certificate);
+            GrantCertificateVM model = new GrantCertificateVM();
+            List<int> usersAlreadyGrantedCertificate = _context.UserCertificates.Where(x=> x.CertificateID == id).Select(x=> x.UserID).ToList();
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach (var user in _identityContext.Users.Where(x => !usersAlreadyGrantedCertificate.Contains(x.Id)))
+                {
+                    model.UserList.Add(new SelectListItem() { Text = user.FirstName + " " + user.LastName, Value = user.Id.ToString() });
+                }
+            }
+            else
+            {
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+                foreach (var user in _identityContext.Users.Where(x => !usersAlreadyGrantedCertificate.Contains(x.Id) && x.Company == currentUser.Company))
+                {
+                    model.UserList.Add(new SelectListItem() { Text = user.FirstName + " " + user.LastName, Value = user.Id.ToString() });
+                }
+            }
+
+            model.Certificate = await _context.Certificates.FindAsync(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Grant(GrantCertificateVM model)
+        {
+            if (ModelState.IsValid)
+            {
+             
+                var grantDate = DateTime.Now;
+                foreach (var item in model.UserIds)
+                {
+                    var user = _identityContext.Users.Find(item);
+                    _context.UserCertificates.Add(new UserCertificate { 
+                        UserID = user.Id,
+                        CertificateID = model.Certificate.Id,
+                        GrantDate = grantDate,
+                        CertificateName = model.Certificate.Name,
+                        Organization = model.Certificate.Organization,
+                        UserName = user.UserName
+                    });
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+                
+            }
+            return View(model);
+            
         }
     }
 }

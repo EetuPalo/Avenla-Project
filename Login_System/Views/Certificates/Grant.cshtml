@@ -1,7 +1,8 @@
-﻿@model Login_System.Models.Certificate
+﻿@model Login_System.ViewModels.GrantCertificateVM
 
 @{
     ViewData["Title"] = "Grant";
+
 }
 
 <h1>@Resources.Resources.Layout_Certificates</h1>
@@ -16,19 +17,25 @@
                     <b>@Resources.Certificates.Edit_SkillName:</b>
                 </dd>
                 <dd class="col-10">
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.Certificate.Name)
                 </dd>
                 <dd class="col-2">
                     <b>@Resources.Certificates.MODEL_Organization:</b>
                 </dd>
                 <dd class="col-10">
-                    @Html.DisplayFor(model => model.Organization)
+                    @Html.DisplayFor(model => model.Certificate.Organization)
                 </dd>
                 <dd class="col-12">
-                    SELECT2 TÄHÄN.
-                    <input class="form-control" />
+                    <label>@Resources.Resources.Company</label>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.UserIds, new SelectList(Model.UserList, "Value", "Text"), new { @class = "user form-control col-sm", @multiple = "multiple" })
+                    </div>
                 </dd>
             </dl>
+
+            @Html.HiddenFor(x => x.Certificate.Name)
+            @Html.HiddenFor(x => x.Certificate.Id)
+            @Html.HiddenFor(x => x.Certificate.Organization)
             <div class="form-group">
                 <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-file-contract fa-fw"> </i> @Resources.Resources.CertificateGrant</button>
@@ -67,3 +74,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $(document).ready(function () {
+        $('.user').select2({
+            placeholder: "@Resources.Resources.CompaniesSelectDropdown"
+        });
+    });
+
+</script>
+
