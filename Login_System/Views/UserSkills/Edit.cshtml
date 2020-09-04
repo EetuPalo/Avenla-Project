@@ -5,7 +5,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Resources.Resources.UserSkills_Edit_Title</h2>
+<h2 style="display:inline">@Resources.Resources.UserSkills_Edit_Title</h2>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList">@Resources.Resources.Layout_Userskills</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Edit_Title</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserId"]>@TempData["FullName"]</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList" asp-route-id=@TempData["UserId"]>@Resources.Resources.Layout_Userskills</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Edit_Title</li>
+        </ol>
+    </nav>
+}
 
 <h4>@Model.SkillName</h4>
 <hr />

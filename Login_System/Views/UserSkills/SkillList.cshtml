@@ -7,10 +7,31 @@
 }
 
 <h1>@Resources.Resources.Layout_Userskills</h1>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Layout_Userskills</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@ViewContext.RouteData.Values["id"].ToString()>@TempData["FullName"]</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Layout_Userskills</li>
+        </ol>
+    </nav>
+}
 <hr />
 <div class="card-columns" style="column-count: 2;">
     <div class="card">
-        <div class="card-header"><h5>@TempData["UserName"] @Resources.Resources.UserSkills_SkillList_Title</h5></div>
+        <div class="card-header"><h5>@TempData["FullName"] @Resources.Resources.UserSkills_SkillList_Title</h5></div>
         <div class="card-body">
             <div class="container-fluid p-0">
             </div>

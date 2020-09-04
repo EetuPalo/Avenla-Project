@@ -267,6 +267,7 @@ namespace Login_System.Controllers
             string userName = tempUser.UserName;
             TempData["UserName"] = userName;
             TempData["UserId"] = id;
+            TempData["FullName"] = tempUser.FirstName + " " + tempUser.LastName;
             string tempName = "DATE_NOT_FOUND";
             var skillIdList = new List<int>();           
 
@@ -418,8 +419,7 @@ namespace Login_System.Controllers
 
         // GET: UserSkills/Create
         public IActionResult Create(int id)
-        {
-
+        {            
             List<int> tempSkill = new List<int>();
             TempData["UserId"] = id;
             var model = new UserSkillsWithSkillVM();
@@ -506,9 +506,9 @@ namespace Login_System.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SkillList, SkillLevel, SkillCount")]  List<Skills>SkillList ,int[] Skillid, int[] Skilllevel )
         {
-            var model = new List<UserSkills>();
+            var model = new List<UserSkills>();            
             int userId = Convert.ToInt32(TempData["UserId"]);
-            TempData.Keep();
+            TempData.Keep();           
             int i= 0;
             //Date is declared here so that it's guaranteed to be the same for all skills.
             DateTime date = DateTime.Now;

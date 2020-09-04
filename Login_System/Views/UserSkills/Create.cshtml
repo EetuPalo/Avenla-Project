@@ -8,6 +8,29 @@
 }
 
 <h1>@Resources.Resources.Layout_Userskills</h1>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList">@Resources.Resources.Layout_Userskills</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Create_Title</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@ViewContext.RouteData.Values["id"].ToString()>@TempData["FullName"]</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList" asp-route-id=@ViewContext.RouteData.Values["id"].ToString()>@Resources.Resources.Layout_Userskills</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Create_Title</li>
+        </ol>
+    </nav>
+}
 <hr />
 <div class="card">
     <div class="card-header"><h5>@Resources.Resources.UserSkills_Create_Title</h5></div>
@@ -17,26 +40,26 @@
                 <div asp-validation-summary="All" class="input-validation-error"></div>
                 @foreach (var item in Model.SkillList)
                 {
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <strong><label class="form-check-label align-middle">@item.Skill</label></strong>
-                            </div>
-
-                            <div class="col-sm-10">
-                                <select class="form-control" asp-for="@Model.Skilllevel" id="@item.Id">
-                                    <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
-                                    <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
-                                    <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
-                                    <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
-                                    <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
-                                    <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
-                                </select>
-                            </div>
-                            <br />
-                                <input type="hidden" asp-for="@Model.SkillList" value="@item" />
-                                <span asp-validation-for="@Model.SkillList"></span>
-                                <input type="hidden" asp-for="Skillid" value="@item.Id" />
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <strong><label class="form-check-label align-middle">@item.Skill</label></strong>
                         </div>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" asp-for="@Model.Skilllevel" id="@item.Id">
+                                <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                                <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                                <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                                <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                                <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                                <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
+                            </select>
+                        </div>
+                        <br />
+                        <input type="hidden" asp-for="@Model.SkillList" value="@item" />
+                        <span asp-validation-for="@Model.SkillList"></span>
+                        <input type="hidden" asp-for="Skillid" value="@item.Id" />
+                    </div>
                 }
                 <br />
                 <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>

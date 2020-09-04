@@ -13,6 +13,29 @@
 </script>
 
 <h1>@Resources.Resources.Layout_Userskills</h1>
+@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList">@Resources.Resources.Layout_Userskills</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_ListByDate_Title</li>
+        </ol>
+    </nav>
+}
+else
+{
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@ViewContext.RouteData.Values["id"].ToString()>@ViewBag.UserNames</a></li>
+            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList" asp-route-id=@ViewContext.RouteData.Values["id"].ToString()>@Resources.Resources.Layout_Userskills</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_ListByDate_Title</li>
+        </ol>
+    </nav>
+}
 @*<h2 class="text-danger">@TempData["ActionResult"]</h2>*@
 <hr />
 
