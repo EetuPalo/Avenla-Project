@@ -138,6 +138,12 @@
   <data name="Create_Title" xml:space="preserve">
     <value>Lisää oppitunti</value>
   </data>
+  <data name="LessonName" xml:space="preserve">
+    <value>Oppitunnin nimi</value>
+  </data>
+  <data name="Model_attend" xml:space="preserve">
+    <value>Osallistu</value>
+  </data>
   <data name="MODEL_User_Attending" xml:space="preserve">
     <value>Osallistumisen tila</value>
   </data>

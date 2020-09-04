@@ -11,6 +11,13 @@
     });
     </script>
 <h1>@Resources.Resources.Companies_index</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Companies" asp-action="Index">@Resources.Resources.Companies_index</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
+    </ol>
+</nav>
 <hr />
 @if (User.IsInRole("Superadmin"))
 {

@@ -20,5 +20,7 @@ namespace Login_System.Models
         public string DateString { get; set; }
         [NotMapped]
         public bool LessonStatus { get; set; }
+        [NotMapped]
+        public List <Lesson> LessonList { get; set; }
     }
 }

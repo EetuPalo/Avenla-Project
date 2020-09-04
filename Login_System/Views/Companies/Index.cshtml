@@ -6,6 +6,12 @@
 }
 
 <h1>@Resources.Resources.Companies_index</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Companies_index</li>
+    </ol>
+</nav>
 <hr />
 <div class="card">
     <div class="card-header">

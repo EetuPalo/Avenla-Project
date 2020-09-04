@@ -186,6 +186,9 @@
   <data name="Dashboard_progress" xml:space="preserve">
     <value>Progress</value>
   </data>
+  <data name="Date_layout" xml:space="preserve">
+    <value>Date</value>
+  </data>
   <data name="DELETE_Back" xml:space="preserve">
     <value>Back to list</value>
   </data>
@@ -427,6 +430,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="List_Companies" xml:space="preserve">
     <value>List of companies</value>
+  </data>
+  <data name="Location_layout" xml:space="preserve">
+    <value>Location</value>
   </data>
   <data name="Login_Desc" xml:space="preserve">
     <value>Please log in with your email and password. If you have forgotten your password, click "Forgot your password?" link to get instructions.</value>

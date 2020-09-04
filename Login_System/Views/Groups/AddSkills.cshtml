@@ -8,6 +8,14 @@
 }
 
 <h2>@Resources.SkillGoals.Create_Title @TempData["ActionPhase"]</h2>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Groups" asp-action="Index">@Resources.Resources.Layout_Groups</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Groups" asp-action="Create">@Resources.Groups.Create_Title</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.SkillGoals.Create_Title @TempData["ActionPhase"]</li>
+    </ol>
+</nav>
 <h4>@TempData["ActionResult"]</h4>
 <hr />
 

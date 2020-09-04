@@ -124,6 +124,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lesson name.
+        /// </summary>
+        public static string LessonName {
+            get {
+                return ResourceManager.GetString("LessonName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attend.
+        /// </summary>
+        public static string Model_attend {
+            get {
+                return ResourceManager.GetString("Model_attend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attending.
         /// </summary>
         public static string MODEL_User_Attending {
