@@ -166,7 +166,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseID,CourseName,LessonName,Date,Location")] Lesson lesson)
+        public async Task<IActionResult> Edit(int id, Lesson lesson)
         {
             if (id != lesson.Id)
             {
@@ -193,7 +193,7 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id=lesson.CourseID });
             }
             return View(lesson);
         }
