@@ -11,7 +11,7 @@
     <div class="card-header">
         <h5>
             @Resources.Resources.Layout_Lessons - @ViewBag.CourseName
-            <a asp-action="Create" class="btn btn-primary float-right"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
+            <a asp-action="Create" class="btn btn-primary float-right" asp-route-id="@Model.CourseID"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Index_Create</a>
 
         </h5>
     </div>

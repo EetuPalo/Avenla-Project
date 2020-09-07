@@ -30,7 +30,7 @@ namespace Login_System.Controllers
             var lessons = _context.Lessons.Where(x => x.CourseID == id).ToList();
             Lesson Lmodel = new Lesson();
             Lmodel.LessonList = lessons;
-
+            Lmodel.CourseID = id;
             ViewBag.CourseName = _context.Courses.FirstOrDefault(x => x.id == id).CourseName;
 
             return View(Lmodel);
@@ -116,7 +116,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 	    [Authorize(Roles = "Admin , Superadmin")]
-        public async Task<IActionResult> Create([Bind("CourseID,LessonName,DateString,HourString,MinuteString,Location")] CreateLessonVM lesson)
+        public async Task<IActionResult> Create(CreateLessonVM lesson)
         {
             if (ModelState.IsValid)
             {
@@ -137,7 +137,7 @@ namespace Login_System.Controllers
                 _context.Add(tempLesson);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index), "SkillCourses");
+                return RedirectToAction(nameof(Index), "Lessons", new { id= lesson.CourseID});
             }
             return View(lesson);
         }
@@ -227,7 +227,7 @@ namespace Login_System.Controllers
             _context.Lessons.Remove(lesson);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {id = lesson.CourseID});
         }
 
         private bool LessonExists(int id)
