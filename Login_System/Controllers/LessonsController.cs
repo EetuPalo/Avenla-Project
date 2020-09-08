@@ -106,7 +106,7 @@ namespace Login_System.Controllers
             {
                 CourseID = id
             };
-
+            ViewBag.CourseName = _context.Courses.FirstOrDefault(x => x.id == id).CourseName;
             return View(model);
         }
 
