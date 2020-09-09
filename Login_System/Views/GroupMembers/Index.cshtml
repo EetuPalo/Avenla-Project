@@ -39,15 +39,14 @@
                 </h5>
             </div>
             <div class="card-body">
-                <div class="container-fluid">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>
-                                            First Name
+                                            @Resources.Resources.FirstName
                                         </th>
                                         <th>
-                                            Last Name
+                                            @Resources.Resources.LastName
                                         </th>
                                         <th></th>
                                     </tr>
@@ -62,15 +61,14 @@
                                             <td>
                                                 @item.LastName
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.Id" asp-route-source="GroupMembers"> <i class="fas fa-user-circle fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Details</a>
                                                 <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Delete</a>
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>
                             </table>
-                        </div>
                     </div>
                 </div>
 

@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>@Resources.SkillCategories.Index_Title</h1>
 <nav class="breadcrumb_nav" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
@@ -15,43 +15,81 @@
 </nav>
 <hr />
 
-<div>
-    <h4>@Model.Name</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-        </dt>
-        <dd class="col-sm-10">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>  
-                            @Resources.SkillCategories.Index_Title
-                        </th>
-                  
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.SkillsInCategory)
-                    {
-                    <tr>
-                        <td>
-                            @item.Skill
-                        </td>
-                     
-                    </tr>
-                     }
-                 </tbody>
-            </table>
-        </dd>
-    </dl>
-</div>
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-sm">
-            <button class="btn btn-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> Edit</a>
+<div class="card-columns" style="column-count: 2;">
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Skills.Index_SubTitle </h5></div>
+        <div class="card-body">
+            <div class="container-fluid p-0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Skills.Index_Title
+                            </th>
+                            <th class="disable_arrow"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SkillsInCategory)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Skill
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header"><h5>@Resources.SkillCategories.Desc_SkillCategory</h5></div>
+        <div class="card-body">
+            <p>
+                @Model.Description Tähän kategorian kuvaus jos halutaan, ei toteutettuna
+                controllerin createssa
+            </p>
         </div>
     </div>
 </div>
+@*<hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+            </dt>
+            <dd class="col-sm-10">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Skills.Index_Title
+                            </th>
+                            <th>
+                                @Resources.SkillCategories.Desc_SkillCategory
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SkillsInCategory)
+                        {
+                        <tr>
+                            <td>
+                                @item.Skill
+                            </td>
+
+                        </tr>
+                         }
+                     </tbody>
+                </table>
+            </dd>
+        </dl>
+    </div>
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-sm">
+                <button class="btn btn-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> Edit</a>
+            </div>
+        </div>
+    </div>*@

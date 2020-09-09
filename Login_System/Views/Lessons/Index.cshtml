@@ -27,9 +27,6 @@
             <thead>
                 <tr>
                     <th>
-                        @Resources.Courses.Index_CourseName
-                    </th>
-                    <th>
                         @Resources.Lessons.LessonName
                     </th>
                     <th>
@@ -39,15 +36,13 @@
                         @Resources.Resources.Location_layout
                     </th>
                     <th></th>
+                    <th></th><th></th><th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.LessonList)
                 {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseName)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.LessonName)
                     </td>
@@ -58,16 +53,16 @@
                         @Html.DisplayFor(modelItem => item.Location)
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-sm" asp-action="Attend" asp-route-id="@item.Id"><i class="fas fa-calendar-check fa-fw"> </i>@Resources.Lessons.Model_attend</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Attend" asp-route-id="@item.Id"><i class="fas fa-calendar-check fa-fw"> </i> @Resources.Lessons.Model_attend</a>
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info fa-fw"> </i>@Resources.Resources.Layout_info</a>
+                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info fa-fw"> </i> @Resources.Resources.Layout_info</a>
                     </td>
                     <td>
-                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i>@Resources.Resources.Employee_Index_Edit</a>
+                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
                     </td>
                     <td>
-                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-times fa-fw"> </i>@Resources.Resources.DELETE_Title</a>
+                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-times fa-fw"> </i> @Resources.Resources.DELETE_Title</a>
                     </td>
                 </tr>
                 }

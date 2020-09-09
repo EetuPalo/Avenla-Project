@@ -35,7 +35,7 @@ namespace Login_System.Controllers
             dataContext = dataCon;
             CompanyList = CompList;
         }
-
+        [Authorize(Roles = "Admin, Superadmin")]
         // GET: AppUsers
         public async Task<IActionResult> Index(string searchString, string order)
         {
