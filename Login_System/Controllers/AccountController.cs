@@ -181,7 +181,7 @@ namespace Login_System.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Dashboard", new { id=appUser.Id});
                     }
                     //return RedirectToAction("Index", "Home");
                 }
