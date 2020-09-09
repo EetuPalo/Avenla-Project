@@ -120,6 +120,9 @@
   <data name="Create_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Desc_SkillCategory" xml:space="preserve">
+    <value>Category description</value>
+  </data>
   <data name="Index_Create" xml:space="preserve">
     <value>Create Category</value>
   </data>
@@ -134,5 +137,8 @@
   </data>
   <data name="Index_Title" xml:space="preserve">
     <value>Skill Categories</value>
+  </data>
+  <data name="Name_SkillCategory" xml:space="preserve">
+    <value>Category name</value>
   </data>
 </root>

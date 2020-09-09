@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enrolled.
+        /// </summary>
+        public static string Dashboard_CourseEnrolled {
+            get {
+                return ResourceManager.GetString("Dashboard_CourseEnrolled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ongoing.
         /// </summary>
         public static string Dashboard_CourseNotComplete {

@@ -36,7 +36,9 @@
 <hr />
 <div class="card-columns" style="column-count: 2;">
 <div class="card">
-    <div class="card-header"><h5>@Resources.SkillCategories.Index_SubTitle</h5></div>
+    <div class="card-header"><h5>@Resources.SkillCategories.Index_SubTitle
+                                 <a class="btn btn-primary float-right" asp-action="Create"><i class="fas fa-plus fa-fw"> </i> @Resources.Skills.Index_BTN_Create </a>
+         </h5></div>
     <div class="card-body">
         <div class="container-fluid p-0">
                     <table class="table table-hover">
@@ -56,7 +58,8 @@
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
+                                        <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.id"><i class="fas fa-edit fa-fw"> </i> @Resources.Skills.Index_BTN_Edit</a>
+                                        <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.id"><i class="fas fa-info fa-fw"> </i> Info</a>
                                         <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.id"><i class="fas fa-trash fa-fw"> </i> @Resources.Skills.Index_BTN_Delete</a>
                                     </td>
 
