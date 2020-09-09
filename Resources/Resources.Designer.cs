@@ -997,6 +997,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select users.
+        /// </summary>
+        public static string ListofCourseMembersPH {
+            get {
+                return ResourceManager.GetString("ListofCourseMembersPH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         public static string Location_layout {

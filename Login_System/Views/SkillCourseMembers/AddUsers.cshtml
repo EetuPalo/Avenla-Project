@@ -1,4 +1,4 @@
-﻿@model List<SkillCourseMember>
+﻿@model Login_System.ViewModels.SkillCourseMemberVM
 @{
     ViewData["Title"] = "AddUsers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,37 +18,27 @@
 <div class="card">
     <div class="card-header"><h5>@Resources.SkillCourseMembers.AddUsers_Title</h5></div>
     <div class="card-body">
-                <form asp-action="AddUsers">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>@Resources.SkillCourseMembers.AddUsers_User</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.Count; i++)
-                            {
-                                <tr>
+        <form asp-action="AddUsers">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label asp-for="Users">@Resources.Resources.ListofCourseMembers</label>
+            @Html.DropDownListFor(x => x.Users, new SelectList(Model.UsersList, "Value", "Text"), Resources.Resources.ListofCourseMembers, new { @class = "user form-control col-sm" , @multiple="multiple"})
+            <input type="hidden" value="@Model.CourseID" asp-for="CourseID" />
+            <br />
+            <br />
+            <button type="button" onclick="goBack()" class="btn btn-danger"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+            <button asp-route-id="@Model.CourseID" type="submit" class="btn btn-primary"><i class="fas fa-user-plus fa-fw"> </i> @Resources.SkillCourseMembers.AddUsers_Add</button>
+        </form>
+    </div>
+</div>
 
-                                    <td>
-                                        @Model[i].UserName
-                                    </td>
-                                    <td>
-                                        <input hidden asp-for="@Model[i].UserID" />
-                                        <input hidden asp-for="@Model[i].CourseID" />
-                                        <input hidden asp-for="@Model[i].UserName" />
-                                        <input hidden asp-for="@Model[i].Status" />
-                                        <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-                                    </td>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    $(document).ready(function () {
+        $('.user').select2({
+            placeholder: "@Resources.Resources.ListofCourseMembersPH"
+        });
+    });
 
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <button type="button" onclick="goBack()" class="btn btn-danger"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                    <button asp-route-id="@Model[0].CourseID" type="submit" class="btn btn-primary"><i class="fas fa-user-plus fa-fw"> </i> @Resources.SkillCourseMembers.AddUsers_Add</button>
-                </form>
-            </div>
-        </div>
+</script>

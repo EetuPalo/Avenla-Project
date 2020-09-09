@@ -6,6 +6,14 @@
 }
 
 <h1>@Resources.Resources.Layout_Lessons</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="SkillCourses" asp-action="Index">@Resources.Resources.Layout_Courses</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Lessons" asp-action="Index" asp-route-id=@Model.CourseID>@Resources.Resources.Layout_Lessons - @Model.CourseName</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Details</li>
+    </ol>
+</nav>
 <hr />
 <div class="card">
     <div class="card-header"><h5>@Resources.Resources.Employee_Index_Details</h5></div>

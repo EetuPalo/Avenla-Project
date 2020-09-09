@@ -17,10 +17,19 @@
 </script>
 
 <h1>@Resources.Resources.Layout_Lessons</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="SkillCourses" asp-action="Index">@Resources.Resources.Layout_Courses</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Lessons" asp-action="Index" asp-route-id=@Model.CourseID>@Resources.Resources.Layout_Lessons - @ViewBag.CourseName</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Lessons.Create_Title</li>
+    </ol>
+</nav>
 <hr />
 
 <div class="card">
-    <div class="card-header"><h5>@Resources.Lessons.Create_Title</h5></div>
+    <div class="card-header"><h5>@Model.CourseID ja @Model.CourseName @Model.LessonName @ViewBag.CourseName</h5></div>
+    
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">

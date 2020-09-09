@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace Login_System.Controllers
 {
     public class SkillCourseMembersController : Controller
@@ -226,59 +227,44 @@ namespace Login_System.Controllers
         public async Task<IActionResult> AddUsers(int id)
         {
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-            var model = new List<SkillCourseMember>();
+            //var model = new List<SkillCourseMember>();
+            var model = new SkillCourseMemberVM();
             var userList = _context.SkillCourseMembers.Where(x => x.CourseID == id).ToList();
+           
 
             foreach (var user in User.IsInRole("Superadmin")? UserMgr.Users: UserMgr.Users.Where(x => x.Company == currentUser.Company))
             {
-                var tempUser = new SkillCourseMember
+                if(!userList.Any(x=> x.UserID == user.Id))
                 {
-                    UserID = user.Id,
-                    CourseID = (int)id,
-                    UserName = user.UserName
-                };
-
-                int index = userList.FindIndex(x => x.UserID == user.Id);
-
-                if (index >= 0)
-                {
-                    tempUser.IsSelected = true;
+                    model.UsersList.Add(new SelectListItem() { Text = user.FirstName + " " + user.LastName, Value = user.Id.ToString() });
                 }
-
-                else
-                {
-                    tempUser.IsSelected = false;
-                }
-                model.Add(tempUser);
+                
+                
             }
+            model.CourseID = id;
+            //model.Users=users;
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> AddUsers(List<SkillCourseMember> courseMembers)
+        public async Task<IActionResult> AddUsers(SkillCourseMemberVM courseMember, List<int> Users)
         {
-         
-            int courseID = 0;
-
-            foreach (var member in courseMembers.Where(x => x.IsSelected))
+            foreach(var item in Users)
             {
-                courseID = member.CourseID;
-
+                var user = UserMgr.Users.FirstOrDefault(x => x.Id == item);
                 var tempMember = new SkillCourseMember
                 {
-                    UserName = member.UserName,
-                    CourseID = member.CourseID,
-                    UserID = member.UserID,
+                    UserName = user.UserName,
+                    CourseID = courseMember.CourseID,
+                    UserID = user.Id,
                     Status = "Enrolled"
                 };
+                _context.SkillCourseMembers.Add(tempMember);
 
-                if (_context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)).Count() == 0)
-                {
-                    _context.Add(tempMember);
-                }
             }
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index), "SkillCourses");

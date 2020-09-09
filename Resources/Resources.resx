@@ -428,6 +428,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>List of course members</value>
   </data>
+  <data name="ListofCourseMembersPH" xml:space="preserve">
+    <value>Select users</value>
+  </data>
   <data name="List_Companies" xml:space="preserve">
     <value>List of companies</value>
   </data>
