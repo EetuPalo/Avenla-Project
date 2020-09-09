@@ -180,6 +180,9 @@
   <data name="Dashboard_CourseCompleted" xml:space="preserve">
     <value>Completed</value>
   </data>
+  <data name="Dashboard_CourseEnrolled" xml:space="preserve">
+    <value>Enrolled</value>
+  </data>
   <data name="Dashboard_CourseNotComplete" xml:space="preserve">
     <value>Ongoing</value>
   </data>

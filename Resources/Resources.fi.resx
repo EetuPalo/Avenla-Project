@@ -180,6 +180,9 @@
   <data name="Dashboard_CourseCompleted" xml:space="preserve">
     <value>Suoritetut</value>
   </data>
+  <data name="Dashboard_CourseEnrolled" xml:space="preserve">
+    <value>Kirjoilla</value>
+  </data>
   <data name="Dashboard_CourseNotComplete" xml:space="preserve">
     <value>Käynnissä</value>
   </data>
