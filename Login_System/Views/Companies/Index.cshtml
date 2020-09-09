@@ -19,7 +19,7 @@
             @if (User.IsInRole("Superadmin"))
             {
                 <span class="float-right">
-                    <a class="btn btn-primary" asp-action="Create">Create New</a>
+                    <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Create_company</a>
                 </span>
             }
         </h5>

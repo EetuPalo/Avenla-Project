@@ -180,6 +180,9 @@
   <data name="Dashboard_CourseCompleted" xml:space="preserve">
     <value>Completed</value>
   </data>
+  <data name="Dashboard_CourseEnrolled" xml:space="preserve">
+    <value>Enrolled</value>
+  </data>
   <data name="Dashboard_CourseNotComplete" xml:space="preserve">
     <value>Ongoing</value>
   </data>
@@ -427,6 +430,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>List of course members</value>
+  </data>
+  <data name="ListofCourseMembersPH" xml:space="preserve">
+    <value>Select users</value>
   </data>
   <data name="List_Companies" xml:space="preserve">
     <value>List of companies</value>
