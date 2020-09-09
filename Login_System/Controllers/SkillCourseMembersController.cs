@@ -251,24 +251,6 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> AddUsers(SkillCourseMemberVM courseMember, List<int> Users)
         {
-         
-            /*foreach (var member in courseMembers.Where(x => x.IsSelected))
-            {
-                courseID = member.CourseID;
-
-                var tempMember = new SkillCourseMember
-                {
-                    UserName = member.UserName,
-                    CourseID = member.CourseID,
-                    UserID = member.UserID,
-                    Status = "Enrolled"
-                };
-
-                if (_context.SkillCourseMembers.Where(x => (x.CourseID == member.CourseID) && (x.UserID == member.UserID)).Count() == 0)
-                {
-                    _context.Add(tempMember);
-                }
-            }*/
             foreach(var item in Users)
             {
                 var user = UserMgr.Users.FirstOrDefault(x => x.Id == item);
