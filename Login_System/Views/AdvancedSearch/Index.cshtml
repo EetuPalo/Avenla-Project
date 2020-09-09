@@ -32,7 +32,7 @@
                     <label asp-for="Groups">@Resources.Groups.Index_Group</label>
                     @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
                 </div>
-                <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> Search</button></div>
+                <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button></div>
                 <div class="col-sm"></div>
             </div>
             <br />
@@ -40,7 +40,7 @@
             <hr />
             <div id="accordion">
                 <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
-                    <label>Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
+                    <label>@Resources.Resources.Advanced_Search_Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
                 </div>
          
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
@@ -57,12 +57,12 @@
                                     </div>
                                     <br />
                                     <div class="col-sm-2">
-                                        <input class="min form-control" id="min" type="number" name="Min" placeholder="Min value: " onchange="modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
+                                        <input class="min form-control" id="min" type="number" name="Min" placeholder="@Resources.Resources.Advanced_Search_MinValue " onchange="modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
                                     </div>
                                     <div class="col-sm-2">
-                                        <input class="max form-control" id="max" type="number" name="Max" placeholder="Max value: " onchange="modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
+                                        <input class="max form-control" id="max" type="number" name="Max" placeholder="@Resources.Resources.Advanced_Search_MaxValue " onchange="modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
                                     </div>
-                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger"> Clear</button></div>
+                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger"> @Resources.Resources.Advanced_Search_Clear</button></div>
 
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
         var deleteBtn = document.createElement("button");
         deleteBtn.type = "button";
         deleteBtn.className = "btn btn-danger";
-        deleteBtn.innerHTML = "Delete";
+        deleteBtn.innerHTML = "@Resources.Resources.DELETE_Button";
         deleteBtn.id = $('#skillFilters').children().length;
         deleteBtn.addEventListener('click', removeIt);
         deleteBtn.addEventListener('click', modifyHeading);

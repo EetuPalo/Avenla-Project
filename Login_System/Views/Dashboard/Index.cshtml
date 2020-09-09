@@ -128,7 +128,7 @@
             <div class="tab-content">
                 @foreach (var item in Model.UserCourses)
                 {
-                    @if (item.Status == "Enrolled" || item.Status == "Enrolled")
+                    @if (item.Status == "Enrolled")
                     {
                         <div class="tab-pane active" id="enrolled" role="tabpanel" aria-labelledby="enrolled-tab">
                             <div class="row"><h6 class="col-sm-12" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6></div>

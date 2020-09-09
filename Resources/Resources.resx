@@ -123,6 +123,18 @@
   <data name="Advanced_Search_AddSkill" xml:space="preserve">
     <value>Add skill</value>
   </data>
+  <data name="Advanced_Search_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Advanced_Search_MaxValue" xml:space="preserve">
+    <value>Max value:</value>
+  </data>
+  <data name="Advanced_Search_MinValue" xml:space="preserve">
+    <value>Min value:</value>
+  </data>
+  <data name="Advanced_Search_Skills" xml:space="preserve">
+    <value>Skills</value>
+  </data>
   <data name="CertificateGrant" xml:space="preserve">
     <value>Grant</value>
   </data>

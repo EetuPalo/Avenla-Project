@@ -123,6 +123,18 @@
   <data name="Advanced_Search_AddSkill" xml:space="preserve">
     <value>Lisää taito</value>
   </data>
+  <data name="Advanced_Search_Clear" xml:space="preserve">
+    <value>Tyhjentää</value>
+  </data>
+  <data name="Advanced_Search_MaxValue" xml:space="preserve">
+    <value>Max arvo:</value>
+  </data>
+  <data name="Advanced_Search_MinValue" xml:space="preserve">
+    <value>Min arvo:</value>
+  </data>
+  <data name="Advanced_Search_Skills" xml:space="preserve">
+    <value>Taidot</value>
+  </data>
   <data name="CertificateGrant" xml:space="preserve">
     <value>Myönnä</value>
   </data>

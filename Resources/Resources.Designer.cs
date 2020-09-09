@@ -79,6 +79,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string Advanced_Search_Clear {
+            get {
+                return ResourceManager.GetString("Advanced_Search_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max value:.
+        /// </summary>
+        public static string Advanced_Search_MaxValue {
+            get {
+                return ResourceManager.GetString("Advanced_Search_MaxValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min value:.
+        /// </summary>
+        public static string Advanced_Search_MinValue {
+            get {
+                return ResourceManager.GetString("Advanced_Search_MinValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skills.
+        /// </summary>
+        public static string Advanced_Search_Skills {
+            get {
+                return ResourceManager.GetString("Advanced_Search_Skills", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grant certificate to user.
         /// </summary>
         public static string Certificate_granting {
