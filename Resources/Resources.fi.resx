@@ -124,7 +124,7 @@
     <value>Lisää taito</value>
   </data>
   <data name="Advanced_Search_Clear" xml:space="preserve">
-    <value>Tyhjentää</value>
+    <value>Tyhjennä</value>
   </data>
   <data name="Advanced_Search_MaxValue" xml:space="preserve">
     <value>Max arvo:</value>
@@ -193,7 +193,7 @@
     <value>Suoritetut</value>
   </data>
   <data name="Dashboard_CourseEnrolled" xml:space="preserve">
-    <value>Kirjoilla</value>
+    <value>Ilmoittauduttu</value>
   </data>
   <data name="Dashboard_CourseNotComplete" xml:space="preserve">
     <value>Käynnissä</value>
@@ -329,6 +329,24 @@
   </data>
   <data name="GENERAL_Back" xml:space="preserve">
     <value>Peruuta</value>
+  </data>
+  <data name="GENERAL_BackToList" xml:space="preserve">
+    <value>Takaisin Listaan</value>
+  </data>
+  <data name="GENERAL_Cancel" xml:space="preserve">
+    <value>Peruuta</value>
+  </data>
+  <data name="GENERAL_Create" xml:space="preserve">
+    <value>Luo</value>
+  </data>
+  <data name="GENERAL_Delete" xml:space="preserve">
+    <value>Poista</value>
+  </data>
+  <data name="GENERAL_Edit" xml:space="preserve">
+    <value>Muokkaa</value>
+  </data>
+  <data name="GENERAL_Info" xml:space="preserve">
+    <value>Tietoja</value>
   </data>
   <data name="GENERAL_Search" xml:space="preserve">
     <value>Hae</value>

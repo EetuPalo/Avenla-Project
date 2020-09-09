@@ -709,6 +709,60 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to List.
+        /// </summary>
+        public static string GENERAL_BackToList {
+            get {
+                return ResourceManager.GetString("GENERAL_BackToList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string GENERAL_Cancel {
+            get {
+                return ResourceManager.GetString("GENERAL_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string GENERAL_Create {
+            get {
+                return ResourceManager.GetString("GENERAL_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string GENERAL_Delete {
+            get {
+                return ResourceManager.GetString("GENERAL_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string GENERAL_Edit {
+            get {
+                return ResourceManager.GetString("GENERAL_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        public static string GENERAL_Info {
+            get {
+                return ResourceManager.GetString("GENERAL_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string GENERAL_Search {

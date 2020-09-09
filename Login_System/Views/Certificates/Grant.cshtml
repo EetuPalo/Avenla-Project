@@ -44,7 +44,7 @@
             @Html.HiddenFor(x => x.Certificate.Id)
             @Html.HiddenFor(x => x.Certificate.Organization)
             <div class="form-group">
-                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> @Resources.Resources.GENERAL_Cancel </button>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-file-contract fa-fw"> </i> @Resources.Resources.CertificateGrant</button>
             </div>
         </form>

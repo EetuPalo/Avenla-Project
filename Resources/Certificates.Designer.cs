@@ -178,7 +178,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search for certifricates....
+        ///   Looks up a localized string similar to Search for certificates....
         /// </summary>
         public static string Index_Search {
             get {
