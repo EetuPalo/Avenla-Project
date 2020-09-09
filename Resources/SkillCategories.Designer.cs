@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category description.
+        /// </summary>
+        public static string Desc_SkillCategory {
+            get {
+                return ResourceManager.GetString("Desc_SkillCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Category.
         /// </summary>
         public static string Index_Create {
@@ -111,6 +120,15 @@ namespace Resources {
         public static string Index_Title {
             get {
                 return ResourceManager.GetString("Index_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category name.
+        /// </summary>
+        public static string Name_SkillCategory {
+            get {
+                return ResourceManager.GetString("Name_SkillCategory", resourceCulture);
             }
         }
     }
