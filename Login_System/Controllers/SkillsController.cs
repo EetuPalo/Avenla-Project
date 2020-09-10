@@ -136,9 +136,10 @@ namespace Login_System.Controllers
                 skillCategories.Add(skillCategoryOption);
             }
 
-            model.skillCategories= skillCategories;
-            model.skill = skills;
+            model.skillCategories = skillCategories;
+            model.Skill = skills.Skill;           
             model.ListOfCategories = tempList;
+            model.Description = skills.Description;
 
             return View(model);
         }
