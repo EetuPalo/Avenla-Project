@@ -124,6 +124,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string MODEL_Name {
+            get {
+                return ResourceManager.GetString("MODEL_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category name.
         /// </summary>
         public static string Name_SkillCategory {

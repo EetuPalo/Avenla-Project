@@ -5,31 +5,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@Resources.Resources.DELETE_Title</h1>
+<h2>@Resources.Resources.DELETE_Title</h2>
+<hr />
 
-<h3>@Resources.Resources.DELETE_Desc</h3>
-<div>
-    <h4>@Resources.Skills.Delete_Skill</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Skill)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Skill)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <div class="container-fluid p-0">
+<div class="card">
+    <div class="card-header"><h5>@Resources.Skills.Delete_Skill</h5></div>
+    <div class="card-body">
+        <div>
+            <h4>@Resources.Resources.DELETE_Desc</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Skill)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Skill)
+                </dd>
+            </dl>
             <div class="row">
                 <div class="col-sm">
-                    <input type="hidden" asp-for="Id" />
-                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+                    <div class="container-fluid p-0">
+                        <form asp-action="Delete">
+
+                            <input type="hidden" asp-for="Id" />
+                            <button type="button" class="btn btn-primary" onclick="goBack()" style="display: inline-block;"><i class="fas fa-times fa-fw"> </i> @Resources.Resources.No_button </button>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </form>
+    </div>
 </div>

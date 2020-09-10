@@ -401,6 +401,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Employees" xml:space="preserve">
     <value>Työntekijät</value>
   </data>
+  <data name="Layout_Group" xml:space="preserve">
+    <value>Ryhmä</value>
+  </data>
   <data name="Layout_groupmembers" xml:space="preserve">
     <value>Ryhmän jäsenet</value>
   </data>
@@ -434,8 +437,11 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Roles" xml:space="preserve">
     <value>Roolit</value>
   </data>
-  <data name="Layout_SkillCategory" xml:space="preserve">
+  <data name="Layout_SkillCategories" xml:space="preserve">
     <value>Taito kategoriat</value>
+  </data>
+  <data name="Layout_SkillCategory" xml:space="preserve">
+    <value>Taito kategoria</value>
   </data>
   <data name="Layout_Skills" xml:space="preserve">
     <value>Taidot</value>
@@ -586,6 +592,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="UserInfo_profile" xml:space="preserve">
     <value>Käyttäjätiedot</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Käyttäjänimi</value>
   </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Arvioi</value>

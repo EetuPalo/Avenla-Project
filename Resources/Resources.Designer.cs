@@ -925,6 +925,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        public static string Layout_Group {
+            get {
+                return ResourceManager.GetString("Layout_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group members.
         /// </summary>
         public static string Layout_groupmembers {
@@ -1025,6 +1034,15 @@ namespace Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Skill Categories.
+        /// </summary>
+        public static string Layout_SkillCategories {
+            get {
+                return ResourceManager.GetString("Layout_SkillCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Category.
         /// </summary>
         public static string Layout_SkillCategory {
             get {
@@ -1497,6 +1515,15 @@ namespace Resources {
         public static string UserInfo_profile {
             get {
                 return ResourceManager.GetString("UserInfo_profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
             }
         }
         

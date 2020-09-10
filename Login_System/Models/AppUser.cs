@@ -21,7 +21,12 @@ namespace Login_System.Models
         public string Active { get; set; }
 
         public string EmpStatus { get; set; }
-        
+
+        //[Display(Name = "Phone", ResourceType = typeof(Resources.Resources))]
+        //new public string PhoneNumber { get; set; }
+
+        //[Display(Name = "Email", ResourceType = typeof(Resources.Resources))]
+        //new public string Email { get; set; }
 
         [NotMapped]
         [DataType(DataType.Password)]

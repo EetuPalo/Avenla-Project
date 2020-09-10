@@ -407,6 +407,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Employees" xml:space="preserve">
     <value>Employees</value>
   </data>
+  <data name="Layout_Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
   <data name="Layout_groupmembers" xml:space="preserve">
     <value>Group members</value>
   </data>
@@ -440,8 +443,11 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Layout_Roles" xml:space="preserve">
     <value>Roles</value>
   </data>
-  <data name="Layout_SkillCategory" xml:space="preserve">
+  <data name="Layout_SkillCategories" xml:space="preserve">
     <value>Skill Categories</value>
+  </data>
+  <data name="Layout_SkillCategory" xml:space="preserve">
+    <value>Skill Category</value>
   </data>
   <data name="Layout_Skills" xml:space="preserve">
     <value>Skills</value>
@@ -592,6 +598,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="UserInfo_profile" xml:space="preserve">
     <value>User information</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Username</value>
   </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Submit</value>

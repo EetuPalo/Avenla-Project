@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace Login_System.Models
 {
@@ -9,6 +12,7 @@ namespace Login_System.Models
     {
         public int id { get; set; }
 
+        [Display(Name = "MODEL_Name", ResourceType = typeof(Resources.SkillCategories))]
         public string Name { get; set; }
 
     }
