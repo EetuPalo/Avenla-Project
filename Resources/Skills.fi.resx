@@ -130,7 +130,7 @@
     <value>Tallenna</value>
   </data>
   <data name="Edit_SkillDesc" xml:space="preserve">
-    <value>Kuvaus</value>
+    <value>Taidon kuvaus</value>
   </data>
   <data name="Edit_SkillName" xml:space="preserve">
     <value>Taidon nimi</value>

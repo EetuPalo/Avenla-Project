@@ -141,6 +141,9 @@
   <data name="MODEL_Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Name_in_list" xml:space="preserve">
+    <value>Skill Categories</value>
+  </data>
   <data name="Name_SkillCategory" xml:space="preserve">
     <value>Category name</value>
   </data>
