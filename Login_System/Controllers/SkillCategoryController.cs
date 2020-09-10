@@ -108,7 +108,7 @@ namespace Login_System.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var model = new SkillCategoryVM();
-            var skillcat = _context.SkillCategories.FirstOrDefault(x => x.id == id);
+            var skillcat = await _context.SkillCategories.FirstOrDefaultAsync(x => x.id == id);
             List<Skills> skillList = new List<Skills>();
             var skills = _context.SkillsInCategory.Where(x => x.CategoryId == id).ToList();
 
@@ -128,7 +128,7 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var model = new SkillCategoryVM();
-            var skillcat = _context.SkillCategories.FirstOrDefault(x => x.id == id);
+            var skillcat = await _context.SkillCategories.FirstOrDefaultAsync(x => x.id == id);
             foreach (var skill in _context.Skills)
             {
                 model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
@@ -147,7 +147,7 @@ namespace Login_System.Controllers
         public async Task<ActionResult> Edit([Bind ("Id,Name,Description,Skills")] SkillCategoryVM skillCat)
         {
             //first we edit the category itself
-            var category = _context.SkillCategories.FirstOrDefault(x => x.id == skillCat.Id);
+            var category = await _context.SkillCategories.FirstOrDefaultAsync(x => x.id == skillCat.Id);
             category.Description = skillCat.Description;
             category.Name = skillCat.Name;
             
