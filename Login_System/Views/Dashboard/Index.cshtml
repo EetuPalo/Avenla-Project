@@ -182,9 +182,18 @@
                     {@Html.Raw("Add yourself to a group first.")}
                     @foreach (var group in Model.UserGroups)
                     {
-                        <li class="nav-item active">
-                            <a class="nav-link" data-toggle="tab" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
-                        </li>
+                        @if (group.Equals(Model.UserGroups.First()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" aria-selected="true" aria-controls="tab-@group.GroupID" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" aria-selected="false" aria-controls="tab-@group.GroupID" href="#tab-@group.GroupID" role="tab">@group.GroupName</a>
+                            </li>
+                        }
                     }
                 }
                 @if (Model.GroupsDD.Count() > 3)
@@ -200,32 +209,71 @@
                     </li>
                 }
             </ul>
-            <br />
-            <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+            @if (Model.GroupsDD.Count() <= 3)
+            {
+                <br />
+            }
             <div class="tab-content">
                 @foreach (var group in Model.UserGroups)
                 {
-                    <div id="tab-@group.GroupID" class="tab-pane fade">
-                        @foreach (var item in Model.UserSkills)
-                        {
-                            @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
+                    @if (group.Equals(Model.UserGroups.First()))
+                    {
+                        <div id="tab-@group.GroupID" class="tab-pane active">
+                            @if (Model.GroupsDD.Count() > 3)
                             {
-                                <div class="col-sm">
-                                    <div class="row">
-                                        <div class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</div>
-                                        <div class="col-sm-1">@item.SkillLevel </div>
-                                        <div class="progress w-50" style="margin-top: 5px;">
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                <span class="row"> <span class="col-sm-4"> @group.GroupName </span> </span>
+                            }
+                            <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+                            @foreach (var item in Model.UserSkills)
+                            {
+                                @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
+                                {
+                                    <div class="col-sm">
+                                        <div class="row">
+                                            <div class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</div>
+                                            <div class="col-sm-1">@item.SkillLevel </div>
+                                            <div class="progress w-50" style="margin-top: 5px;">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2" style="text-align:center;">
+                                                @Html.DisplayFor(modelItem => goal.SkillGoal)
                                             </div>
                                         </div>
-                                        <div class="col-sm-2" style="text-align:center;">
-                                            @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="tab-@group.GroupID" class="tab-pane fade">
+                            @if (Model.GroupsDD.Count() > 3)
+                            {
+                                <span class="row"> <span class="col-sm-4"> @group.GroupName </span> </span>
+                            }
+                            <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+                            @foreach (var item in Model.UserSkills)
+                            {
+                                @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
+                                {
+                                    <div class="col-sm">
+                                        <div class="row">
+                                            <div class="col-sm-3">@Html.DisplayFor(modelItem => item.SkillName)</div>
+                                            <div class="col-sm-1">@item.SkillLevel </div>
+                                            <div class="progress w-50" style="margin-top: 5px;">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:@(item.SkillLevel * 100 / goal.SkillGoal)%">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2" style="text-align:center;">
+                                                @Html.DisplayFor(modelItem => goal.SkillGoal)
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
-                    </div>
+                        </div>
+                    }
                 }
             </div>
         </div>
