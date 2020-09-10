@@ -15,5 +15,7 @@ namespace Login_System.Models
         [Display(Name = "MODEL_Name", ResourceType = typeof(Resources.SkillCategories))]
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
     }
 }

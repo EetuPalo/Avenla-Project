@@ -10,7 +10,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
         <li class="breadcrumb-item"><a asp-controller="SkillCategory" asp-action="Index">@Resources.Resources.Layout_SkillCategory</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Details | Yksityiskohdat</li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.SkillCategories.Desc_SkillCategory</li>
     </ol>
 </nav>
 <hr />
@@ -45,12 +45,7 @@
     </div>
     <div class="card">
         <div class="card-header"><h5>@Resources.SkillCategories.Desc_SkillCategory</h5></div>
-        <div class="card-body">
-            <p>
-                @Model.Description Tähän kategorian kuvaus jos halutaan, ei toteutettuna
-                controllerin createssa
-            </p>
-        </div>
+        <div class="card-body">@Html.Raw(Model.Description)</div>
     </div>
 </div>
 @*<hr />
