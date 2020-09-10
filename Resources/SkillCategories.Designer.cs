@@ -133,6 +133,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skill Categories.
+        /// </summary>
+        public static string Name_in_list {
+            get {
+                return ResourceManager.GetString("Name_in_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category name.
         /// </summary>
         public static string Name_SkillCategory {

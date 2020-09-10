@@ -33,7 +33,7 @@
                 <span asp-validation-for="Skill" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6">
-                <label asp-for="SkillCategory" class="control-label">@Resources.SkillCategories.Index_Title</label>
+                <label asp-for="SkillCategory" class="control-label">@Resources.SkillCategories.Name_in_list</label>
                 <div>
                     @Html.DropDownListFor(x => x.SkillCategory, new SelectList(Model.SkillCategoryList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple = "multiple" })
                 </div>
