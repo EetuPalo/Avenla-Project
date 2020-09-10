@@ -11,8 +11,15 @@
     });
 </script>
 
-<h2>@Resources.SkillCategories.Index_Title @TempData["ActionPhase"]</h2>
-<h4>@TempData["ActionResult"]</h4>
+<h2 style="display:inline">@Resources.SkillCategories.Index_Title @TempData["ActionPhase"]</h2>
+<h4 style="display:inline">@TempData["ActionResult"]</h4>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="SkillCategory" asp-action="Index">@Resources.Resources.Layout_SkillCategory</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.SkillCategories.Index_Create</li>
+    </ol>
+</nav>
 <hr />
 
 <div class="card">
@@ -33,7 +40,7 @@
                     </div>
                     <div class="form-group col-md-8">
                         <label asp-for="Description" class="control-label">@Resources.SkillCategories.Desc_SkillCategory</label>
-                        <textarea asp-for="Description" class="form-control" id="skillCategoryDesc"></textarea>
+                        @Html.TextAreaFor(x => x.Description, new { @id = "skillCategoryDesc" } )
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
