@@ -88,7 +88,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max value:.
+        ///   Looks up a localized string similar to Max.
         /// </summary>
         public static string Advanced_Search_MaxValue {
             get {
@@ -97,7 +97,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min value:.
+        ///   Looks up a localized string similar to Min.
         /// </summary>
         public static string Advanced_Search_MinValue {
             get {

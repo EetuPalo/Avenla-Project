@@ -127,10 +127,10 @@
     <value>Clear</value>
   </data>
   <data name="Advanced_Search_MaxValue" xml:space="preserve">
-    <value>Max value:</value>
+    <value>Max</value>
   </data>
   <data name="Advanced_Search_MinValue" xml:space="preserve">
-    <value>Min value:</value>
+    <value>Min</value>
   </data>
   <data name="Advanced_Search_Skills" xml:space="preserve">
     <value>Skills</value>

@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "AdvancedSearch";
- 
-    
+
+
 }
 
 <h1>@Resources.Resources.Advanced_Search</h1>
@@ -19,11 +19,11 @@
         <div class="card-header"> <h5> @Resources.Resources.Advanced_Search </h5> </div>
         <div class="card-body">
             <div class="row">
-                    <div class="col-sm">
-                        <label asp-for="Company">@Resources.Resources.Company</label>
-                        @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-examp le-basic-multiple form-control col-sm" })
-                    </div>
-                
+                <div class="col-sm">
+                    <label asp-for="Company">@Resources.Resources.Company</label>
+                    @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-examp le-basic-multiple form-control col-sm" })
+                </div>
+
                 <div class="col-sm">
                     <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
                     @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
@@ -42,11 +42,12 @@
                 <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
                     <label>@Resources.Resources.Advanced_Search_Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
                 </div>
-         
+
                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div class="card-body"><button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
+                    <div class="card-body">
+                        <button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
                         <div class="row">
-                            
+
                             <div id="skillFilters">
 
                                 <div class="row" id="skillfilter">
@@ -56,18 +57,34 @@
                                         <br />
                                     </div>
                                     <br />
-                                    <div class="col-sm-2">
-                                        <input class="min form-control" id="min" type="number" name="Min" placeholder="@Resources.Resources.Advanced_Search_MinValue " onchange="modifyHeading()" value="@TempData["inValue"]" min="0" max="5">
+                                    <div class="col-sm-3">
+                                        <select name="min" class="min form-control" id="min" onchange="modifyHeading()">
+                                            <option value="">@Resources.Resources.Advanced_Search_MinValue</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <input class="max form-control" id="max" type="number" name="Max" placeholder="@Resources.Resources.Advanced_Search_MaxValue " onchange="modifyHeading()" value="@TempData["MaxValue"]" min="0" max="5">
+                                    <div class="col-sm-3">
+                                        <select name="max" class="max form-control" id="max" onchange="modifyHeading()">
+                                            <option value="">@Resources.Resources.Advanced_Search_MaxValue</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
                                     </div>
                                     <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger"> @Resources.Resources.Advanced_Search_Clear</button></div>
 
                                 </div>
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
 
@@ -89,7 +106,7 @@
                         {
                             @foreach (var user in Model.Users)
                             {
-                                @if (Model.adminCompanyIds.Any(x=> user.Item2.Any(y=> x==y))|| User.IsInRole("Superadmin"))
+                                @if (Model.adminCompanyIds.Any(x => user.Item2.Any(y => x == y)) || User.IsInRole("Superadmin"))
                                 {
                                     <tr>
                                         <td>@user.Item1.FirstName</td>
@@ -157,7 +174,7 @@
         this.parentNode.parentNode.remove();
     }
 
-    function changeIcon() { 
+    function changeIcon() {
         $('#collapseOne').on('shown.bs.collapse', function () {
             $("#caret").attr('class', 'fas fa-angle-up')
         });
@@ -165,7 +182,7 @@
         $('#collapseOne').on('hidden.bs.collapse', function () {
             $("#caret").attr('class', 'fas fa-angle-down')
         });
-  
+
     }
 
     function modifyHeading() {

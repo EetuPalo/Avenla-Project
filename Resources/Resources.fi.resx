@@ -127,10 +127,10 @@
     <value>Tyhjennä</value>
   </data>
   <data name="Advanced_Search_MaxValue" xml:space="preserve">
-    <value>Max arvo:</value>
+    <value>Max</value>
   </data>
   <data name="Advanced_Search_MinValue" xml:space="preserve">
-    <value>Min arvo:</value>
+    <value>Min</value>
   </data>
   <data name="Advanced_Search_Skills" xml:space="preserve">
     <value>Taidot</value>
