@@ -48,10 +48,10 @@
                         <button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
                         <div class="row">
 
-                            <div id="skillFilters">
+                            <div class="row" id="skillFilters">
 
                                 <div class="row" id="skillfilter">
-                                    <div class="col-sm-4" id="skill">
+                                    <div class="col-sm-5" id="skill">
 
                                         @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
                                         <br />
@@ -79,7 +79,7 @@
                                             <option value="5">5</option>
                                         </select>
                                     </div>
-                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger"> @Resources.Resources.Advanced_Search_Clear</button></div>
+                                    <div class="buttons col-sm-3"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm"> @Resources.Resources.Advanced_Search_Clear</button></div>
 
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
         //create button for deletion not included in original filter
         var deleteBtn = document.createElement("button");
         deleteBtn.type = "button";
-        deleteBtn.className = "btn btn-danger";
+        deleteBtn.className = "btn btn-danger col-sm";
         deleteBtn.innerHTML = "@Resources.Resources.DELETE_Button";
         deleteBtn.id = $('#skillFilters').children().length;
         deleteBtn.addEventListener('click', removeIt);
