@@ -150,6 +150,9 @@
   <data name="Company" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="CompanyGroups" xml:space="preserve">
+    <value>Company groups</value>
+  </data>
   <data name="CompanyName" xml:space="preserve">
     <value>Company name</value>
   </data>
