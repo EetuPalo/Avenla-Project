@@ -48,16 +48,16 @@
                         <button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
                         <div class="row">
 
-                            <div class="row" id="skillFilters">
+                            <div class="row col-sm-12" id="skillFilters">
 
-                                <div class="row" id="skillfilter">
-                                    <div class="col-sm-5" id="skill">
+                                <div class="row col-sm-12" id="skillfilter">
+                                    <div class="col-sm-4" id="skill">
 
                                         @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
                                         <br />
                                     </div>
                                     <br />
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <select name="min" class="min form-control" id="min" onchange="modifyHeading()">
                                             <option value="">@Resources.Resources.Advanced_Search_MinValue</option>
                                             <option value="0">0</option>
@@ -68,7 +68,7 @@
                                             <option value="5">5</option>
                                         </select>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <select name="max" class="max form-control" id="max" onchange="modifyHeading()">
                                             <option value="">@Resources.Resources.Advanced_Search_MaxValue</option>
                                             <option value="0">0</option>
@@ -79,7 +79,7 @@
                                             <option value="5">5</option>
                                         </select>
                                     </div>
-                                    <div class="buttons col-sm-3"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm"> @Resources.Resources.Advanced_Search_Clear</button></div>
+                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm-12"> @Resources.Resources.Advanced_Search_Clear</button></div>
 
                                 </div>
                             </div>
