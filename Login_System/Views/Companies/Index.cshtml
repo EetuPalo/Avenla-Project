@@ -41,12 +41,14 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @if (User.IsInRole("Superadmin")) 
-                            {
-                            <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.GENERAL_Edit</a>
-                            }
-                            <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info fa-fw"> </i> @Resources.Resources.GENERAL_Info</a> 
-                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.GENERAL_Delete</a>
+                            <div class="float-right">
+                                @if (User.IsInRole("Superadmin"))
+                                {
+                                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.GENERAL_Edit</a>
+                                }
+                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info fa-fw"> </i> @Resources.Resources.GENERAL_Info</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.GENERAL_Delete</a>
+                            </div>
                         </td>
                     </tr>
                 }
