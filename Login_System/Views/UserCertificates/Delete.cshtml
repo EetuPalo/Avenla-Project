@@ -49,6 +49,12 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.GrantDate)
         </dd>
+        <dt class= "col-sm-2">
+            @Html.DisplayNameFor(model => model.ExpiryDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ExpiryDate)
+        </dd>
     </dl>
     
     <form asp-action="Delete">

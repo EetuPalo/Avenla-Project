@@ -23,6 +23,11 @@ namespace Login_System.Models
 
         public DateTime GrantDate { get; set; }
 
+        public DateTime? ExpiryDate { get; set; }
+
+        [NotMapped]
+        public string DateString { get; set; }
+
         [NotMapped]
         public IEnumerable<SelectListItem> CertificateList { get; set; }
 

@@ -39,7 +39,7 @@ else
             <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
             <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UCertificates_Index_Title</li>
+            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Layout_Certificates</li>
         </ol>
     </nav>
 }
@@ -63,9 +63,12 @@ else
                         @Resources.Resources.UCertificates_Index_GrantDate
                     </th>
                     <th>
+                        @Resources.Resources.UCertificates_Index_ExpiryDate
+                    </th>
+                    <th>
                         @Resources.Resources.UCertificates_Index_Granter
                     </th>
-                    <th></th>
+
                 </tr>
             </thead>
             <tbody>
@@ -79,7 +82,16 @@ else
                             @item.GrantDate.ToShortDateString()
                         </td>
                         <td>
+                            @if (item.ExpiryDate.HasValue)
+                            {
+                                @item.ExpiryDate.Value.ToShortDateString();
+                            }
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Organization)
+                        </td>
+                        <td>
+                            <a class="btn btn-info btn-sm float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"></i>@Resources.Certificates.Index_BTN_Edit</a>
                         </td>
                         <td>
                             <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>

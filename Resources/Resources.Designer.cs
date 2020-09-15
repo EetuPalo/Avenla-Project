@@ -601,6 +601,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Employee.
+        /// </summary>
+        public static string Employee_select {
+            get {
+                return ResourceManager.GetString("Employee_select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0 - No interest.
         /// </summary>
         public static string EVAL_DROPDOWN_0 {
@@ -1312,6 +1321,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional Field.
+        /// </summary>
+        public static string Optional_field {
+            get {
+                return ResourceManager.GetString("Optional_field", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -1470,6 +1488,15 @@ namespace Resources {
         public static string UCertificates_Index_Cert {
             get {
                 return ResourceManager.GetString("UCertificates_Index_Cert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiry Date.
+        /// </summary>
+        public static string UCertificates_Index_ExpiryDate {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_ExpiryDate", resourceCulture);
             }
         }
         

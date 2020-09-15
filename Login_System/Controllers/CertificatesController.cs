@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
 
 namespace Login_System.Controllers
 {
@@ -226,14 +227,18 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
              
-                var grantDate = DateTime.Now;
+               // var grantDate = DateTime.Now;
+
+                string tempDateString = DateTime.ParseExact(model.UserCertificate.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture).ToShortDateString();               
+                DateTime tempDateTime = DateTime.Parse(tempDateString, CultureInfo.CurrentCulture);
                 foreach (var item in model.UserIds)
                 {
                     var user = _identityContext.Users.Find(item);
                     _context.UserCertificates.Add(new UserCertificate { 
                         UserID = user.Id,
                         CertificateID = model.Certificate.Id,
-                        GrantDate = grantDate,
+                        GrantDate = model.UserCertificate.GrantDate,
+                        ExpiryDate = tempDateTime,
                         CertificateName = model.Certificate.Name,
                         Organization = model.Certificate.Organization,
                         UserName = user.UserName

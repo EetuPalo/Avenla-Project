@@ -6,18 +6,21 @@
 }
 
 <h1>@Resources.Resources.Layout_Certificates</h1>
-@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+
+@if (TempData.Keys.Contains("UserId") && TempData.Keys.Contains("id"))
 {
+    if (TempData["UserId"].ToString() == TempData["id"].ToString())
+    {
     <nav class="breadcrumb_nav" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"> <a asp-controller="Dashboard" asp-action="Index">Home</a></li>
             <li class="breadcrumb-item"> <a asp-controller="Certificates" asp-action="Index">@Resources.Resources.Layout_Certificates</a></li>
             <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Create_Title</li>
         </ol>
     </nav>
-}
-else
-{
+    }
+    else
+    {
     <nav class="breadcrumb_nav" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
@@ -26,6 +29,7 @@ else
             <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Create_Title</li>
         </ol>
     </nav>
+    }
 }
 <hr />
 <div class="card-columns" style="column-count: 2;">

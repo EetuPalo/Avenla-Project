@@ -33,10 +33,18 @@
                     @Html.DisplayFor(model => model.Certificate.Organization)
                 </dd>
                 <dd class="col-12">
-                    <label>@Resources.Resources.Company</label>
+                    <label>@Resources.Resources.Employee_Index_Title</label>
                     <div class="form-group">
                         @Html.DropDownListFor(x => x.UserIds, new SelectList(Model.UserList, "Value", "Text"), new { @class = "user form-control col-sm", @multiple = "multiple" })
                     </div>
+                </dd>
+                <dd class="col-10">
+                    <p>@Resources.Resources.UCertificates_Index_GrantDate <input class="form-control" asp-for="@Model.UserCertificate.GrantDate" type="text" id="grantDate" value="@DateTime.Now.ToShortDateString()"></p>
+                    @*<span asp-validation-for="@Model.userCertificate.ExpiryDate" class="text-danger"></span>*@
+                </dd>
+                <dd class="col-10">
+                    <p>@Resources.Resources.UCertificates_Index_ExpiryDate <input class="form-control" asp-for="@Model.UserCertificate.DateString" type="text" id="expiryDate" value="" placeholder="@Resources.Resources.Optional_field"></p>
+                    @*<span asp-validation-for="@Model.userCertificate.ExpiryDate" class="text-danger"></span>*@
                 </dd>
             </dl>
 
@@ -85,9 +93,15 @@
 <script>
     $(document).ready(function () {
         $('.user').select2({
-            placeholder: "@Resources.Resources.CompaniesSelectDropdown"
+            placeholder: "@Resources.Resources.Employee_select"
         });
-    });
+    },
+
+        $(function () {
+        $("#expiryDate, #grantDate").datepicker({
+                        dateFormat: "dd.mm.yy"
+                    });
+        }));
 
 </script>
 
