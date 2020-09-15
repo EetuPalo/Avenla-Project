@@ -17,7 +17,7 @@ namespace Login_System.Models
         public string CompanyGroupName { get; set; }
 
         [NotMapped]
-        public string Company { get; set; }
+        public List<string> Company { get; set; }
         [NotMapped]
         public IList<SelectListItem> CompanyList { get; set; }
 

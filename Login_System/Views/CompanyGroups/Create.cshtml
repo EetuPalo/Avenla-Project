@@ -31,3 +31,12 @@
 <div>
     <a asp-action="Index">@Resources.Resources.GENERAL_BackToList</a>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.company').select2({
+            placeholder: "@Resources.Resources.CompaniesSelectDropdown"
+        });
+    });
+
+</script>

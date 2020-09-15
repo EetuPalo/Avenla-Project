@@ -152,12 +152,21 @@ namespace Login_System.Controllers
             }
 
             var lesson = await _context.Lessons.FindAsync(id);
+            CreateLessonVM model = new CreateLessonVM
+            {
+                CourseID = lesson.CourseID,
+                CourseName = lesson.CourseName,
+                HourString = lesson.Date.Hour.ToString(),
+                MinuteString = lesson.Date.Minute.ToString(),
+                LessonName = lesson.LessonName,
+                Location = lesson.Location,
 
+            };
             if (lesson == null)
             {
                 return NotFound();
             }
-            return View(lesson);
+            return View(model);
         }
 
         // POST: Lessons/Edit/5
@@ -166,9 +175,9 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Edit(int id, Lesson lesson)
+        public async Task<IActionResult> Edit(int id, CreateLessonVM lesson)
         {
-            if (id != lesson.Id)
+           /* if (id != lesson.Id)
             {
                 return NotFound();
             }
@@ -194,7 +203,7 @@ namespace Login_System.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index), new { id=lesson.CourseID });
-            }
+            }*/
             return View(lesson);
         }
 

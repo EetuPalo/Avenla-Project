@@ -8,6 +8,7 @@ namespace Login_System.ViewModels
 {
     public class CreateLessonVM
     {
+        public int LessonId { get; set; }
         public int CourseID { get; set; }
         public string CourseName { get; set; }
         public string LessonName { get; set; }

@@ -51,7 +51,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName")]  CompanyGroups data, int id)
+        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company")]  CompanyGroups data, int id)
         {
             var companyList = _context.Company;
 
@@ -60,10 +60,11 @@ namespace Login_System.Controllers
 
             foreach (var companyid in data.Company) 
             {
-                var idfinder = await _context.Company.FindAsync(id);
+                var idfinder = await _context.Company.FirstOrDefaultAsync(x=> x.Id.ToString() == companyid);
                 idfinder.CompanyGroupId = company.CompanyGroupId;
+                _context.Update(idfinder);
             }
-
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
