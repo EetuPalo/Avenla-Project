@@ -1,11 +1,22 @@
-﻿@model Login_System.ViewModels.CreateLessonVM 
+﻿@model Login_System.ViewModels.CreateLessonVM
 
 @{
+  
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
-}
+    var date = Model.Date.Day + "." + Model.Date.Month + "." + Model.Date.Year;
 
+}
+<script type="text/javascript" src="~/lib/jquery/dist/datepicker-en-GB.js">
+</script>
+<script>
+    $(function () {
+        $("#lessonDate").datepicker({
+            dateFormat: "dd.mm.yy"
+        });
+    });
+
+</script>
 <h1>@Resources.Resources.Layout_Lessons</h1>
 <nav class="breadcrumb_nav" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -26,6 +37,7 @@
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="CourseID" value="@Model.CourseID" />
+                    <input hidden asp-for="LessonId" value="@Model.LessonId" />
                     <div class="form-group">
                         <label asp-for="CourseName" class="control-label">@Resources.Courses.Index_CourseName</label>
                         <input asp-for="CourseName" class="form-control" />
@@ -35,6 +47,10 @@
                         <label asp-for="LessonName" class="control-label">@Resources.Lessons.LessonName</label>
                         <input asp-for="LessonName" class="form-control" />
                         <span asp-validation-for="LessonName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <p>@Resources.Lessons.Create_Date <input class="form-control" asp-for="DateString" type="text" value ="@date" id="lessonDate" /></p>
+                        <span asp-validation-for="DateString" class="text-danger"></span>
                     </div>
                     <div class="container-fluid p-0">
                         <div class="row">

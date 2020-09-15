@@ -160,6 +160,8 @@ namespace Login_System.Controllers
                 MinuteString = lesson.Date.Minute.ToString(),
                 LessonName = lesson.LessonName,
                 Location = lesson.Location,
+                LessonId = lesson.Id,
+                Date = lesson.Date
 
             };
             if (lesson == null)
@@ -177,7 +179,7 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, CreateLessonVM lesson)
         {
-           /* if (id != lesson.Id)
+           if (id != lesson.LessonId)
             {
                 return NotFound();
             }
@@ -186,13 +188,23 @@ namespace Login_System.Controllers
             {
                 try
                 {
-                    _context.Update(lesson);
+                    var lessonForEdit = _context.Lessons.FirstOrDefault(x => x.Id == lesson.LessonId);
+                    string tempDate = DateTime.ParseExact(lesson.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture).ToShortDateString();
+                    tempDate += ' ' + lesson.HourString + ':' + lesson.MinuteString;
+               
+                    lessonForEdit.CourseID = lesson.CourseID;
+                    lessonForEdit.CourseName = lesson.CourseName;
+                    lessonForEdit.LessonName = lesson.LessonName;
+                    lessonForEdit.Date = DateTime.Parse(tempDate, CultureInfo.CurrentCulture);
+                    lessonForEdit.Location = lesson.Location;
+                  
+                    _context.Update(lessonForEdit);
                     await _context.SaveChangesAsync();
                 }
 
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LessonExists(lesson.Id))
+                    if (!LessonExists(lesson.LessonId))
                     {
                         return NotFound();
                     }
@@ -202,8 +214,8 @@ namespace Login_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id=lesson.CourseID });
-            }*/
+                return RedirectToAction(nameof(Index),"Lessons", new { id=lesson.CourseID });
+            }
             return View(lesson);
         }
 
