@@ -186,6 +186,9 @@
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Kurssit</value>
   </data>
+  <data name="CreateCompanyGroups" xml:space="preserve">
+    <value>Luo yritysryhmä</value>
+  </data>
   <data name="Create_company" xml:space="preserve">
     <value>Luo yritys</value>
   </data>

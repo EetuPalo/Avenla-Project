@@ -19,5 +19,6 @@ namespace Login_System.Models
         [AllowHtml]
         public string Description { get; set; }
         
+        public int CompanyGroupId { get; set; }
     }
 }

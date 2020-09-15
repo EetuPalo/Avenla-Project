@@ -24,9 +24,9 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Company.ToListAsync());
+            return View();
         }
 
         public IActionResult Details(int? id)
@@ -36,14 +36,33 @@ namespace Login_System.Controllers
         }
         public IActionResult Create()
         {
+            var model = new CompanyGroups();
 
-            return View();
+            foreach (var company in _context.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+            }
+
+
+            return View(model);
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public IActionResult Create([Bind("CompanyGroupId,CompanyGroupName")] CompanyGroups company)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName")]  CompanyGroups data, int id)
         {
+            var companyList = _context.Company;
+
+            var company = (await _context.CompanyGroups.AddAsync(new CompanyGroups { CompanyGroupName = data.CompanyGroupName })).Entity;
+            await _context.SaveChangesAsync();
+
+            foreach (var companyid in data.Company) 
+            {
+                var idfinder = await _context.Company.FindAsync(id);
+                idfinder.CompanyGroupId = company.CompanyGroupId;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -70,8 +89,6 @@ namespace Login_System.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
