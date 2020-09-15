@@ -71,9 +71,12 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" id="navigationBar">
             <div class="container">
+                @if (User.Identity.IsAuthenticated)
+                {
                     <a class="btn" asp-area="" asp-controller="Dashboard" asp-action="Index">
                         <i class="fas fa-home fa-lg"> </i>
                     </a>
+                }
                 <!--<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img style="width: 50px; height: auto" src="~/img/avenla-logo.png" /> AVENLA Oy</a>-->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -85,35 +88,35 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li>
-                                    <form id="SetActiveCompany" asp-controller="Home"
-                                          asp-action="SetActiveCompany" asp-route-returnUrl="@Context.Request.Path"
-                                          method="post" class="form-horizontal" role="form">
+                                <form id="SetActiveCompany" asp-controller="Home"
+                                      asp-action="SetActiveCompany" asp-route-returnUrl="@Context.Request.Path"
+                                      method="post" class="form-horizontal" role="form">
 
-                                        <select class="text-dark btn selectpicker form-control form-control-sm" name="company"
-                                                onchange="this.form.submit();">
-                                            @if (ViewBag.Companies != null)
+                                    <select class="text-dark btn selectpicker form-control form-control-sm" name="company"
+                                            onchange="this.form.submit();">
+                                        @if (ViewBag.Companies != null)
+                                        {
+                                            @foreach (var company in ViewBag.Companies)
                                             {
-                                                @foreach (var company in ViewBag.Companies)
+                                                @if (company.Id != companyId)
                                                 {
-                                                    @if (company.Id != companyId)
-                                                    {
-                                                        <option value="@company.Id">@company.Name</option>
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="@company.Id" selected>@company.Name</option>
-                                                    }
+                                                    <option value="@company.Id">@company.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@company.Id" selected>@company.Name</option>
                                                 }
                                             }
-                                        </select>
-                                    </form>
+                                        }
+                                    </select>
+                                </form>
                             </li>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-                        {
-                            <li>
-                                <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a>
-                            </li>
-                        }
+                            @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+                            {
+                                <li>
+                                    <a class="text-dark btn" asp-area="" asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a>
+                                </li>
+                            }
                             <li>
                                 <a class="text-dark btn" asp-area="" asp-controller="SkillCourses" asp-action="Index">@Resources.Resources.Layout_Courses</a>
                             </li>
