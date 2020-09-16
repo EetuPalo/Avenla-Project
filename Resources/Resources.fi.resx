@@ -150,6 +150,9 @@
   <data name="Company" xml:space="preserve">
     <value>Yritys</value>
   </data>
+  <data name="CompanyGroupName" xml:space="preserve">
+    <value>Yritysryhmän nimi</value>
+  </data>
   <data name="CompanyGroups" xml:space="preserve">
     <value>Yritysryhmät</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="Create_company" xml:space="preserve">
     <value>Luo yritys</value>
+  </data>
+  <data name="Create_CompanyGroup" xml:space="preserve">
+    <value>Luo yritysryhmä</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Hallintapaneeli</value>
@@ -466,6 +472,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="Lessons_upcoming" xml:space="preserve">
     <value>Tulevat</value>
+  </data>
+  <data name="ListofCompanygroups" xml:space="preserve">
+    <value>Lista yritysryhmistä</value>
   </data>
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>Lista kurssin jäsenistä</value>

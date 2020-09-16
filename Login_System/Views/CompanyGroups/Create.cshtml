@@ -8,12 +8,12 @@
 <hr />
 
 <div class="card">
-    <div class="card-header"><h5>@Resources.Resources.Create_company</h5></div>
+    <div class="card-header"><h5>@Resources.Resources.CreateCompanyGroups</h5></div>
     <div class="card-body">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group col-md-6">
-                <label asp-for="CompanyGroupName" class="control-label">@Resources.Resources.CompanyName</label>
+                <label asp-for="CompanyGroupName" class="control-label">@Resources.Resources.CompanyGroupName</label>
                 <input asp-for="CompanyGroupName" class="form-control" />
                 <span asp-validation-for="CompanyGroupName" class="text-danger"></span>
             </div>

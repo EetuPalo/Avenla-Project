@@ -160,6 +160,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company group name.
+        /// </summary>
+        public static string CompanyGroupName {
+            get {
+                return ResourceManager.GetString("CompanyGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company groups.
         /// </summary>
         public static string CompanyGroups {
@@ -273,6 +282,15 @@ namespace Resources {
         public static string Create_company {
             get {
                 return ResourceManager.GetString("Create_company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create company group.
+        /// </summary>
+        public static string Create_CompanyGroup {
+            get {
+                return ResourceManager.GetString("Create_CompanyGroup", resourceCulture);
             }
         }
         
@@ -1128,6 +1146,15 @@ namespace Resources {
         public static string List_Companies {
             get {
                 return ResourceManager.GetString("List_Companies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of company groups.
+        /// </summary>
+        public static string ListofCompanygroups {
+            get {
+                return ResourceManager.GetString("ListofCompanygroups", resourceCulture);
             }
         }
         

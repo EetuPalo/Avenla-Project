@@ -150,6 +150,9 @@
   <data name="Company" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="CompanyGroupName" xml:space="preserve">
+    <value>Company group name</value>
+  </data>
   <data name="CompanyGroups" xml:space="preserve">
     <value>Company groups</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="Create_company" xml:space="preserve">
     <value>Create company</value>
+  </data>
+  <data name="Create_CompanyGroup" xml:space="preserve">
+    <value>Create company group</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
@@ -472,6 +478,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="Lessons_upcoming" xml:space="preserve">
     <value>Upcoming</value>
+  </data>
+  <data name="ListofCompanygroups" xml:space="preserve">
+    <value>List of company groups</value>
   </data>
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>List of course members</value>
