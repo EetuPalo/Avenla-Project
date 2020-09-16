@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -88,29 +89,57 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
+            var model = new CompanyGroups();
+
+            foreach (var company in _context.Company)
+            {
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+            }
 
             var companyGroup = await _context.CompanyGroups.FindAsync(id);
             if (companyGroup == null)
             {
                 return NotFound();
             }
-            return View(companyGroup);
+            var companies = _context.Company.Where(x=> x.CompanyGroupId == id).ToList();
+            ViewBag.Companies = companies;
+            model.CompanyGroupName = companyGroup.CompanyGroupName;
+            model.CompanyGroupId = companyGroup.CompanyGroupId;
+         
+            return View(model);
         }
         [HttpPost]
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName")] CompanyGroups companyGroup)
+        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName, Company, oldCompanies")] CompanyGroups companyGroup)
         {
             if (companyGroup != null && id != companyGroup.CompanyGroupId) 
             {
                 return NotFound();
             }
-
+        
             if (ModelState.IsValid)
             {
                 try
                 {
+                    List<Company> oldCompanyIds = _context.Company.Where(x => x.CompanyGroupId == id).ToList();
+                    foreach(var company in oldCompanyIds)
+                    {
+                        if (!companyGroup.Company.Contains(company.Id.ToString()))
+                        {
+                            company.CompanyGroupId = 0;
+                            _context.Company.Update(company);
+                        }
+                    }
+
                     _context.Update(companyGroup);
+
+                    foreach(var companyId in companyGroup.Company)
+                    {
+                        var company = _context.Company.FirstOrDefault(x=> x.Id == int.Parse(companyId));
+                        company.CompanyGroupId = companyGroup.CompanyGroupId;
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException) 

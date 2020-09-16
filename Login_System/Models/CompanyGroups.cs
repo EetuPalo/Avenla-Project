@@ -27,5 +27,7 @@ namespace Login_System.Models
         }
         [NotMapped]
         public List<Company> companiesInGroups { get; set; }
+
+  
     }
 }
