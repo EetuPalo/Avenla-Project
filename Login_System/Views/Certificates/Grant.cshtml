@@ -80,8 +80,6 @@
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
     </form>*@
-
-
 @*<div>
         <a asp-action="Index">Back to List</a>
     </div>*@
@@ -92,8 +90,17 @@
 
 <script>
     $(document).ready(function () {
+        //select2 placeholder can't read ÄÄKKÖSET from resourses
+        var cultureInfo = '@System.Globalization.CultureInfo.CurrentCulture.Name';
+        var placehldr = "";
+        if (cultureInfo.match("en-GB")) {
+            placehldr = "Select Employee"
+        }
+        else {
+            placehldr = "Valitse työntekijä"
+        }
         $('.user').select2({
-            placeholder: "@Resources.Resources.Employee_select"
+            placeholder: placehldr
         });
     },
 
