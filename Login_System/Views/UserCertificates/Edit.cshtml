@@ -6,52 +6,69 @@
 }
 
 <h1>@Resources.Resources.Layout_Certificates</h1>
-<nav class="breadcrumb_nav" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-        <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
-        <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
-        <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index" asp-route-id=@TempData["UserID"]>@Resources.Resources.Layout_Certificates</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Edit_Title</li>
-               
-    </ol>
-</nav>
+@if (TempData.Keys.Contains("UserId") && TempData.Keys.Contains("id"))
+{
+    @if (TempData["UserId"].ToString() == TempData["id"].ToString())
+    {
+        <nav class="breadcrumb_nav" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+                <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index">@Resources.Resources.Layout_Usercertificates</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Edit_Title</li>
+            </ol>
+        </nav>
+    }
+    else
+    {
+        <nav class="breadcrumb_nav" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
+                <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index" asp-route-id=@TempData["UserID"]>@Resources.Resources.Layout_Certificates</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Edit_Title</li>
 
-<hr />
-<div class="card">
-    <div class="card-header"><h4>@Resources.Certificates.Edit_Title</h4></div>
-    <div class="card-body">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />                        
-            <div class="form-group">
-                <label asp-for="GrantDate" class="control-label">@Resources.Resources.UCertificates_Index_GrantDate</label>
-                <input asp-for="GrantDate" type="text" id="grantDate" value="@Model.GrantDate.ToShortDateString()"class="form-control" />
-                <span asp-validation-for="GrantDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ExpiryDate" class="control-label">@Resources.Resources.UCertificates_Index_ExpiryDate</label>
-                <input asp-for="ExpiryDate" type="text" id="expiryDate" class="form-control" value="@ViewBag.expiryDateNullable" />
-                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Resources.UserSkills_Create_Submit</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            </ol>
+        </nav>
+    }
 }
 
-<script>
+        <hr />
+        <div class="card">
+            <div class="card-header"><h4>@Resources.Certificates.Edit_Title</h4></div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="GrantDate" class="control-label">@Resources.Resources.UCertificates_Index_GrantDate</label>
+                        <input asp-for="GrantDate" type="text" id="grantDate" value="@Model.GrantDate.ToShortDateString()" class="form-control" />
+                        <span asp-validation-for="GrantDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ExpiryDate" class="control-label">@Resources.Resources.UCertificates_Index_ExpiryDate</label>
+                        <input asp-for="ExpiryDate" type="text" id="expiryDate" class="form-control" value="@ViewBag.expiryDateNullable" />
+                        <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Resources.UserSkills_Create_Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    $(function () {
-        $("#expiryDate, #grantDate").datepicker({
-            dateFormat: "dd.mm.yy"
-        });
-    });
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
 
-</script>
+        <script>
+
+            $(function () {
+                $("#expiryDate, #grantDate").datepicker({
+                    dateFormat: "dd.mm.yy"
+                });
+            });
+
+        </script>

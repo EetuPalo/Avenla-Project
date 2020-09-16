@@ -18,154 +18,157 @@
     </div>
     <hr />*@
 <h1>@TempData["UserFullName"]</h1>
-@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+@if (TempData.Keys.Contains("UserId") && TempData.Keys.Contains("id"))
 {
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
-        </ol>
-    </nav>
+    @if (TempData["UserId"].ToString() == TempData["id"].ToString())
+    {
+        <nav class="breadcrumb_nav" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
+            </ol>
+        </nav>
+    }
+    else
+    {
+        <nav class="breadcrumb_nav" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserId"]>@TempData["UserFullName"]</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
+            </ol>
+        </nav>
+    }
 }
-else
-{
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserId"]>@TempData["UserFullName"]</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Edit</li>
-        </ol>
-    </nav>
-}
-<hr />
-<div class="card">
-    <div class="card-header"><h5>@Resources.Resources.Employee_Index_Edit</h5></div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Edit">
-                    <div class="tab-content mt-2" id="myTabContent">
-                        <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user-tab">
-                            <input hidden asp-for="User.TempUserName" />
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="User.FirstName" class="control-label">@Resources.Resources.FirstName</label>
-                                <input asp-for="User.FirstName" class="form-control" />
-                                <span asp-validation-for="User.FirstName" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="User.LastName" class="control-label">@Resources.Resources.LastName</label>
-                                <input asp-for="User.LastName" class="form-control" />
-                                <span asp-validation-for="User.LastName" class="text-danger"></span>
-                            </div>
-                            <input type="hidden" asp-for="User.Id" />
-                            <div class="form-group">
-                                <label asp-for="User.Email" class="control-label">@Resources.Resources.Email</label>
-                                <input asp-for="User.Email" class="form-control" placeholder=@Resources.Resources.Email />
-                                <span asp-validation-for="User.Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="User.PhoneNumber" class="control-label">@Resources.Resources.Phone</label>
-                                <input asp-for="User.PhoneNumber" class="form-control" />
-                                <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="User.EmpStatus" class="control-label">@Resources.Resources.Employee_Edit_Status</label>
-                                <select class="form-control" asp-for="User.EmpStatus">
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                    @*<option selected="selected" value="@Model.User.EmpStatus">@Model.User.EmpStatus</option>*@
-                                </select>
-                                <span asp-validation-for="User.EmpStatus" class="text-danger"></span>
-                            </div>
-                            @if (User.IsInRole("Superadmin") || User.IsInRole("Admin"))
-                            {
+    <hr />
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Resources.Employee_Index_Edit</h5></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Edit">
+                        <div class="tab-content mt-2" id="myTabContent">
+                            <div class="tab-pane fade show active" id="user" role="tabpanel" aria-labelledby="user-tab">
+                                <input hidden asp-for="User.TempUserName" />
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <div class="form-group">
-                                    <label asp-for="Company">@Resources.Resources.Company</label>
-                                    @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
+                                    <label asp-for="User.FirstName" class="control-label">@Resources.Resources.FirstName</label>
+                                    <input asp-for="User.FirstName" class="form-control" />
+                                    <span asp-validation-for="User.FirstName" class="text-danger"></span>
                                 </div>
-                            }
-                            else
-                            {
-                                <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
-                            }
+                                <div class="form-group">
+                                    <label asp-for="User.LastName" class="control-label">@Resources.Resources.LastName</label>
+                                    <input asp-for="User.LastName" class="form-control" />
+                                    <span asp-validation-for="User.LastName" class="text-danger"></span>
+                                </div>
+                                <input type="hidden" asp-for="User.Id" />
+                                <div class="form-group">
+                                    <label asp-for="User.Email" class="control-label">@Resources.Resources.Email</label>
+                                    <input asp-for="User.Email" class="form-control" placeholder=@Resources.Resources.Email />
+                                    <span asp-validation-for="User.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.PhoneNumber" class="control-label">@Resources.Resources.Phone</label>
+                                    <input asp-for="User.PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.EmpStatus" class="control-label">@Resources.Resources.Employee_Edit_Status</label>
+                                    <select class="form-control" asp-for="User.EmpStatus">
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        @*<option selected="selected" value="@Model.User.EmpStatus">@Model.User.EmpStatus</option>*@
+                                    </select>
+                                    <span asp-validation-for="User.EmpStatus" class="text-danger"></span>
+                                </div>
+                                @if (User.IsInRole("Superadmin") || User.IsInRole("Admin"))
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="Company">@Resources.Resources.Company</label>
+                                        @Html.DropDownListFor(x => x.Companies, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="hidden" asp-for="Company" value="@TempData["Company"]" class="form-control" />
+                                }
 
+                                @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
+                                {
+                                    <label>@Resources.Resources.Layout_Roles</label>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "role form-control col-sm" })
+                                    </div>
+                                }
+
+                                <span style="font-weight: bold; color: red; font-size: 15px;">@ViewBag.Message</span>
+                                <div class="form-group">
+                                    <label asp-for="User.NewPassword" class="control-label">@Resources.Resources.Employee_Edit_NewPass</label>
+                                    <input asp-for="User.NewPassword" class="form-control" />
+                                    <span asp-validation-for="User.NewPassword" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.ConfirmNewPassword" class="control-label">@Resources.Resources.ConfirmPassword</label>
+                                    <input asp-for="User.ConfirmNewPassword" class="form-control" />
+                                    <span asp-validation-for="User.ConfirmNewPassword" class="text-danger"></span>
+                                </div>
+                            </div>
                             @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
                             {
-                                <label>@Resources.Resources.Layout_Roles</label>
-                                <div class="form-group">
-                                    @Html.DropDownListFor(x => x.SelectedRole, new SelectList(Model.RolesList, "Value", "Text"), Resources.Resources.RoleDropDown, new { @class = "role form-control col-sm" })
-                                </div>
-                            }
-
-                            <span style="font-weight: bold; color: red; font-size: 15px;">@ViewBag.Message</span>
-                            <div class="form-group">
-                                <label asp-for="User.NewPassword" class="control-label">@Resources.Resources.Employee_Edit_NewPass</label>
-                                <input asp-for="User.NewPassword" class="form-control" />
-                                <span asp-validation-for="User.NewPassword" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="User.ConfirmNewPassword" class="control-label">@Resources.Resources.ConfirmPassword</label>
-                                <input asp-for="User.ConfirmNewPassword" class="form-control" />
-                                <span asp-validation-for="User.ConfirmNewPassword" class="text-danger"></span>
-                            </div>
-                        </div>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Superadmin"))
-                        {
-                            <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
-                                <div class="container-fluid p-0 mt-2">
-                                    @for (int i = 0; i < Model.Groups.Count; i++)
-                                    {
-                                        <div class="form-check m-1">
-                                            <input type="hidden" asp-for="@Model.Groups[i].id" />
-                                            <input type="hidden" asp-for="@Model.Groups[i].name" />
-                                            <input asp-for="@Model.Groups[i].IsSelected" class="form-check-input" />
-                                            <label class="form-check-label" asp-for="@Model.Groups[i].IsSelected">
-                                                @Model.Groups[i].name
-                                            </label>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                            @*<div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">
+                                <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
                                     <div class="container-fluid p-0 mt-2">
-                                        @for (int i = 0; i < Model.Roles.Count; i++)
+                                        @for (int i = 0; i < Model.Groups.Count; i++)
                                         {
                                             <div class="form-check m-1">
-                                                <input type="hidden" asp-for="@Model.Roles[i].Id" />
-                                                <input type="hidden" asp-for="@Model.Roles[i].Name" />
-                                                <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
-                                                <label class="form-check-label" asp-for="@Model.Roles[i].IsSelected">
-                                                    @Model.Roles[i].Name
+                                                <input type="hidden" asp-for="@Model.Groups[i].id" />
+                                                <input type="hidden" asp-for="@Model.Groups[i].name" />
+                                                <input asp-for="@Model.Groups[i].IsSelected" class="form-check-input" />
+                                                <label class="form-check-label" asp-for="@Model.Groups[i].IsSelected">
+                                                    @Model.Groups[i].name
                                                 </label>
                                             </div>
                                         }
                                     </div>
-                                </div>*@
-                        }
-                    </div>
+                                </div>
+                                @*<div class="tab-pane fade" id="role" role="tabpanel" aria-labelledby="role-tab">
+                                        <div class="container-fluid p-0 mt-2">
+                                            @for (int i = 0; i < Model.Roles.Count; i++)
+                                            {
+                                                <div class="form-check m-1">
+                                                    <input type="hidden" asp-for="@Model.Roles[i].Id" />
+                                                    <input type="hidden" asp-for="@Model.Roles[i].Name" />
+                                                    <input asp-for="@Model.Roles[i].IsSelected" class="form-check-input" />
+                                                    <label class="form-check-label" asp-for="@Model.Roles[i].IsSelected">
+                                                        @Model.Roles[i].Name
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>*@
+                            }
+                        </div>
 
-                    <div class="container-fluid p-0">
-                        <div class="row">
-                            <div class="col-sm">
-                                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times"> </i> Cancel </button>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"></i> @Resources.Resources.Employee_Edit_Save</button>
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times"> </i> Cancel </button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"></i> @Resources.Resources.Employee_Edit_Save</button>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-<script>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+    <script>
     $(document).ready(function () {
         $('.company').select2({
             placeholder: "@Resources.Resources.CompaniesSelectDropdown"
@@ -180,4 +183,4 @@ else
         $(".role").val("@ViewBag.role")
     });
 
-</script>
+    </script>

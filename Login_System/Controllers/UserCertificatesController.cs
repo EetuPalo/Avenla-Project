@@ -57,6 +57,7 @@ namespace Login_System.Controllers
         }
 
         // GET: UserCertificates/Edit/4
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,6 +79,7 @@ namespace Login_System.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id, GrantDate, ExpiryDate")] UserCertificate userCertificate)
         {
             if (id != userCertificate.Id)

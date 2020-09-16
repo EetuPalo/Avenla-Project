@@ -1645,6 +1645,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Skill Overview.
+        /// </summary>
+        public static string UserSkills_ListByDate_Breadcrumbs {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Breadcrumbs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New.
         /// </summary>
         public static string UserSkills_ListByDate_Create {
