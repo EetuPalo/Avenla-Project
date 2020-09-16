@@ -141,7 +141,7 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents, Location, Length, Skill")] SkillCoursesVM skillCourse)
+        public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents, Location, Length, Skill, goal, startLevel")] SkillCoursesVM skillCourse)
         {
             if (ModelState.IsValid)
             {
