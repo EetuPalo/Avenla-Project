@@ -29,10 +29,24 @@ namespace Login_System.Controllers
             return View(await _context.CompanyGroups.ToListAsync());
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            return View();
+            var companyGroup = await _context.CompanyGroups
+                .FirstOrDefaultAsync(m => m.CompanyGroupId == id);
+            if (companyGroup == null)
+            {
+                return NotFound();
+            }
+
+            var model = new CompanyGroups();
+            model.companiesInGroups = _context.Company.Where(x => x.CompanyGroupId == id).ToList();
+
+            return View(model);
         }
         public IActionResult Create()
         {
