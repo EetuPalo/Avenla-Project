@@ -25,6 +25,7 @@ namespace Login_System.Models
         {
             CompanyList = new List<SelectListItem>();
         }
-
+        [NotMapped]
+        public List<Company> companiesInGroups { get; set; }
     }
 }
