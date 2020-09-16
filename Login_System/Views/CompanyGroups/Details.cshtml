@@ -5,6 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>@Resources.Resources.CompanyGroups</h1>
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="CompanyGroups" asp-action="Index">@Resources.Resources.CompanyGroups</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.Employee_Index_Details</li>
+    </ol>
+</nav>
 <hr />
 
 <div class="card">
