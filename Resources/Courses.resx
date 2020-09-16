@@ -144,11 +144,17 @@
   <data name="Create_Desc" xml:space="preserve">
     <value>Write a description</value>
   </data>
+  <data name="Create_Goal" xml:space="preserve">
+    <value>Goal</value>
+  </data>
   <data name="Create_Length" xml:space="preserve">
     <value>Course Length (est. amount of lessons)</value>
   </data>
   <data name="Create_Location" xml:space="preserve">
     <value>Course Location (City/Room/Organization/Online)</value>
+  </data>
+  <data name="Create_Starting_Level" xml:space="preserve">
+    <value>Starting level</value>
   </data>
   <data name="Create_Title" xml:space="preserve">
     <value>Create a new course</value>

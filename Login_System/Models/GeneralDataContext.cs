@@ -36,7 +36,7 @@ namespace Login_System.Models
         public DbSet<CompanyGroups> CompanyGroups { get; set; }
 
         public DbSet<CompanyMember> CompanyMembers {get; set;}
-        public DbSet<SkillsInLesson> SkillsInLessons { get; set; }
+        public DbSet<SkillsInCourse> SkillsInCourse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb) { 
         

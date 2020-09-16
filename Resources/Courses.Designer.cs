@@ -142,6 +142,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Goal.
+        /// </summary>
+        public static string Create_Goal {
+            get {
+                return ResourceManager.GetString("Create_Goal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Course Length (est. amount of lessons).
         /// </summary>
         public static string Create_Length {
@@ -156,6 +165,15 @@ namespace Resources {
         public static string Create_Location {
             get {
                 return ResourceManager.GetString("Create_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting level.
+        /// </summary>
+        public static string Create_Starting_Level {
+            get {
+                return ResourceManager.GetString("Create_Starting_Level", resourceCulture);
             }
         }
         

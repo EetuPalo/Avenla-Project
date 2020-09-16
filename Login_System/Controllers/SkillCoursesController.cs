@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Login_System.Controllers
 {
@@ -125,7 +126,13 @@ namespace Login_System.Controllers
 	    [Authorize(Roles = "Admin, Superadmin")]
         public IActionResult Create()
         {
-            return View();
+            var model = new SkillCoursesVM();
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+            }
+
+            return View(model);
         }
 
         // POST: SkillCourses/Create
@@ -134,13 +141,36 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents, Location, Length")] SkillCourse skillCourse)
+        public async Task<IActionResult> Create([Bind("id,CourseName,CourseContents, Location, Length, Skill")] SkillCoursesVM skillCourse)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(skillCourse);
+                var course = new SkillCourse
+                {
+                    CourseContents = skillCourse.CourseContents,
+                    CourseName = skillCourse.CourseName,
+                    Location = skillCourse.Location,
+                    Length = skillCourse.Length
+                };
+                _context.Add(course);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
+                int index = 0;
+                foreach (var skillId in skillCourse.Skill) 
+                {
+                    var skill = _context.Skills.FirstOrDefaultAsync(x=> x.Id == int.Parse(skillId));
 
+                    _context.Add(new SkillsInCourse
+                    {
+                        SkillId = skill.Id,
+                        CourseId = course.id,
+                        SkillGoal = int.Parse(skillCourse.goal[index]),
+                        SkillStartingLevel = int.Parse(skillCourse.startLevel[index]),
+                        
+                    });
+                    index++;
+
+                }
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(skillCourse);

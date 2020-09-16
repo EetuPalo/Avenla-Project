@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Login_System.Models
 {
-    public class SkillsInLesson
+    public class SkillsInCourse
 {
         public int Id { get; set; }
         [Required]
-        public int LessonId { get; set; }
+        public int CourseId { get; set; }
         [Required]
         public int SkillId { get; set; }
         public int SkillGoal { get; set; }
