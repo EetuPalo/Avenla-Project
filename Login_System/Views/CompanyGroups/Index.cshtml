@@ -13,9 +13,45 @@
     </ol>
 </nav>*@
 <hr />
-<div class="card"><div class="card-body">
+<div class="card">
+    <div class="card-header">
+    <h5>
+    @Resources.Resources.ListofCompanygroups     
     <span class="float-right">
-        <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus fa-fw"> </i> @Resources.Resources.CreateCompanyGroups</a>
+    <a class="btn btn-primary" asp-action="Create"> <i class="fas fa-plus fa-fw"> </i> @Resources.Resources.CreateCompanyGroups</a>
     </span>
-</div>
+    </h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyGroupName)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyGroupName)
+                        </td>
+                        <td>
+                            <div class="float-right">
+                                @if (User.IsInRole("Superadmin"))
+                                {
+                                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.CompanyGroupId"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.GENERAL_Edit</a>
+                                }
+                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.CompanyGroupId"><i class="fas fa-info fa-fw"> </i> @Resources.Resources.GENERAL_Info</a>
+                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.CompanyGroupId"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.GENERAL_Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

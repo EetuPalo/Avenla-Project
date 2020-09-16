@@ -24,9 +24,9 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.CompanyGroups.ToListAsync());
         }
 
         public IActionResult Details(int? id)
