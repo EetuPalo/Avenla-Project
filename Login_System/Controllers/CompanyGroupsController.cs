@@ -75,20 +75,45 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Company.FindAsync(id);
-            if (company == null)
+            var companyGroup = await _context.CompanyGroups.FindAsync(id);
+            if (companyGroup == null)
             {
                 return NotFound();
             }
-            return View(company);
+            return View(companyGroup);
         }
-
+        [HttpPost]
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public IActionResult Edit(int id, [Bind("CompanyGroupId,CompanyGroupName")] CompanyGroups company)
+        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName")] CompanyGroups companyGroup)
         {
+            if (companyGroup != null && id != companyGroup.CompanyGroupId) 
+            {
+                return NotFound();
+            }
 
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(companyGroup);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException) 
+                {
+                    if (!CompanyGroupExists(companyGroup.CompanyGroupId))
+                    {
+                        return NotFound();
+                    }
+                    else 
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(companyGroup);
+            
         }
         public async Task<IActionResult> Delete(int? id)
         {
@@ -111,6 +136,11 @@ namespace Login_System.Controllers
         {
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private bool CompanyGroupExists(int id)
+        {
+            return _context.CompanyGroups.Any(e => e.CompanyGroupId == id);
         }
     }
 }
