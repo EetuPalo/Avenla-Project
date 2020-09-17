@@ -171,6 +171,9 @@
   <data name="Members_Create_BTN_Submit" xml:space="preserve">
     <value>Lähetä</value>
   </data>
+  <data name="Members_Create_SelectMembers" xml:space="preserve">
+    <value>Valitse jäsenet</value>
+  </data>
   <data name="Members_Create_Title" xml:space="preserve">
     <value>Ryhmän jäsenet</value>
   </data>

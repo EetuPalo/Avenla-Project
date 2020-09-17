@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Login_System.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Login_System.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.AspNetCore.Mvc.Formatters;
+
 
 namespace Login_System.Controllers
 {
@@ -91,72 +96,62 @@ namespace Login_System.Controllers
 #nullable enable
         public async Task<IActionResult> Create(string? group, string? source, int id)
         {
-            List<AppUser> applicableUsers = new List<AppUser>();
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
             var companygroup = await _context.Group.FirstOrDefaultAsync(x => x.id == id);
-            foreach(var member in _context.CompanyMembers.Where(x=> x.CompanyId == companygroup.CompanyId))
+            var model = new GroupListOfMembersVM();
+            var groupMemList = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
+
+            foreach (var member in _context.CompanyMembers.Where(x=> x.CompanyId == companygroup.CompanyId))
             {
                 var user = await UserMgr.Users.FirstOrDefaultAsync(x => x.Id == member.UserId);
-                applicableUsers.Add(user);
-            }
-            var model = new List<GroupUser>();
-            var groupMemList = _context.GroupMembers.Where(x => x.GroupID == id).ToList();
-            foreach (var user in applicableUsers)
-            {
-                var tempUser = new GroupUser
-                {
-                    UserId = user.Id.ToString(),
-                    GroupId = (int)id,
-                    UserName = user.UserName,
-                    GroupName = group
-                };
-                int index = groupMemList.FindIndex(x => x.UserID == user.Id);
+
+                model.GroupMembersList.Add(new SelectListItem() { Text = string.Concat(user.FirstName, " ", user.LastName), Value = string.Concat(member.UserId.ToString(), "|", user.UserName) });
+                int index = groupMemList.FindIndex(x => x.UserID == member.UserId);
                 if (index >= 0)
                 {
-                    tempUser.IsSelected = true;
+                    model.ListOfMembers.Add(string.Concat(member.UserId.ToString(), "|", user.UserName));
                 }
-                else
-                {
-                    tempUser.IsSelected = false;
-                }
-                model.Add(tempUser);
+
             }
+
             TempData["Source"] = source;
             TempData["groupid"] = companygroup.id;
+            TempData["GroupCompany"] = companygroup.company;
+            TempData["CompanyId"] = companygroup.CompanyId;
+            TempData["GroupName"] = group;
             return View(model);
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(string source, List<GroupUser> groupMembers)
+        public IActionResult Create(string source, [Bind("id, name, company, CompanyId")] Group group, string[] GroupMembers)
         {
-           int groupID = 0;
-           foreach (var member in groupMembers.Where(x => x.IsSelected))
-           {
-                groupID = member.GroupId;
+            
+
+
+            int groupID = group.id; 
+            string groupName = TempData["GroupName"].ToString();
+            var memberInfo = new string[2] ;
+
+            // Deletion of previous registrations for the current group
+            foreach (var oldMem in _context.GroupMembers.Where(x => (x.GroupID == groupID)))
+            {
+                _context.Remove(oldMem);
+            }
+            // Insertion of registrations for the selected users as returned
+            foreach (var member in GroupMembers)
+            {
+                memberInfo = member.Split("|");
                 var tempMember = new GroupMember
                 {
-                    UserName = member.UserName,
-                    UserID = Convert.ToInt32(member.UserId),
-                    GroupID = member.GroupId,
-                    GroupName = member.GroupName
+                    UserID = Convert.ToInt32(memberInfo[0]),
+                    UserName = memberInfo[1],
+                    GroupID = groupID,
+                    GroupName = groupName
                 };
-                //This ensures we don't add duplicate members
-                foreach (var oldMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID == Convert.ToInt32(member.UserId))))
-                {
-                    _context.Remove(oldMem);
-                }
-                _context.Add(tempMember);               
-           }
-           //Those who aren't selected will be ignored, unless they are currently members of the group. In that case they will be removed
-           foreach (var member in groupMembers.Where(x => !x.IsSelected))
-           {
-                foreach (var gMem in _context.GroupMembers.Where(x => (x.GroupID == member.GroupId) && (x.UserID.ToString() == member.UserId)))
-                {
-                    _context.Remove(gMem);
-                }
-           }
-           _context.SaveChanges();
+                _context.Add(tempMember);
+            }
+            _context.SaveChanges();
 
             //Two possibilities for what the next page is
             //One for continuing the group creation process, the other for going to the groupmembers list

@@ -1,4 +1,4 @@
-﻿@model List<GroupUser>
+﻿@model Login_System.ViewModels.GroupListOfMembersVM
 
 @{
     ViewData["Title"] = "Create";
@@ -21,19 +21,11 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @for (int i = 0; i < Model.Count; i++)
-            {
-            <div class="form-group container-fluid pl-4">
-                <input hidden asp-for="@Model[i].UserId" />
-                <input hidden asp-for="@Model[i].UserName" />
-                <input hidden asp-for="@Model[i].GroupId" />
-                <input hidden asp-for="@Model[i].GroupName" />
-                <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-                <label class="form-check-label" asp-for="@Model[i].IsSelected">
-                    @Model[i].UserName
-                </label>
-            </div>
-            }
+
+            <label asp-for="GroupMembers" class="control-label">@Resources.Groups.Members_Create_Title</label>
+            @Html.DropDownListFor(x => x.GroupMembers, new SelectList(Model.GroupMembersList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple = "multiple", @style = "width: 100%;" })
+            @* END RRS *@
+
             <div class="container-fluid p-0">
                 <div class="row">
                     <div class="col-sm">
@@ -49,4 +41,23 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @* RRS *@
+<script type="text/javascript" language="javascript">
+    var options = []
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "@Resources.Groups.Members_Index_BTN_Details"
+            });
+              @foreach(var item in Model.ListOfMembers)
+            {
+                    <text>
+                        options.push('@item');
+                    </text>
+            }
+            $('.js-example-basic-multiple').select2().val(options)
+               $('.js-example-basic-multiple').trigger('change');
+
+        });
+</script>
+    @* END RRS *@
 }
