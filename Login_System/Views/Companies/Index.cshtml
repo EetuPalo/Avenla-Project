@@ -47,7 +47,7 @@
                                     <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.GENERAL_Edit</a>
                                 }
                                 <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info fa-fw"> </i> @Resources.Resources.GENERAL_Info</a>
-                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.GENERAL_Delete</a>
+                                <button class="btn btn-danger btn-sm" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@item.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name')"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.GENERAL_Delete</button>
                             </div>
                         </td>
                     </tr>
