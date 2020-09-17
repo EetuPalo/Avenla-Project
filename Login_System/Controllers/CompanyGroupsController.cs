@@ -47,6 +47,8 @@ namespace Login_System.Controllers
             var model = new CompanyGroups();
             model.companiesInGroups = _context.Company.Where(x => x.CompanyGroupId == id).ToList();
 
+            ViewBag.CompanyGroupName = companyGroup.CompanyGroupName;
+
             return View(model);
         }
         public IActionResult Create()
