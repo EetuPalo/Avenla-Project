@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Login_System.Controllers
 {
@@ -154,23 +155,27 @@ namespace Login_System.Controllers
                 };
                 _context.Add(course);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
-                int index = 0;
-                foreach (var skillId in skillCourse.Skill) 
+                if(skillCourse.Skill[0] != null)
                 {
-                    var skill = _context.Skills.FirstOrDefaultAsync(x=> x.Id == int.Parse(skillId));
-
-                    _context.Add(new SkillsInCourse
+                    int index = 0;
+                    foreach (var skillId in skillCourse.Skill)
                     {
-                        SkillId = skill.Id,
-                        CourseId = course.id,
-                        SkillGoal = int.Parse(skillCourse.goal[index]),
-                        SkillStartingLevel = int.Parse(skillCourse.startLevel[index]),
-                        
-                    });
-                    index++;
+                        var skill = await _context.Skills.FirstOrDefaultAsync(x => x.Id == int.Parse(skillId));
 
+                        _context.Add(new SkillsInCourse
+                        {
+                            SkillId = skill.Id,
+                            CourseId = course.id,
+                            SkillGoal = int.Parse(skillCourse.goal[index]),
+                            SkillStartingLevel = int.Parse(skillCourse.startLevel[index]),
+
+                        });
+                        index++;
+
+                    }
+                    await _context.SaveChangesAsync();
                 }
-                await _context.SaveChangesAsync();
+               
                 return RedirectToAction(nameof(Index));
             }
             return View(skillCourse);
@@ -180,6 +185,7 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Edit(int? id)
         {
+            SkillCoursesVM model = new SkillCoursesVM();
             if (id == null)
             {
                 return NotFound();
@@ -187,11 +193,31 @@ namespace Login_System.Controllers
 
             var skillCourse = await _context.Courses.FindAsync(id);
 
+           // model.id = skillCourse.id;
+            model.skillCourse = skillCourse;
+            
             if (skillCourse == null)
             {
                 return NotFound();
             }
-            return View(skillCourse);
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+            }
+            var goalList = new List<int>();
+            var startList = new List<int>();
+            var skillList = new List<int>();
+            foreach(var skill in _context.SkillsInCourse.Where(x=> x.CourseId == id))
+            {
+                goalList.Add(skill.SkillGoal);
+                startList.Add(skill.SkillStartingLevel);
+                skillList.Add(skill.SkillId);
+            }
+            ViewBag.goalList = goalList.ToArray();
+            ViewBag.startList = startList.ToArray();
+            ViewBag.skillList = skillList.ToArray();
+
+            return View(model);
         }
 
         // POST: SkillCourses/Edit/5
@@ -272,6 +298,11 @@ namespace Login_System.Controllers
         {
             var skillCourse = await _context.Courses.FindAsync(id);
             _context.Courses.Remove(skillCourse);
+            foreach(var item in _context.SkillsInCourse.Where(x => x.CourseId == id))
+            {
+                _context.SkillsInCourse.Remove(item);
+            }
+            
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

@@ -9,7 +9,8 @@
 
 <script>
     tinymce.init({
-        selector: '#courseDesc'
+        selector: '#courseDesc',
+        
     });
 </script>
 
@@ -65,17 +66,6 @@
                                                     </div>
                                                     <br />
                                                     <div class="col-sm-3">
-                                                        <select name="goal" class="min form-control" id="goal" onchange="modifyHeading()">
-                                                            <option value="">@Resources.Courses.Create_Goal</option>
-                                                            <option value="0">0</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3">
                                                         <select name="startLevel" class="max form-control" id="startingLevel" onchange="modifyHeading()">
                                                             <option value="">@Resources.Courses.Create_Starting_Level</option>
                                                             <option value="0">0</option>
@@ -86,6 +76,18 @@
                                                             <option value="5">5</option>
                                                         </select>
                                                     </div>
+                                                    <div class="col-sm-3">
+                                                        <select name="goal" class="min form-control" id="goal" onchange="modifyHeading()">
+                                                            <option value="">@Resources.Courses.Create_Goal</option>
+                                                            <option value="0">0</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
                                                     <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm-12"> @Resources.Resources.Advanced_Search_Clear</button></div>
 
                                                 </div>

@@ -26,7 +26,8 @@ namespace Login_System.ViewModels
         public string[] goal { get; set; }
         public string[] startLevel { get; set; }
         public List<SelectListItem> SkillList { get; set; }
-
+        public int id { get; set; }
+        public SkillCourse skillCourse { get; set; }
         public SkillCoursesVM()
         {
             SkillList = new List<SelectListItem>();
