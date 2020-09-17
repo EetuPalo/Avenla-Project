@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
 
 namespace Login_System.Controllers
 {
@@ -164,37 +165,61 @@ namespace Login_System.Controllers
             }
             return View(certificate);
         }
+
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Delete(int? id)
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var certificate = await _context.Certificates
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var certificate = await _context.Certificates.FindAsync(id);
             if (certificate == null)
             {
                 return NotFound();
             }
-
-            return View(certificate);
-        }
-        [Authorize(Roles = "Admin, Superadmin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var certificate = await _context.Certificates.FindAsync(id);
             _context.Certificates.Remove(certificate);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true, message = "Delete successful" });
         }
         private bool CertificateExists(int id)
         {
             return _context.Certificates.Any(e => e.Id == id);
         }
+
+        //[Authorize(Roles = "Admin, Superadmin")]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var certificate = await _context.Certificates
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (certificate == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(certificate);
+        //}
+        //[Authorize(Roles = "Admin, Superadmin")]
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var certificate = await _context.Certificates.FindAsync(id);
+        //    _context.Certificates.Remove(certificate);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //private bool CertificateExists(int id)
+        //{
+        //    return _context.Certificates.Any(e => e.Id == id);
+        //}
         [HttpGet]
         public async Task<IActionResult> Grant(int id)
         {
@@ -226,14 +251,18 @@ namespace Login_System.Controllers
             if (ModelState.IsValid)
             {
              
-                var grantDate = DateTime.Now;
+               // var grantDate = DateTime.Now;
+
+                string tempDateString = DateTime.ParseExact(model.UserCertificate.DateString, "dd.MM.yyyy", CultureInfo.CurrentCulture).ToShortDateString();               
+                DateTime tempDateTime = DateTime.Parse(tempDateString, CultureInfo.CurrentCulture);
                 foreach (var item in model.UserIds)
                 {
                     var user = _identityContext.Users.Find(item);
                     _context.UserCertificates.Add(new UserCertificate { 
                         UserID = user.Id,
                         CertificateID = model.Certificate.Id,
-                        GrantDate = grantDate,
+                        GrantDate = model.UserCertificate.GrantDate,
+                        ExpiryDate = tempDateTime,
                         CertificateName = model.Certificate.Name,
                         Organization = model.Certificate.Organization,
                         UserName = user.UserName

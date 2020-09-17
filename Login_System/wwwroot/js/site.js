@@ -53,3 +53,51 @@ $(":input[type='search']")
 function goBack() {
     window.history.back();
 }
+/**
+ * 
+ * Delete-actions uses Sweetalert popUp-confirmation
+ */
+function DeletePopUp(urlController, id, lang) {
+    //Have to manually set the warning text by current language
+    var title = "";
+    var text = "";
+    if (lang.match("en-GB")) {
+        title = "Delete";
+        text = "Are you sure you want to delete item?"
+    }
+    else {
+        title = "Poistaminen";
+        text = "Haluatko varmasti poistaa kohteen?"
+    }
+    var urlString = "/fi_FI/" + urlController + "/Delete/" + id;      
+    swal({
+        title: title,
+        text: text,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: "DELETE",
+                url: urlString,
+                beforeSend: function (request) {
+                    request.setRequestHeader("RequestVerificationToken", $("[name='__RequestVerificationToken']").val());
+                },
+                success: function (data) {
+                    if (data.success) {                        
+                        location.reload();                        
+                    }
+                    else {
+                        swal({
+                            title: "Error message",
+                            text: "Delete failed",
+                            icon: "warning",
+                            buttons: true
+                        })                       
+                    }
+                }
+            });
+        }
+    });
+}

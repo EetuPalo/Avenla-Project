@@ -33,8 +33,10 @@ namespace Login_System.Models
         public DbSet<AppUser> AppUser { get; set; }
         //IDENTITY
         public DbSet<Company> Company { get; set; }
+        public DbSet<CompanyGroups> CompanyGroups { get; set; }
 
         public DbSet<CompanyMember> CompanyMembers {get; set;}
+        public DbSet<SkillsInCourse> SkillsInCourse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb) { 
         

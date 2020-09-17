@@ -12,6 +12,8 @@ namespace Login_System.ViewModels
 {
         public Certificate Certificate { get; set; }
 
+        public UserCertificate UserCertificate { get; set; }
+
         public List<int> UserIds { get; set; }
 
         public IList<SelectListItem> UserList { get; set; }

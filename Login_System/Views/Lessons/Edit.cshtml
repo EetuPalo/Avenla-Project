@@ -1,11 +1,23 @@
-﻿@model Login_System.Models.Lesson
+﻿@model Login_System.ViewModels.CreateLessonVM
 
 @{
+
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
-}
+    System.Globalization.DateTimeFormatInfo info = System.Globalization.CultureInfo.CreateSpecificCulture("fi-FI").DateTimeFormat;
+    var date = Model.Date.ToString("dd.MM.yyyy",info);
 
+}
+<script type="text/javascript" src="~/lib/jquery/dist/datepicker-en-GB.js">
+</script>
+<script>
+    $(function () {
+        $("#lessonDate").datepicker({
+            dateFormat: "dd.mm.yy"
+        });
+    });
+
+</script>
 <h1>@Resources.Resources.Layout_Lessons</h1>
 <nav class="breadcrumb_nav" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -25,7 +37,8 @@
             <div class="col-md-4">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="CourseID" value="@Model.CourseID"/>
+                    <input type="hidden" asp-for="CourseID" value="@Model.CourseID" />
+                    <input hidden asp-for="LessonId" value="@Model.LessonId" />
                     <div class="form-group">
                         <label asp-for="CourseName" class="control-label">@Resources.Courses.Index_CourseName</label>
                         <input asp-for="CourseName" class="form-control" />
@@ -37,9 +50,26 @@
                         <span asp-validation-for="LessonName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Date" class="control-label">@Resources.Resources.Date_layout</label>
-                        <input asp-for="Date" class="form-control" />
-                        <span asp-validation-for="Date" class="text-danger"></span>
+                        <p>@Resources.Lessons.Create_Date <input class="form-control" asp-for="DateString" type="text" value ="@date" id="lessonDate" /></p>
+                        <span asp-validation-for="DateString" class="text-danger"></span>
+                    </div>
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label asp-for="HourString" class="control-label">@Resources.Lessons.Create_Hour</label>
+                                    <input type="number" min="0" max="23" asp-for="HourString" class="form-control" />
+                                    <span asp-validation-for="HourString" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label asp-for="MinuteString" class="control-label">@Resources.Lessons.Create_Minute</label>
+                                    <input type="number" min="0" max="59" asp-for="MinuteString" class="form-control" />
+                                    <span asp-validation-for="MinuteString" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Location" class="control-label">@Resources.Resources.Location_layout</label>

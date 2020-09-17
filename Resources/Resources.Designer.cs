@@ -160,6 +160,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company group name.
+        /// </summary>
+        public static string CompanyGroupName {
+            get {
+                return ResourceManager.GetString("CompanyGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company groups.
         /// </summary>
         public static string CompanyGroups {
@@ -273,6 +282,24 @@ namespace Resources {
         public static string Create_company {
             get {
                 return ResourceManager.GetString("Create_company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create company group.
+        /// </summary>
+        public static string Create_CompanyGroup {
+            get {
+                return ResourceManager.GetString("Create_CompanyGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create company group.
+        /// </summary>
+        public static string CreateCompanyGroups {
+            get {
+                return ResourceManager.GetString("CreateCompanyGroups", resourceCulture);
             }
         }
         
@@ -588,6 +615,15 @@ namespace Resources {
         public static string Employee_Index_Title {
             get {
                 return ResourceManager.GetString("Employee_Index_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Employee.
+        /// </summary>
+        public static string Employee_select {
+            get {
+                return ResourceManager.GetString("Employee_select", resourceCulture);
             }
         }
         
@@ -1114,6 +1150,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List of company groups.
+        /// </summary>
+        public static string ListofCompanygroups {
+            get {
+                return ResourceManager.GetString("ListofCompanygroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List of course members.
         /// </summary>
         public static string ListofCourseMembers {
@@ -1303,6 +1348,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optional Field.
+        /// </summary>
+        public static string Optional_field {
+            get {
+                return ResourceManager.GetString("Optional_field", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -1465,6 +1519,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expiry Date.
+        /// </summary>
+        public static string UCertificates_Index_ExpiryDate {
+            get {
+                return ResourceManager.GetString("UCertificates_Index_ExpiryDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grant Date.
         /// </summary>
         public static string UCertificates_Index_GrantDate {
@@ -1605,6 +1668,15 @@ namespace Resources {
         public static string UserSkills_EditForm_Update {
             get {
                 return ResourceManager.GetString("UserSkills_EditForm_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skill Overview.
+        /// </summary>
+        public static string UserSkills_ListByDate_Breadcrumbs {
+            get {
+                return ResourceManager.GetString("UserSkills_ListByDate_Breadcrumbs", resourceCulture);
             }
         }
         

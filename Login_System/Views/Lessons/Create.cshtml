@@ -36,6 +36,7 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input hidden asp-for="CourseID" value="@Model.CourseID" />
+               
                     <div class="form-group">
                         <label asp-for="LessonName" class="control-label">@Resources.Lessons.Create_Name</label>
                         <input asp-for="LessonName" class="form-control" />

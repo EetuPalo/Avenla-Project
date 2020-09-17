@@ -6,27 +6,6 @@
 }
 
 <h1>@Resources.Resources.Layout_Certificates</h1>
-@if (TempData["UserId"].ToString() == TempData["id"].ToString())
-{
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"> <a asp-controller="Home" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"> <a asp-controller="Certificates" asp-action="Index">@Resources.Resources.Layout_Certificates</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Create_Title</li>
-        </ol>
-    </nav>
-}
-else
-{
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
-            <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Certificates.Create_Title</li>
-        </ol>
-    </nav>
-}
 <hr />
 <div class="card-columns" style="column-count: 2;">
     <div class="card">

@@ -150,6 +150,9 @@
   <data name="Company" xml:space="preserve">
     <value>Yritys</value>
   </data>
+  <data name="CompanyGroupName" xml:space="preserve">
+    <value>Yritysryhmän nimi</value>
+  </data>
   <data name="CompanyGroups" xml:space="preserve">
     <value>Yritysryhmät</value>
   </data>
@@ -186,8 +189,14 @@
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Kurssit</value>
   </data>
+  <data name="CreateCompanyGroups" xml:space="preserve">
+    <value>Luo yritysryhmä</value>
+  </data>
   <data name="Create_company" xml:space="preserve">
     <value>Luo yritys</value>
+  </data>
+  <data name="Create_CompanyGroup" xml:space="preserve">
+    <value>Luo yritysryhmä</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Hallintapaneeli</value>
@@ -290,6 +299,9 @@
   </data>
   <data name="Employee_Index_Title" xml:space="preserve">
     <value>Työntekijät</value>
+  </data>
+  <data name="Employee_select" xml:space="preserve">
+    <value>Valitse työntekijä</value>
   </data>
   <data name="EVAL_DROPDOWN_0" xml:space="preserve">
     <value>0 - Ei kiinnostusta</value>
@@ -461,6 +473,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Lessons_upcoming" xml:space="preserve">
     <value>Tulevat</value>
   </data>
+  <data name="ListofCompanygroups" xml:space="preserve">
+    <value>Lista yritysryhmistä</value>
+  </data>
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>Lista kurssin jäsenistä</value>
   </data>
@@ -527,6 +542,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="No_button" xml:space="preserve">
     <value>Ei</value>
   </data>
+  <data name="Optional_field" xml:space="preserve">
+    <value>Valinnainen kenttä</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Salasana</value>
   </data>
@@ -581,6 +599,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="UCertificates_Index_Cert" xml:space="preserve">
     <value>Sertifikaatti</value>
   </data>
+  <data name="UCertificates_Index_ExpiryDate" xml:space="preserve">
+    <value>Päättymispäivä</value>
+  </data>
   <data name="UCertificates_Index_GrantDate" xml:space="preserve">
     <value>Myöntämispäivä</value>
   </data>
@@ -622,6 +643,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="UserSkills_Edit_Title" xml:space="preserve">
     <value>Muokkaa</value>
+  </data>
+  <data name="UserSkills_ListByDate_Breadcrumbs" xml:space="preserve">
+    <value>Taidon yleisnäkymä</value>
   </data>
   <data name="UserSkills_ListByDate_Create" xml:space="preserve">
     <value>Luo Uusi</value>

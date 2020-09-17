@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.SkillCourse
+﻿@model Login_System.ViewModels.SkillCoursesVM
 
 @{
     ViewData["Title"] = "Create";
@@ -9,7 +9,8 @@
 
 <script>
     tinymce.init({
-        selector: '#courseDesc'
+        selector: '#courseDesc',
+        
     });
 </script>
 
@@ -28,7 +29,7 @@
             <div class="container-fluid p-0">
                 <form asp-action="Create">
                     <div class="row">
-                        <div class="col-md-6 border-right border-secondary">
+                        <div class="col-md-12">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="CourseName" class="control-label">@Resources.Courses.Create_CourseName</label>
@@ -45,19 +46,71 @@
                                 <input asp-for="Length" class="form-control" />
                                 <span asp-validation-for="Length" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Create_BTN_Create </button>
+                            <div id="accordion">
+                                <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
+                                    <label>@Resources.Resources.Advanced_Search_Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
+                                        <div class="row">
+
+                                            <div class="row col-sm-12" id="skillFilters">
+
+                                                <div class="row col-sm-12" id="skillfilter">
+                                                    <div class="col-sm-3" id="skill">
+
+                                                        @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
+                                                        <br />
+                                                    </div>
+                                                    <br />
+                                                    <div class="col-sm-3">
+                                                        <select name="startLevel" class="max form-control" id="startingLevel" onchange="modifyHeading()">
+                                                            <option value="">@Resources.Courses.Create_Starting_Level</option>
+                                                            <option value="0">0</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <select name="goal" class="min form-control" id="goal" onchange="modifyHeading()">
+                                                            <option value="">@Resources.Courses.Create_Goal</option>
+                                                            <option value="0">0</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm-12"> @Resources.Resources.Advanced_Search_Clear</button></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Courses.Create_BTN_Create </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CourseContents" class="control-label">@Resources.Courses.Create_Desc</label>
+                                    <textarea asp-for="CourseContents" class="form-control" id="courseDesc"></textarea>
+                                    <span asp-validation-for="CourseContents" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="CourseContents" class="control-label">@Resources.Courses.Create_Desc</label>
-                                <textarea asp-for="CourseContents" class="form-control" id="courseDesc"></textarea>
-                                <span asp-validation-for="CourseContents" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                     </div>
                 </form>
             </div>
         </div>
@@ -65,3 +118,80 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
+
+<script type="text/javascript" language="javascript">
+
+    //get the dropdown menu to multiply it in javascript
+    var skillDropClone = document.getElementById("skillfilter")
+
+    function addSkillFilter() {
+        //has the cloned node
+        var completenode = skillDropClone.cloneNode(true);
+        //container div of skillfilters
+        var container = document.getElementById("skillFilters");
+        //div for new set of searchfunctions
+        var aContainer = document.createElement('div');
+        aContainer.className = "row";
+        aContainer.setAttribute('id', $('#skillFilters').children().length);
+
+        //create button for deletion not included in original filter
+        var deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "btn btn-danger col-sm";
+        deleteBtn.innerHTML = "@Resources.Resources.DELETE_Button";
+        deleteBtn.id = $('#skillFilters').children().length;
+        deleteBtn.addEventListener('click', removeIt);
+        deleteBtn.addEventListener('click', modifyHeading);
+        var buttoncontainer = completenode.querySelectorAll(".buttons")[0];
+        buttoncontainer.innerHTML = "";
+
+       //appending button to cloned div and that div to skillfilters div
+        buttoncontainer.appendChild(deleteBtn);
+        completenode.appendChild(buttoncontainer)
+        container.appendChild(completenode);
+    }
+
+    function removeIt() {
+        console.log("remove called");
+        this.parentNode.parentNode.remove();
+    }
+
+    function changeIcon() {
+        $('#collapseOne').on('shown.bs.collapse', function () {
+            $("#caret").attr('class', 'fas fa-angle-up')
+        });
+
+        $('#collapseOne').on('hidden.bs.collapse', function () {
+            $("#caret").attr('class', 'fas fa-angle-down')
+        });
+
+    }
+
+    function modifyHeading() {
+        var array = []
+        var amountOfFilters = $("#skillFilters").children().length
+        for (var i = 0; i < amountOfFilters; i++) {
+
+            var skillname = $(".skillName")[i].value;
+            if (skillname == "") { skillname= "no skill"}
+            var skillMin = 0;
+            ($(".min")[i].value != "") ? skillMin = $(".min")[i].value : skillMin = 0;
+            var skillMax = 5;
+            ($(".max")[i].value != "") ? skillMax = $(".max")[i].value : skillMax = 5;
+
+            array.push(skillname + " (" + skillMin.toString() + "-" + skillMax.toString()+")");
+        }
+
+        var headerArray = array.join(', ');
+        document.getElementById("headingOne").children[0].innerText = headerArray;
+
+        }
+
+        function clearSelection() {
+            $(".skillName")[0].value = "";
+            $("#skillFilters #skillfilter #min")[0].value = "";
+            $("#skillFilters #skillfilter #max")[0].value = "";
+            modifyHeading();
+
+        }
+</script>

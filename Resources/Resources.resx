@@ -150,6 +150,9 @@
   <data name="Company" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="CompanyGroupName" xml:space="preserve">
+    <value>Company group name</value>
+  </data>
   <data name="CompanyGroups" xml:space="preserve">
     <value>Company groups</value>
   </data>
@@ -186,8 +189,14 @@
   <data name="CourseMem_Details_Title" xml:space="preserve">
     <value>Courses</value>
   </data>
+  <data name="CreateCompanyGroups" xml:space="preserve">
+    <value>Create company group</value>
+  </data>
   <data name="Create_company" xml:space="preserve">
     <value>Create company</value>
+  </data>
+  <data name="Create_CompanyGroup" xml:space="preserve">
+    <value>Create company group</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
@@ -293,6 +302,9 @@
   </data>
   <data name="Employee_Index_Title" xml:space="preserve">
     <value>Employee List</value>
+  </data>
+  <data name="Employee_select" xml:space="preserve">
+    <value>Select Employee</value>
   </data>
   <data name="EVAL_DROPDOWN_0" xml:space="preserve">
     <value>0 - No interest</value>
@@ -467,6 +479,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Lessons_upcoming" xml:space="preserve">
     <value>Upcoming</value>
   </data>
+  <data name="ListofCompanygroups" xml:space="preserve">
+    <value>List of company groups</value>
+  </data>
   <data name="ListofCourseMembers" xml:space="preserve">
     <value>List of course members</value>
   </data>
@@ -533,6 +548,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="No_button" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="Optional_field" xml:space="preserve">
+    <value>Optional Field</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -587,6 +605,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="UCertificates_Index_Cert" xml:space="preserve">
     <value>Certificate</value>
   </data>
+  <data name="UCertificates_Index_ExpiryDate" xml:space="preserve">
+    <value>Expiry Date</value>
+  </data>
   <data name="UCertificates_Index_GrantDate" xml:space="preserve">
     <value>Grant Date</value>
   </data>
@@ -628,6 +649,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="UserSkills_Edit_Title" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="UserSkills_ListByDate_Breadcrumbs" xml:space="preserve">
+    <value>Skill Overview</value>
   </data>
   <data name="UserSkills_ListByDate_Create" xml:space="preserve">
     <value>Create New</value>

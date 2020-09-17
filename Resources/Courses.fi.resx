@@ -144,11 +144,17 @@
   <data name="Create_Desc" xml:space="preserve">
     <value>Kurssin kuvaus</value>
   </data>
+  <data name="Create_Goal" xml:space="preserve">
+    <value>Tavoite</value>
+  </data>
   <data name="Create_Length" xml:space="preserve">
     <value>Kurssin pituus (oppintuntien arvioitu määrä)</value>
   </data>
   <data name="Create_Location" xml:space="preserve">
     <value>Kurssin sijainti (kaupunki/huone/online)</value>
+  </data>
+  <data name="Create_Starting_Level" xml:space="preserve">
+    <value>Lähtötaso</value>
   </data>
   <data name="Create_Title" xml:space="preserve">
     <value>Luo uusi kurssi</value>

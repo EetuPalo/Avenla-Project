@@ -7,14 +7,12 @@
 
 <script>
     $(function () {
-        $("#datepicker").datepicker();
-    });
+        $("#datepicker).datepicker();
+    }
+);
 </script>
 
 <h2 style="display:inline">@Resources.Resources.UCertificates_Create_Title</h2>
-
-@if (TempData["UserId"].ToString() == TempData["id"].ToString())
-{
     <nav class="breadcrumb_nav" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
@@ -23,18 +21,7 @@
             <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UCertificates_Create_Title</li>
         </ol>
     </nav>
-}
-else
-{
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
-            <li class="breadcrumb-item"><a asp-controller="UserCertificates" asp-action="Index" asp-route-id=@TempData["UserID"]>@TempData["UserName"]</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UCertificates_Create_Title</li>
-        </ol>
-    </nav>
-}
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -51,6 +38,10 @@ else
             <div class="form-group">
                 <p>@Resources.Resources.UCertificates_Create_DateTitle <input class="form-control" asp-for="GrantDate" type="text" id="datepicker" value="@DateTime.Now"></p>
                 <span asp-validation-for="GrantDate" class="text-danger"></span>
+            </div>            
+            <div class="form-group">
+                <p>ExpiryDate [Optional] <input class="form-control" asp-for="ExpiryDate" type="text" id="datepicker2" value="" placeholder="Optional"></p>
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
             </div>
             <div class="container-fluid p-0">
                 <div class="row">
@@ -59,7 +50,6 @@ else
                         <button type="submit" class="btn btn-primary"><i class="fas fa-plus-square fa-fw"> </i> @Resources.Resources.UCertificates_Create_Add</button>
                     </div>
                 </div>
-
             </div>
         </form>
     </div>

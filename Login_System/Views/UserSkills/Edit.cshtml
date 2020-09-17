@@ -6,57 +6,60 @@
 }
 
 <h2 style="display:inline">@Resources.Resources.UserSkills_Edit_Title</h2>
-@if (TempData["UserId"].ToString() == TempData["id"].ToString())
+@if (TempData.Keys.Contains("UserId") && TempData.Keys.Contains("id"))
 {
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
-            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList">@Resources.Resources.Layout_Userskills</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Edit_Title</li>
-        </ol>
-    </nav>
-}
-else
-{
-    <nav class="breadcrumb_nav" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
-            <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserId"]>@TempData["FullName"]</a></li>
-            <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList" asp-route-id=@TempData["UserId"]>@Resources.Resources.Layout_Userskills</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Edit_Title</li>
-        </ol>
-    </nav>
+    @if (TempData["UserId"].ToString() == TempData["id"].ToString())
+    {
+        <nav class="breadcrumb_nav" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+                <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList">@Resources.Resources.Layout_Userskills</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Edit_Title</li>
+            </ol>
+        </nav>
+    }
+    else
+    {
+        <nav class="breadcrumb_nav" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Index">@Resources.Resources.Layout_Employees</a></li>
+                <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details" asp-route-id=@TempData["UserId"]>@TempData["FullName"]</a></li>
+                <li class="breadcrumb-item"><a asp-controller="UserSkills" asp-action="SkillList" asp-route-id=@TempData["UserId"]>@Resources.Resources.Layout_Userskills</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserSkills_Edit_Title</li>
+            </ol>
+        </nav>
+    }
 }
 
-<h4>@Model.SkillName</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="UserID" class="form-control" />
-            <input type="hidden" asp-for="AdminEval" class="form-control" />
-            <input type="hidden" asp-for="SkillName" class="form-control" />
+    <h4>@Model.SkillName</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="UserID" class="form-control" />
+                <input type="hidden" asp-for="AdminEval" class="form-control" />
+                <input type="hidden" asp-for="SkillName" class="form-control" />
 
-            <div class="form-group">
-                <label asp-for="SkillLevel" class="control-label">@Resources.Resources.UserSkills_Edit_SkillLevel</label>
-                <input type="number" min="0" max="5" asp-for="SkillLevel" class="form-control" />
-                <span asp-validation-for="SkillLevel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="hidden" asp-for="Date" class="form-control" />
-            </div>
-            <div class="form-group">
-                <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Resources.UserSkills_Create_Submit</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="SkillLevel" class="control-label">@Resources.Resources.UserSkills_Edit_SkillLevel</label>
+                    <input type="number" min="0" max="5" asp-for="SkillLevel" class="form-control" />
+                    <span asp-validation-for="SkillLevel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="Date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="goBack()" class="btn btn-outline-primary"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Resources.UserSkills_Create_Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

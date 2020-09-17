@@ -45,12 +45,18 @@ namespace Login_System.Controllers
             bool certificatebool = Certificate != null ? true :false;
             //Skill[0] = null;    
             var user = await UserMgr.GetUserAsync(HttpContext.User);
+
+            //!!!!!!!!!hävitykseen ehkä!!!!!!!!!!!!!!!
             List<int> usercompanies = new List<int>();
             foreach (var item in _context.CompanyMembers.Where(x => x.UserId== user.Id).ToList())
             {
                 usercompanies.Add(_context.Company.FirstOrDefault(x => x.Id == item.CompanyId).Id);
             }
             model.adminCompanyIds = usercompanies;
+            
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
             //ViewBag.CurrentCompany = userCompanies;
 
             //Populating certificate dropdown with certificates

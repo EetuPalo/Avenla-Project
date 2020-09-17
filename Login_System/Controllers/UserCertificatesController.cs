@@ -51,9 +51,53 @@ namespace Login_System.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                certificates = certificates.Where(s => (s.CertificateName.Contains(searchString))|| (s.Organization.Contains(searchString)));
+                certificates = certificates.Where(s => (s.CertificateName.Contains(searchString)) || (s.Organization.Contains(searchString)));
             }
             return View(await certificates.ToListAsync());
+        }
+
+        // GET: UserCertificates/Edit/4
+        [Authorize(Roles = "Admin, Superadmin")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                id = TempData["UserId"] as int?;
+            }
+
+            var userCertificates = await _context.UserCertificates.FindAsync(id);
+            if (userCertificates == null)
+            {
+                return NotFound();
+            }
+            if (userCertificates.ExpiryDate.HasValue)
+            {
+                ViewBag.expiryDateNullable = userCertificates.ExpiryDate.Value.ToShortDateString();
+            }
+            return View(userCertificates);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Superadmin")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, GrantDate, ExpiryDate")] UserCertificate userCertificate)
+        {
+            if (id != userCertificate.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var userCert = await _context.UserCertificates.FirstOrDefaultAsync(m => m.Id == id);
+                userCert.GrantDate = userCertificate.GrantDate;
+                userCert.ExpiryDate = userCertificate.ExpiryDate;
+                _context.Update(userCert);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userCertificate);
         }
 
         // GET: UserCertificates/Create
@@ -79,8 +123,8 @@ namespace Login_System.Controllers
 
             model.CertificateList = certificates.Select(x => new SelectListItem
             {
-               Value = x.Name,
-               Text = x.Name
+                Value = x.Name,
+                Text = x.Name
             });
 
             return View(model);
@@ -114,44 +158,61 @@ namespace Login_System.Controllers
                 return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });
             }
             return View(userCertificate);
-        }       
-
-        // GET: UserCertificates/Delete/5
-        public async Task<IActionResult> Delete(int? id, string? source)
+        }
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var userCertificate = await _context.UserCertificates
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var userCertificate = await _context.UserCertificates.FindAsync(id);
             if (userCertificate == null)
             {
                 return NotFound();
             }
-
-            TempData["source"] = source;
-
-            return View(userCertificate);
-        }
-
-        // POST: UserCertificates/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id, string? source)
-        {
-            var userCertificate = await _context.UserCertificates.FindAsync(id);
             _context.UserCertificates.Remove(userCertificate);
             await _context.SaveChangesAsync();
-
-            if (source != null && source == "details")
-            {
-                return RedirectToAction("Details", "AppUsers", new { id = userCertificate.UserID });
-            }
-            return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID});
+            return Json(new { success = true, message = "Delete successful" });
         }
+
+        //// GET: UserCertificates/Delete/5
+        //public async Task<IActionResult> Delete(int? id, string? source)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var userCertificate = await _context.UserCertificates
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+
+        //    if (userCertificate == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    TempData["source"] = source;
+
+        //    return View(userCertificate);
+        //}
+
+        //// POST: UserCertificates/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id, string? source)
+        //{
+        //    var userCertificate = await _context.UserCertificates.FindAsync(id);
+        //    _context.UserCertificates.Remove(userCertificate);
+        //    await _context.SaveChangesAsync();
+
+        //    if (source != null && source == "details")
+        //    {
+        //        return RedirectToAction("Details", "AppUsers", new { id = userCertificate.UserID });
+        //    }
+        //    return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });
+        //}
 
         private bool UserCertificateExists(int id)
         {
