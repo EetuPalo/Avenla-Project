@@ -97,7 +97,7 @@ namespace Login_System.Controllers
                 //    UserName = user.UserName
                 //};
 
-                company = (await _context.Company.AddAsync(new Company { Name = data.CompanyName, Description = data.Description })).Entity;
+                company = (await _context.Company.AddAsync(new Company { Name = data.CompanyName, Description = data.Description, CompanyGroupId = 0 })).Entity;
                 await _context.SaveChangesAsync();
 
 
