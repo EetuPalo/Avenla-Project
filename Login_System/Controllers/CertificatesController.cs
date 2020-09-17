@@ -165,37 +165,61 @@ namespace Login_System.Controllers
             }
             return View(certificate);
         }
+
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Delete(int? id)
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var certificate = await _context.Certificates
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var certificate = await _context.Certificates.FindAsync(id);
             if (certificate == null)
             {
                 return NotFound();
             }
-
-            return View(certificate);
-        }
-        [Authorize(Roles = "Admin, Superadmin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var certificate = await _context.Certificates.FindAsync(id);
             _context.Certificates.Remove(certificate);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { success = true, message = "Delete successful" });
         }
         private bool CertificateExists(int id)
         {
             return _context.Certificates.Any(e => e.Id == id);
         }
+
+        //[Authorize(Roles = "Admin, Superadmin")]
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var certificate = await _context.Certificates
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (certificate == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(certificate);
+        //}
+        //[Authorize(Roles = "Admin, Superadmin")]
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var certificate = await _context.Certificates.FindAsync(id);
+        //    _context.Certificates.Remove(certificate);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //private bool CertificateExists(int id)
+        //{
+        //    return _context.Certificates.Any(e => e.Id == id);
+        //}
         [HttpGet]
         public async Task<IActionResult> Grant(int id)
         {

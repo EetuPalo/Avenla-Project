@@ -100,7 +100,7 @@
                             </td>
                         }
                         <td>
-                            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>
+                            <button class="btn btn-danger btn-sm" onclick="DeletePopUp('@ViewContext.RouteData.Values["controller"].ToString()', '@item.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name')"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
                         </td>
                     </tr>
                     }
@@ -108,4 +108,5 @@
             </table>
         </div>
     </div>
+
 
