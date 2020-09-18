@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Login_System.Models.UserGoals>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Resources.Resources.UserGoals_UserGoals</h1>
+
+<nav class="breadcrumb_nav" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="AppUsers" asp-action="Details">@Resources.Resources.Layout_Profile</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.UserGoals_UserGoals</li>
+    </ol>
+</nav>
+    
+
+    <hr />
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                @TempData["UserName"] - @Resources.Resources.UserGoals_UserGoals
+                <a class="btn btn-primary float-right" asp-action="Create" asp-controller="UserGoals"><i class="fas fa-plus-circle fa-fw"> </i>@Resources.Resources.UserGoals_Create</a>
+            </h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resources.SkillGoals.MODEL_SkillName
+                        </th>
+                        <th>
+                            @Resources.SkillGoals.MODEL_SkillGoal
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SkillName)
+                        </td>
+                        <td>
+                            @item.SkillGoal
+                        </td>
+
+                            <td>
+                                <a class="btn btn-info btn-sm float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"></i>@Resources.Resources.GENERAL_Edit</a>
+                            </td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="DeletePopUp('@ViewContext.RouteData.Values["controller"].ToString()', '@item.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name')"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+

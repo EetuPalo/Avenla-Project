@@ -25,6 +25,7 @@ namespace Login_System.Models
         public virtual DbSet<SkillCourseMember> SkillCourseMembers { get; set; }
         public DbSet<Skills> Skills { get; set; }
         public DbSet<UserSkills> UserSkills { get; set; }
+        public DbSet<UserGoals> UserGoals { get; set; }
         public DbSet<SkillGoals> SkillGoals { get; set; }
         public DbSet<SkillCategories> SkillCategories { get; set; }
 

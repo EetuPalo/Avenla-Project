@@ -27,6 +27,8 @@ namespace Login_System.ViewModels
 
         public List<UserSkills> UserSkills { get; set; }
 
+        public List<UserGoals> UserGoals { get; set; }
+
         public List<SkillCourseMember> UserCourses { get; set; }
         
         public List<UserCertificate> UserCertificates { get; set; }

@@ -140,6 +140,25 @@
             </div>
         </div>
 
+        <!--GOALS CARD-->
+        <div class="card">
+            <h5 class="card-header">@Resources.Resources.UserGoals_Goals</h5>
+            <div class="card-body">
+                <dl class="row">
+                    @foreach (var item in Model.UserGoals)
+                    {
+                        <dd class="col-sm-5">
+                            @item.SkillName
+                        </dd>
+                        <dd class="col-sm-1">
+                            @item.SkillGoal
+                        </dd>
+                    }
+                </dl>
+                <a class="btn btn-primary mr-1" asp-area="" asp-controller="UserGoals" asp-action="Index" asp-route-id="@Model.Id"><i class="fas fa-trophy fa-fw"> </i> @Resources.Resources.UserGoals_Goals</a>
+            </div>
+        </div>
+
         <!--COURSES CARD-->
         <div class="card">
             <h5 class="card-header">@Resources.Resources.Layout_Courses</h5>

@@ -1582,6 +1582,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new user goal.
+        /// </summary>
+        public static string UserGoals_Create {
+            get {
+                return ResourceManager.GetString("UserGoals_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit user goal.
+        /// </summary>
+        public static string UserGoals_Edit {
+            get {
+                return ResourceManager.GetString("UserGoals_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals.
+        /// </summary>
+        public static string UserGoals_Goals {
+            get {
+                return ResourceManager.GetString("UserGoals_Goals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Goals.
+        /// </summary>
+        public static string UserGoals_UserGoals {
+            get {
+                return ResourceManager.GetString("UserGoals_UserGoals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User information.
         /// </summary>
         public static string UserInfo_profile {

@@ -102,6 +102,9 @@ namespace Login_System.Controllers
         public async Task<IActionResult> Details(string? source, int? id, string? sourceId)
         {
             var skillList = new List<UserSkills>();
+
+            var goalList = new List<UserGoals>();
+
             var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
 
             //AppUser tempUser = await UserMgr.FindByIdAsync(currentUser.Id.ToString());
@@ -172,6 +175,13 @@ namespace Login_System.Controllers
                     }
                 }
             }
+            // RRS
+            // Goals
+            foreach (var goal in dataContext.UserGoals.Where(x => x.UserId == id))
+            {
+                 goalList.Add(goal);
+            }
+            // END RRS
             foreach (var groupMember in dataContext.GroupMembers.Where(x => x.UserID == id))
             {
                 tempList.Add(groupMember.GroupName);
@@ -185,6 +195,9 @@ namespace Login_System.Controllers
                 certificateList.Add(userCertificate);
             }
             model.UserSkills = skillList;
+            // RRS
+            model.UserGoals = goalList;
+            // END RRS
             model.UserGroups = tempList;
             model.UserCourses = courseList;
             model.UserCertificates = certificateList;

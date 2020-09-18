@@ -620,6 +620,18 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="UCertificates_Index_Title" xml:space="preserve">
     <value>- Certificates</value>
   </data>
+  <data name="UserGoals_Create" xml:space="preserve">
+    <value>Create new user goal</value>
+  </data>
+  <data name="UserGoals_Edit" xml:space="preserve">
+    <value>Edit user goal</value>
+  </data>
+  <data name="UserGoals_Goals" xml:space="preserve">
+    <value>Goals</value>
+  </data>
+  <data name="UserGoals_UserGoals" xml:space="preserve">
+    <value>User Goals</value>
+  </data>
   <data name="UserInfo_profile" xml:space="preserve">
     <value>User information</value>
   </data>
