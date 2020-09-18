@@ -120,6 +120,9 @@
   <data name="Create_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Create_SelectCategory" xml:space="preserve">
+    <value>Select Category</value>
+  </data>
   <data name="Desc_SkillCategory" xml:space="preserve">
     <value>Category description</value>
   </data>
