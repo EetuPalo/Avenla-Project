@@ -224,8 +224,9 @@ namespace Login_System.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Edit(int id, [Bind("id,CourseName,CourseContents, Location, Length")] SkillCourse skillCourse)
+        public async Task<IActionResult> Edit(int id, [Bind("id,CourseName,CourseContents, Location, Length, Skill, goal, startLevel")] SkillCoursesVM skillCourse)
         {
+            int index = 0;
             if (skillCourse != null && id != skillCourse.id)
             {
                 return NotFound();
@@ -235,6 +236,7 @@ namespace Login_System.Controllers
             {
                 try
                 {
+               
                     foreach (var member in _context.SkillCourseMembers.Where(x => x.CourseID == skillCourse.id))
                     {
                         member.CourseName = skillCourse.CourseName;
@@ -250,7 +252,46 @@ namespace Login_System.Controllers
 
                 try
                 {
-                    _context.Update(skillCourse);
+                    var course = _context.Courses.FirstOrDefault(x=> x.id == skillCourse.id);
+                    course.CourseName = skillCourse.CourseName;
+                    course.Location = skillCourse.Location;
+                    course.Length = skillCourse.Length;
+                    course.CourseContents = skillCourse.CourseContents;
+                    _context.Update(course);
+                    List<SkillsInCourse> oldSkillList = _context.SkillsInCourse.Where(x=> x.CourseId == skillCourse.id).ToList();
+                    foreach(var skill in oldSkillList)
+                    {
+                        if (!skillCourse.Skill.Contains(skill.SkillId.ToString()))
+                        {
+                            Console.Write("Here I Am!");
+                            _context.Remove(skill);
+                            
+                        }
+                    }
+                    foreach(var item in skillCourse.Skill)
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x => x.Id == int.Parse(item));
+                        var courseSkill = _context.SkillsInCourse.FirstOrDefault(x => x.SkillId == skill.Id && x.CourseId == skillCourse.id);
+                        if(courseSkill != null)
+                        {
+                            courseSkill.SkillGoal = int.Parse(skillCourse.goal[index]);
+                            courseSkill.SkillStartingLevel = int.Parse(skillCourse.startLevel[index]);
+                            _context.Update(courseSkill);
+                        }
+                        else
+                        {
+                            _context.Add(new SkillsInCourse
+                            {
+                                CourseId = skillCourse.id,
+                                SkillGoal = int.Parse(skillCourse.goal[index]),
+                                SkillStartingLevel = int.Parse(skillCourse.startLevel[index]),
+                                SkillId = int.Parse(item)
+
+                            });
+                        }
+
+                        index++;
+                    }
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
 

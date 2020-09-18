@@ -22,7 +22,8 @@ namespace Login_System.ViewModels
         public int Length { get; set; }
 
         public string CourseContents { get; set; }
-        public string[] Skill { get; set; }
+        //public string[] Skill { get; set; }
+        public List<string> Skill {get;set;}
         public string[] goal { get; set; }
         public string[] startLevel { get; set; }
         public List<SelectListItem> SkillList { get; set; }
