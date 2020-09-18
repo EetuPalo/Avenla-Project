@@ -102,20 +102,22 @@
                                 </div>
                             </div>
 
-                            <div class="container-fluid p-0">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"> </i> @Resources.Courses.Edit_BTN_Save</button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label asp-for="CourseContents" class="control-label"></label>
                                 <textarea asp-for="CourseContents" class="form-control" id="courseDescEdit"></textarea>
                                 <span asp-validation-for="CourseContents" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="container-fluid p-0">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"> </i> @Resources.Courses.Edit_BTN_Save</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -169,8 +171,8 @@
         completenode.hidden = false;
         console.log(completenode)
         completenode.children[0].firstElementChild.value = skill
-        completenode.children[2].firstElementChild.value = goal
-        completenode.children[3].firstElementChild.value = startingLevel
+        completenode.children[3].firstElementChild.value = goal
+        completenode.children[2].firstElementChild.value = startingLevel
         //container div of skillfilters
         var container = document.getElementById("skillFilters");
         //div for new set of searchfunctions
