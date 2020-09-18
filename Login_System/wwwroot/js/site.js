@@ -56,8 +56,10 @@ function goBack() {
 /**
  * 
  * Delete-actions uses Sweetalert popUp-confirmation
+ * if you need to redirect page back to /{controller}/index
+ * call function with 4th parameter 'true'
  */
-function DeletePopUp(urlController, id, lang) {
+function DeletePopUp(urlController, id, lang, redirect) {   
     //Have to manually set the warning text by current language
     var title = "";
     var text = "";
@@ -85,8 +87,9 @@ function DeletePopUp(urlController, id, lang) {
                     request.setRequestHeader("RequestVerificationToken", $("[name='__RequestVerificationToken']").val());
                 },
                 success: function (data) {
-                    if (data.success) {                        
-                        location.reload();                        
+                    if (data.success) {
+                        if (redirect) { window.location = '/fi_FI/' + urlController; }
+                        else { location.reload(); }                                        
                     }
                     else {
                         swal({
