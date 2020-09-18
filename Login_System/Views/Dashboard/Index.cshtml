@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Boolean active = true;
+    bool active = true;
+
+    var enrolled = Model.UserCourses.Where(x => x.Status == "Enrolled").ToList();
 }
 
 <h1>@Resources.Resources.Dashboard</h1>
@@ -126,28 +128,38 @@
             </ul>
             <br />
             <div class="tab-content">
-                @foreach (var item in Model.UserCourses)
-                {
-                    @if (item.Status == "Enrolled")
+                <div class="tab-pane active" id="enrolled" role="tabpanel" aria-labelledby="enrolled-tab">
+                    @if (enrolled.Count > 0)
+                    { 
+                    <div class="row"><h6 class="col-sm-12"><b>@Resources.Courses.Index_CourseName</b></h6></div><hr />
+                    }
+                    
+                    @foreach (var item in Model.UserCourses)
                     {
-                        <div class="tab-pane active" id="enrolled" role="tabpanel" aria-labelledby="enrolled-tab">
-                            <div class="row"><h6 class="col-sm-12" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6></div>
+                        @if (item.Status == "Enrolled")
+                        {
+
                             <div class="row">
                                 <div class="col-sm-12">
                                     @item.CourseName
                                 </div>
                             </div>
-                        </div>
+
+                        }
                     }
-                    else
+                </div>
+                <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
+                    <div class="row">
+                        <h6 class="col-sm-4"><b>@Resources.Courses.Index_CourseName</b></h6>
+                        <h6 class="col-sm-3"><b>@Resources.Courses.Course_status</b> </h6>
+                        <h6 class="col-sm-2"><b>@Resources.Courses.Completion_gradeDash</b> </h6>
+                        <h6 class="col-sm-3"><b>@Resources.Courses.Completion_date </b></h6>
+                    </div>
+                    <hr />
+                    @foreach (var item in Model.UserCourses)
                     {
-                        <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab">
-                            <div class="row">
-                                <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-                                <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Course_status </h6>
-                                <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Completion_gradeDash </h6>
-                                <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Completion_date </h6>
-                            </div>
+                        @if (item.Status == "Completed")
+                        {
                             <div class="row">
                                 <div class="col-sm-4">
                                     @item.CourseName
@@ -162,13 +174,14 @@
                                     @item.CompletionDate.ToString("dd.MM.yyyy")
                                 </div>
                             </div>
-                        </div>
+                            <hr />
+                        }
                     }
-                }
-                <p></p>
+                </div>
+                    <p></p>
+                </div>
+                <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
             </div>
-            <a asp-area="" asp-controller="SkillCourses" asp-action="Index" class="btn btn-primary"><i class="fas fa-book-open fa-fw"> </i> @Resources.Resources.Layout_Courses</a>
-        </div>
     </div>
 
     <!-- GROUPS AND SKILLS INFORMATION -->
@@ -223,7 +236,7 @@
                             {
                                 <span class="row"> <span class="col-sm-4"> @group.GroupName </span> </span>
                             }
-                            <span class="row" style="text-decoration: underline;"> <span class="col-sm-4"> @Resources.Skills.Index_Skill </span> <span class="col-sm-6" style="text-align:center;">@Resources.Resources.Dashboard_progress</span> <span class="col-sm-2">@Resources.SkillGoals.Index_Goal </span></span>
+                            <span class="row"> <span class="col-sm-4"><b> @Resources.Skills.Index_Skill</b> </span> <span class="col-sm-6" style="text-align:center;"><b>@Resources.Resources.Dashboard_progress</b></span> <span class="col-sm-2"><b>@Resources.SkillGoals.Index_Goal </b></span></span> <hr />
                             @foreach (var item in Model.UserSkills)
                             {
                                 @foreach (var goal in Model.UserGoals.Where(x => x.SkillId == item.SkillId && x.GroupId == group.GroupID))
@@ -304,11 +317,12 @@
             <div class="tab-pane active" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                 <p class="card-text">
                     <div class="row">
-                        <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Lesson</h6>
-                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
-                        <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
+                        <h6 class="col-sm-4"><b>@Resources.Courses.Index_CourseName</b></h6>
+                        <h6 class="col-sm-3"><b>@Resources.Courses.Index_Lesson_Lesson</b></h6>
+                        <h6 class="col-sm-3"><b>@Resources.Courses.Index_Lesson_Location</b></h6>
+                        <h6 class="col-sm-2"><b>@Resources.Courses.Index_Lesson_Date</b></h6>
                     </div>
+                    <hr />
                     @foreach (var lesson in Model.Lessons)
                     {
                         <div class="row">
@@ -329,11 +343,12 @@
             <p>
                 <div class="tab-pane" id="past" role="tabpanel" aria-labelledby="past-tab">
                     <div class="row">
-                        <h6 class="col-sm-4" style="text-decoration:underline;">@Resources.Courses.Index_CourseName</h6>
-                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Lesson</h6>
-                        <h6 class="col-sm-3" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Location</h6>
-                        <h6 class="col-sm-2" style="text-decoration:underline;">@Resources.Courses.Index_Lesson_Date</h6>
+                        <h6 class="col-sm-4"><b>@Resources.Courses.Index_CourseName</b></h6>
+                        <h6 class="col-sm-3"><b>@Resources.Courses.Index_Lesson_Lesson</b></h6>
+                        <h6 class="col-sm-3"><b>@Resources.Courses.Index_Lesson_Location</b></h6>
+                        <h6 class="col-sm-2"><b>@Resources.Courses.Index_Lesson_Date</b></h6>
                     </div>
+                    <hr />
                     @foreach (var lesson in Model.PastLessons)
                     {
                         <div class="row">
