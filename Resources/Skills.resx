@@ -178,4 +178,7 @@
   <data name="MODEL_Skill" xml:space="preserve">
     <value>Skill</value>
   </data>
+  <data name="No_Skill" xml:space="preserve">
+    <value>no skill</value>
+  </data>
 </root>

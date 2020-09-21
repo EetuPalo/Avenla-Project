@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Category.
+        /// </summary>
+        public static string Create_SelectCategory {
+            get {
+                return ResourceManager.GetString("Create_SelectCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category description.
         /// </summary>
         public static string Desc_SkillCategory {

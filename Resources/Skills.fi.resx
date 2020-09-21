@@ -174,4 +174,7 @@
   <data name="MODEL_Skill" xml:space="preserve">
     <value>Taito</value>
   </data>
+  <data name="No_Skill" xml:space="preserve">
+    <value>ei taitoa</value>
+  </data>
 </root>

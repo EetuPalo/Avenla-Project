@@ -240,5 +240,14 @@ namespace Resources {
                 return ResourceManager.GetString("MODEL_Skill", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no skill.
+        /// </summary>
+        public static string No_Skill {
+            get {
+                return ResourceManager.GetString("No_Skill", resourceCulture);
+            }
+        }
     }
 }

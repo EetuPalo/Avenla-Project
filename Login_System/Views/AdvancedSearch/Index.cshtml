@@ -191,7 +191,8 @@
         for (var i = 0; i < amountOfFilters; i++) {
 
             var skillname = $(".skillName")[i].value;
-            if (skillname == "") { skillname= "no skill"}
+//            if (skillname == "") { skillname= "no skill"}
+            if (skillname == "") { skillname = "@Resources.Skills.No_Skill" }
             var skillMin = 0;
             ($(".min")[i].value != "") ? skillMin = $(".min")[i].value : skillMin = 0;
             var skillMax = 5;

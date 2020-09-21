@@ -120,6 +120,9 @@
   <data name="Create_Cancel" xml:space="preserve">
     <value>Peruuta</value>
   </data>
+  <data name="Create_SelectCategory" xml:space="preserve">
+    <value>Valitse Kategoria</value>
+  </data>
   <data name="Desc_SkillCategory" xml:space="preserve">
     <value>Taitokategorian kuvaus</value>
   </data>
