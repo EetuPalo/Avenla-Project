@@ -38,6 +38,8 @@ namespace Login_System.Models
 
         public DbSet<CompanyMember> CompanyMembers {get; set;}
         public DbSet<SkillsInCourse> SkillsInCourse { get; set; }
+        public DbSet<CompanyGroupSkill> CompanyGroupSkills { get; set; }
+        public DbSet<CompanyGroupCertificate> CompanyGroupCertificates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb) { 
         
