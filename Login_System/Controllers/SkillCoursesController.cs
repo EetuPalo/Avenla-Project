@@ -160,16 +160,21 @@ namespace Login_System.Controllers
                     int index = 0;
                     foreach (var skillId in skillCourse.Skill)
                     {
-                        var skill = await _context.Skills.FirstOrDefaultAsync(x => x.Id == int.Parse(skillId));
-
-                        _context.Add(new SkillsInCourse
+                        if (!string.IsNullOrEmpty(skillCourse.Skill[index]))
                         {
-                            SkillId = skill.Id,
-                            CourseId = course.id,
-                            SkillGoal = int.Parse(skillCourse.goal[index]),
-                            SkillStartingLevel = int.Parse(skillCourse.startLevel[index]),
+                            var skill = await _context.Skills.FirstOrDefaultAsync(x => x.Id == int.Parse(skillId));
 
-                        });
+
+                            _context.Add(new SkillsInCourse
+                            {
+                                SkillId = skill.Id,
+                                CourseId = course.id,
+                                SkillGoal = (string.IsNullOrEmpty(skillCourse.goal[index])) ? 0 : int.Parse(skillCourse.goal[index]),
+                                SkillStartingLevel = (string.IsNullOrEmpty(skillCourse.startLevel[index])) ? 0 : int.Parse(skillCourse.startLevel[index]),
+
+                            });
+                        }
+                 
                         index++;
 
                     }
@@ -263,9 +268,7 @@ namespace Login_System.Controllers
                     {
                         if (!skillCourse.Skill.Contains(skill.SkillId.ToString()))
                         {
-                            Console.Write("Here I Am!");
                             _context.Remove(skill);
-                            
                         }
                     }
                     foreach(var item in skillCourse.Skill)
@@ -283,8 +286,8 @@ namespace Login_System.Controllers
                             _context.Add(new SkillsInCourse
                             {
                                 CourseId = skillCourse.id,
-                                SkillGoal = int.Parse(skillCourse.goal[index]),
-                                SkillStartingLevel = int.Parse(skillCourse.startLevel[index]),
+                                SkillGoal = (string.IsNullOrEmpty(skillCourse.goal[index]))?0: int.Parse(skillCourse.goal[index]),
+                                SkillStartingLevel = (string.IsNullOrEmpty(skillCourse.startLevel[index]))?0: int.Parse(skillCourse.startLevel[index]),
                                 SkillId = int.Parse(item)
 
                             });
@@ -312,41 +315,19 @@ namespace Login_System.Controllers
         }
 
         // GET: SkillCourses/Delete/5
+        [HttpDelete]
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var skillCourse = await _context.Courses
-                .FirstOrDefaultAsync(m => m.id == id);
-
-            if (skillCourse == null)
-            {
-                return NotFound();
-            }
-
-            return View(skillCourse);
-        }
-
-        // POST: SkillCourses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin, Superadmin")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
             var skillCourse = await _context.Courses.FindAsync(id);
             _context.Courses.Remove(skillCourse);
-            foreach(var item in _context.SkillsInCourse.Where(x => x.CourseId == id))
+            foreach (var item in _context.SkillsInCourse.Where(x => x.CourseId == id))
             {
                 _context.SkillsInCourse.Remove(item);
             }
-            
-            await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            await _context.SaveChangesAsync();
+            return Json(new { success = true, message = "Delete successful" });
         }
 
         private bool SkillCourseExists(int id)
