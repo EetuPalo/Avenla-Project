@@ -94,7 +94,7 @@ function DeletePopUp(urlController, id, lang, redirect) {
                     else {
                         swal({
                             title: "Error message",
-                            text: "Delete failed",
+                            text: data.message,
                             icon: "warning",
                             buttons: true
                         })                       
