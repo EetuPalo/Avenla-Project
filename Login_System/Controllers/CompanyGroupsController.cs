@@ -125,21 +125,35 @@ namespace Login_System.Controllers
                 try
                 {
                     List<Company> oldCompanyIds = _context.Company.Where(x => x.CompanyGroupId == id).ToList();
-                    foreach(var company in oldCompanyIds)
+                    if (companyGroup.Company != null) 
                     {
-                        if (!companyGroup.Company.Contains(company.Id.ToString()))
+                        foreach (var company in oldCompanyIds)
+                        {
+                            if (!companyGroup.Company.Contains(company.Id.ToString()))
+                            {
+                                company.CompanyGroupId = 0;
+                                _context.Company.Update(company);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        foreach (var company in oldCompanyIds)
                         {
                             company.CompanyGroupId = 0;
                             _context.Company.Update(company);
                         }
                     }
-
                     _context.Update(companyGroup);
 
-                    foreach(var companyId in companyGroup.Company)
-                    {
-                        var company = _context.Company.FirstOrDefault(x=> x.Id == int.Parse(companyId));
-                        company.CompanyGroupId = companyGroup.CompanyGroupId;
+                    if (companyGroup.Company != null) 
+                    { 
+                        foreach(var companyId in companyGroup.Company)
+                        {
+                            var company = _context.Company.FirstOrDefault(x=> x.Id == int.Parse(companyId));
+                            company.CompanyGroupId = companyGroup.CompanyGroupId;
+                        }
                     }
 
                     await _context.SaveChangesAsync();
@@ -167,21 +181,38 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Company
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (company == null)
+            var companyGroup = await _context.CompanyGroups.FindAsync(id);
+                
+            if (companyGroup == null)
             {
                 return NotFound();
             }
 
-            return View(company);
+            var notEmpty = _context.Company.Where(x => x.CompanyGroupId == companyGroup.CompanyGroupId).ToList();
+
+            if (notEmpty.Count < 1)
+            {
+                _context.CompanyGroups.Remove(companyGroup);
+
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Delete successful" });
+            }
+
+
+
+            else 
+            {
+                return Json(new { success = false, message = "Cannot delete before all companies are deleted from company group." });
+                
+            }
+            
         }
 
-        public IActionResult DeleteConfirmed(int id)
-        {
+        //public IActionResult DeleteConfirmed(int id)
+        //{
 
-            return RedirectToAction(nameof(Index));
-        }
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool CompanyGroupExists(int id)
         {
