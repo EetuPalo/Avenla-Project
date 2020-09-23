@@ -88,23 +88,30 @@ namespace Login_System.Controllers
             var company = (await _context.CompanyGroups.AddAsync(new CompanyGroups { CompanyGroupName = data.CompanyGroupName })).Entity;
             await _context.SaveChangesAsync();
 
-            foreach (var companyid in data.Company) 
+            if (data.Company != null)
             {
-                _context.Add(new CompanyGroupMember { 
-                    CompanyGroupId = company.CompanyGroupId,
-                    CompanyId =int.Parse(companyid)
-                });
-            }
-            foreach (var skillId in data.Skill)
-            {
-                var skill = _context.Skills.FirstOrDefault(x=> x.Id == int.Parse(skillId));
-
-                _context.CompanyGroupSkills.Add(new CompanyGroupSkill
+                foreach (var companyid in data.Company)
                 {
-                    SkillId = skill.Id,
-                    CompanyGroupId = company.CompanyGroupId,
-                    CompanyId = null,
-                });
+                    _context.Add(new CompanyGroupMember
+                    {
+                        CompanyGroupId = company.CompanyGroupId,
+                        CompanyId = int.Parse(companyid)
+                    });
+                }
+            }
+            if (data.Skill != null)
+            {
+                foreach (var skillId in data.Skill)
+                {
+                    var skill = _context.Skills.FirstOrDefault(x => x.Id == int.Parse(skillId));
+
+                    _context.CompanyGroupSkills.Add(new CompanyGroupSkill
+                    {
+                        SkillId = skill.Id,
+                        CompanyGroupId = company.CompanyGroupId,
+                        CompanyId = null,
+                    });
+                }
             }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
