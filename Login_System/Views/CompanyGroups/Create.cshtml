@@ -24,9 +24,17 @@
                 <input asp-for="CompanyGroupName" class="form-control" />
                 <span asp-validation-for="CompanyGroupName" class="text-danger"></span>
             </div>
-            <label>@Resources.Resources.Company</label>
-            <div class="form-group">
-                @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
+            <div class="col-md-6">
+                <label class="control-label">@Resources.Resources.Company</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple"})
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">@Resources.Resources.Layout_Skills</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple"})
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="@Resources.Resources.GENERAL_Create" class="btn btn-primary" />
@@ -43,6 +51,10 @@
     $(document).ready(function () {
         $('.company').select2({
             placeholder: "@Resources.Resources.CompaniesSelectDropdown"
+        });
+
+           $('.skill').select2({
+            placeholder: "@Resources.Resources.Skill_Dropdownlist"
         });
     });
 

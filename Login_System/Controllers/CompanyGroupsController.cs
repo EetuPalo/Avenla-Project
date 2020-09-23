@@ -45,7 +45,15 @@ namespace Login_System.Controllers
             }
 
             var model = new CompanyGroups();
-            model.companiesInGroups = _context.Company.Where(x => x.CompanyGroupId == id).ToList();
+            List<Company> companies = new List<Company>();
+            foreach(var comp in _context.CompanyGroupMembers.Where(x => x.CompanyGroupId == id).ToList())
+            {
+                Company company = _context.Company.FirstOrDefault(x => x.Id == comp.CompanyId);
+                companies.Add(company);
+            }
+            model.companiesInGroups = companies; 
+
+
 
             ViewBag.CompanyGroupName = companyGroup.CompanyGroupName;
 
@@ -59,6 +67,11 @@ namespace Login_System.Controllers
             {
                 model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
             }
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+            }
+
 
 
             return View(model);
@@ -68,7 +81,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company")]  CompanyGroups data, int id)
+        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company, Skill")]  CompanyGroups data, int id)
         {
             var companyList = _context.Company;
 
@@ -77,9 +90,21 @@ namespace Login_System.Controllers
 
             foreach (var companyid in data.Company) 
             {
-                var idfinder = await _context.Company.FirstOrDefaultAsync(x=> x.Id.ToString() == companyid);
-                idfinder.CompanyGroupId = company.CompanyGroupId;
-                _context.Update(idfinder);
+                _context.Add(new CompanyGroupMember { 
+                    CompanyGroupId = company.CompanyGroupId,
+                    CompanyId =int.Parse(companyid)
+                });
+            }
+            foreach (var skillId in data.Skill)
+            {
+                var skill = _context.Skills.FirstOrDefault(x=> x.Id == int.Parse(skillId));
+
+                _context.CompanyGroupSkills.Add(new CompanyGroupSkill
+                {
+                    SkillId = skill.Id,
+                    CompanyGroupId = company.CompanyGroupId,
+                    CompanyId = null,
+                });
             }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -28,17 +28,40 @@ namespace Login_System.Controllers
 
         public async Task<IActionResult> Index (string searchString)
         {
+
             //Select all skills
-            var skills = from c in _context.Skills select c;
+            //var skills = from c in _context.Skills select c;
+
+            var id = await UserMgr.GetUserAsync(HttpContext.User);
+             var companygroupid =  _context.Company.FirstOrDefault(x => x.Id == id.Company).CompanyGroupId;
+            var companyGroupSkills = _context.CompanyGroupSkills.Where(x => (x.CompanyId == id.Company)|| (x.CompanyGroupId ==  companygroupid)).ToList();
+            var groupSkills = new List<Skills>();
+
+            foreach(var skillId in companyGroupSkills)
+            {
+                var skill = _context.Skills.FirstOrDefault(x => x.Id == skillId.SkillId);
+                groupSkills.Add(skill);
+            }
+           
             TempData["SearchValue"] = null;
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                //Select only those skills that contain the searchString
-                skills = skills.Where(s => s.Skill.Contains(searchString));
-                TempData["SearchValue"] = searchString;
-            }
-            return View(await skills.ToListAsync());
+            /*
+             This is for companygroup implementation 
+             var id =  await UserMgr.GetUserAsync(HttpContext.User);
+           // var companygroupid =  _context.Company.FirstOrDefault(x => x.CompanyGroupId == id.Company).CompanyGroupId;
+            var groupSkillIds = _context.CompanyGroupSkills.Where(x => x.CompanyId == id.Company).ToList();
+
+            var groupSkills = _context.Skills.Where(x=> groupSkillIds.Any(y=> y.CompanyId == x.Id)).ToList();
+           
+             */
+
+            /* if (!String.IsNullOrEmpty(searchString))
+             {
+                 //Select only those skills that contain the searchString
+                 skills = skills.Where(s => s.Skill.Contains(searchString));
+                 TempData["SearchValue"] = searchString;
+             }*/
+            return View(groupSkills);
         }
 
         // GET: Skills/Details/5
@@ -81,24 +104,32 @@ namespace Login_System.Controllers
             //If the view is not valid, the user is just returned to the same view with error messages shown.
             if (ModelState.IsValid)
             {
-
-                //SkillCategories skillCategories = new SkillCategories();
-                _context.Add(skills);
+                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
+               // var companyGroupId = _context.CompanyGroups.FirstOrDefault(x=>x.Company)
+                var skill = _context.Add(skills).Entity;
 
               
                 await _context.SaveChangesAsync();
                 foreach(var skillcategories in SkillCategory)
                 {
                     var category = await _context.SkillCategories.FirstOrDefaultAsync(x => x.Name == skillcategories);
-                    SkillsInCategory skill = new SkillsInCategory
+                    SkillsInCategory skillcat = new SkillsInCategory
                     {
                         SkillId = skills.Id,
                         CategoryId = category.id
 
                     };
-                    _context.SkillsInCategory.Add(skill);
+                    _context.SkillsInCategory.Add(skillcat);
                 }
-         
+                if (User.IsInRole("Admin"))
+                {
+                    _context.Add(new CompanyGroupSkill
+                    {
+                        SkillId = skill.Id,
+                        CompanyId = currentUser.Company,
+                        //CompanyGroupId = 
+                    });
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

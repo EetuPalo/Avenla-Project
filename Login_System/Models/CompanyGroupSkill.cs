@@ -11,7 +11,7 @@ namespace Login_System.Models
         public int Id { get; set; }
 
         public int SkillId { get; set; }
-        public int CompanyGroupId { get; set; }
-        public int CompanyId { get; set; }
+        public int? CompanyGroupId { get; set; }
+        public int? CompanyId { get; set; }
     }
 }

@@ -111,6 +111,7 @@ namespace Login_System.Controllers
             TempData["ActionResult"] = Resources.ActionMessages.ActionResult_Error;           
             return View(@group);
         }
+        [HttpGet]
         public IActionResult AddSkills(int id, string name)
         {
             var model = new CreateSkillGoalsVM();
