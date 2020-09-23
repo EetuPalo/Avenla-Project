@@ -716,6 +716,8 @@ namespace Login_System.Controllers
         }
 
         [Authorize(Roles = "Admin, Superadmin")]
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -735,38 +737,42 @@ namespace Login_System.Controllers
             TempData["UserId"] = id;
             TempData["UserFullName"] = tempUser.FirstName + " " + tempUser.LastName;
 
-            return View(appUser);
-        }
-
-        [Authorize(Roles = "Admin, Superadmin")]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var appUser = await _context.Users.FindAsync(id);
-
-            //Checking for user info in the DB
-            if (dataContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
-            {
-                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
-                return RedirectToAction("Index");
-            }
-            if (dataContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
-            {
-                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
-                return RedirectToAction("Index");
-            }
-            if (dataContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
-            {
-                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
-                return RedirectToAction("Index");
-            }
-
             _context.Users.Remove(appUser);
             await _context.SaveChangesAsync();
-            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;
-            return RedirectToAction(nameof(Index));
+            //TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;
+
+            return Json(new { success = true, message = "Delete successful" });
         }
+
+        //[Authorize(Roles = "Admin, Superadmin")]
+        //[HttpDelete]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var appUser = await _context.Users.FindAsync(id);
+
+        //    //Checking for user info in the DB
+        //    if (dataContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
+        //    {
+        //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+        //        return RedirectToAction("Index");
+        //    }
+        //    if (dataContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
+        //    {
+        //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+        //        return RedirectToAction("Index");
+        //    }
+        //    if (dataContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
+        //    {
+        //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    _context.Users.Remove(appUser);
+        //    await _context.SaveChangesAsync();
+        //    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool AppUserExists(int id)
         {
