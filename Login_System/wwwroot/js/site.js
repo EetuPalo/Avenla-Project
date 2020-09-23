@@ -59,7 +59,7 @@ function goBack() {
  * if you need to redirect page back to /{controller}/index
  * call function with 4th parameter 'true'
  */
-function DeletePopUp(urlController, id, lang, redirect) {   
+function DeletePopUp(urlController, id, lang, redirect, redirectId) {   
     //Have to manually set the warning text by current language
     var title = "";
     var text = "";
@@ -88,8 +88,17 @@ function DeletePopUp(urlController, id, lang, redirect) {
                 },
                 success: function (data) {
                     if (data.success) {
-                        if (redirect) { window.location = '/fi_FI/' + urlController; }
-                        else { location.reload(); }                                        
+                        if (redirectId === undefined) {
+                            
+                            if (redirect) { window.location = '/fi_FI/' + urlController }
+                            else { location.reload();  }
+                           
+                        }
+                        else {
+                            if (redirect) { window.location = '/fi_FI/' + urlController + "/Index/" + redirectId }
+                            else { location.reload(); }   
+                        }
+                                                         
                     }
                     else {
                         swal({

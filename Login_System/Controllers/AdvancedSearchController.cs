@@ -53,9 +53,16 @@ namespace Login_System.Controllers
                 usercompanies.Add(_context.Company.FirstOrDefault(x => x.Id == item.CompanyId).Id);
             }
             model.adminCompanyIds = usercompanies;
-            
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+            var companygrouplist = new List<CompanyGroups>();
+            foreach(var id in _context.CompanyGroupSkills.Where(x=> x.CompanyId == user.Company).Select(x=> x.Id))
+            {
+                var group = _context.CompanyGroups.FirstOrDefault(x=> x.CompanyGroupId == id);
+                if (!companygrouplist.Contains(group))
+                {
+                    companygrouplist.Add(group);
+                }
+            }
 
             //ViewBag.CurrentCompany = userCompanies;
 
@@ -67,11 +74,13 @@ namespace Login_System.Controllers
 
             // Populating group dropdown with groups
 
+            //var skills = _context.CompanyGroupSkills.Where(x => (x.CompanyId == user.Company) && (x.CompanyGroupId)) || (companygrouplist.Any(y => y.CompanyGroupId == x.CompanyGroupId) && (x.CompanyId == (int?)null))).ToList();
             // Populating skill dropdown with skills
-            foreach (var skill in _context.Skills)
-            {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
-            }
+            //foreach (var skillofgroup in skills)
+            //{
+            //    var skill = _context.Skills.FirstOrDefault(x=> x.Id == skillofgroup.Id);
+            //    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
+            //}
             if (User.IsInRole("Superadmin"))
             {
                 foreach (var companies in _context.Company)

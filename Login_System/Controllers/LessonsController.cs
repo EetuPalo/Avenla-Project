@@ -219,9 +219,10 @@ namespace Login_System.Controllers
             return View(lesson);
         }
 
-        // GET: Lessons/Delete/5
-	[Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> Delete(int? id)
+        [Authorize(Roles = "Admin, Superadmin")]
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? id, int? courseId)
         {
             if (id == null)
             {
@@ -235,21 +236,30 @@ namespace Login_System.Controllers
             {
                 return NotFound();
             }
-            return View(lesson);
-        }
 
-        // POST: Lessons/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-	    [Authorize(Roles = "Admin, Superadmin")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var lesson = await _context.Lessons.FindAsync(id);
-            _context.Lessons.Remove(lesson);
+            var lessons = await _context.Lessons.FindAsync(id);
+            TempData["CourseId"] = await _context.Lessons.FindAsync(courseId);
+
+            _context.Lessons.Remove(lessons);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index), new {id = lesson.CourseID});
+
+
+            return Json(new { success = true, message = "Delete successful" });
         }
+
+        //   // POST: Lessons/Delete/5
+        //   [HttpPost, ActionName("Delete")]
+        //   [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin, Superadmin")]
+        //   public async Task<IActionResult> DeleteConfirmed(int id)
+        //   {
+        //       var lesson = await _context.Lessons.FindAsync(id);
+        //       _context.Lessons.Remove(lesson);
+        //       await _context.SaveChangesAsync();
+
+        //       return RedirectToAction(nameof(Index), new {id = lesson.CourseID});
+        //   }
 
         private bool LessonExists(int id)
         {
