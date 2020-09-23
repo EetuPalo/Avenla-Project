@@ -37,6 +37,7 @@
                         <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Certificates.Edit_BTN_Submit </button>
                     </div>
                 </form>
+                <button class="btn btn-danger btn-sm float-right" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@Model.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name', true)"><i class="fas fa-trash fa-fw"> </i> @Resources.Certificates.Index_BTN_Delete</button>
             </div>
         </div>
     </div>

@@ -82,7 +82,6 @@
                             <td>
                                 <a class="btn btn-primary btn-sm" asp-action="Grant" asp-route-id="@item.Id"><i class="fas fa-file-contract fa-fw"> </i> @Resources.Resources.CertificateGrant</a>
                                 <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Certificates.Index_BTN_Edit</a>
-                                <button class="btn btn-danger btn-sm" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@item.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name')"><i class="fas fa-trash fa-fw"> </i> @Resources.Certificates.Index_BTN_Delete</button>
                             </td>
                         </tr>
                     }
