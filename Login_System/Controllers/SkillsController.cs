@@ -33,34 +33,28 @@ namespace Login_System.Controllers
             //var skills = from c in _context.Skills select c;
 
             var id = await UserMgr.GetUserAsync(HttpContext.User);
-             var companygroupid =  _context.Company.FirstOrDefault(x => x.Id == id.Company).CompanyGroupId;
-            var companyGroupSkills = _context.CompanyGroupSkills.Where(x => (x.CompanyId == id.Company)|| (x.CompanyGroupId ==  companygroupid)).ToList();
+        
+            var companyGroupSkills = new List<CompanyGroupSkill>();
             var groupSkills = new List<Skills>();
-
-            foreach(var skillId in companyGroupSkills)
+            if (User.IsInRole("Superadmin"))
             {
-                var skill = _context.Skills.FirstOrDefault(x => x.Id == skillId.SkillId);
-                groupSkills.Add(skill);
+                groupSkills = _context.Skills.ToList();    
             }
-           
+            else
+            {
+                var companygroupid = _context.CompanyGroupMembers.FirstOrDefault(x => x.CompanyId == id.Company).CompanyGroupId;
+                companyGroupSkills = _context.CompanyGroupSkills.Where(x => ((x.CompanyId == id.Company) && (x.CompanyGroupId == companygroupid))||(x.CompanyGroupId == companygroupid) &&(x.CompanyId == (int?)null)).ToList();
+
+                foreach (var skillId in companyGroupSkills)
+                {
+                    var skill = _context.Skills.FirstOrDefault(x => x.Id == skillId.SkillId);
+                    groupSkills.Add(skill);
+                }
+            }
+
             TempData["SearchValue"] = null;
 
-            /*
-             This is for companygroup implementation 
-             var id =  await UserMgr.GetUserAsync(HttpContext.User);
-           // var companygroupid =  _context.Company.FirstOrDefault(x => x.CompanyGroupId == id.Company).CompanyGroupId;
-            var groupSkillIds = _context.CompanyGroupSkills.Where(x => x.CompanyId == id.Company).ToList();
 
-            var groupSkills = _context.Skills.Where(x=> groupSkillIds.Any(y=> y.CompanyId == x.Id)).ToList();
-           
-             */
-
-            /* if (!String.IsNullOrEmpty(searchString))
-             {
-                 //Select only those skills that contain the searchString
-                 skills = skills.Where(s => s.Skill.Contains(searchString));
-                 TempData["SearchValue"] = searchString;
-             }*/
             return View(groupSkills);
         }
 
@@ -107,7 +101,7 @@ namespace Login_System.Controllers
                 var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
                // var companyGroupId = _context.CompanyGroups.FirstOrDefault(x=>x.Company)
                 var skill = _context.Add(skills).Entity;
-
+                var compGroups = _context.CompanyGroupMembers.Where(x => x.CompanyId == currentUser.Company);
               
                 await _context.SaveChangesAsync();
                 foreach(var skillcategories in SkillCategory)
@@ -121,15 +115,17 @@ namespace Login_System.Controllers
                     };
                     _context.SkillsInCategory.Add(skillcat);
                 }
-                if (User.IsInRole("Admin"))
-                {
-                    _context.Add(new CompanyGroupSkill
+            
+                    foreach (var compGroup in compGroups)
                     {
-                        SkillId = skill.Id,
-                        CompanyId = currentUser.Company,
-                        //CompanyGroupId = 
+                        _context.Add(new CompanyGroupSkill
+                        {
+                            SkillId = skill.Id,
+                            CompanyId = (User.IsInRole("Admin"))? currentUser.Company : (int?)null,
+                            CompanyGroupId = compGroup.CompanyGroupId
                     });
-                }
+                    }
+           
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
