@@ -35,6 +35,7 @@
                 </form>
             </div>
         </div>
+        <button class="btn btn-danger" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@Model.id', '@System.Globalization.CultureInfo.CurrentCulture.Name', true)"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</button>
     </div>
 </div>
 @section Scripts {

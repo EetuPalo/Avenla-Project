@@ -88,8 +88,7 @@
                         <div class="">
                             <div class="p-1 mr-2 border border-light rounded">
                                 <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Stats_BTN_Edit</a>
-                                <!--<a class="btn btn-danger" asp-action="Delete" asp-route-id="@TempData["GroupID"]" asp-route-source="stats"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</a>-->
-                                <button class="btn btn-danger" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@TempData["GroupID"]', '@System.Globalization.CultureInfo.CurrentCulture.Name', true)"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</button>
+                                @*<button class="btn btn-danger" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@TempData["GroupID"]', '@System.Globalization.CultureInfo.CurrentCulture.Name', true)"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</button>*@
                             </div>
                         </div>
                     </div>

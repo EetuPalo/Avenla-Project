@@ -49,10 +49,10 @@
                 <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Skills.Edit_BTN_Submit</button>
             </div>
         </form>
+        <button class="btn btn-danger float-right" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@Model.skill.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name', true)"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.GENERAL_Delete</button>
     </div>
 </div>
-    </div>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript" language="javascript">

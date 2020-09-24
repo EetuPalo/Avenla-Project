@@ -172,7 +172,9 @@ namespace Login_System.Controllers
             }
             return View(company);
         }
-
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Superadmin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

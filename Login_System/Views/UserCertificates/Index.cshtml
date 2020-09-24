@@ -99,9 +99,6 @@
                                 <a class="btn btn-info btn-sm float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"></i>@Resources.Certificates.Index_BTN_Edit</a>
                             </td>
                         }
-                        <td>
-                            <button class="btn btn-danger btn-sm" onclick="DeletePopUp('@ViewContext.RouteData.Values["controller"].ToString()', '@item.Id', '@System.Globalization.CultureInfo.CurrentCulture.Name')"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</button>
-                        </td>
                     </tr>
                     }
                 </tbody>

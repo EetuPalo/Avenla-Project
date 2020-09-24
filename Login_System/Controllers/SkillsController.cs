@@ -167,7 +167,7 @@ namespace Login_System.Controllers
             model.Skill = skills.Skill;           
             model.ListOfCategories = tempList;
             model.Description = skills.Description;
-
+            model.skill = skills;
             return View(model);
         }
 
