@@ -1,4 +1,4 @@
-﻿@model Login_System.Models.Company
+﻿@model Login_System.ViewModels.CompanyMembersVM
 
 @{
     ViewData["Title"] = "Details";
@@ -10,20 +10,74 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
         <li class="breadcrumb-item"><a asp-controller="Companies" asp-action="Index">@Resources.Resources.Companies_index</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.name</li>
     </ol>
 </nav>
 <hr />
-<div class="card">
-    <div class="card-header"><h5>@Html.DisplayFor(model => model.Name)</h5> </div>
-    <div class="card-body">
-        @Html.Raw(Model.Description)
 
-        @if (User.IsInRole("Superadmin"))
-        {
-            <div>
-                <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
-            </div>
-        }
+    <div class="card">
+        <div class="card-header"><h5>@Html.DisplayFor(model => model.name)</h5> </div>
+        <div class="card-body">
+            @Html.Raw(Model.Description)
+
+            @if (User.IsInRole("Superadmin"))
+            {
+                <div>
+                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
+                </div>
+            }
+        </div>
     </div>
-</div>
+<br />
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Resources.ListofCompanyEmployees</h5></div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resources.Resources.FirstName
+                        </th>
+                        <th>
+                            @Resources.Resources.LastName
+
+                        </th>
+                        <th class="disable_arrow">
+                            @Resources.Resources.Email
+                        </th>
+
+                        <th class="disable_arrow">
+                            @Resources.Resources.Phone
+                        </th>
+                        <th class="disable_arrow">
+                            @Resources.Resources.Employee_Index_Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmpStatus)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>

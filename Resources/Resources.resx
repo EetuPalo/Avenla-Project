@@ -479,6 +479,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Lessons_upcoming" xml:space="preserve">
     <value>Upcoming</value>
   </data>
+  <data name="ListofCompanyEmployees" xml:space="preserve">
+    <value>List of employees</value>
+  </data>
   <data name="ListofCompanygroups" xml:space="preserve">
     <value>List of company groups</value>
   </data>

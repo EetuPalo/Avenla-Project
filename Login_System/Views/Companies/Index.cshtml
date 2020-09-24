@@ -41,11 +41,7 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            <div class="float-right">
-                                @if (User.IsInRole("Superadmin"))
-                                {
-                                    <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.GENERAL_Edit</a>
-                                }
+                            <div>
                                 <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info fa-fw"> </i> @Resources.Resources.GENERAL_Info</a>
                             </div>
                         </td>
