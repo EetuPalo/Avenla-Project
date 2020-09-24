@@ -20,7 +20,7 @@
     </ol>
 </nav>
 <hr />
-@if (User.IsInRole("Superadmin"))
+@if (User.IsInRole("Superadmin") ||User.IsInRole("Admin"))
 {
     <div class="card">
         <div class="card-header"><h5>@Resources.Resources.Employee_Index_Edit</h5></div>

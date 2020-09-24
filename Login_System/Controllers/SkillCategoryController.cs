@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Login_System.Models;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,10 @@ namespace Login_System.Controllers
     public class SkillCategoryController : Controller
     {
         private readonly GeneralDataContext _context;
-        public SkillCategoryController(GeneralDataContext context)
+        private readonly UserManager<AppUser> UserMgr;
+        public SkillCategoryController(GeneralDataContext context, UserManager<AppUser> Usermgr)
         {
+            UserMgr = Usermgr;
             _context = context;
         }
 
@@ -39,14 +42,40 @@ namespace Login_System.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var model = new SkillCategoryVM();
 
             //filling a dropdown for available skills
-            foreach (var skill in _context.Skills)
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            if (User.IsInRole("Admin"))
             {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                var companygrouplist = new List<CompanyGroups>();
+                foreach (var cmpgrpmbrid in _context.CompanyGroupMembers.Where(x => x.CompanyId == user.Company).Select(x => x.CompanyGroupId))
+                {
+                    var group = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
+                    if (!companygrouplist.Contains(group))
+                    {
+                        companygrouplist.Add(group);
+                    }
+                }
+
+                foreach (var companygrp in companygrouplist)
+                {
+                    foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                        model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                    }
+                }
+            }
+
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach (var skill in _context.Skills)
+                {
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
             }
             return View(model);
         }
@@ -146,11 +175,36 @@ namespace Login_System.Controllers
         {
             var model = new SkillCategoryVM();
             var skillcat = await _context.SkillCategories.FirstOrDefaultAsync(x => x.id == id);
-            foreach (var skill in _context.Skills)
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            if (User.IsInRole("Admin"))
             {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                var companygrouplist = new List<CompanyGroups>();
+                foreach (var cmpgrpmbrid in _context.CompanyGroupMembers.Where(x => x.CompanyId == user.Company).Select(x => x.CompanyGroupId))
+                {
+                    var group = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
+                    if (!companygrouplist.Contains(group))
+                    {
+                        companygrouplist.Add(group);
+                    }
+                }
+
+                foreach (var companygrp in companygrouplist)
+                {
+                    foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                        model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                    }
+                }
             }
 
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach (var skill in _context.Skills)
+                {
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
+            }
             model.currentSkills = _context.SkillsInCategory.Where(x => x.CategoryId == id).Select(x => x.SkillId.ToString()).ToList();
             model.Id = id;
             model.Name = skillcat.Name;
