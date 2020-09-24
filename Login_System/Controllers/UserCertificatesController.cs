@@ -137,7 +137,9 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await UserMgr.GetUserAsync(HttpContext.User);
                 var certificate = _context.Certificates.Where(c => c.Name == userCertificate.CertificateName).ToList();
+                var cmpgrpmbrid = _context.CompanyGroupMembers.FirstOrDefault(x => x.CompanyId == user.Company).CompanyGroupId;
 
                 if (certificate.Count == 1)
                 {
@@ -153,6 +155,12 @@ namespace Login_System.Controllers
 
                 //Adding the complete model to the DB
                 _context.Add(userCertificate);
+                _context.Add(new CompanyGroupCertificate
+                {
+                    CompanyId= user.Company,
+                    CompanyGroupId= cmpgrpmbrid,
+                    CertificateId= userCertificate.CertificateID
+                });
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index), "UserCertificates", new { id = userCertificate.UserID });

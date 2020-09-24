@@ -30,15 +30,25 @@ namespace Login_System.Controllers
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Index(string searchString)
         {
-            var certificates = from c in _context.Certificates select c;
-            TempData["SearchString"] = Resources.Certificates.Index_Search;
-            TempData["SearchValue"] = null;
-            if (!String.IsNullOrEmpty(searchString))
+            var id = await UserMgr.GetUserAsync(HttpContext.User);
+            List<Certificate> certificates = new List<Certificate>();
+            var companyGroupCertificates = new List<CompanyGroupCertificate>();
+            if (User.IsInRole("Superadmin"))
             {
-                certificates = certificates.Where(s => (s.Name.Contains(searchString)) || (s.Organization.Contains(searchString)));
-                TempData["SearchValue"] = searchString;
+                certificates = _context.Certificates.ToList();
             }
-            return View(await certificates.ToListAsync());
+            else
+            {
+                var companygroupid = _context.CompanyGroupMembers.FirstOrDefault(x => x.CompanyId == id.Company).CompanyGroupId;
+                companyGroupCertificates = _context.CompanyGroupCertificates.Where(x => ((x.CompanyId == id.Company) && (x.CompanyGroupId == companygroupid)) || (x.CompanyGroupId == companygroupid) && (x.CompanyId == null)).ToList();
+
+                foreach (var certId in companyGroupCertificates)
+                {
+                    var cert = _context.Certificates.FirstOrDefault(x => x.Id == certId.CertificateId);
+                    certificates.Add(cert);
+                }
+            }
+            return View(certificates);
         }
         [Authorize(Roles = "Admin, Superadmin")]
         public async Task<IActionResult> Details(int? id)
@@ -74,9 +84,9 @@ namespace Login_System.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO: implement certificate to creator    
+                  
                 var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-
+                var compGroup = _context.CompanyGroupMembers.FirstOrDefault(x => x.CompanyId == currentUser.Company);
                 _context.Add(certificate);
                 var certificateExists = _context.Certificates.Any(x => x.Name == certificate.Name);
 
@@ -101,7 +111,12 @@ namespace Login_System.Controllers
                 };
 
                 _context.Add(newUserCert);
-
+                _context.Add(new CompanyGroupCertificate
+                {
+                    CertificateId = certificate.Id,
+                    CompanyGroupId = (!User.IsInRole("Superadmin")) ? compGroup.CompanyGroupId : (int?)null,
+                    CompanyId = User.IsInRole("Admin") ? currentUser.Company : (int?)null,
+                });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

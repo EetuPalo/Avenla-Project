@@ -9,9 +9,9 @@ namespace Login_System.Models
 {
         public int Id { get; set; }
 
-        public int CertificateId { get; set;}
-        public int CompanyGroupId { get; set;}
-        public int CompanyId { get; set; }
+        public int? CertificateId { get; set;}
+        public int? CompanyGroupId { get; set;}
+        public int? CompanyId { get; set; }
 
 }
 }

@@ -27,13 +27,19 @@
             <div class="col-md-6">
                 <label class="control-label">@Resources.Resources.Company</label>
                 <div class="form-group">
-                    @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple"})
+                    @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
                 </div>
             </div>
             <div class="col-md-6">
                 <label class="control-label">@Resources.Resources.Layout_Skills</label>
                 <div class="form-group">
-                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple"})
+                    @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple" })
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label">@Resources.Resources.Layout_Certificates</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertList, "Value", "Text"), new { @class = "certificate form-control col-sm", @multiple = "multiple" })
                 </div>
             </div>
             <div class="form-group">
@@ -55,6 +61,10 @@
 
            $('.skill').select2({
             placeholder: "@Resources.Resources.Skill_Dropdownlist"
+           });
+
+            $('.certificate').select2({
+            placeholder: "@Resources.Resources.UCertificates_Create_DropDownDefault"
         });
     });
 

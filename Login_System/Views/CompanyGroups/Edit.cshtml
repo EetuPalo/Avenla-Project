@@ -35,6 +35,18 @@
                         <div class="form-group">
                             @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
                         </div>
+                
+                            <label class="control-label">@Resources.Resources.Layout_Skills</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple" })
+                            </div>
+               
+            
+                            <label class="control-label">@Resources.Resources.Layout_Certificates</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertList, "Value", "Text"), new { @class = "certificate form-control col-sm", @multiple = "multiple" })
+                            </div>
+            
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"> </i> @Resources.Courses.Edit_BTN_Save</button>
                         </div>
@@ -50,6 +62,13 @@
         $('.company').select2({
             placeholder: "@Resources.Resources.CompaniesSelectDropdown"
         });
+        $('.skill').select2({
+            placeholder: "@Resources.Resources.Skill_Dropdownlist"
+           });
+
+        $('.certificate').select2({
+            placeholder: "@Resources.Resources.UCertificates_Create_DropDownDefault"
+        });
 
         $('.company').val([@foreach (var item in ViewBag.Companies)
         {
@@ -57,6 +76,20 @@
         } ]);
 
         $('.company').trigger('change');
+
+        $('.certificate').val([@foreach (var item in ViewBag.Certificates)
+        {
+            <text> @item.CertificateId, </text>
+        } ]);
+
+        $('.certificate').trigger('change');
+
+        $('.skill').val([@foreach (var item in ViewBag.Skills)
+        {
+            <text> @item.SkillId, </text>
+        } ]);
+
+        $('.skill').trigger('change');
     });
 
     </script>

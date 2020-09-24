@@ -19,18 +19,28 @@ namespace Login_System.Models
 
         [NotMapped]
         public List<string> Company { get; set; }
+
         [NotMapped]
         public List<string> Skill { get; set; }
+
+        [NotMapped]
+        public List<string> Certificate { get; set; }
+
         [NotMapped]
         public IList<SelectListItem> CompanyList { get; set; }
+
         [NotMapped]
         public IList<SelectListItem> SkillList { get; set; }
+
+        [NotMapped]
+        public IList<SelectListItem> CertList { get; set; }
 
 
         public CompanyGroups()
         {
             CompanyList = new List<SelectListItem>();
             SkillList = new List<SelectListItem>();
+            CertList = new List<SelectListItem>();
 
         }
         [NotMapped]

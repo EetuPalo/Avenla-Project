@@ -115,14 +115,14 @@ namespace Login_System.Controllers
                     };
                     _context.SkillsInCategory.Add(skillcat);
                 }
-            
+             
                     foreach (var compGroup in compGroups)
                     {
                         _context.Add(new CompanyGroupSkill
                         {
                             SkillId = skill.Id,
                             CompanyId = (User.IsInRole("Admin"))? currentUser.Company : (int?)null,
-                            CompanyGroupId = compGroup.CompanyGroupId
+                            CompanyGroupId = (!User.IsInRole("Superadmin"))?compGroup.CompanyGroupId: (int?)null
                     });
                     }
            

@@ -65,11 +65,15 @@ namespace Login_System.Controllers
 
             foreach (var company in _context.Company)
             {
-                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString()});
             }
             foreach (var skill in _context.Skills)
             {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString()});
+            }
+            foreach (var cert in _context.Certificates)
+            {
+                model.CertList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Id.ToString()});
             }
 
 
@@ -81,7 +85,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company, Skill")]  CompanyGroups data, int id)
+        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company, Skill, Certificate")]  CompanyGroups data, int id)
         {
             var companyList = _context.Company;
 
@@ -130,13 +134,29 @@ namespace Login_System.Controllers
                 model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
             }
 
+            foreach (var skill in _context.Skills)
+            {
+                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+            }
+
+            foreach (var cert in _context.Certificates)
+            {
+                model.CertList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Id.ToString() });
+            }
+
             var companyGroup = await _context.CompanyGroups.FindAsync(id);
             if (companyGroup == null)
             {
                 return NotFound();
             }
             var companies = _context.Company.Where(x=> x.CompanyGroupId == id).ToList();
+            var certificates = _context.CompanyGroupCertificates.Where(x => x.CompanyGroupId == id && x.CompanyId == (int?)null).ToList();
+            var skills = _context.CompanyGroupSkills.Where(x => x.CompanyGroupId == id && x.CompanyId == (int?)null).ToList();
+
             ViewBag.Companies = companies;
+            ViewBag.Certificates = certificates;
+            ViewBag.Skills = skills;
+
             model.CompanyGroupName = companyGroup.CompanyGroupName;
             model.CompanyGroupId = companyGroup.CompanyGroupId;
          
