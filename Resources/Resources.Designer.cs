@@ -1150,6 +1150,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List of employees.
+        /// </summary>
+        public static string ListofCompanyEmployees {
+            get {
+                return ResourceManager.GetString("ListofCompanyEmployees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List of company groups.
         /// </summary>
         public static string ListofCompanygroups {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Login_System.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,6 +19,8 @@ namespace Login_System.ViewModels
         public int UserId { get; set; }
         public string CompanyName { get; set; }
         public string UserName { get; set; }
+
+        public List<AppUser> Users { get; set; } 
       
         public IList<SelectListItem> userList { get; set; }
     

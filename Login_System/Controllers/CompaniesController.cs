@@ -16,11 +16,13 @@ namespace Login_System.Controllers
     public class CompaniesController : Controller
     {
         private readonly GeneralDataContext _context;
+        private readonly IdentityDataContext _datacontext;
         private UserManager<AppUser> UserMgr { get; }
 
-        public CompaniesController(GeneralDataContext context, UserManager<AppUser> userManager)
+        public CompaniesController(GeneralDataContext context, UserManager<AppUser> userManager, IdentityDataContext datacontext)
         {
             _context = context;
+            _datacontext = datacontext;
             UserMgr = userManager;
         }
 
@@ -45,7 +47,23 @@ namespace Login_System.Controllers
                 return NotFound();
             }
 
-            return View(company);
+            var model = new CompanyMembersVM();
+
+            model.name = company.Name;
+            model.Id = company.Id;
+            model.Description = company.Description;
+
+            var userList = new List<AppUser>();
+
+            foreach (var user in _context.CompanyMembers.Where(x=> x.CompanyId == id))
+            {
+                var companyMember = _datacontext.Users.FirstOrDefault(x => x.Id == user.UserId);
+                userList.Add(companyMember);
+            }
+
+            model.Users = userList;
+
+            return View(model);
         }
 
         [Authorize(Roles = "Superadmin")]
