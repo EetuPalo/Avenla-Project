@@ -124,15 +124,42 @@ namespace Login_System.Controllers
         }
 	
         // GET: SkillCourses/Create
+        [HttpGet]
 	    [Authorize(Roles = "Admin, Superadmin")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new SkillCoursesVM();
-            foreach (var skill in _context.Skills)
+           
+            if (User.IsInRole("Admin"))
             {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                var companygrouplist = new List<CompanyGroups>();
+                foreach (var cmpgrpmbrid in _context.CompanyGroupMembers.Where(x => x.CompanyId == user.Company).Select(x => x.CompanyGroupId))
+                {
+                    var group = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
+                    if (!companygrouplist.Contains(group))
+                    {
+                        companygrouplist.Add(group);
+                    }
+                }
+
+                foreach (var companygrp in companygrouplist)
+                {
+                    foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                        model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                    }
+                }
             }
 
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach (var skill in _context.Skills)
+                {
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
+            }
             return View(model);
         }
 
@@ -197,18 +224,44 @@ namespace Login_System.Controllers
             }
 
             var skillCourse = await _context.Courses.FindAsync(id);
-
-           // model.id = skillCourse.id;
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            // model.id = skillCourse.id;
             model.skillCourse = skillCourse;
             
             if (skillCourse == null)
             {
                 return NotFound();
             }
-            foreach (var skill in _context.Skills)
+            if (User.IsInRole("Admin"))
             {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                var companygrouplist = new List<CompanyGroups>();
+            foreach (var cmpgrpmbrid in _context.CompanyGroupMembers.Where(x => x.CompanyId == user.Company).Select(x => x.CompanyGroupId))
+            {
+                var group = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
+                if (!companygrouplist.Contains(group))
+                {
+                    companygrouplist.Add(group);
+                }
             }
+               
+            foreach (var companygrp in companygrouplist)
+            {
+                foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                {
+                    var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
+            }
+            }
+
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach(var skill in _context.Skills)
+                {
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
+            }
+
             var goalList = new List<int>();
             var startList = new List<int>();
             var skillList = new List<int>();

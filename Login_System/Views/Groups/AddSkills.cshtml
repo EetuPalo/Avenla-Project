@@ -26,22 +26,10 @@
         <input type="hidden" asp-for="GroupName">
         <div id="form" class="container-fluid p-0">
             <div style="display:flex" id="skillForm" class="row mb-4">
-                <table>
-                    @foreach (var item in Model.GroupSkills)
-                    {
-
-                        <tr>
-                            <td>
-                                @item.Skill
-                            </td>
-                            <td>
-                                <input type="checkbox" name="Skill" value="@item.Skill" />
-                            </td>
-                        </tr>
-
-
-                    }
-                </table>
+                    <label>@Resources.Resources.Company</label>
+                    <div class="form-group">
+                        @Html.DropDownListFor(x => x.Skill, new SelectList(Model.Skills, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple" })
+                    </div>
             </div>
         </div>
         <div class="container-fluid p-0">
@@ -59,17 +47,13 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+<script>
+    $(document).ready(function () {
+        $('.skill').select2({
+            placeholder: "@Resources.Resources.Skill_Dropdownlist"
+        });
+    });
 
-        var skillForm = document.getElementById("skillForm");
-        var container = document.getElementById("form");
-
-        function addToForm() {
-            var node = document.createElement("div");
-            node.className = "row mb-4";
-            form.append(skillForm.cloneNode(true));
-
-        }
-    </script>
+</script>
 
 }

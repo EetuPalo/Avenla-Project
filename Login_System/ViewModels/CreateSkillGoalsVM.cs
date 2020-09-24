@@ -29,7 +29,11 @@ namespace Login_System.ViewModels
 
         public string GroupName { get; set; }
         [NotMapped]
-        public IEnumerable<SelectListItem> Skills { get; set; }
+        public List<SelectListItem> Skills { get; set; }
 
+        public CreateSkillGoalsVM()
+        {
+            Skills = new List<SelectListItem>();
+        }
     }
 }

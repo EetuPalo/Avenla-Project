@@ -112,8 +112,9 @@ namespace Login_System.Controllers
             return View(@group);
         }
         [HttpGet]
-        public IActionResult AddSkills(int id, string name)
+        public async Task<IActionResult> AddSkills(int id, string name)
         {
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
             var model = new CreateSkillGoalsVM();
             var skillsList = new List<Skills>();
             var listModel = new List<SkillGoals>();
@@ -122,31 +123,40 @@ namespace Login_System.Controllers
             //model.SkillCounter = 0;
             int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
             TempData["id"] = id;
-            foreach (var skill in _context.Skills)
+            if (User.IsInRole("Admin"))
             {
-                skillsList.Add(skill);
-                var tempModel = new SkillGoals
+                var companygrouplist = new List<CompanyGroups>();
+                foreach (var cmpgrpmbrid in _context.CompanyGroupMembers.Where(x => x.CompanyId == user.Company).Select(x => x.CompanyGroupId))
                 {
-                    SkillId = skill.Id,
-                    SkillName = skill.Skill,
-                    GroupName = name,
-                    GroupId = groupId
-                };
+                    var group = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
+                    if (!companygrouplist.Contains(group))
+                    {
+                        companygrouplist.Add(group);
+                    }
+                }
 
-                listModel.Add(tempModel);
-                //dictKey++;
-                //model.SkillCounter++;
+                foreach (var companygrp in companygrouplist)
+                {
+                    foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                        model.Skills.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                    }
+                }
+            }
 
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach (var skill in _context.Skills)
+                {
+                    model.Skills.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
             }
             model.GroupName = name;
             model.Groupid = id;
             model.GroupSkills = skillsList;
             model.SkillGoals = listModel;
-            model.Skills = _context.Skills.Select(x => new SelectListItem
-            {
-                Value = x.Skill,
-                Text = x.Skill
-            });
+        
             return View(model);
         }
 
@@ -159,7 +169,7 @@ namespace Login_System.Controllers
             //var groupName = _context.Group.FirstOrDefaultAsync(x => x.id == );
             foreach (var skill in Skill)
             {
-                var skillFromTable = await _context.Skills.FirstOrDefaultAsync(x => x.Skill == skill);
+                var skillFromTable = await _context.Skills.FirstOrDefaultAsync(x => x.Id == int.Parse(skill));
                 var skillGoal = new SkillGoals
                 {
                     //SkillName = skill.Skill,

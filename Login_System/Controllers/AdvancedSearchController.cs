@@ -53,9 +53,9 @@ namespace Login_System.Controllers
                 usercompanies.Add(_context.Company.FirstOrDefault(x => x.Id == item.CompanyId).Id);
             }
             model.adminCompanyIds = usercompanies;
-
+            
             var companygrouplist = new List<CompanyGroups>();
-            foreach(var id in _context.CompanyGroupSkills.Where(x=> x.CompanyId == user.Company).Select(x=> x.Id))
+            foreach(var id in _context.CompanyGroupMembers.Where(x=> x.CompanyId == user.Company).Select(x=> x.CompanyGroupId))
             {
                 var group = _context.CompanyGroups.FirstOrDefault(x=> x.CompanyGroupId == id);
                 if (!companygrouplist.Contains(group))
@@ -72,15 +72,17 @@ namespace Login_System.Controllers
                 model.CertificateList.Add(new SelectListItem() { Text = certificate.Name, Value = certificate.Name });
             }
 
-            // Populating group dropdown with groups
 
-            //var skills = _context.CompanyGroupSkills.Where(x => (x.CompanyId == user.Company) && (x.CompanyGroupId)) || (companygrouplist.Any(y => y.CompanyGroupId == x.CompanyGroupId) && (x.CompanyId == (int?)null))).ToList();
-            // Populating skill dropdown with skills
-            //foreach (var skillofgroup in skills)
-            //{
-            //    var skill = _context.Skills.FirstOrDefault(x=> x.Id == skillofgroup.Id);
-            //    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
-            //}
+            //populating skill dropdown with skills
+            foreach(var companygrp in companygrouplist)
+            {
+                foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x=> ((x.CompanyGroupId == companygrp.CompanyGroupId) &&(x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                {
+                    var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
+                }
+            }
+       
             if (User.IsInRole("Superadmin"))
             {
                 foreach (var companies in _context.Company)
@@ -88,7 +90,7 @@ namespace Login_System.Controllers
                     model.CompanyList.Add(new SelectListItem() { Text = companies.Name, Value = companies.Id.ToString()});
                 }
 
-
+                // Populating group dropdown with groups
                 foreach (var group in _context.Group)
                 {
                     model.GroupList.Add(new SelectListItem() { Text = group.name, Value = group.id.ToString() });
