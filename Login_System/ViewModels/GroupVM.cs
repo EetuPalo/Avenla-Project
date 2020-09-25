@@ -22,8 +22,24 @@ namespace Login_System.ViewModels
         public string company { get; set; }
 
         public IList<SelectListItem> CompanyList { get; set; }
+        public List<SelectListItem> Skills { get; set; }
+        public List<Skills> GroupSkills { get; set; }
+        public string GroupMembers { get; set; }
+        public List<string> ListOfMembers { get; set; }
+        public IList<SelectListItem> GroupMembersList { get; set; }
+
         public int CompanyId { get; set; }
 
-        public GroupVM() { CompanyList = new List<SelectListItem>(); }
+        public GroupVM() 
+        { 
+            CompanyList = new List<SelectListItem>();
+            Skills = new List<SelectListItem>();
+            GroupMembersList = new List<SelectListItem>();
+            ListOfMembers = new List<string>();
+        }
+
+        
+
+        public string Skill { get; set; }
     }
 }
