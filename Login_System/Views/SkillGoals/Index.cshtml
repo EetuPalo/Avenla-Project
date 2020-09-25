@@ -8,6 +8,16 @@
 @*<h2>@TempData.Peek("GroupName"): @Resources.SkillGoals.Index_Title @TempData.Peek("LatestDate")</h2>
     <h4 class="text-info">@TempData["ActionResult"]</h4>
     <h4 class="text-danger">@TempData["ActionWarning"]</h4>*@
+    <h1>@Resources.Resources.Layout_Groups</h1>
+    <nav class="breadcrumb_nav" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Groups" asp-action="Index">@Resources.Resources.Layout_Groups</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Groups" asp-action="Statistics">@TempData["GroupName"] @Resources.Groups.Stats_Title</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@TempData["GroupName"] @Resources.Resources.SkillGoals_Breadcrumb</li>
+        </ol>
+    </nav>
+<hr />
     <div class="card-columns" style="column-count: 2;">
         <div class="card">
             <div class="card-header"><h5>@TempData.Peek("GroupName"): @Resources.SkillGoals.Index_Title @TempData.Peek("LatestDate")</h5></div><div class="card-body">
