@@ -10,6 +10,7 @@ namespace Login_System.ViewModels
     public class AdvancedSearchVM
     {
         public string Company { get; set; }
+        public bool CompanyGroupSearch { get; set; }
 
         public string Skill { get; set; }
 

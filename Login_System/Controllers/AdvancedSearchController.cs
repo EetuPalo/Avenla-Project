@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace Login_System.Controllers
 {
@@ -26,7 +27,7 @@ namespace Login_System.Controllers
             UserMgr = userManager;
         }
 
-        public async Task<IActionResult> Index(string?[] Skill, string Certificate, int? Groups, string Company, int?[] min, int?[] max)
+        public async Task<IActionResult> Index(string?[] Skill, string Certificate, int? Groups, string Company, int?[] min, int?[] max, bool CompanyGroupSearch)
         {
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
@@ -43,10 +44,11 @@ namespace Login_System.Controllers
             bool skillbool = Skill != null ? true : false;
             bool groupbool = Groups != null ?true :false;
             bool certificatebool = Certificate != null ? true :false;
+
             //Skill[0] = null;    
             var user = await UserMgr.GetUserAsync(HttpContext.User);
 
-            //!!!!!!!!!hävitykseen ehkä!!!!!!!!!!!!!!!
+            model.CompanyGroupSearch = CompanyGroupSearch;
             List<int> usercompanies = new List<int>();
             foreach (var item in _context.CompanyMembers.Where(x => x.UserId== user.Id).ToList())
             {
@@ -187,14 +189,21 @@ namespace Login_System.Controllers
                     }
                     break;
             }
+         
 
             foreach (var applicableUser in userList)
             {
+                var companyGroup = _context.CompanyGroupMembers.FirstOrDefault(x => x.CompanyId == user.Company).CompanyGroupId;
                 List<int> ids = _context.CompanyMembers.Where(x=>x.UserId == applicableUser.Id).Select(x=> x.CompanyId).ToList();
 
-                
-
-                testlist.Add((applicableUser, ids));
+                foreach(var id in ids)
+                {
+                    var list = _context.CompanyGroupMembers.Where(x => x.CompanyId == id).Select(x => x.CompanyGroupId).ToList();
+                    if (list.Contains(companyGroup))
+                    {
+                        testlist.Add((applicableUser, ids));
+                    }
+                }
             }
 
             model.Users = testlist;
@@ -250,7 +259,6 @@ namespace Login_System.Controllers
                         }
                     }
                  }
-                //add final loop here
                 if (SkillList.Count == 0)
                 {
                     SkillList.AddRange(currentSkillList);
