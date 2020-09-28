@@ -24,116 +24,117 @@
                     @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.Company, new { @class = "js-examp le-basic-multiple form-control col-sm" })
                 </div>
                 <div class="col-sm">
+                    <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
+                    @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
+                </div>
+                <div class="col-sm">
+                    <label asp-for="Groups">@Resources.Groups.Index_Group</label>
+                    @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
+                </div>
+                <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button></div>
+                <div class="col-sm"></div>
+            </div>
+            <br /><br />
+            <div class="row">
+                <div class="col-sm">
                     <label>Company Group Search</label>
                     @Html.CheckBoxFor(x => x.CompanyGroupSearch)
                 </div>
-                    <div class="col-sm">
-                        <label asp-for="Certificate">@Resources.Resources.UCertificates_Index_Cert</label>
-                        @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertificateList, "Value", "Text"), Resources.Resources.UCertificates_Create_DropDownDefault, new { @class = "form-control col-sm" })
-                    </div>
-                    <div class="col-sm">
-                        <label asp-for="Groups">@Resources.Groups.Index_Group</label>
-                        @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
-                    </div>
-                    <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button></div>
-                    <div class="col-sm"></div>
+            </div>
+            <hr />
+            <div id="accordion">
+                <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
+                    <label>@Resources.Resources.Advanced_Search_Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
                 </div>
-                <br />
-                <br />
-                <hr />
-                <div id="accordion">
-                    <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
-                        <label>@Resources.Resources.Advanced_Search_Skills</label> &nbsp;<i id="caret" class="fas fa-angle-up"></i>
-                    </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <div class="card-body">
-                            <button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
-                            <div class="row">
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <button type="button" onclick="addSkillFilter()" class="btn btn-info float-right "><i class="fas fa-plus fa-fw"> </i> @Resources.Resources.Advanced_Search_AddSkill</button>
+                        <div class="row">
 
-                                <div class="row col-sm-12" id="skillFilters">
+                            <div class="row col-sm-12" id="skillFilters">
 
-                                    <div class="row col-sm-12" id="skillfilter">
-                                        <div class="col-sm-4" id="skill">
+                                <div class="row col-sm-12" id="skillfilter">
+                                    <div class="col-sm-4" id="skill">
 
-                                            @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
-                                            <br />
-                                        </div>
+                                        @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), Resources.Skills.Index_Skill, new { @class = "skillName form-control col-sm", @onchange = "modifyHeading()" })
                                         <br />
-                                        <div class="col-sm-2">
-                                            <select name="min" class="min form-control" id="min" onchange="modifyHeading()">
-                                                <option value="">@Resources.Resources.Advanced_Search_MinValue</option>
-                                                <option value="0">0</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <select name="max" class="max form-control" id="max" onchange="modifyHeading()">
-                                                <option value="">@Resources.Resources.Advanced_Search_MaxValue</option>
-                                                <option value="0">0</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </div>
-                                        <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm-12"> @Resources.Resources.Advanced_Search_Clear</button></div>
-
                                     </div>
+                                    <br />
+                                    <div class="col-sm-2">
+                                        <select name="min" class="min form-control" id="min" onchange="modifyHeading()">
+                                            <option value="">@Resources.Resources.Advanced_Search_MinValue</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <select name="max" class="max form-control" id="max" onchange="modifyHeading()">
+                                            <option value="">@Resources.Resources.Advanced_Search_MaxValue</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <div class="buttons col-sm-2"><button type="button" onclick="clearSelection()" class="btn btn-danger col-sm-12"> @Resources.Resources.Advanced_Search_Clear</button></div>
+
                                 </div>
                             </div>
-
                         </div>
-                    </div>
 
-                    <br />
-
-
-                    <!--Results-->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>@Resources.Resources.FirstName</th>
-                                <th>@Resources.Resources.LastName</th>
-                                <th class="disable_arrow">@Resources.Resources.Email</th>
-                                <th class="disable_arrow">@Resources.Resources.Phone</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Users.Count() != 0)
-                            {
-                                @foreach (var user in Model.Users)
-                                {
-                                    @if (Model.adminCompanyIds.Any(x => user.Item2.Any(y => x == y)) || User.IsInRole("Superadmin"))
-                                    {
-                                        <tr>
-                                            <td>@user.Item1.FirstName</td>
-                                            <td>@user.Item1.LastName</td>
-                                            <td>@user.Item1.Email</td>
-                                            <td>@user.Item1.PhoneNumber</td>
-                                        </tr>
-                                    }
-                                    else if(Model.CompanyGroupSearch)
-                                    {
-                                        <tr>
-                                            <td>Anon</td>
-                                            <td>Anon</td>
-                                            
-                                        </tr>
-                                    }
-                                }
-                            }
-                        </tbody>
-                    </table>
-                    <div>
                     </div>
                 </div>
+
+                <br />
+
+
+                <!--Results-->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Resources.Resources.FirstName</th>
+                            <th>@Resources.Resources.LastName</th>
+                            <th class="disable_arrow">@Resources.Resources.Email</th>
+                            <th class="disable_arrow">@Resources.Resources.Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Users.Count() != 0)
+                        {
+                            @foreach (var user in Model.Users)
+                            {
+                                @if (Model.adminCompanyIds.Any(x => user.Item2.Any(y => x == y)) || User.IsInRole("Superadmin"))
+                                {
+                                    <tr>
+                                        <td>@user.Item1.FirstName</td>
+                                        <td>@user.Item1.LastName</td>
+                                        <td>@user.Item1.Email</td>
+                                        <td>@user.Item1.PhoneNumber</td>
+                                    </tr>
+                                }
+                                else if (Model.CompanyGroupSearch)
+                                {
+                                    <tr>
+                                        <td>Anon</td>
+                                        <td>Anon</td>
+
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+                <div>
+                </div>
             </div>
+        </div>
     </div>
 </form>
 <div class="test">
