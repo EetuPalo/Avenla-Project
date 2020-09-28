@@ -24,10 +24,11 @@
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="name" class="control-label"></label>
+                    <label asp-for="name" class="control-label">@Resources.Groups.MODEL_GroupName</label>
                     <input asp-for="name" class="form-control" />
-                    <span asp-validation-for="name" class="text-danger"></span>
-                    <label class="control-label"></label>@Resources.Resources.Company
+                    <span asp-validation-for="name" class="text-danger"></span><br />
+
+                    <label class="control-label">@Resources.Resources.Company</label>
                     @if (User.IsInRole("Superadmin"))
                     {
                         @Html.DropDownListFor(x => x.CompanyId, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
@@ -56,7 +57,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <label asp-for="GroupMembers" class="control-label">@Resources.Groups.Members_Create_Title</label>
                 @Html.DropDownListFor(x => x.GroupMembers, new SelectList(Model.GroupMembersList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple = "multiple", @style = "width: 100%;" })
-                <p></p>
+                <p></p><br />
                 <div class="container-fluid p-0">
                     <div class="row">
                         <div class="col-sm">
