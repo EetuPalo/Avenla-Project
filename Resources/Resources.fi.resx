@@ -126,6 +126,9 @@
   <data name="Advanced_Search_Clear" xml:space="preserve">
     <value>Tyhjennä</value>
   </data>
+  <data name="Advanced_Search_CompanyGroupSearch" xml:space="preserve">
+    <value>Yhtiöryhmä haku</value>
+  </data>
   <data name="Advanced_Search_MaxValue" xml:space="preserve">
     <value>Max</value>
   </data>
