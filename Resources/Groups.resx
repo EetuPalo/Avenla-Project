@@ -202,7 +202,7 @@
     <value>Group ID</value>
   </data>
   <data name="MODEL_GroupName" xml:space="preserve">
-    <value>Groupname</value>
+    <value>Group name</value>
   </data>
   <data name="MODEL_Name" xml:space="preserve">
     <value>Name</value>
