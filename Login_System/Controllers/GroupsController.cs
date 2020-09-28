@@ -68,70 +68,32 @@ namespace Login_System.Controllers
         }
 
         // GET: Groups/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(string? group, string? source)
         {
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
             if (User.IsInRole("Admin"))
             {
-                var currentUser = await UserMgr.GetUserAsync(HttpContext.User);
-                TempData["CompanyID"] = currentUser.Company;
+                TempData["CompanyID"] = user.Company;
             }
             var model = new GroupVM();
             foreach (var company in _context.Company)
             {
                 model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString()});
             }
-            return View(model);
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,CompanyId")] Group @group)
-        {
-            if (ModelState.IsValid)
-            {
-                var company = await _context.Company.FirstOrDefaultAsync(x=> x.Id == group.CompanyId);
-                var addGroup = new Group
-                {
-                    company = company.Name,
-                    CompanyId = company.Id,
-                    name = group.name,
 
-                };
-                _context.Add(addGroup);
-                await _context.SaveChangesAsync();
-                //Some data to build the "guide"
-                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GroupCreated;
-                TempData["ActionPhase"] = "[2/3]";
-                TempData["Source"] = "create";
-                TempData["GroupName"] = group.name;
-                TempData["GroupId"] = group.id;
-                TempData["GroupCompany"] = group.company;
-                return RedirectToAction(nameof(AddSkills), "Groups", new { id = addGroup.id, name = group.name });
-            }
-            TempData["ActionResult"] = Resources.ActionMessages.ActionResult_Error;           
-            return View(@group);
-        }
-        [HttpGet]
-        public async Task<IActionResult> AddSkills(int id, string name)
-        {
-            var user = await UserMgr.GetUserAsync(HttpContext.User);
-            var model = new CreateSkillGoalsVM();
-            var skillsList = new List<Skills>();
-            var listModel = new List<SkillGoals>();
+            // SKILLS GET
+            
             DateTime date = DateTime.Now;
-            //int dictKey = 0;
-            //model.SkillCounter = 0;
-            int groupId = _context.Group.FirstOrDefault(x => x.id == id).id;
-            TempData["id"] = id;
+
             if (User.IsInRole("Admin"))
             {
                 var companygrouplist = new List<CompanyGroups>();
                 foreach (var cmpgrpmbrid in _context.CompanyGroupMembers.Where(x => x.CompanyId == user.Company).Select(x => x.CompanyGroupId))
                 {
-                    var group = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
-                    if (!companygrouplist.Contains(group))
+                    var companyGroup = _context.CompanyGroups.FirstOrDefault(x => x.CompanyGroupId == cmpgrpmbrid);
+                    if (!companygrouplist.Contains(companyGroup))
                     {
-                        companygrouplist.Add(group);
+                        companygrouplist.Add(companyGroup);
                     }
                 }
 
@@ -152,52 +114,82 @@ namespace Login_System.Controllers
                     model.Skills.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
                 }
             }
-            model.GroupName = name;
-            model.Groupid = id;
-            model.GroupSkills = skillsList;
-            model.SkillGoals = listModel;
-        
+
+
+            // GroupMembers GET
+
+            foreach (var member in _context.CompanyMembers.Where(x => x.CompanyId == user.Company))
+            {
+                var userID = await UserMgr.Users.FirstOrDefaultAsync(x => x.Id == member.UserId);
+
+                model.GroupMembersList.Add(new SelectListItem() { Text = string.Concat(userID.FirstName, " ", userID.LastName), Value = string.Concat(member.UserId.ToString(), "|", userID.UserName) });
+
+            }
             return View(model);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddSkills(string source, [Bind("SkillGoal")] CreateSkillGoalsVM goals, string[] Skill, string GroupName, int Groupid, string skillName)
+        public async Task<IActionResult> Create([Bind("id,name,CompanyId")] Group @group, CreateSkillGoalsVM goals, string[] Skill, string GroupName, int Groupid, string skillName, string[] GroupMembers)
         {
-
-            var x = goals.Groupid;
-            //var groupName = _context.Group.FirstOrDefaultAsync(x => x.id == );
-            foreach (var skill in Skill)
+            if (ModelState.IsValid)
             {
-                var skillFromTable = await _context.Skills.FirstOrDefaultAsync(x => x.Id == int.Parse(skill));
-                var skillGoal = new SkillGoals
+                var company = await _context.Company.FirstOrDefaultAsync(x=> x.Id == group.CompanyId);
+                var addGroup = new Group
                 {
-                    //SkillName = skill.Skill,
-                    SkillGoal = -1,
-                    Date = DateTime.Now,
-                    SkillName = skillFromTable.Skill,
-                    SkillId = skillFromTable.Id,
-                    GroupName = GroupName,
-                    GroupId = Groupid
+                    company = company.Name,
+                    CompanyId = company.Id,
+                    name = group.name,
+
                 };
-                _context.Add(skillGoal);
-            }
-            await _context.SaveChangesAsync();
+
+                _context.Add(addGroup);
+                await _context.SaveChangesAsync();
+                //SKILLS POST
+
+                var x = goals.Groupid;
+                //var groupName = _context.Group.FirstOrDefaultAsync(x => x.id == );
+                foreach (var skill in Skill)
+                {
+                    var skillFromTable = await _context.Skills.FirstOrDefaultAsync(x => x.Id == int.Parse(skill));
+                    var skillGoal = new SkillGoals
+                    {
+                        //SkillName = skill.Skill,
+                        SkillGoal = -1,
+                        Date = DateTime.Now,
+                        SkillName = skillFromTable.Skill,
+                        SkillId = skillFromTable.Id,
+                        GroupName = addGroup.name,
+                        GroupId = addGroup.id
+                    };
+                    _context.Add(skillGoal);
+                }
+                await _context.SaveChangesAsync();
 
 
-            /**/
+                // GroupMembers POST
 
-            if (source == "create")
-            {
-                TempData["ActionResult"] = Resources.ActionMessages.ActionResult_GoalSetAddUser;
-                TempData["ActionPhase"] = "[3/3]";
+                var memberInfo = new string[2];
 
+                // Insertion of registrations for the selected users as returned
+                foreach (var member in GroupMembers)
+                {
+                    memberInfo = member.Split("|");
+                    var tempMember = new GroupMember
+                    {
+                        UserID = Convert.ToInt32(memberInfo[0]),
+                        UserName = memberInfo[1],
+                        GroupID = addGroup.id,
+                        GroupName = addGroup.name
+                    };
+                    _context.Add(tempMember);
+                }
+                await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Create), "GroupMembers", new { source = "create", id = Groupid, group = GroupName });
-            }
-            return RedirectToAction(nameof(Index), new { id = Groupid });
-
+            }          
+            return RedirectToAction(nameof(Index));
         }
+
         // GET: Groups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

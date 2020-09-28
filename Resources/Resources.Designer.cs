@@ -1465,6 +1465,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to - Skillgoals.
+        /// </summary>
+        public static string SkillGoals_Breadcrumb {
+            get {
+                return ResourceManager.GetString("SkillGoals_Breadcrumb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skill progression graph.
         /// </summary>
         public static string SkillProgressionGraph {

@@ -5,52 +5,95 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Resources.Groups.Create_Title</h2>
+<h1>@Resources.Resources.Layout_Groups</h1>
 <nav class="breadcrumb_nav" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
         <li class="breadcrumb-item"><a asp-controller="Groups" asp-action="Index">@Resources.Resources.Layout_Groups</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@Resources.Groups.Create_Title</li>
+        <li class="breadcrumb-item active" aria-current="page">@Resources.Resources.GENERAL_Create</li>
     </ol>
 </nav>
-<h4>@Resources.Groups.Create_SubTitle</h4>
-<p>
-    @Resources.Groups.Create_Desc1<br />
-    @Resources.Groups.Create_Desc2 <br />
-    @Resources.Groups.Create_Desc3
-</p>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
-                <label class="control-label"></label>@Resources.Resources.Company
-                @if (User.IsInRole("Superadmin"))
-                {
-                    @Html.DropDownListFor(x => x.CompanyId, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
-                }
-                else
-                {
-                    <input asp-for="CompanyId" value="@TempData["CompanyID"]" class ="form-control col-sm" readonly/>
-                }
-                <span asp-validation-for="company" class="text-danger"></span>
-            </div>
-            <div class="container-fluid p-0">
-                <div class="row">
-                    <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-fw"> </i> @Resources.Groups.Create_BTN_Create</button>
+<div class="card-columns" style="column-count: 2;">
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Groups.Create_SubTitle</h5></div>
+        <div class="card-body">
+
+            <!-- GROUPNAME AND COMPANIES -->
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="name" class="control-label"></label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                    <label class="control-label"></label>@Resources.Resources.Company
+                    @if (User.IsInRole("Superadmin"))
+                    {
+                        @Html.DropDownListFor(x => x.CompanyId, new SelectList(Model.CompanyList, "Value", "Text"), Resources.Resources.CompaniesSelectDropdown, new { @class = "form-control col-sm" })
+                    }
+                    else
+                    {
+                        <input asp-for="CompanyId" value="@TempData["CompanyID"]" class="form-control col-sm" readonly />
+                    }
+                    <span asp-validation-for="company" class="text-danger"></span>
+                </div>
+                <hr />
+
+                <!-- SKILLS -->
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div id="form" class="container-fluid p-0">
+                    <div id="skillForm">
+                        <label>@Resources.Resources.Layout_Skills</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.Skill, new SelectList(Model.Skills, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple" })
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            <hr />
+
+            <!-- GROUPMEMBERS -->
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <label asp-for="GroupMembers" class="control-label">@Resources.Groups.Members_Create_Title</label>
+                @Html.DropDownListFor(x => x.GroupMembers, new SelectList(Model.GroupMembersList, "Value", "Text"), new { @class = "js-example-basic-multiple", @name = "states[]", @multiple = "multiple", @style = "width: 100%;" })
+                <p></p>
+                <div class="container-fluid p-0">
+                    <div class="row">
+                        <div class="col-sm">
+                            <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-check fa-fw"> </i> @Resources.Groups.Members_Create_BTN_Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Resources.Layout_info</h5></div>
+        <div class="card-body">
+            @Resources.Groups.Create_Desc1<br />
+            @Resources.Groups.Create_Desc3
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    $(document).ready(function () {
+        $('.skill').select2({
+            placeholder: "@Resources.Resources.Skill_Dropdownlist"
+        });
+    });
+
+</script>
+
+<script type="text/javascript" language="javascript">
+    var options = []
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({
+                placeholder: "@Resources.Resources.Layout_groupmembers"
+            });
+        });
+</script>
+    }
