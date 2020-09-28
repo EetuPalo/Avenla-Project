@@ -31,16 +31,15 @@
                     <label asp-for="Groups">@Resources.Groups.Index_Group</label>
                     @Html.DropDownListFor(x => x.Groups, new SelectList(Model.GroupList, "Value", "Text"), Resources.Resources.Group_Dropdownlist, new { @class = "form-control col-sm" })
                 </div>
+                <div class="col-sm-3">
+                    <label>@Resources.Resources.Advanced_Search_CompanyGroupSearch</label><br />
+                    <span style="margin-top: 15px;">@Html.CheckBoxFor(x => x.CompanyGroupSearch)</span>
+                </div>
                 <div class="col-sm"><br /><button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.GENERAL_Search</button></div>
                 <div class="col-sm"></div>
             </div>
-            <br /><br />
-            <div class="row">
-                <div class="col-sm">
-                    <label>@Resources.Resources.Advanced_Search_CompanyGroupSearch</label>
-                    @Html.CheckBoxFor(x => x.CompanyGroupSearch)
-                </div>
-            </div>
+            <br />
+            <br />
             <hr />
             <div id="accordion">
                 <div id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="changeIcon()">
