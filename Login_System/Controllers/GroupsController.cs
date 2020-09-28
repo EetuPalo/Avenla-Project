@@ -334,8 +334,8 @@ namespace Login_System.Controllers
             var goalList = _context.SkillGoals.Where(g => g.GroupId == tempGroup.id).ToList();
             //var test = _context.SkillGoals.Where(x => (x.Groupid == tempGroup.id)).OrderByDescending(x => x.Date).ToList();
             List<int> skillIdList = new List<int>();
-            
-            
+
+            var members = _context.GroupMembers.Where(x => x.GroupID == tempGroup.id).Select(x=> x.UserID).ToList();
             var userSkills = _context.UserSkills.ToList();           
             var userSkillList = new Dictionary<int, List<DateTime>>();
             var maxDateList = new Dictionary<int, DateTime>();
@@ -364,12 +364,11 @@ namespace Login_System.Controllers
             foreach(var skill in groupSkillGoals)
             {
                 List<UserSkills> userskills = new List<UserSkills>(); 
-                foreach (var item in _context.UserSkills.Where(x => (x.SkillId == skill.Id)).OrderByDescending(x => x.Date))
+                foreach (var item in _context.UserSkills.Where(x => (x.SkillId == skill.Id)&& (members.Contains(x.UserID))).OrderByDescending(x => x.Date))
                 {
                     if(!userskills.Any(x=> x.SkillId == skill.Id && x.UserID == item.UserID))
                     {
                         userskills.Add(item);
-
                     }
                 }
                 var skillGoal = _context.SkillGoals.OrderByDescending(x => x.Date).FirstOrDefault(x => x.SkillId == skill.Id && x.GroupId == tempGroup.id);
