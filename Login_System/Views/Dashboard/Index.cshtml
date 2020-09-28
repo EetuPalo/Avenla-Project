@@ -33,8 +33,7 @@
                         @Html.Raw(company)
                     </div>
                 }
-                <p> Linkki ei toimi tällä hetkellä.</p>
-                <a asp-area="" asp-controller="Companies" asp-action="Details" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
+                <a asp-area="" asp-controller="Companies" asp-action="Details" asp-route-id="@TempData["CompanyID"]" class="btn btn-primary"><i class="fas fa-building fa-fw"> </i> @Resources.Resources.Company</a>
             </div>
         </div>
 

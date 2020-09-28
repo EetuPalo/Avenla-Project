@@ -42,7 +42,9 @@ namespace Login_System.Controllers
             var user = await UserMgr.GetUserAsync(HttpContext.User);
             AppUser tempUser = await UserMgr.FindByIdAsync(user.Id.ToString());
             var companyID = tempUser.Company;
+            TempData["CompanyID"] = companyID;
             string companyName = _context.Company.FirstOrDefault(x => x.Id == companyID).Name;
+            
            
             //-------VIEWBAGS FOR THE DASHBOARD VIEW--------//
             ViewBag.CurrentCompany = companyName;
