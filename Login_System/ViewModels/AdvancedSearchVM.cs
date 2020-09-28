@@ -22,7 +22,7 @@ namespace Login_System.ViewModels
 
         //public List<AppUser> Users { get; set; }
         public List<int> adminCompanyIds { get; set; }
-        public List<(AppUser, List<int>)> Users{get; set;}
+        public List<(AppUser, List<int>, string)> Users{get; set;}
 
         public IList<SelectListItem> CertificateList { get; set; }
 

@@ -32,7 +32,7 @@ namespace Login_System.Controllers
             var model = new AdvancedSearchVM();
             var userList = new List<AppUser>();
             var companyIdList = new List<int>();
-            var testlist = new List<(AppUser, List<int>)>();
+            var resultList = new List<(AppUser, List<int>,string)>();
 
             //filter lists
             var SkillList = new List<AppUser>();
@@ -198,15 +198,16 @@ namespace Login_System.Controllers
 
                 foreach(var id in ids)
                 {
+                    var companyName = _context.Company.FirstOrDefault(x => x.Id == id).Name;
                     var list = _context.CompanyGroupMembers.Where(x => x.CompanyId == id).Select(x => x.CompanyGroupId).ToList();
                     if (list.Contains(companyGroup))
                     {
-                        testlist.Add((applicableUser, ids));
+                        resultList.Add((applicableUser, ids, companyName));
                     }
                 }
             }
 
-            model.Users = testlist;
+            model.Users = resultList;
             //model.differentCompanyUsers = differentCompanyUsers;
             return View(model);
         }
