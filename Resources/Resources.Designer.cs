@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company group search.
+        /// </summary>
+        public static string Advanced_Search_CompanyGroupSearch {
+            get {
+                return ResourceManager.GetString("Advanced_Search_CompanyGroupSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Max.
         /// </summary>
         public static string Advanced_Search_MaxValue {
