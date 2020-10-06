@@ -69,22 +69,46 @@ namespace Login_System.Controllers
             //ViewBag.CurrentCompany = userCompanies;
 
             //Populating certificate dropdown with certificates
-            foreach (var certificate in _context.Certificates)
+            if (User.IsInRole("Superadmin"))
             {
-                model.CertificateList.Add(new SelectListItem() { Text = certificate.Name, Value = certificate.Name });
-            }
-
-
-            //populating skill dropdown with skills
-            foreach(var companygrp in companygrouplist)
-            {
-                foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x=> ((x.CompanyGroupId == companygrp.CompanyGroupId) &&(x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                foreach (var certificate in _context.Certificates)
                 {
-                    var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                    model.CertificateList.Add(new SelectListItem() { Text = certificate.Name, Value = certificate.Name });
+                }
+            }
+            else
+            {
+                foreach (var companygrp in companygrouplist)
+                {
+                    foreach (var certofgroup in _context.CompanyGroupCertificates.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                    {
+                        var cert = _context.Certificates.FirstOrDefault(x => x.Id == certofgroup.CertificateId);
+                        model.CertificateList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Name});
+                    }
+                }
+            }
+            //populating skill dropdown with skills
+            if (User.IsInRole("Superadmin"))
+            {
+                foreach(var skill in _context.Skills)
+                {
                     model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
                 }
             }
-       
+            else
+            {
+                foreach (var companygrp in companygrouplist)
+                {
+                    foreach (var skillofgroup in _context.CompanyGroupSkills.Where(x => ((x.CompanyGroupId == companygrp.CompanyGroupId) && (x.CompanyId == user.Company)) || ((x.CompanyGroupId == companygrp.CompanyGroupId && (x.CompanyId == (int?)null)))))
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x => x.Id == skillofgroup.SkillId);
+                        model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Skill });
+                    }
+                }
+
+            }
+      
+
             if (User.IsInRole("Superadmin"))
             {
                 foreach (var companies in _context.Company)

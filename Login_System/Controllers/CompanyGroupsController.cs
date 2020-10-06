@@ -117,6 +117,21 @@ namespace Login_System.Controllers
                     });
                 }
             }
+
+            if (data.Certificate != null)
+            {
+                foreach (var certId in data.Certificate)
+                {
+                    var cert = _context.Certificates.FirstOrDefault(x => x.Id == int.Parse(certId));
+
+                    _context.CompanyGroupCertificates.Add(new CompanyGroupCertificate
+                    {
+                        CertificateId = cert.Id,
+                        CompanyGroupId = company.CompanyGroupId,
+                        CompanyId = null,
+                    });
+                }
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -165,7 +180,7 @@ namespace Login_System.Controllers
         [HttpPost]
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName, Company, oldCompanies")] CompanyGroups companyGroup)
+        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName, Company, oldCompanies, Skill, Certificate")] CompanyGroups companyGroup)
         {
             if (companyGroup != null && id != companyGroup.CompanyGroupId) 
             {
@@ -197,6 +212,56 @@ namespace Login_System.Controllers
                             _context.Company.Update(company);
                         }
                     }
+
+                    //update skills
+                    var oldSkills = _context.CompanyGroupSkills.Where(x => x.CompanyGroupId == id).ToList();
+                    foreach(var skillId in companyGroup.Skill)
+                    {
+                        var skill = _context.Skills.FirstOrDefault(x=> x.Id == int.Parse(skillId));
+                        if(!oldSkills.Any(x=> x.SkillId == skill.Id))
+                        {
+                            _context.Add(new CompanyGroupSkill 
+                            { 
+                                SkillId = skill.Id,
+                                CompanyGroupId = id,
+                                CompanyId = null
+                            });
+                        } 
+                    }
+                    await _context.SaveChangesAsync();
+                    foreach(var skill in oldSkills)
+                    {
+                        if (!companyGroup.Skill.Contains(skill.SkillId.ToString()))
+                        {
+                            _context.Remove(skill);
+                        }
+                    }
+
+                    // update certificates
+
+                    var oldCertificates = _context.CompanyGroupCertificates.Where(x => x.CompanyGroupId == id).ToList();
+                    foreach (var certId in companyGroup.Certificate)
+                    {
+                        var cert = _context.Certificates.FirstOrDefault(x => x.Id == int.Parse(certId));
+                        if (!oldCertificates.Any(x => x.CertificateId == int.Parse(certId)))
+                        {
+                            _context.Add(new CompanyGroupCertificate
+                            {
+                                CertificateId = cert.Id,
+                                CompanyGroupId = id,
+                                CompanyId = null
+                            });
+                        }
+                    }
+                    await _context.SaveChangesAsync();
+                    foreach (var certificate in oldCertificates)
+                    {
+                        if (!companyGroup.Certificate.Contains(certificate.CertificateId.ToString()))
+                        {
+                            _context.Remove(certificate);
+                        }
+                    }
+
                     _context.Update(companyGroup);
 
                     if (companyGroup.Company != null) 

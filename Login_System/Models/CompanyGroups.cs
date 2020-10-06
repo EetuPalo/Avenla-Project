@@ -41,6 +41,8 @@ namespace Login_System.Models
             CompanyList = new List<SelectListItem>();
             SkillList = new List<SelectListItem>();
             CertList = new List<SelectListItem>();
+            Skill = new List<string>();
+            Certificate = new List<string>();
 
         }
         [NotMapped]

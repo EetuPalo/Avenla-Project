@@ -182,6 +182,7 @@ namespace Login_System.Controllers
                 };
                 _context.Add(course);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
+                //!!!! add checks for startingvalue and goal !!!!!!!!
                 if(skillCourse.Skill[0] != null)
                 {
                     int index = 0;
