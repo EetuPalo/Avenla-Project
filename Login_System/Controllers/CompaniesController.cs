@@ -128,6 +128,7 @@ namespace Login_System.Controllers
                         {
                             CompanyId = company.Id,
                             UserId = companyMember.Id,
+                            CompanyGroupAdmin = 0,
 
                         };
                         _context.CompanyMembers.Add(memberToAdd);

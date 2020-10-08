@@ -14,5 +14,6 @@ namespace Login_System.Models
         public int UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public AppUser AppUser  { get; set; }
+        public int? CompanyGroupAdmin { get; set; }
     }
 }

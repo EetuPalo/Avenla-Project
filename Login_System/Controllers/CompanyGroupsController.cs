@@ -17,11 +17,14 @@ namespace Login_System.Controllers
     public class CompanyGroupsController : Controller
     {
         private readonly GeneralDataContext _context;
+        private readonly IdentityDataContext _identity;
         private UserManager<AppUser> UserMgr { get; }
 
-        public CompanyGroupsController(GeneralDataContext context, UserManager<AppUser> userManager)
+
+        public CompanyGroupsController(GeneralDataContext context, UserManager<AppUser> userManager, IdentityDataContext identity)
         {
             _context = context;
+            _identity = identity;
             UserMgr = userManager;
         }
 
@@ -76,8 +79,6 @@ namespace Login_System.Controllers
                 model.CertList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Id.ToString()});
             }
 
-
-
             return View(model);
         }
 
@@ -85,7 +86,7 @@ namespace Login_System.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company, Skill, Certificate")]  CompanyGroups data, int id)
+        public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company, Skill, Certificate, SelectedUserIds")]  CompanyGroups data, int id)
         {
             var companyList = _context.Company;
 
@@ -132,6 +133,8 @@ namespace Login_System.Controllers
                     });
                 }
             }
+
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -143,6 +146,21 @@ namespace Login_System.Controllers
                 return NotFound();
             }
             var model = new CompanyGroups();
+            var applist = new List<AppUser>();
+            var companyId = _context.CompanyGroupMembers.Where(x => x.CompanyGroupId == id).Select(x=> x.CompanyId).ToList();
+
+            foreach (var cID in companyId) 
+            {
+                var members = _context.CompanyMembers.Where(x => x.CompanyId == cID).ToList();
+                foreach (var member in members) 
+                {
+                    var companyUser = _identity.Users.FirstOrDefault(x => x.Id == member.UserId);
+                    if (!applist.Contains(companyUser))
+                    {
+                        applist.Add(companyUser);
+                    }
+                }
+            }
 
             foreach (var company in _context.Company)
             {
@@ -158,13 +176,17 @@ namespace Login_System.Controllers
             {
                 model.CertList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Id.ToString() });
             }
+            foreach (var user in applist)
+            {
+                model.userList.Add(new SelectListItem() { Text = user.FirstName + " " + user.LastName, Value = user.Id.ToString() });
+            }
 
             var companyGroup = await _context.CompanyGroups.FindAsync(id);
             if (companyGroup == null)
             {
                 return NotFound();
             }
-            var companies = _context.Company.Where(x=> x.CompanyGroupId == id).ToList();
+            var companies = _context.CompanyGroupMembers.Where(x => x.CompanyGroupId == id).ToList();
             var certificates = _context.CompanyGroupCertificates.Where(x => x.CompanyGroupId == id && x.CompanyId == (int?)null).ToList();
             var skills = _context.CompanyGroupSkills.Where(x => x.CompanyGroupId == id && x.CompanyId == (int?)null).ToList();
 
@@ -180,7 +202,7 @@ namespace Login_System.Controllers
         [HttpPost]
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName, Company, oldCompanies, Skill, Certificate")] CompanyGroups companyGroup)
+        public async Task<IActionResult> Edit(int id, [Bind("CompanyGroupId,CompanyGroupName, Company, oldCompanies, Skill, Certificate, SelectedUserIds")] CompanyGroups companyGroup)
         {
             if (companyGroup != null && id != companyGroup.CompanyGroupId) 
             {
@@ -270,8 +292,24 @@ namespace Login_System.Controllers
                         {
                             var company = _context.Company.FirstOrDefault(x=> x.Id == int.Parse(companyId));
                             company.CompanyGroupId = companyGroup.CompanyGroupId;
+
+                            if (companyGroup.SelectedUserIds != null)
+                            {
+                                foreach (var uID in companyGroup.SelectedUserIds)
+                                {
+                                    var companyMembers = _context.CompanyMembers.Where(x => x.UserId == int.Parse(uID) && x.CompanyId == int.Parse(companyId)).ToList();
+
+                                    foreach (var companyMember in companyMembers)
+                                    {
+                                        companyMember.CompanyGroupAdmin = 1;
+                                        _context.Update(companyMember);
+                                    }
+                                    await _context.SaveChangesAsync();
+                                }
+                            }
                         }
                     }
+
 
                     await _context.SaveChangesAsync();
                 }

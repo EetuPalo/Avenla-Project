@@ -1465,6 +1465,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select admin(s).
+        /// </summary>
+        public static string Select_Admin {
+            get {
+                return ResourceManager.GetString("Select_Admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select skill.
         /// </summary>
         public static string Skill_Dropdownlist {

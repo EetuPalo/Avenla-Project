@@ -587,6 +587,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="RoleDropDown" xml:space="preserve">
     <value>Select role</value>
   </data>
+  <data name="Select_Admin" xml:space="preserve">
+    <value>Select admin(s)</value>
+  </data>
   <data name="SkillGoals_Breadcrumb" xml:space="preserve">
     <value>- Skillgoals</value>
   </data>

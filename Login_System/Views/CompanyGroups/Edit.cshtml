@@ -35,18 +35,24 @@
                         <div class="form-group">
                             @Html.DropDownListFor(x => x.Company, new SelectList(Model.CompanyList, "Value", "Text"), new { @class = "company form-control col-sm", @multiple = "multiple" })
                         </div>
-                
-                            <label class="control-label">@Resources.Resources.Layout_Skills</label>
+
+                        <label class="control-label">@Resources.Resources.Layout_Skills</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple" })
+                        </div>
+
+
+                        <label class="control-label">@Resources.Resources.Layout_Certificates</label>
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertList, "Value", "Text"), new { @class = "certificate form-control col-sm", @multiple = "multiple" })
+                        </div>
+                        @if (User.IsInRole("Superadmin"))
+                        {
+                            <label class="control-label">@Resources.Resources.Select_Admin</label>
                             <div class="form-group">
-                                @Html.DropDownListFor(x => x.Skill, new SelectList(Model.SkillList, "Value", "Text"), new { @class = "skill form-control col-sm", @multiple = "multiple" })
+                                @Html.DropDownListFor(x => x.SelectedUserIds, new SelectList(Model.userList, "Value", "Text"), new { @class = "user-drop-down form-control col-sm", @multiple = "multiple" })
                             </div>
-               
-            
-                            <label class="control-label">@Resources.Resources.Layout_Certificates</label>
-                            <div class="form-group">
-                                @Html.DropDownListFor(x => x.Certificate, new SelectList(Model.CertList, "Value", "Text"), new { @class = "certificate form-control col-sm", @multiple = "multiple" })
-                            </div>
-            
+                        }
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save fa-fw"> </i> @Resources.Courses.Edit_BTN_Save</button>
                         </div>
@@ -69,10 +75,13 @@
         $('.certificate').select2({
             placeholder: "@Resources.Resources.UCertificates_Create_DropDownDefault"
         });
+        $('.user-drop-down').select2({
+            placeholder: "@Resources.Resources.Select_Admin"
+        });
 
         $('.company').val([@foreach (var item in ViewBag.Companies)
         {
-            <text> @item.Id, </text>
+            <text> @item.CompanyId, </text>
         } ]);
 
         $('.company').trigger('change');

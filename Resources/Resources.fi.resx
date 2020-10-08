@@ -581,6 +581,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="RoleDropDown" xml:space="preserve">
     <value>Valitse rooli</value>
   </data>
+  <data name="Select_Admin" xml:space="preserve">
+    <value>Valitse järjestelmänvalvoja(t)</value>
+  </data>
   <data name="SkillGoals_Breadcrumb" xml:space="preserve">
     <value>- Tavoitetasot</value>
   </data>

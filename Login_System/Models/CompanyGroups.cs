@@ -35,6 +35,11 @@ namespace Login_System.Models
         [NotMapped]
         public IList<SelectListItem> CertList { get; set; }
 
+        [NotMapped]
+        public IList<SelectListItem> userList { get; set; }
+        [NotMapped]
+        public List<string> SelectedUserIds { get; set; }
+
 
         public CompanyGroups()
         {
@@ -43,6 +48,8 @@ namespace Login_System.Models
             CertList = new List<SelectListItem>();
             Skill = new List<string>();
             Certificate = new List<string>();
+            SelectedUserIds = new List<string>();
+            userList = new List<SelectListItem>();
 
         }
         [NotMapped]
