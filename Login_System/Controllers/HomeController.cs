@@ -11,6 +11,7 @@ using Login_System.Helpers;
 using System.Web;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Login_System.Controllers
 {
@@ -19,12 +20,16 @@ namespace Login_System.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<AppUser> UserMgr;
         private readonly GeneralDataContext _context;
+        private readonly IdentityDataContext _identity;
+        private SignInManager<AppUser> SignInMgr { get; }
 
-        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, GeneralDataContext context)
+        public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, GeneralDataContext context, IdentityDataContext identity, SignInManager<AppUser> signInManager)
         {
             _logger = logger;
             UserMgr = userManager;
             _context = context;
+            _identity = identity;
+            SignInMgr = signInManager;
         }
 
         public IActionResult Index()
@@ -62,12 +67,28 @@ namespace Login_System.Controllers
         }
 
          [HttpPost]
-         public async Task<IActionResult> SetActiveCompany(string company, string returnUrl)
+         public async Task<IActionResult> SetActiveCompany(string company, string returnUrl, int id)
          {
+            //change user role as well as active company
+            var user = await UserMgr.FindByIdAsync(id.ToString());
+            //get the info of company that the user is changing to 
+            Company Comp = _context.Company.FirstOrDefault(x => x.Id == int.Parse(company));
+            //list users roles in companies
+            var userRoles = _context.CompanyMembers.Where(x=> x.UserId == id).ToList();
+            //get role id:s used in remove and set in userroles table
+            var oldRoleId = userRoles.FirstOrDefault(x => x.CompanyId == user.Company).CompanyRole;
+            var newRoleId = userRoles.FirstOrDefault(x => x.CompanyId == int.Parse(company)).CompanyRole;
+            //get roles
+            var oldRole = _identity.Roles.FirstOrDefault(x => x.Id == oldRoleId);
+            var role = _identity.Roles.FirstOrDefault(x => x.Id == newRoleId);
+            IdentityResult result =  await UserMgr.RemoveFromRoleAsync(user,oldRole.Name);
+     
+            await changeActiveCompany(Comp);
+            await UserMgr.AddToRoleAsync(user, role.Name);
+            await SignInMgr.SignOutAsync();
+            await SignInMgr.SignInAsync(user, false, default);
 
-             Company Comp = _context.Company.FirstOrDefault(x => x.Id == int.Parse(company));
-             await changeActiveCompany(Comp);
-             return LocalRedirect(returnUrl);
+            return RedirectToAction("Index","Dashboard");
          }
 
          public async Task<IdentityResult> changeActiveCompany(Company company)

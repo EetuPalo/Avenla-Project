@@ -367,7 +367,7 @@ namespace Login_System.Controllers
                             var newMember = new CompanyMember
                             {
                                 CompanyId = companyId,
-
+                                CompanyRole = 1,
                                 UserId = user.Id
                             };
                             CompanyList.CompanyMembers.Add(newMember);

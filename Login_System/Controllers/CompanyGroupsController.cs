@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Login_System.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Login_System.Controllers
 {
@@ -62,32 +63,40 @@ namespace Login_System.Controllers
 
             return View(model);
         }
-        public IActionResult Create()
+        [Authorize(Roles = "Superadmin")]
+        public async Task<IActionResult> Create()
         {
-            var model = new CompanyGroups();
+            var user = await UserMgr.GetUserAsync(HttpContext.User);
+            if (_context.CompanyMembers.FirstOrDefault(x => x.Company.Id == user.Company && x.UserId == user.Id).CompanyGroupAdmin == 1)
+            {
+                var model = new CompanyGroups();
 
-            foreach (var company in _context.Company)
-            {
-                model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString()});
-            }
-            foreach (var skill in _context.Skills)
-            {
-                model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString()});
-            }
-            foreach (var cert in _context.Certificates)
-            {
-                model.CertList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Id.ToString()});
-            }
+                foreach (var company in _context.Company)
+                {
+                    model.CompanyList.Add(new SelectListItem() { Text = company.Name, Value = company.Id.ToString() });
+                }
+                foreach (var skill in _context.Skills)
+                {
+                    model.SkillList.Add(new SelectListItem() { Text = skill.Skill, Value = skill.Id.ToString() });
+                }
+                foreach (var cert in _context.Certificates)
+                {
+                    model.CertList.Add(new SelectListItem() { Text = cert.Name, Value = cert.Id.ToString() });
+                }
 
-            return View(model);
+                return View(model);
+            }
+            return RedirectToAction("Index");
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Superadmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CompanyGroupId,CompanyGroupName, Company, Skill, Certificate, SelectedUserIds")]  CompanyGroups data, int id)
         {
+          
             var companyList = _context.Company;
 
             var company = (await _context.CompanyGroups.AddAsync(new CompanyGroups { CompanyGroupName = data.CompanyGroupName })).Entity;

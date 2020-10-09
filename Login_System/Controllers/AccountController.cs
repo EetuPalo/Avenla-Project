@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 //using System.Web.Mvc;
 
 namespace Login_System.Controllers
@@ -181,14 +182,33 @@ namespace Login_System.Controllers
                     }
                     else
                     {
+                        // Setting User roles
+
+                        Company Comp = generalContext.Company.FirstOrDefault(x => x.Id == tempUser.Company);
+                        //list users roles in companies
+                        var userRoles = generalContext.CompanyMembers.Where(x => x.UserId == tempUser.Id).ToList();
+                        //get role id:s used in remove and set in userroles table
+                        var oldRoleId = userRoles.FirstOrDefault(x => x.CompanyId == tempUser.Company).CompanyRole;
+                        var newRoleId = userRoles.FirstOrDefault(x => x.CompanyId == tempUser.Company).CompanyRole;
+                        //get roles
+                        var oldRole = _context.Roles.FirstOrDefault(x => x.Id == oldRoleId);
+                        var role = _context.Roles.FirstOrDefault(x => x.Id == newRoleId);
+                        await UserMgr.RemoveFromRoleAsync(tempUser, oldRole.Name);
+
+                      
+                        await UserMgr.AddToRoleAsync(tempUser, role.Name);
+                    
+
+                        //end of User role set
                         return RedirectToAction("Index", "Dashboard", new { id=appUser.Id});
                     }
-                    //return RedirectToAction("Index", "Home");
+              
                 }
                 else
                 {
                     ViewBag.Result = result.ToString();
-                }                
+                }
+                return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Invalid username or password");
             return View(user);

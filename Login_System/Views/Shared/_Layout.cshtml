@@ -90,7 +90,7 @@
                         {
                             <li>
                                 <form id="SetActiveCompany" asp-controller="Home"
-                                      asp-action="SetActiveCompany" asp-route-returnUrl="@Context.Request.Path"
+                                      asp-action="SetActiveCompany" asp-route-returnUrl="@Context.Request.Path" asp-route-id ="@user.Id"
                                       method="post" class="form-horizontal" role="form">
 
                                     <select class="text-dark btn selectpicker form-control form-control-sm" name="company"
