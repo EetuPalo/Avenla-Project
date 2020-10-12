@@ -274,51 +274,6 @@ namespace Login_System.Controllers
 
             return Json(new { success = true, message = "Delete successful" });
         }
-        //public async Task<IActionResult> Delete(int? id, string? source)
-        //{
-        //    if (source != null)
-        //    {
-        //        TempData["Source"] = source;
-        //    }
-
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var @group = await _context.Group
-        //        .FirstOrDefaultAsync(m => m.id == id);
-        //    if (@group == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(@group);
-        //}
-
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var @group = await _context.Group.FindAsync(id);
-
-        //    //Removes all groupMember and skillgoals associations with the group, so we are not left with phantom data in the database
-
-        //    foreach (var groupMember in _context.GroupMembers.Where(x => x.GroupID == group.id))
-        //    {
-        //        _context.Remove(groupMember);
-        //    }
-        //    await _context.SaveChangesAsync();
-        //    foreach (var goal in _context.SkillGoals.Where(x => x.GroupName == group.name))
-        //    {
-        //        _context.Remove(goal);
-        //    }
-        //    await _context.SaveChangesAsync();
-        //    _context.Group.Remove(@group);
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         private bool GroupExists(int id)
         {

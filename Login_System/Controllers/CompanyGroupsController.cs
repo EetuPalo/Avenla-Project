@@ -372,11 +372,6 @@ namespace Login_System.Controllers
             
         }
 
-        //public IActionResult DeleteConfirmed(int id)
-        //{
-
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         private bool CompanyGroupExists(int id)
         {

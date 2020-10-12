@@ -105,15 +105,7 @@ namespace Login_System.Controllers
 
             if (ModelState.IsValid)
             {
-                //_context.Add(data);
 
-                //var companyMembers = new CompanyMembersVM
-                //{
-                //    CompanyId = data.Id,
-                //    CompanyName = data.CompanyName,
-                //    UserId = user.Id,
-                //    UserName = user.UserName
-                //};
 
                 company = (await _context.Company.AddAsync(new Company { Name = data.CompanyName, Description = data.Description, CompanyGroupId = 0 })).Entity;
                 await _context.SaveChangesAsync();
@@ -218,42 +210,6 @@ namespace Login_System.Controllers
             return Json(new { success = true, message = "Delete successful" });
         }
 
-        //[Authorize(Roles = "Superadmin")]
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var company = await _context.Company
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (company == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(company);
-        //}
-
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Superadmin")]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var company = await _context.Company.FindAsync(id);
-        //    _context.Company.Remove(company);
-
-
-        //    var users = _context.CompanyMembers.Where(x => x.CompanyId == id);
-        //    foreach (var user in users)
-        //    {
-        //        _context.CompanyMembers.Remove(user);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         [Authorize(Roles = "Superadmin")]
         private bool CompanyExists(int id)

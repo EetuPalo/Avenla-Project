@@ -248,18 +248,6 @@ namespace Login_System.Controllers
             return Json(new { success = true, message = "Delete successful" });
         }
 
-        //   // POST: Lessons/Delete/5
-        //   [HttpPost, ActionName("Delete")]
-        //   [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin, Superadmin")]
-        //   public async Task<IActionResult> DeleteConfirmed(int id)
-        //   {
-        //       var lesson = await _context.Lessons.FindAsync(id);
-        //       _context.Lessons.Remove(lesson);
-        //       await _context.SaveChangesAsync();
-
-        //       return RedirectToAction(nameof(Index), new {id = lesson.CourseID});
-        //   }
 
         private bool LessonExists(int id)
         {

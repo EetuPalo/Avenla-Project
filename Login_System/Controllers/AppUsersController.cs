@@ -585,27 +585,7 @@ namespace Login_System.Controllers
                     });
                 }
                 await CompanyList.SaveChangesAsync();
-                ////PROTECTS USERS IN ROLE ADMIN
-                //if (role.Name == "Superadmin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Superadmin"))
-                //{
-                //    var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
-                //    if (tempRoleList.Count == 1)
-                //    {
-                //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
-                //        return RedirectToAction("Edit", "AppUsers", new { Id = id });
-                //    }
-                //}
-                ////PROTECTS USERS IN ROLE SUPERADMIN
-                //if (role.Name == "Admin" && !model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, "Admin"))
-                //{
-                //    var tempRoleList = await UserMgr.GetUsersInRoleAsync(role.Name);
-                //    if (tempRoleList.Count == 1)
-                //    {
-                //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_AdminRemove;
-                //        return RedirectToAction("Edit", "AppUsers", new { Id = id });
-                //    }
-                //}
-                //
+
 
                 IdentityResult ? result = null;
                 try
@@ -620,15 +600,6 @@ namespace Login_System.Controllers
                 }
                 result = await UserMgr.AddToRoleAsync(tempUser, SelectedRole);
 
-                //if (model.Roles[i].IsSelected && !(await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name)))
-                //{
-                //    result = await UserMgr.AddToRoleAsync(tempUser, role.Name);
-                //}
-                //else if (!model.Roles[i].IsSelected && await UserMgr.IsInRoleAsync(tempUser, model.Roles[i].Name))
-                //{
-                //    result = await UserMgr.RemoveFromRoleAsync(tempUser, role.Name);
-                //}
-                //}
 
                 //--USER INFO--//
                 var compareUser = User.Identity.Name;
@@ -744,35 +715,6 @@ namespace Login_System.Controllers
             return Json(new { success = true, message = "Delete successful" });
         }
 
-        //[Authorize(Roles = "Admin, Superadmin")]
-        //[HttpDelete]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var appUser = await _context.Users.FindAsync(id);
-
-        //    //Checking for user info in the DB
-        //    if (dataContext.GroupMembers.Where(x => x.UserID == id).Count() != 0)
-        //    {
-        //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
-        //        return RedirectToAction("Index");
-        //    }
-        //    if (dataContext.UserSkills.Where(x => x.UserID == id).Count() != 0)
-        //    {
-        //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
-        //        return RedirectToAction("Index");
-        //    }
-        //    if (dataContext.SkillCourseMembers.Where(x => x.UserID == id).Count() != 0)
-        //    {
-        //        TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleteFailInfo;
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    _context.Users.Remove(appUser);
-        //    await _context.SaveChangesAsync();
-        //    TempData["ActionResult"] = Resources.ActionMessages.ActionResult_UserDeleted;
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         private bool AppUserExists(int id)
         {

@@ -54,16 +54,7 @@ namespace Login_System.Controllers
                 id = Convert.ToInt32(UserMgr.GetUserId(User));
             }
 
-            //Month and year are needed for the graph
-            /*if (!month.HasValue)
-            {
-                month = DateTime.Now.Month;
-            }
-
-            if (!year.HasValue)
-            {
-                year = DateTime.Now.Year;
-            } */           
+        
 
             //Some data that will be shown in the view
             uId = (int)id;
@@ -94,12 +85,7 @@ namespace Login_System.Controllers
             var userSkills = from c in _context.UserSkills select c;
             TempData["SearchValue"] = null;
 
-            
-            //if (!String.IsNullOrEmpty(searchString))                
-            //{
-            //Reformatting the string
-            //searchString = searchString.Replace('.', '/');
-            //var splitDate = searchString.Split('/');
+           
             
             //SEARCH
             if (month != null || year != null)
@@ -154,35 +140,6 @@ namespace Login_System.Controllers
             }
             
 
-        /*    foreach (var item in userSkills.Where(x => ((month != null) ? (x.Date.Month == month) : month == null) && ((year != null) ? (x.Date.Year == year) : year == null) && (x.UserID == id)))
-            {
-                month = item.Date.Month;
-                year = item.Date.Year;
-
-                if (!tempDate.Contains(item.Date.ToString()))
-                {
-                    i++;
-                    var tempModel = new DateListVM
-                    {
-                        Date = item.Date,
-                        AdminEval = item.AdminEval,
-                        TempDate = item.Date.ToString("dd/MM/yyyy+HH/mm"),
-                        Id = (int)id
-                    };
-                    model.Add(tempModel);
-                }
-                tempDate.Add(item.Date.ToString());
-
-                if (item.Date.Month == month && item.Date.Year == year)
-                {
-                    skillnames.Add(item.SkillName);
-                    dates.Add(item.Date.ToString("dd.MM.yyyy.HH.mm.ss"));
-                    datapoint.Add(new SkillPoint(item.Date.ToString("dd.MM.yyyy"), item.SkillLevel));
-                }
-
-            }
-            TempData["SearchValue"] = searchString;
-            }*/
             //NO SEARCH
             else
             {
@@ -538,30 +495,6 @@ namespace Login_System.Controllers
                 i++;
             }
 
-            /*var tempModel = new UserSkills
-                {
-                    SkillLevel = SkillLevel,
-                    SkillName = userSkills.SkillList[i],
-                    UserID = userId,
-                    Id = null,
-                    Date = date,
-                    //Skillid = 
-                    
-                };
-
-                //info of who made the evaluation
-                if (User.IsInRole("Admin"))
-                {
-                    tempModel.AdminEval = "Admin Evaluation";
-                }
-
-                else
-                {
-                    tempModel.AdminEval = "Self Assessment";
-                }
-
-                model.Add(tempModel);
-            */
 
             //Adding entries to database and saving
             foreach (var entry in model)

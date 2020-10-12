@@ -285,43 +285,7 @@ namespace Login_System.Controllers
 
             return Json(new { success = true, message = "Delete successful" });
         }
-        //// GET: Skills/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var skills = await _context.Skills
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-
-        //    if (skills == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(skills);
-        //}
-
-        //// POST: Skills/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var skills = await _context.Skills.FindAsync(id);
-        //    _context.Skills.Remove(skills);
-
-        //    var categories = await _context.SkillsInCategory.Where(x => x.SkillId == skills.Id).ToListAsync();
-        //    foreach(var item in categories)
-        //    {
-        //        _context.SkillsInCategory.Remove(item);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         private bool SkillsExists(int id)
         {
