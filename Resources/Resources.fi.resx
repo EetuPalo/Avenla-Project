@@ -201,6 +201,9 @@
   <data name="Create_CompanyGroup" xml:space="preserve">
     <value>Luo yritysryhmä</value>
   </data>
+  <data name="CurrentSkillLevel" xml:space="preserve">
+    <value>Nykyinen</value>
+  </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Hallintapaneeli</value>
   </data>
@@ -584,6 +587,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Select_Admin" xml:space="preserve">
     <value>Valitse järjestelmänvalvoja(t)</value>
   </data>
+  <data name="SkillGoalLevel" xml:space="preserve">
+    <value>Käyttäjän tavoite</value>
+  </data>
   <data name="SkillGoals_Breadcrumb" xml:space="preserve">
     <value>- Tavoitetasot</value>
   </data>
@@ -643,6 +649,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Käyttäjänimi</value>
+  </data>
+  <data name="UserSkillGoals" xml:space="preserve">
+    <value>Käyttäjän taitotavoitteet</value>
   </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Arvioi</value>

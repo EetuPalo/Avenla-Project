@@ -201,6 +201,9 @@
   <data name="Create_CompanyGroup" xml:space="preserve">
     <value>Create company group</value>
   </data>
+  <data name="CurrentSkillLevel" xml:space="preserve">
+    <value>Current</value>
+  </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
@@ -590,6 +593,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Select_Admin" xml:space="preserve">
     <value>Select admin(s)</value>
   </data>
+  <data name="SkillGoalLevel" xml:space="preserve">
+    <value>User goal</value>
+  </data>
   <data name="SkillGoals_Breadcrumb" xml:space="preserve">
     <value>- Skillgoals</value>
   </data>
@@ -649,6 +655,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="UserSkillGoals" xml:space="preserve">
+    <value>User goals</value>
   </data>
   <data name="UserSkills_Create_Submit" xml:space="preserve">
     <value>Submit</value>

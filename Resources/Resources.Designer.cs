@@ -313,6 +313,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current.
+        /// </summary>
+        public static string CurrentSkillLevel {
+            get {
+                return ResourceManager.GetString("CurrentSkillLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string Dashboard {
@@ -1483,6 +1492,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User goal.
+        /// </summary>
+        public static string SkillGoalLevel {
+            get {
+                return ResourceManager.GetString("SkillGoalLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to - Skillgoals.
         /// </summary>
         public static string SkillGoals_Breadcrumb {
@@ -1668,6 +1686,15 @@ namespace Resources {
         public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User goals.
+        /// </summary>
+        public static string UserSkillGoals {
+            get {
+                return ResourceManager.GetString("UserSkillGoals", resourceCulture);
             }
         }
         
