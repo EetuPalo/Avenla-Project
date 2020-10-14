@@ -593,6 +593,9 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
   <data name="Select_Admin" xml:space="preserve">
     <value>Select admin(s)</value>
   </data>
+  <data name="SetGroupGoals" xml:space="preserve">
+    <value>Set goals</value>
+  </data>
   <data name="SkillGoalLevel" xml:space="preserve">
     <value>User goal</value>
   </data>

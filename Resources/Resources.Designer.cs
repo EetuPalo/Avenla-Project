@@ -1483,6 +1483,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set goals.
+        /// </summary>
+        public static string SetGroupGoals {
+            get {
+                return ResourceManager.GetString("SetGroupGoals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select skill.
         /// </summary>
         public static string Skill_Dropdownlist {
