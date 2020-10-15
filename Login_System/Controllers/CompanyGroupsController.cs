@@ -223,26 +223,33 @@ namespace Login_System.Controllers
                 try
                 {
                     List<Company> oldCompanyIds = _context.Company.Where(x => x.CompanyGroupId == id).ToList();
-                    if (companyGroup.Company != null) 
-                    {
-                        foreach (var company in oldCompanyIds)
-                        {
-                            if (!companyGroup.Company.Contains(company.Id.ToString()))
-                            {
-                                company.CompanyGroupId = 0;
-                                _context.Company.Update(company);
-                            }
-                        }
-                    }
+                    //if (companyGroup.Company != null) 
+                    //{
+                    //    foreach (var company in oldCompanyIds)
+                    //    {
+                    //        if (!companyGroup.Company.Contains(company.Id.ToString()))
+                    //        {
+                    //            company.CompanyGroupId = 0;
+                    //            _context.Company.Update(company);
+                    //        }
+                    //    }
+                    //}
 
-                    else
+                    //else
+                    //{
+                    //    foreach (var company in oldCompanyIds)
+                    //    {
+                    //        company.CompanyGroupId = 0;
+                    //        _context.Company.Update(company);
+                    //    }
+                    //}
+
+
+                    foreach (var company in companyGroup.Company)
                     {
-                        foreach (var company in oldCompanyIds)
-                        {
-                            company.CompanyGroupId = 0;
-                            _context.Company.Update(company);
-                        }
+                        _context.Add(new CompanyGroupMember { CompanyGroupId = id, CompanyId = int.Parse(company)});
                     }
+                    await _context.SaveChangesAsync();
 
                     //update skills
                     var oldSkills = _context.CompanyGroupSkills.Where(x => x.CompanyGroupId == id).ToList();

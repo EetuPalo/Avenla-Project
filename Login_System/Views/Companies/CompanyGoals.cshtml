@@ -1,0 +1,74 @@
+﻿@model Login_System.ViewModels.CreateCompanyGoals
+
+@{
+    ViewData["Title"] = "CompanyGoals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string gName = "NO_DATA";
+
+}
+
+<h2>@Resources.SkillGoals.Create_Title @TempData["ActionPhase"]</h2>
+<h4>@TempData["ActionResult"]</h4>
+<hr />
+
+<fieldset>
+    <form asp-action="Create" asp-controller="SkillGoals">
+        <div asp-validation-summary="All" class="text-danger"> </div>
+        <input type="hidden" asp-for="@Model.CompanyID" value="@Model.CompanyID">
+        <div id="form" class="container-fluid p-0">
+            <div style="display:flex" id="skillForm" class="row mb-4">
+
+
+                @foreach (var item in Model.Skills)
+                {
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <strong><label class="form-check-label align-middle">@item.Skill</label></strong>
+                            </div>
+                            <input type="hidden" value="@item.Id" asp-for="@Model.SkillID" name="SkillID" />
+                            <span asp-validation-for="SkillID"></span>
+
+                            <div class="col-sm-10">
+                                <select class="form-control" asp-for="@Model.CompanyGoal" id="@item.Id">
+                                    <option value="0">@Resources.Resources.EVAL_DROPDOWN_0</option>
+                                    <option value="1">@Resources.Resources.EVAL_DROPDOWN_1</option>
+                                    <option value="2">@Resources.Resources.EVAL_DROPDOWN_2</option>
+                                    <option value="3">@Resources.Resources.EVAL_DROPDOWN_3</option>
+                                    <option value="4">@Resources.Resources.EVAL_DROPDOWN_4</option>
+                                    <option value="5">@Resources.Resources.EVAL_DROPDOWN_5</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="CompanyGoal"></span>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-sm">
+                    <button type="button" class="btn btn-outline-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
+                    <button class="btn btn-primary" id="submit" type="submit" asp-route-source="@TempData["Source"]"><i class="fas fa-check fa-fw"> </i> @Resources.SkillGoals.Create_BTN_Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</fieldset>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+<script>
+    $(document).ready(function setDropDownDefaults() {
+    @foreach(var goal in ViewBag.CompanyGoals)
+    {
+        <text>
+        $("#@goal.SkillID").val("@goal.CompanyGoal");
+        </text>
+    }
+    });
+
+</script>

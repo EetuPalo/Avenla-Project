@@ -216,5 +216,104 @@ namespace Login_System.Controllers
         {
             return _context.Company.Any(e => e.Id == id);
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> CompanyGoals(int? cid)
+        {
+            if (cid == null)
+            {
+                return NotFound();
+            }
+
+            var company = await _context.Company.FindAsync(cid);
+            var cgid = _context.CompanyGroupMembers.FirstOrDefault(x=> x.CompanyId == cid);
+            var companyGroupSkills = _context.CompanyGroupSkills.Where(x => (x.CompanyGroupId == cgid.CompanyGroupId && x.CompanyId == null) || (x.CompanyGroupId == cgid.CompanyGroupId && x.CompanyId == cid)).ToList();
+
+            var model = new CreateCompanyGoals();
+            var skills = new List<Skills>();
+
+            ViewBag.CompanyGoals = _context.CompanyGoals.Where(x => x.CompanyID == cid).ToList();
+
+            foreach (var skill in companyGroupSkills)
+            {
+                skills.Add(_context.Skills.FirstOrDefault(x=> x.Id == skill.SkillId));
+            }
+
+            model.Skills = skills;
+            model.CompanyID = (int)cid;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CompanyGoals(int cid, [Bind("Id, CompanyGoal, SkillID, CompanyID")] CreateCompanyGoals model, int[] CompanyGoal)
+        {
+            if (model.CompanyID == 0)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var lista = _context.CompanyGoals.Where(x => x.CompanyID == model.CompanyID).ToList();
+                int i = 0;
+
+                try
+                {
+                    if (lista.Count() == 0)
+                    {
+                        foreach (var skill in model.SkillID)
+                        {
+                            if (!lista.Any(x => x.SkillID == skill))
+                            {
+                                var companyGoal = new CompanyGoals
+                                {
+                                    CompanyGoal = CompanyGoal[i],
+                                    CompanyID = model.CompanyID,
+                                    SkillID = skill
+                                };
+
+                                _context.Add(companyGoal);
+                                i++;
+                            }
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                    else 
+                    {
+                        foreach (var skill in model.SkillID)
+                        {
+                            var cGoal = lista.FirstOrDefault(x => x.SkillID == skill);
+                            if (cGoal == null)
+                            {
+                                var companyGoal = new CompanyGoals
+                                {
+                                    CompanyGoal = CompanyGoal[i],
+                                    CompanyID = model.CompanyID,
+                                    SkillID = skill
+                                };
+
+                                _context.Add(companyGoal);
+                                i++;
+                            }
+                            else 
+                            {
+                                cGoal.CompanyGoal = CompanyGoal[i];
+                                _context.Update(cGoal);
+                                i++;
+                            }
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
     }
 }

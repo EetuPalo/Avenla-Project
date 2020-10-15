@@ -14,7 +14,7 @@
     </ol>
 </nav>
 <hr />
-
+<div class="card-columns" style="column-count: 2;">
     <div class="card">
         <div class="card-header"><h5>@Html.DisplayFor(model => model.name)</h5> </div>
         <div class="card-body">
@@ -28,7 +28,14 @@
             }
         </div>
     </div>
-<br />
+    <div class="card">
+        <div class="card-header"><h5>@Resources.Resources.CompanyGoals_index</h5> </div>
+        <div class="card-body">
+            
+        </div>
+    </div>
+</div>
+    <br />
     <div class="card">
         <div class="card-header"><h5>@Resources.Resources.ListofCompanyEmployees</h5></div>
         <div class="card-body">

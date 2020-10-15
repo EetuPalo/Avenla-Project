@@ -169,6 +169,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company goals.
+        /// </summary>
+        public static string CompanyGoals_index {
+            get {
+                return ResourceManager.GetString("CompanyGoals_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company group name.
         /// </summary>
         public static string CompanyGroupName {

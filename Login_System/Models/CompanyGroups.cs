@@ -50,6 +50,7 @@ namespace Login_System.Models
             Certificate = new List<string>();
             SelectedUserIds = new List<string>();
             userList = new List<SelectListItem>();
+            Company = new List<string>();
 
         }
         [NotMapped]

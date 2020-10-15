@@ -153,6 +153,9 @@
   <data name="Company" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="CompanyGoals_index" xml:space="preserve">
+    <value>Company goals</value>
+  </data>
   <data name="CompanyGroupName" xml:space="preserve">
     <value>Company group name</value>
   </data>

@@ -41,6 +41,7 @@ namespace Login_System.Models
         public DbSet<CompanyGroupSkill> CompanyGroupSkills { get; set; }
         public DbSet<CompanyGroupCertificate> CompanyGroupCertificates { get; set; }
         public DbSet<CompanyGroupMember> CompanyGroupMembers{ get; set; }
+        public DbSet<CompanyGoals> CompanyGoals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder mb) { 
         
