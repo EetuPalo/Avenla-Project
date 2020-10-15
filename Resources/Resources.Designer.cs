@@ -178,6 +178,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string CompanygoalsProfile {
+            get {
+                return ResourceManager.GetString("CompanygoalsProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company group name.
         /// </summary>
         public static string CompanyGroupName {
@@ -1510,7 +1519,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User goal.
+        ///   Looks up a localized string similar to User.
         /// </summary>
         public static string SkillGoalLevel {
             get {
@@ -1524,6 +1533,15 @@ namespace Resources {
         public static string SkillGoals_Breadcrumb {
             get {
                 return ResourceManager.GetString("SkillGoals_Breadcrumb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skillgoals.
+        /// </summary>
+        public static string SkillGoals_profile {
+            get {
+                return ResourceManager.GetString("SkillGoals_profile", resourceCulture);
             }
         }
         

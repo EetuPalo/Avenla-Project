@@ -153,6 +153,9 @@
   <data name="Company" xml:space="preserve">
     <value>Company</value>
   </data>
+  <data name="CompanygoalsProfile" xml:space="preserve">
+    <value>Company</value>
+  </data>
   <data name="CompanyGoals_index" xml:space="preserve">
     <value>Company goals</value>
   </data>
@@ -600,10 +603,13 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
     <value>Set goals</value>
   </data>
   <data name="SkillGoalLevel" xml:space="preserve">
-    <value>User goal</value>
+    <value>User</value>
   </data>
   <data name="SkillGoals_Breadcrumb" xml:space="preserve">
     <value>- Skillgoals</value>
+  </data>
+  <data name="SkillGoals_profile" xml:space="preserve">
+    <value>Skillgoals</value>
   </data>
   <data name="SkillProgressionGraph" xml:space="preserve">
     <value>Skill progression graph</value>

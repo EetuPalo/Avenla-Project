@@ -159,6 +159,12 @@ namespace Login_System.Controllers
             var tempList = new List<string>();
             var courseList = new List<SkillCourseMember>();
             var certificateList = new List<UserCertificate>();
+            var companyGoalsList = new List<CompanyGoals>();
+
+            foreach (var cGoals in dataContext.CompanyGoals.Where(x => x.CompanyID == appUser.Company))
+            {
+                companyGoalsList.Add(cGoals);
+            }
 
             // Skills
             foreach (var skill in dataContext.UserSkills.Where(x => x.UserID == id))
@@ -201,6 +207,7 @@ namespace Login_System.Controllers
             model.UserGroups = tempList;
             model.UserCourses = courseList;
             model.UserCertificates = certificateList;
+            model.CompanyGoals = companyGoalsList;
 
             return View(model);
         }

@@ -33,5 +33,7 @@ namespace Login_System.ViewModels
         
         public List<UserCertificate> UserCertificates { get; set; }
 
+        public List<CompanyGoals> CompanyGoals { get; set; }
+
     }
 }

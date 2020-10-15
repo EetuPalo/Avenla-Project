@@ -153,6 +153,9 @@
   <data name="Company" xml:space="preserve">
     <value>Yritys</value>
   </data>
+  <data name="CompanygoalsProfile" xml:space="preserve">
+    <value>Yrityksen</value>
+  </data>
   <data name="CompanyGoals_index" xml:space="preserve">
     <value>Yrityksen taitotavoitteet</value>
   </data>
@@ -594,10 +597,13 @@ Vestibulum eleifend varius orci, vel pulvinar sapien vestibulum nec. Cras sit am
     <value>Aseta taitotavoitteet</value>
   </data>
   <data name="SkillGoalLevel" xml:space="preserve">
-    <value>Käyttäjän tavoite</value>
+    <value>Käyttäjän</value>
   </data>
   <data name="SkillGoals_Breadcrumb" xml:space="preserve">
     <value>- Tavoitetasot</value>
+  </data>
+  <data name="SkillGoals_profile" xml:space="preserve">
+    <value>Taitotavoitteet</value>
   </data>
   <data name="SkillProgressionGraph" xml:space="preserve">
     <value>Taitotaulukko</value>

@@ -23,7 +23,9 @@ namespace Login_System.ViewModels
         public List<AppUser> Users { get; set; } 
       
         public IList<SelectListItem> userList { get; set; }
-    
+
+        public List<(int, string)> ListofGoals { get; set; }
+
         public CompanyMembersVM() 
         { 
             userList = new List<SelectListItem>();

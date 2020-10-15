@@ -126,27 +126,44 @@
             <h5 class="card-header">@Resources.Skills.Index_Skill</h5>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-sm-4"><b>@Resources.Skills.Index_Skill</b></div>
-                    <div class="col-sm-4"><b>@Resources.Resources.CurrentSkillLevel</b></div>
-                    <div class="col-sm-4"><b>@Resources.Resources.SkillGoalLevel</b></div>
+                    <div class="col-sm-3"><b>@Resources.Resources.SkillGoals_profile</b></div>
+                    <div class="col-sm-3"><b>@Resources.Resources.CurrentSkillLevel</b></div>
+                    <div class="col-sm-3"><b>@Resources.Resources.SkillGoalLevel</b></div>
+                    <div class="col-sm-3"><b>@Resources.Resources.CompanygoalsProfile</b></div>
                 </div>
                 <hr />
                 <dl class="row">
                     @foreach (var item in Model.UserSkills)
                     {
-                        <dd class="col-sm-4">
+                        <dd class="col-sm-3">
                             @item.SkillName
                         </dd>
-                        <dd class="col-sm-4">
+                    
+                        <dd class="col-sm-3">
                             @item.SkillLevel
                         </dd>
-                        <dd class="col-sm-4">
+                        <dd class="col-sm-3">
                             @foreach (var goal in Model.UserGoals)
                             {
 
-                                @if (item.SkillId == goal.SkillId && goal.SkillGoal > 0)
+                                @if (item.SkillId == goal.SkillId)
                                 {
-                                    @goal.SkillGoal
+                                    @if (goal.SkillGoal > 0)
+                                    {
+                                        @goal.SkillGoal
+                                    }
+                                }
+                            }
+                        </dd>
+                        <dd class="col-sm-3">
+                            @foreach (var cGoal in Model.CompanyGoals) 
+                            {
+                                @if (item.SkillId == cGoal.SkillID)
+                                {
+                                    @if (cGoal.CompanyGoal > 0)
+                                    {
+                                        @cGoal.CompanyGoal
+                                    }
                                 }
                             }
                         </dd>

@@ -49,6 +49,14 @@ namespace Login_System.Controllers
 
             var model = new CompanyMembersVM();
 
+            var list = new List<(int, string)>();
+            foreach (var goals in _context.CompanyGoals.Where(x => x.CompanyID == id)) 
+            {
+                var skill = _context.Skills.FirstOrDefault(x => x.Id == goals.SkillID);
+                list.Add((goals.CompanyGoal, skill.Skill));
+            }
+
+            model.ListofGoals = list;
             model.name = company.Name;
             model.Id = company.Id;
             model.Description = company.Description;

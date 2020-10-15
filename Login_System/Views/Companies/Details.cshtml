@@ -31,7 +31,31 @@
     <div class="card">
         <div class="card-header"><h5>@Resources.Resources.CompanyGoals_index</h5> </div>
         <div class="card-body">
-            
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Resources.Skills.Index_Skill
+                        </th>
+                        <th>
+                            @Resources.SkillGoals.Index_Goal
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var goals in Model.ListofGoals)
+                    {
+                        <tr>
+                            <td>
+                                @goals.Item2
+                            </td>
+                            <td>
+                                @goals.Item1
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
