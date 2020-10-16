@@ -88,7 +88,7 @@
                         <div class="">
                             <div class="p-1 mr-2 border border-light rounded">
                                 <a class="btn btn-info" asp-action="Edit" asp-route-id="@TempData["GroupID"]"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Stats_BTN_Edit</a>
-                                @*<button class="btn btn-danger" onclick="DeletePopUp('@ViewContext.RouteData.Values["Controller"].ToString()', '@TempData["GroupID"]', '@System.Globalization.CultureInfo.CurrentCulture.Name', true)"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Stats_BTN_Delete</button>*@
+                                
                             </div>
                         </div>
                     </div>
@@ -97,53 +97,4 @@
         </div>
     </div>
 
-@*@section Scripts{ 
-<script>
-    function DeleteWithRedirect(id) {
-        console.log(id);
-        var lang = '@System.Globalization.CultureInfo.CurrentCulture.Name';
-        var title = "";
-        var text = "";
-        if (lang.match("en-GB")) {
-            title = "Delete";
-            text = "Are you sure you want to delete item?"
-        }
-        else {
-            title = "Poistaminen";
-            text = "Haluatko varmasti poistaa kohteen?"
-        }
-        var urlString = "/fi_FI/Groups/Delete/" + id;
-        swal({
-            title: title,
-            text: text,
-            icon: "warning",
-            buttons: true,
-            dangerMode: true
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    type: "DELETE",
-                    url: urlString,
-                    beforeSend: function (request) {
-                        request.setRequestHeader("RequestVerificationToken", $("[name='__RequestVerificationToken']").val());
-                    },
-                    success: function (data) {
-                        if (data.success) {
-                            //location.reload();
-                            window.location = '/fi_FI/Groups/';
-                        }
-                        else {
-                            swal({
-                                title: "Error message",
-                                text: "Delete failed",
-                                icon: "warning",
-                                buttons: true
-                            })
-                        }
-                    }
-                });
-            }
-        });
-    }
-</script>
-}*@
+

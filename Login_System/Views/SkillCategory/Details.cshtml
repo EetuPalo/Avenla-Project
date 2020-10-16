@@ -48,43 +48,4 @@
         <div class="card-body">@Html.Raw(Model.Description)</div>
     </div>
 </div>
-@*<hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-            </dt>
-            <dd class="col-sm-10">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Resources.Skills.Index_Title
-                            </th>
-                            <th>
-                                @Resources.SkillCategories.Desc_SkillCategory
-                            </th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.SkillsInCategory)
-                        {
-                        <tr>
-                            <td>
-                                @item.Skill
-                            </td>
-
-                        </tr>
-                         }
-                     </tbody>
-                </table>
-            </dd>
-        </dl>
-    </div>
-    <div class="container-fluid p-0">
-        <div class="row">
-            <div class="col-sm">
-                <button class="btn btn-primary" onclick="goBack()"><i class="fas fa-times fa-fw"> </i> Cancel </button>
-                <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> Edit</a>
-            </div>
-        </div>
-    </div>*@

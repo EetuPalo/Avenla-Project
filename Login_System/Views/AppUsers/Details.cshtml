@@ -4,18 +4,7 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<div class="container-fluid p-0">
-        <div class="row">
-            <div class="col-sm-2">
-                <h2>@TempData["UserFullName"]</h2>
-            </div>
-            <div class="col-sm-10">
-                <a class="btn btn-primary" asp-action="SkillList" asp-controller="UserSkills" asp-route-id="@Model.Id" asp-route-name="latest"><i class="fas fa-book fa-fw"> </i> @Resources.Resources.Layout_Skills</a>
-                <a class="btn btn-primary" asp-action="Index" asp-controller="UserCertificates" asp-route-id="@Model.Id"><i class="fas fa-certificate fa-fw"> </i> @Resources.Resources.Layout_Certificates</a>
-            </div>
-        </div>
-    </div>*@
-@*<div class="container-fluid p-0">*@
+
 
 <h1>@Resources.Resources.Layout_Profile    </h1>
 @if (TempData.Keys.Contains("UserId") && TempData.Keys.Contains("id"))
@@ -98,7 +87,6 @@
                         @if (User.IsInRole("Admin") || User.IsInRole("Superadmin") || User.Identity.Name == Model.UserName)
                         {
                             <a class="btn btn-info mr-1" asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-fw"> </i> @Resources.Resources.Employee_Index_Edit</a>
-                            @*<a class="btn btn-danger float-right" asp-action="Delete" asp-controller="AppUsers" asp-route-source="details" asp-route-id="@Model.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Resources.DELETE_Button</a>*@
                         }
                     </div>
                 </div>

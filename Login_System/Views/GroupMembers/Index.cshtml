@@ -5,21 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h2>@TempData["GroupName"]</h2>
-<form asp-controller="GroupMembers" asp-action="Index">
-    <div class="container-fluid p-0">
-        <div class="row mb-4">
-            <div class="col-sm">
-                <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Groups.Members_Index_Search>
-            </div>
-            <div class="col-sm">
-                <button class="btn btn-info" type="submit" asp-route-id ="@TempData["GroupID"]"><i class="fas fa-search fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Search </button>
-                <a class="btn btn-info" asp-action="Create" asp-route-id="@TempData["GroupID"]" asp-route-group="@TempData["GroupName"]" asp-route-source="edit"><i class="fas fa-edit fa-fw"> </i> @Resources.Groups.Members_Index_BTN_EditMembers</a>
-            </div>
-        </div>
-    </div>
-</form>
-<hr />*@
 <h1>@Resources.Resources.Layout_groupmembers</h1>
 <nav class="breadcrumb_nav" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -61,10 +46,7 @@
                                             <td>
                                                 @item.LastName
                                             </td>
-                                            @*<td>
-                                                <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="AppUsers" asp-route-id="@item.Id" asp-route-source="GroupMembers"> <i class="fas fa-user-circle fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Details</a>
-                                                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash fa-fw"> </i> @Resources.Groups.Members_Index_BTN_Delete</a>
-                                            </td>*@
+
                                         </tr>
                                     }
                                 </tbody>
@@ -72,11 +54,5 @@
                     </div>
                 </div>
 
-        @*<div class="card">
-            <div class="card-header"><h5>@Resources.Groups.Members_Index_SubTitle @TempData["GroupName"]</h5></div>
-            <div class="card-body">
-                <p>@Resources.Groups.Members_Index_SubDesc @Model.Members.Count()</p>
-            </div>
-        </div>*@
     </div>
 

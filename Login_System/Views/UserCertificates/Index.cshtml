@@ -5,22 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h2>@TempData["UserName"] @Resources.Resources.UCertificates_Index_Title</h2>
-    <form asp-controller="UserCertificates" asp-action="Index">
-        <div class="container-fluid p-0">
-            <div class="row mb-4">
-                <div class="col-sm">
-                    <input class="form-control" type="text" name="SearchString" placeholder=@Resources.Resources.UCertificates_Index_Search>
-                </div>
-                <div class="col-sm">
-                    <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter </button>
-                    <a class="btn btn-primary" asp-action="Create" asp-route-id="@TempData["UserID"]"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Resources.UCertificates_Index_Add</a>
-                    <a class="btn btn-primary" asp-action="Create" asp-controller="Certificates"><i class="fas fa-plus-circle fa-fw"> </i> @Resources.Certificates.Create_New_Btn</a>
-                </div>
-            </div>
-        </div>
-    </form>
-    <hr />*@
+
 <h1>@Resources.Resources.Layout_Usercertificates</h1>
 @if (TempData.Keys.Contains("UserId") && TempData.Keys.Contains("id"))
 {

@@ -7,28 +7,7 @@
 
 }
 
-@*<h2>@Resources.Resources.Employee_Index_Title</h2>
-    <h4 class="text-danger">@TempData["CreateStatus"]</h4>
-    <h4 class="text-info">@TempData["ActionResult"]</h4>*@
-@*<hr />*@
-@*<form asp-controller="AppUsers" asp-action="Index">
-        <div class="container-fluid p-0">
-            <div class="row mb-4">
-                <div class="col-sm">
-                    <div class="input-group">
-                        <input class="form-control" id="search-bar" type="text" name="SearchString" placeholder=@TempData["SearchString"] value="@TempData["SearchValue"]">
-                        <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100;" onclick="clearForm()">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-sm">
-                    <button class="btn btn-info" type="submit"><i class="fas fa-search fa-fw"> </i> @Resources.Resources.Employee_Index_Filter</button>
-                </div>
 
-            </div>
-        </div>
-    </form>*@
 <h1>@Resources.Resources.Layout_Employees</h1>
     <nav class="breadcrumb_nav" aria-label="breadcrumb">
         <ol class="breadcrumb">
